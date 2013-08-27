@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) [2013] [The FURTHeR Project] Licensed under the Apache 
+	License, Version 2.0 (the "License"); you may not use this file except in 
+	compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p=" http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:core="http://further.utah.edu/schema/core" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:dts="http://further.utah.edu/schema/dts"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	http://further.utah.edu/schema/core 
+	http://further.utah.edu/schema/core/core.xsd
+	http://further.utah.edu/schema/dts 
+	http://further.utah.edu/schema/dts/dts.xsd
+	">
+
+	<!-- =========================================== -->
+	<!-- Library imports -->
+	<!-- =========================================== -->
+
+	<!-- =========================================== -->
+	<!-- Properties files -->
+	<!-- =========================================== -->
+
+	<!-- Turn properties encryption for all properties files -->
+	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
+	<bean parent="propertiesEncryptorAll" />
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+	<!-- <context:spring-configured /> -->
+	<!-- <context:load-time-weaver /> -->
+
+	<context:component-scan base-package="edu.utah.further.mdr.common">
+		<context:exclude-filter type="regex"
+			expression=".*\.(AssetUtil*|MdrCommon*).*" />
+	</context:component-scan>
+
+	<!-- =========================================== -->
+	<!-- Aspect & proxies -->
+	<!-- =========================================== -->
+
+	<!-- =========================================== -->
+	<!-- Resources -->
+	<!-- =========================================== -->
+
+	<!-- Name of classpath folders under which MDR resources are located by 
+		the mock asset service implementation. Must not end with a slash. -->
+	<bean id="assetServiceClasspath"
+		class="edu.utah.further.mdr.impl.service.asset.AssetServiceClasspathImpl">
+		<!-- A prefix for MDR resource lookup on the Spring classpath. -->
+		<property name="prefixes">
+			<list>
+				<value>classpath:*</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Place-holder resolution service, for resource filtering -->
+	<bean id="placeHolderResolver" class="edu.utah.further.core.util.text.PlaceHolderResolverImpl">
+		<property name="defaultPlaceHolders">
+			<util:properties location="classpath:resource-placeholders.properties" />
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information                         -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.fqe</groupId>
+		<artifactId>fqe</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>fqe-api</artifactId>
+	<packaging>bundle</packaging>
+	<name>FQE API</name>
+	<description>Federated Query Engine API</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties                     -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>api</shortName>
+		<further.osgi.import.pkg>
+			org.apache.camel.osgi,
+			org.apache.camel.component.jms,
+			javax.jms,
+			org.springframework.context,org.apache.activemq,
+			org.apache.camel.converter,
+			org.apache.camel.converter.*,
+			org.apache.camel.converter.jaxb,
+			edu.utah.further.core.metadata.*,
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies                                -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle                -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time               -->
+		<!-- ########################## -->
+
+		<!-- JAX-RS annotations -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>${jsr311.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Bundles                    -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-metadata</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<!-- We support an i2b2 query adapter -->
+		<dependency>
+			<groupId>edu.utah.further.i2b2</groupId>
+			<artifactId>i2b2-query</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!--
+			FQE uses constants from DS API (this way they can both agree on JMS
+			header names when exchanging messages). For now, header names are
+			hard-coded. TODO: replace by MDR resources in the future.
+
+			Additionally, the FQE depends on an important interface in
+			fqe-ds-api: QueryContext
+		-->
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-ds-api</artifactId>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- XML utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-qunit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

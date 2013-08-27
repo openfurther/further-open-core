@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>core</artifactId>
+		<groupId>edu.utah.further.core</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core-cxf</artifactId>
+	<packaging>bundle</packaging>
+	<name>Apache CXF WS Support</name>
+	<description>CXF Web Service Support</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>cxf</shortName>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-metadata</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-ws</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-bundle</artifactId>
+			<version>${cxfbundle.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context-support</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-tx</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+				<!-- Very important so that multiple jetty instances don't try to repeatedly 
+					load copies of activation classes, which causes (say) mdr-ws's integration 
+					test jetty to crash if run after dts-ws's integration test jetty in the same 
+					build. -->
+				<exclusion>
+					<groupId>org.apache.geronimo.specs</groupId>
+					<artifactId>geronimo-activation_1.1_spec</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<!-- Contains useful annotations -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<!-- Core Testing framework -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+	</dependencies>
+
+</project>

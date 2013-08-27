@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.ds</groupId>
+		<artifactId>ds</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ds-data</artifactId>
+	<packaging>bundle</packaging>
+	<name>Data source Persistence</name>
+	<description>Data source Implementation, persistent layer</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>data</shortName>
+		<further.osgi.import.pkg>
+			!oracle.aurora.rdbms,
+			!org.w3c.dom.validation,
+			!oracle.i18n.text,
+			org.hibernate,
+			org.hibernate.annotations,
+			org.hibernate.cfg,
+			org.hibernate.proxy,
+			org.hibernate.hql.ast,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.hsqldb,
+			org.apache.commons.dbcp,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			javassist.util.proxy,
+			javax.sql,
+			edu.utah.further.core.data.service,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			'=META-INF.core.util',
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+		</dependency>
+
+		<!-- Data layer including Oracle connector and custom type libraries -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data-oracle</artifactId>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+	</dependencies>
+
+</project>

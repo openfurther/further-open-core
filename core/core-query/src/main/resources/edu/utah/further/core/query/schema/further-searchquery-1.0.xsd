@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- /** * FURTHeR SearchQuery XSD * * (c) 2008-2013 FURTHeR Project, Health 
+	Sciences IT, University of Utah<br> * Contact: {@code <further@utah.edu>}<br> 
+	* Biomedical Informatics, 26 South 2000 East<br> * Room 5775 HSEB, Salt Lake 
+	City, UT 84112<br> * Day Phone: 1-801-581-4080<br> * * * @author N. Dustin 
+	Schultz {@code <dustin.schultz@utah.edu>} * @version Apr 29, 2010 */ -->
+<xs:schema xmlns="http://further.utah.edu/core/query"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://further.utah.edu/core/query">
+
+	<xs:import namespace="http://www.w3.org/2001/XMLSchema" />
+
+	<xs:simpleType name="RelationType">
+		<xs:annotation>
+			<xs:documentation>A relation between comparable entities
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="EQ" />
+			<xs:enumeration value="NE" />
+			<xs:enumeration value="GT" />
+			<xs:enumeration value="LT" />
+			<xs:enumeration value="LE" />
+			<xs:enumeration value="GE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="query">
+		<xs:annotation>
+			<xs:documentation>Top level element for all query elements
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rootCriterion" />
+				<xs:element ref="sortCriteria" minOccurs="0" />
+				<xs:element ref="aliases" minOccurs="0" />
+				<xs:element ref="firstResult" minOccurs="0" />
+				<xs:element ref="maxResults" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="qid" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>Search query identifier</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="firstResult">
+		<xs:annotation>
+			<xs:documentation>The first result to start with</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="maxResults">
+		<xs:annotation>
+			<xs:documentation>The maximum number of results</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="sortCriterion">
+		<xs:annotation>
+			<xs:documentation>The top level element for sort criteria
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="propertyName" />
+				<xs:element ref="sortType" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="propertyName">
+		<xs:annotation>
+			<xs:documentation>The property to sort by</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="sortType">
+		<xs:annotation>
+			<xs:documentation>The type of sort to apply</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="sortCriteria">
+		<xs:annotation>
+			<xs:documentation>Top level element for sortcriterion elements
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="sortCriterion" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="rootCriterion">
+		<xs:annotation>
+			<xs:documentation>Top level element for all criteria elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="searchType" minOccurs="0" />
+				<xs:element ref="parameters" minOccurs="0" />
+				<xs:element ref="options" minOccurs="0" />
+				<xs:element ref="criteria" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="query" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<!-- Reports that the query element is not found. Qualify base with a 
+				namespace?! -->
+			<!-- <xs:complexContent> <xs:extension base="criteria"> </xs:complexContent> -->
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="searchType">
+		<xs:annotation>
+			<xs:documentation>The type of search for a given criteria
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:NMTOKEN">
+				<xs:enumeration value="IS_NULL" />
+				<xs:enumeration value="IS_NOT_NULL" />
+				<xs:enumeration value="IS_EMPTY" />
+				<xs:enumeration value="IS_NOT_EMPTY" />
+				<xs:enumeration value="SIMPLE" />
+				<xs:enumeration value="BETWEEN" />
+				<xs:enumeration value="LIKE" />
+				<xs:enumeration value="ILIKE" />
+				<xs:enumeration value="PROPERTY" />
+				<xs:enumeration value="SIZE" />
+				<xs:enumeration value="IN" />
+				<xs:enumeration value="COUNT" />
+				<xs:enumeration value="NOT" />
+				<xs:enumeration value="AND" />
+				<xs:enumeration value="OR" />
+				<xs:enumeration value="CONJUNCTION" />
+				<xs:enumeration value="DISJUNCTION" />
+				<xs:enumeration value="SQL_RESTRICTION" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:element name="parameters">
+		<xs:annotation>
+			<xs:documentation>Top level element for all parameter elements
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="parameter" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="parameter">
+		<xs:annotation>
+			<xs:documentation>A parameter of a criteria</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="criteria">
+		<xs:annotation>
+			<xs:documentation>Top level element for all criteria elements.
+				Supports nested sub-select queries.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="searchType" minOccurs="0" />
+				<xs:element ref="parameters" minOccurs="0" />
+				<xs:element ref="options" minOccurs="0" />
+				<xs:element ref="criteria" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="query" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="aliases">
+		<xs:annotation>
+			<xs:documentation>Top level element for all alias elements
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="alias" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="alias">
+		<xs:annotation>
+			<xs:documentation>An alias to a given entity</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="key" />
+				<xs:element ref="value" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="key">
+
+		<xs:annotation>
+			<xs:documentation>The alias or alias key</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="value">
+
+		<xs:annotation>
+			<xs:documentation>The alias path or alias value</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="options">
+		<xs:annotation>
+			<xs:documentation>The top level element for criteria options
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="matchType" minOccurs="0" />
+				<xs:element ref="escapeChar" minOccurs="0" />
+				<xs:element ref="ignoreCase" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="matchType">
+		<xs:annotation>
+			<xs:documentation>The type of match this criteria will express
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="escapeChar">
+		<xs:annotation>
+			<xs:documentation>The escape character for the value
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="ignoreCase">
+		<xs:annotation>
+			<xs:documentation>Whether or not to ignore the case of letters
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:core="http://further.utah.edu/schema/core"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://camel.apache.org/schema/spring
+	http://camel.apache.org/schema/spring/camel-spring.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd">
+
+	<!-- =========================================== -->
+	<!-- Camel test beans -->
+	<!-- =========================================== -->
+
+	<!-- Data sources -->
+	<!-- <core:integer id="numDataSources" value="2" /> -->
+	<!-- Because we use bean references, this list can even be correctly autowired 
+		as a strongly-typed collection, not just XML-setter-DI'ed, into a test case 
+		class. -->
+	<bean id="dataSources" class="java.util.ArrayList">
+		<constructor-arg index="0">
+			<list>
+				<ref bean="dataSource1" />
+				<ref bean="dataSource2" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="dataSource1" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS1" />
+	</bean>
+
+	<bean id="dataSource2" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS2" />
+	</bean>
+
+	<bean id="dataSource3" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS3" />
+	</bean>
+
+	<bean id="dataSource4" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS4" />
+	</bean>
+
+	<!-- Mock number of records to report DataSourceMock from for independent 
+		queries -->
+	<core:long id="mockNumResultsIndependentQuery" value="${ds.numResults.independentQuery}" />
+
+	<!-- Mock number of records to report DataSourceMock from for dependent 
+		queries -->
+	<core:long id="mockNumResultsDependentQuery" value="${ds.numResults.dependentQuery}" />
+
+	<!-- Evaluates dependency expressions for mock DS tests -->
+	<bean id="deEvaluator"
+		class="edu.utah.further.fqe.impl.internal.mock.DeEvaluatorMockImpl" />
+
+	<!-- =========================================== -->
+	<!-- Camel test routes -->
+	<!-- =========================================== -->
+
+	<!-- Data source exchange grouping strategy -->
+	<bean id="groupingStrategy"
+		class="edu.utah.further.core.camel.FederatedAggregationStrategy" />
+
+	<!-- Arbitrary namespace value to consistently use in all XML message processors 
+		below -->
+	<core:string id="dsMessageNamespace" value="ns1" />
+
+	<!-- Strips namespace from individual data source messages representing 
+		the JAXB type Data and/or its sub-classes. -->
+	<bean id="namespaceStripper" class="edu.utah.further.core.camel.JaxbNamespaceStripper"
+		factory-method="newInstance">
+		<constructor-arg index="0" ref="dsMessageNamespace" />
+	</bean>
+
+	<!-- Concatenates data source message bodies into a big delimited string -->
+	<bean id="bodyAggregator" class="edu.utah.further.core.camel.BodyAggregationProcessor" />
+
+	<!-- Wraps a data source response concatenation with a root entity tag. 
+		Useful after aggregation of all data source messages. -->
+	<bean id="dataRootTagTranslator" class="edu.utah.further.core.camel.JaxbRootTagTranslator">
+		<!-- Root tag to wrap data source XML message list with -->
+		<constructor-arg index="0" value="data" />
+
+		<!-- Root tag's namespace -->
+		<constructor-arg index="1" value="http://further.utah.edu/fqe" />
+
+		<!-- Individual messages' namespace -->
+		<constructor-arg index="2" ref="dsMessageNamespace" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Aspect & proxies -->
+	<!-- =========================================== -->
+
+	<aop:aspectj-autoproxy />
+
+	<!-- =========================================== -->
+	<!-- Resources -->
+	<!-- =========================================== -->
+
+	<core:string id="resultQueue" value="resultQueue" />
+	<core:string id="resultTopic" value="federatedResultTopic" />
+
+	<!-- Sends FQE commands to a request topic and listens for a response on 
+		a response queue -->
+	<bean id="fqeService" class="edu.utah.further.fqe.impl.service.route.FqeServiceImpl" />
+
+	<!-- TODO: add new FQE camel routes here per FUR-485 -->
+	<!-- For Marshalling & Unmarshalling -->
+	<bean id="validationMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>edu.utah.further.fqe.impl.validation.domain.ValidationRule
+				</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+			<map>
+				<entry key="jaxb.encoding" value="UTF-8" />
+				<entry key="jaxb.formatted.output">
+					<value type="java.lang.Boolean">true</value>
+				</entry>
+			</map>
+		</property>
+		<property name="schema"
+			value="classpath:validation/schema/SearchQueryValidator.xsd" />
+	</bean>
+
+	<!-- A map of export types and their exporter implementations -->
+	<util:map id="exporters">
+		<entry key="#{T(edu.utah.further.fqe.ds.api.domain.ExportFormat).CSV}"
+			value-ref="csvExporter" />
+	</util:map>
+
+</beans>

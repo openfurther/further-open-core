@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<groupId>edu.utah.further.core</groupId>
+		<artifactId>core</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core-test</artifactId>
+	<packaging>bundle</packaging>
+	<name>Testing Framework</name>
+	<description>FURTHeR Testing Framework</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>test</shortName>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Core API -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+		</dependency>
+
+		<!-- SLF4J logging API. Must match the SLF4J implementation's version. 
+			To override Hibernate's shipped SLF4J version, use compile scope. SLF4J is 
+			also the preferred logging mechanism for OSGi bundles. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- <groupId>org.junit</groupId> -->
+			<groupId>junit</groupId>
+			<!-- <artifactId>com.springsource.org.junit</artifactId> -->
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+
+		<!-- Not required at compile-time at the moment, but may be added at a 
+			later development stage. -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${org.hamcrest-core.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${org.hamcrest-library.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Required for the custom FURTHeR test runner -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Mathematical/statistical library, for ULPS-based comparisons and statistical 
+			tests. -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math</artifactId>
+			<version>${commons.math.version}</version>
+		</dependency>
+
+		<!-- Object mocking library -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${org.easymock.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjrt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+	</dependencies>
+</project>

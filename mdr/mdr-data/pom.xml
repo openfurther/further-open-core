@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>mdr</artifactId>
+		<groupId>edu.utah.further.mdr</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>mdr-data</artifactId>
+	<packaging>bundle</packaging>
+	<name>MDR Service Database</name>
+	<description>Metadata repository database implementation</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<!-- Note the deviation from the normal naming conventions that would dictate 
+			data.common here. Helps delineate this module from mdr-data and mdr-data-mock 
+			packages. -->
+		<shortName>data.impl</shortName>
+		<further.osgi.import.pkg>
+			!oracle.aurora.rdbms,
+			!org.w3c.dom.validation,
+			!oracle.i18n.text,
+			oracle.jdbc,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.hibernate.proxy,
+			com.mchange.v2.c3p0,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			javassist.util.proxy,
+			javax.sql,
+			edu.utah.further.core.data.service,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			'=META-INF.core.util',
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- MDR business API -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-api</artifactId>
+		</dependency>
+
+		<!-- Common MDR persistent layer; we override Oracle-specific fields in 
+			this implementation. -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-data-common</artifactId>
+		</dependency>
+
+		<!-- Oracle connector and custom type libraries -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data-oracle</artifactId>
+		</dependency>
+
+		<!--
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>xmlparserv2</artifactId>
+			<version>${oracle.xdk.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>orai18n</artifactId>
+			<version>${oracle.xdk.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>orai18n-mapping</artifactId>
+			<version>${oracle.xdk.version}</version>
+		</dependency>
+		-->
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javaassist.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>${aop.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

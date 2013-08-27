@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.party3</groupId>
+		<artifactId>party3</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>party3-apelon</artifactId>
+	<packaging>bundle</packaging>
+	<name>Apelon DTS</name>
+	<description>Apelon DTS</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>apelon</shortName>
+		<further.osgi.import.pkg>
+			!${project.groupId}.${shortName}*,
+			!com.apelon*,
+			!org.apache.regexp*,
+			!com.sun.resolver*,
+			!com.sun.xml.*,
+			!sun.*,
+			!jp.co.*,
+			!nu.xom*,
+			!schemaorg_apache_xmlbeans.system.s0E55E697E5B6158E8BCEC8FB306E1261,
+			org.apache.xerces.*,
+			org.jasypt.encryption.pbe;version="${jasypt.version}";version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}";version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			*
+		</further.osgi.import.pkg>
+		<further.osgi.export.pkg>
+			!${project.groupId}.${shortName}.internal,
+			${project.groupId}.${shortName}*,
+			'=META-INF.party3.apelon',
+			com.apelon*;-split-package:=merge-first,
+		</further.osgi.export.pkg>
+		<further.osgi.embed.dependency>
+			com.apelon;scope=compile;inline=true
+		</further.osgi.embed.dependency>
+		<further.osgi.failok>true</further.osgi.failok>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>apelonbeans</artifactId>
+			<version>${apelon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>apelonmessage</artifactId>
+			<version>${apelon.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>apelonserver</artifactId>
+			<version>${apelon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>apelonsoap</artifactId>
+			<version>${apelon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>dtscore</artifactId>
+			<version>${apelon.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>oracle</groupId>
+					<artifactId>ojdbc6</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.microsoft.sqlserver</groupId>
+					<artifactId>sqljdbc4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.intersystems</groupId>
+					<artifactId>cachedb</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.ibm.db2</groupId>
+					<artifactId>db2jcc4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>common</artifactId>
+			<version>${apelon.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>oracle</groupId>
+					<artifactId>ojdbc6</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.microsoft.sqlserver</groupId>
+					<artifactId>sqljdbc4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.intersystems</groupId>
+					<artifactId>cachedb</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.ibm.db2</groupId>
+					<artifactId>db2jcc4</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>apelon-dts</groupId>
+			<artifactId>dtsapps</artifactId>
+			<version>${apelon.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>oracle</groupId>
+					<artifactId>ojdbc6</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.microsoft.sqlserver</groupId>
+					<artifactId>sqljdbc4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.intersystems</groupId>
+					<artifactId>cachedb</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.ibm.db2</groupId>
+					<artifactId>db2jcc4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- TQL Plugin dependencies -->
+		<dependency>
+			<groupId>com.apelon</groupId>
+			<artifactId>apelon-tqlutil</artifactId>
+			<version>${apelon.tql.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Simplified Encryption library -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>${xalan.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>${xerces.impl.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectjrt.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>${maven.aspectj.plugin.version}</version>
+				<configuration>
+					<weaveDependencies>
+						<weaveDependency>
+							<groupId>apelon-dts</groupId>
+							<artifactId>dtscore</artifactId>
+						</weaveDependency>
+					</weaveDependencies>
+					<includes>
+						<include>**/AddSerializableAspect.aj</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<!-- =========================================== -->
+		<!-- Main Resources -->
+		<!-- =========================================== -->
+		<resources>
+			<!-- OSGi spring contexts that contain maven property placeholders. The 
+				reason for these custom locations is because we are exposing them to other 
+				bundles, and it's easier to identify them in package imports later when they 
+				are contained in a dedicated folder (META-INF.party3.apelon in this case). -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>META-INF/party3/apelon/**/*-osgi-import*.xml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>META-INF/party3/apelon/**/*-osgi-import*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+
+	</build>
+
+</project>

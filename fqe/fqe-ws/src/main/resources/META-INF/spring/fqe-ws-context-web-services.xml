@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+	xmlns:sec="http://cxf.apache.org/configuration/security"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://cxf.apache.org/jaxrs
+    http://cxf.apache.org/schemas/jaxrs.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd
+    http://www.springframework.org/schema/osgi
+    http://www.springframework.org/schema/osgi/spring-osgi.xsd
+    http://cxf.apache.org/transports/http-jetty/configuration
+	http://cxf.apache.org/schemas/configuration/http-jetty.xsd
+	http://cxf.apache.org/configuration/security
+	http://cxf.apache.org/schemas/configuration/security.xsd"
+	default-autowire="byName">
+
+	<!-- regular spring configuration file defining the beans for this bundle. 
+		The configuration of OSGi definitions is kept in a separate configuration 
+		file so that this file can easily be used for integration testing outside 
+		of an OSGi environment -->
+
+	<!-- =========================================== -->
+	<!-- CXF resources -->
+	<!-- =========================================== -->
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<!-- JAXB configuration for pretty REST WS's: turn on pretty XML formatting -->
+	<bean id="jaxbProviderPretty" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
+		<property name="marshallerProperties">
+			<map>
+				<entry key="jaxb.formatted.output">
+					<value type="java.lang.Boolean">true</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- REST service endpoints -->
+	<!-- =========================================== -->
+
+	<!-- Main REST services -->
+	<jaxrs:server id="fqeEndpointRest" address="${fqe.ws.context}/${fqe.ws.rest}">
+		<jaxrs:serviceBeans>
+			<ref bean="fqeServiceRest" />
+			<ref bean="fqeUtilServiceRest" />
+			<ref bean="identifierServiceRest" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="edu.utah.further.core.cxf.WsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!-- REST services - pretty XML output. The same as the main server, just 
+		with a different JAXB context. -->
+	<jaxrs:server id="fqeEndpointPretty" address="${fqe.ws.context}/${fqe.ws.rest.pretty}">
+		<jaxrs:serviceBeans>
+			<ref bean="fqeServiceRest" />
+			<ref bean="fqeUtilServiceRest" />
+			<ref bean="identifierServiceRest" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="jaxbProviderPretty" />
+			<bean class="edu.utah.further.core.cxf.WsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!-- Secure Server Configuration -->
+	<httpj:engine-factory id="port-9005-tls-config">
+		<httpj:engine port="${fqe.ws.secure.port}">
+			<httpj:tlsServerParameters>
+				<sec:keyManagers keyPassword="${fqe.ws.key.password}">
+					<sec:keyStore type="${fqe.ws.keyStore.type}" password="${fqe.ws.keyStore.password}"
+						file="${fqe.ws.keyStore}" />
+				</sec:keyManagers>
+				<sec:trustManagers>
+					<sec:keyStore type="${fqe.ws.keyStore.type}" password="${fqe.ws.keyStore.password}"
+						file="${fqe.ws.keyStore}" />
+				</sec:trustManagers>
+				<sec:clientAuthentication want="false"
+					required="false" />
+			</httpj:tlsServerParameters>
+		</httpj:engine>
+	</httpj:engine-factory>
+
+	<!-- Secure REST services -->
+	<jaxrs:server id="fqeEndpointSecureRest" address="${fqe.ws.secure.context}/${fqe.ws.rest}"
+		depends-on="port-9005-tls-config">
+		<jaxrs:serviceBeans>
+			<ref bean="fqeServiceRest" />
+			<ref bean="fqeUtilServiceRest" />
+			<ref bean="identifierServiceRest" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="edu.utah.further.core.cxf.WsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!-- =========================================== -->
+	<!-- Resources -->
+	<!-- =========================================== -->
+
+	<!-- Web service metadata web service -->
+	<bean id="fqeUtilServiceRest" class="edu.utah.further.core.cxf.UtilServiceRestImpl">
+		<property name="version" ref="projectVersion" />
+	</bean>
+
+</beans>

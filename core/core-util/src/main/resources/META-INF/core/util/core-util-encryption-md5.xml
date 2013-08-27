@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/osgi-compendium
+	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+	http://www.springframework.org/schema/osgi
+    http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- =========================================== -->
+	<!-- Reusable abstract bean definitions for -->
+	<!-- property files / Properties encryption. -->
+	<!-- Uses a Jasypt implementation. -->
+	<!-- =========================================== -->
+
+	<!-- Used to encrypt any properties object (e.g. managed properties with
+		exposed to the bundle with osgi:cm-properties). Must either a tag <property
+		name="properties" ref="PropsBeanId" /> (for OSGi contexts), or <property
+		name="location" value="classpath:*.properties" /> (for contexts outside OSGi),
+		or the corresponding p-namespace attributes, to the concrete overridden definition. -->
+	<bean id="propertiesEncryptor"
+		class="org.jasypt.spring3.properties.EncryptablePropertyPlaceholderConfigurer"
+		abstract="true">
+		<constructor-arg index="0">
+			<bean class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+				<property name="config">
+					<bean class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+						<property name="passwordEnvName" value="FURTHER_PASSWORD" />
+						<property name="algorithm" value="PBEWithMD5AndDES" />
+						<!--<property name="algorithm" value="PBEWithSHA1AndDESede" /> -->
+					</bean>
+				</property>
+			</bean>
+		</constructor-arg>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!-- Encrypts all properties file on the classpath. This bean is also useful
+		as a parent definition, which can be overridden by declaring a locations
+		property on the child definition with a merge=true attribute, as explained
+		in http://static.springsource.org/spring/docs/2.5.x/reference/beans.html -->
+	<bean id="propertiesEncryptorAll" parent="propertiesEncryptor"
+		abstract="true">
+		<property name="locations">
+			<list>
+				<value>classpath:*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

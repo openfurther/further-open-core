@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<query xmlns="http://further.utah.edu/core/query" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" rootObject="Person">
+	<rootCriterion>
+		<searchType>CONJUNCTION</searchType>
+		<criteria>
+			<searchType>DISJUNCTION</searchType>
+			<criteria>
+				<searchType>CONJUNCTION</searchType>
+				<criteria>
+					<searchType>SIMPLE</searchType>
+					<parameters>
+						<parameter xsi:type="RelationType">EQ</parameter>
+						<parameter xsi:type="xs:string">Observation1.observationNamespaceId</parameter>
+						<parameter xsi:type="xs:long">10</parameter>
+					</parameters>
+				</criteria>
+				<criteria>
+					<searchType>SIMPLE</searchType>
+					<parameters>
+						<parameter xsi:type="RelationType">EQ</parameter>
+						<parameter xsi:type="xs:string">Observation1.observationType</parameter>
+						<parameter xsi:type="xs:string">439401001</parameter>
+					</parameters>
+				</criteria>
+				<criteria>
+					<searchType>IN</searchType>
+					<parameters>
+						<parameter xsi:type="xs:string">Observation1.observation</parameter>
+						<parameter xsi:type="xs:string">239.1</parameter>
+						<parameter xsi:type="xs:string">239.4</parameter>
+						<parameter xsi:type="xs:string">239.6</parameter>
+						<parameter xsi:type="xs:string">239.9</parameter>
+					</parameters>
+				</criteria>
+			</criteria>
+			<criteria>
+				<searchType>CONJUNCTION</searchType>
+				<criteria>
+					<searchType>SIMPLE</searchType>
+					<parameters>
+						<parameter xsi:type="RelationType">EQ</parameter>
+						<parameter xsi:type="xs:string">Observation1.observationNamespaceId</parameter>
+						<parameter xsi:type="xs:long">10</parameter>
+					</parameters>
+				</criteria>
+				<criteria>
+					<searchType>SIMPLE</searchType>
+					<parameters>
+						<parameter xsi:type="RelationType">EQ</parameter>
+						<parameter xsi:type="xs:string">Observation1.observationType</parameter>
+						<parameter xsi:type="xs:string">439401001</parameter>
+					</parameters>
+				</criteria>
+				<criteria>
+					<searchType>IN</searchType>
+					<parameters>
+						<parameter xsi:type="xs:string">Observation1.observation</parameter>
+						<parameter xsi:type="xs:string">235.1</parameter>
+						<parameter xsi:type="xs:string">235.2</parameter>
+						<parameter xsi:type="xs:string">235.3</parameter>
+						<parameter xsi:type="xs:string">235.4</parameter>
+						<parameter xsi:type="xs:string">235.6</parameter>
+					</parameters>
+				</criteria>
+			</criteria>
+			<criteria>
+				<searchType>CONJUNCTION</searchType>
+				<criteria>
+					<searchType>SIMPLE</searchType>
+					<parameters>
+						<parameter xsi:type="RelationType">EQ</parameter>
+						<parameter xsi:type="xs:string">Observation1.observationNamespaceId</parameter>
+						<parameter xsi:type="xs:long">10</parameter>
+					</parameters>
+				</criteria>
+				<criteria>
+					<searchType>SIMPLE</searchType>
+					<parameters>
+						<parameter xsi:type="RelationType">EQ</parameter>
+						<parameter xsi:type="xs:string">Observation1.observationType</parameter>
+						<parameter xsi:type="xs:string">439401001</parameter>
+					</parameters>
+				</criteria>
+				<criteria>
+					<searchType>IN</searchType>
+					<parameters>
+						<parameter xsi:type="xs:string">Observation1.observation</parameter>
+						<parameter xsi:type="xs:string">237.1</parameter>
+						<parameter xsi:type="xs:string">237.2</parameter>
+						<parameter xsi:type="xs:string">237.3</parameter>
+						<parameter xsi:type="xs:string">237.5</parameter>
+						<parameter xsi:type="xs:string">237.6</parameter>
+					</parameters>
+				</criteria>
+			</criteria>
+		</criteria>
+		<criteria>
+			<searchType>BETWEEN</searchType>
+			<parameters>
+				<parameter xsi:type="xs:string">age</parameter>
+				<parameter xsi:type="xs:int">18</parameter>
+				<parameter xsi:type="xs:int">34</parameter>
+			</parameters>
+		</criteria>
+		<criteria>
+			<searchType>CONJUNCTION</searchType>
+			<criteria>
+				<searchType>SIMPLE</searchType>
+				<parameters>
+					<parameter xsi:type="RelationType">EQ</parameter>
+					<parameter xsi:type="xs:string">administrativeGenderNamespaceId</parameter>
+					<parameter xsi:type="xs:long">30</parameter>
+				</parameters>
+			</criteria>
+			<criteria>
+				<searchType>SIMPLE</searchType>
+				<parameters>
+					<parameter xsi:type="RelationType">EQ</parameter>
+					<parameter xsi:type="xs:string">administrativeGender</parameter>
+					<parameter xsi:type="xs:string">248152002</parameter>
+				</parameters>
+			</criteria>
+		</criteria>
+	</rootCriterion>
+	<aliases>
+		<alias associationObject="Observation">
+			<key>Observation1</key>
+			<value>observations</value>
+		</alias>
+	</aliases>
+</query>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<groupId>edu.utah.further.core</groupId>
+		<artifactId>core</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core-metadata</artifactId>
+	<packaging>bundle</packaging>
+	<name>Core Metadata API</name>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>metadata</shortName>
+		<further.osgi.import.pkg>
+			edu.utah.further.core.api.exception,
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Core API, including WS support -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+		</dependency>
+
+		<!-- SLF4J logging API. Must match the SLF4J implementation's version.
+			To override Hibernate's shipped SLF4J version, use compile scope. SLF4J is
+			also the preferred logging mechanism for OSGi bundles. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+
+		<!-- JAX-RS annotations -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>${jsr311.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>tomcat</groupId>
+					<artifactId>tomcat-util</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>velocity</groupId>
+					<artifactId>velocity</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xerces</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xmlrpc</groupId>
+					<artifactId>xmlrpc</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>hsqldb</groupId>
+					<artifactId>hsqldb</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Run-time -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<!-- Core Testing framework -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

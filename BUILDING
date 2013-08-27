@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------
+(c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah
+Contact: <further@utah.edu>
+Biomedical Informatics, 26 South 2000 East
+Room 5775 HSEB, Salt Lake City, UT 84112
+Day Phone: 1-801-213-3288
+-------------------------------------------------------------------------
+
+Building OpenFurther 
+================
+
+Initial Setup
+-------------
+
+1) Clone the FURTHeR core distribution: 
+
+2) Install JDK 7.0, which can be downloaded from 
+   http://www.oracle.com/technetwork/java/javase/downloads/index.html
+   Use version of 1.7.0_17 JDK or higher.
+
+3) Make sure that your JAVA_HOME environment variable is set to the newly
+   installed JDK location, and that your PATH includes %JAVA_HOME%\bin
+   (windows) or $JAVA_HOME$/bin (unix).
+
+4) Install Maven 3.0, which can be downloaded from 
+   http://maven.apache.org/download.html. Make sure that your PATH includes 
+   the $MVN_HOME/bin directory. 
+
+Building
+--------
+
+1) Change directory into the application distribution directory (this directory):
+
+2) Run
+
+         $> mvn install
+
+   This will compile FURTHeR and run all of the tests in the 
+   FURTHeR source distribution. Alternatively, you can run
+
+         $> mvn install -Dmaven.test.skip=true
+
+   This will compile FURTHeR without running the tests and should run faster.
+
+   It usually takes some time for maven to download required dependencies 
+   in the first build.
+
+3) The distributions will be available under "target" directory of each module.

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://camel.apache.org/schema/spring
+		http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+		<!--
+		==========================================================================
+		Requirements on implementations/extensions of this data source
+		template
+		==========================================================================
+	-->
+	<!--
+		1. Data sources importing this context MUST define a bean called
+		"camelLifeCycleController" that extends
+		"defaultCamelLifeCycleController" and MUST use the Spring IoC merge
+		attribute explained in
+		http://static.springsource.org/spring/docs/2.5.x/reference/beans.html
+		to declare their implementation for all command types that have no
+		default life cycle. They MAY optionally override the default
+		implementations and/or or add more life cycles to the controller's
+		lifecycleMap property. Note that a life cycle must implement
+		LifeCycle<I>, which extends CommandTrigger<I, Object>. I is the input
+		argument to the life cycle, which must be matched by the message type
+		sent from the FQE to that life cycle. commandType key | Input type |
+		Default Life cycle
+		================+==============+========================= META_DATA |
+		DsMetaData | metaDataLifeCycle DATA_QUERY | QueryContext | -
+		REMOTE_CONTROL | DsMetaData | TBA Example of declaring a life cycle in
+		a data source implementation: <bean id="camelLifeCycleController"
+		parent="defaultCamelLifeCycleController"> <property
+		name="lifecycleMap"> <map merge="true"> <entry key="DATA_QUERY"
+		value-ref="mandatoryDataQueryLifeCycle" /> <entry key="REMOTE_CONTROL"
+		value-ref="mandatoryRemoteControlLifeCycle" /> <entry
+		key="myCustomCommandType" value-ref="myCustomLifeCycle" /> </map>
+		</property> </bean>
+	-->
+	<!--
+		2. Data sources must define a "metaDataService". They can use the
+		supplied default implementation (in this case, no additional spring
+		XML is required), or override this bean with a new bean definition
+		whose id is "metaDataService". If the implementation's context file is
+		loaded after this template context, Spring will automatically override
+		the default metaDataService bean with the implementation's. See also
+		FUR-589.
+	-->
+
+	<!-- =========================================== -->
+	<!-- Life cycle management                       -->
+	<!-- =========================================== -->
+
+	<!-- Life cycle manager/controller -->
+	<bean id="defaultCamelLifeCycleController" abstract="true"
+		class="edu.utah.further.ds.jms.lifecycle.CamelLifeCycleController">
+		<property name="lifeCycleMap">
+			<map>
+				<entry key="META_DATA" value-ref="metaDataLifeCycle" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- JMS dependencies -->
+	<!-- =========================================== -->
+
+	<!-- ActiveMQ JMS broker -->
+	<bean name="activemq" class="org.apache.camel.component.jms.JmsComponent"
+		p:connectionFactory-ref="pooledConnectionFactory" />
+
+	<bean name="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration"
+		p:connectionFactory-ref="pooledConnectionFactory"
+		p:concurrentConsumers="1000" />
+
+	<!-- =========================================== -->
+	<!-- Camel Routes -->
+	<!-- =========================================== -->
+
+	<!-- The default route for a data source flow -->
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<template id="producerTemplate" />
+
+		<endpoint id="request" uri="activemq:topic:request" />
+		<endpoint id="result" uri="activemq:topic:result" />
+		<!-- per FUR-871, see detailed comment on this issue below -->
+		<!-- <endpoint id="statusResult" uri="activemq:topic:statusResult" /> -->
+
+		<dataFormats>
+			<jaxb id="jaxbFormat"
+				contextPath="edu.utah.further.fqe.ds.api.domain:edu.utah.further.fqe.ds.api.to" />
+		</dataFormats>
+
+		<!-- The default route for a data source flow -->
+
+		<!-- Configure a thread pool in the form of an asynchronous SEDA point.
+			It seems to need two routes below, not one. The number of concurrentConsumers
+			determines the number of commands that the data source is able to process
+			in parallel. -->
+		<!-- http://camel.apache.org/seda.html https://jira.chpc.utah.edu/browse/FUR-583 -->
+		<!-- Set to 1000 based on the default size the queue can hold in Camel 2.2 or older is 1000. -->
+		<route>
+			<from ref="request" />
+			<to uri="seda:commands?concurrentConsumers=100&amp;waitForTaskToComplete=Never" />
+		</route>
+
+		<route>
+			<from uri="seda:commands?concurrentConsumers=100&amp;waitForTaskToComplete=Never" />
+			<filter>
+				<!-- Process if this is a command addressing all data sources, or just
+					this data source (FUR-564, FUR-584). Note: do not put parentheses around
+					groups in simple expressions, otherwise they won't yield the expected result.
+					Let's hope we never have to use complicated cases of operator precedence
+					with it; use EL instead. -->
+				<simple><![CDATA[${in.header.dataSourceId} == null or ${in.header.dataSourceId} == ${bean:metaDataService?method=getId}]]></simple>
+
+				<!-- Now branch into different life cycles depending on the commandType
+					header -->
+
+				<filter>
+					<el>${in.headers.commandType == 'DATA_QUERY'}</el>
+					<filter>
+						<el>${in.headers.canceled == null or in.headers.canceled == 'false'}</el>
+						<unmarshal ref="jaxbFormat" />
+						<to uri="bean:dataQueryLifeCycle?method=triggerCommand" />
+					</filter>
+					<filter>
+						<el>${in.headers.canceled == 'true'}</el>
+						<to uri="bean:dataQueryLifeCycle?method=cancel" />
+					</filter>
+				</filter>
+				
+				<filter>
+					<el>${in.headers.commandType == 'COUNT_QUERY'}</el>
+					<filter>
+						<el>${in.headers.canceled == null or in.headers.canceled == 'false'}</el>
+						<unmarshal ref="jaxbFormat" />
+						<to uri="bean:countQueryLifeCycle?method=triggerCommand" />
+					</filter>
+					<filter>
+						<el>${in.headers.canceled == 'true'}</el>
+						<to uri="bean:countQueryLifeCycle?method=cancel" />
+					</filter>
+				</filter>
+
+				<!-- Read-only data source operations. -->
+				<filter>
+					<el>${in.headers.commandType == 'META_DATA'}</el>
+					<to uri="bean:metaDataLifeCycle?method=triggerCommand" />
+					<marshal ref="jaxbFormat" />
+					<to ref="result" />
+				</filter>
+
+				<!-- Read/write data source operations. Could be restricted to administrators
+					in the future. -->
+				<filter>
+					<el>${in.headers.commandType == 'REMOTE_CONTROL'}</el>
+					<to uri="bean:remoteControlLifeCycle?method=triggerCommand" />
+					<marshal ref="jaxbFormat" />
+					<to ref="result" />
+				</filter>
+			</filter>
+		</route>
+	</camelContext>
+
+</beans>

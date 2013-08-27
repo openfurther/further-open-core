@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.fqe</groupId>
+		<artifactId>fqe</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>fqe-ds-api</artifactId>
+	<packaging>bundle</packaging>
+	<name>FQE Data Source API</name>
+	<description>FQE Data Source API</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>ds.api</shortName>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- XML utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-qunit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

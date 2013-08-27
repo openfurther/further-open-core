@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<statuses xmlns="http://further.utah.edu/fqe" xmlns:query="http://further.utah.edu/core/query"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<statusMetaData>
+		<statusMsg>Status 1</statusMsg>
+		<statusDate>1969-12-31T17:00:10-07:00</statusDate>
+		<duration>0</duration>
+		<dataSourceId>DS1</dataSourceId>
+		<queryContextId>1</queryContextId>
+	</statusMetaData>
+	<statusMetaData>
+		<statusMsg>Status 2</statusMsg>
+		<statusDate>1969-12-31T17:00:10-07:00</statusDate>
+		<duration>0</duration>
+		<dataSourceId>DS2</dataSourceId>
+		<queryContextId>2</queryContextId>
+	</statusMetaData>
+</statuses>

@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<license-lookup
+	xmlns="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup https://source.jasig.org/schemas/maven-notice-plugin/license-lookup/license-lookup-v1.0.xsd">
+	<artifact>
+		<groupId>antlr</groupId>
+		<artifactId>antlr</artifactId>
+		<license>BSD license</license>
+	</artifact>
+	<artifact>
+		<groupId>apelon-dts</groupId>
+		<artifactId>dtsmc_xml</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+		<license>ASM License</license>
+	</artifact>
+	<artifact>
+		<groupId>cglib</groupId>
+		<artifactId>cglib</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>com.apelon</groupId>
+		<artifactId>apelon-tqlutil</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>com.googlecode.servicemix.extra.bundles</groupId>
+		<artifactId>com.googlecode.servicemix.extra.bundles.hibernate</artifactId>
+		<license>LGPL, v2.1</license>
+	</artifact>
+	<artifact>
+		<groupId>com.ibm.icu</groupId>
+		<artifactId>icu4j</artifactId>
+		<license>MIT License</license>
+	</artifact>
+	<artifact>
+		<groupId>com.mchange.c3p0</groupId>
+		<artifactId>com.springsource.com.mchange.v2.c3p0</artifactId>
+		<license>LGPL, v2.1</license>
+	</artifact>
+	<artifact>
+		<groupId>com.sun.xml.bind</groupId>
+		<artifactId>jaxb-impl</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<license>BSD style license</license>
+	</artifact>
+	<artifact>
+		<groupId>edu.oswego.cs.concurrent</groupId>
+		<artifactId>com.springsource.edu.oswego.cs.dl.util.concurrent</artifactId>
+		<license>Public Doamin</license>
+	</artifact>
+	<artifact>
+		<groupId>javassist</groupId>
+		<artifactId>javassist</artifactId>
+		<license>Mozilla Public License, Version 1.1</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.jms</groupId>
+		<artifactId>com.springsource.javax.jms</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.jms</groupId>
+		<artifactId>jms</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.mail</groupId>
+		<artifactId>com.springsource.javax.mail</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.transaction</groupId>
+		<artifactId>jta</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.xml.bind</groupId>
+		<artifactId>jaxb-api</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.xml.soap</groupId>
+		<artifactId>saaj-api</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>javax.xml.xquery</groupId>
+		<artifactId>xqj-api</artifactId>
+		<license>Commons Development and Distribution License, Version 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>jaxen</groupId>
+		<artifactId>jaxen</artifactId>
+		<license>Jaxen License</license>
+	</artifact>
+	<artifact>
+		<groupId>jdom</groupId>
+		<artifactId>jdom</artifactId>
+		<license>JDOM License</license>
+	</artifact>
+	<artifact>
+		<groupId>net.sf.saxon</groupId>
+		<artifactId>saxonhe</artifactId>
+		<license>Mozilla Public License, Version 1.1</license>
+	</artifact>
+	<artifact>
+		<groupId>org.aopalliance</groupId>
+		<artifactId>com.springsource.org.aopalliance</artifactId>
+		<license>Public Domain</license>
+	</artifact>
+	<artifact>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>com.springsource.org.apache.commons.io</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>com.springsource.org.apache.commons.lang</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>com.springsource.org.apache.commons.pool</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.apache.geronimo.specs</groupId>
+		<artifactId>com.springsource.javax.management.j2ee</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.apache.log4j</groupId>
+		<artifactId>com.springsource.org.apache.log4j</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.aspectj</groupId>
+		<artifactId>com.springsource.org.aspectj.weaver</artifactId>
+		<license>Eclipse Public License -v 1.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.codehaus.aspectwerkz</groupId>
+		<artifactId>com.springsource.org.codehaus.aspectwerkz.hook</artifactId>
+		<license>LGPL, v2.1</license>
+	</artifact>
+	<artifact>
+		<groupId>org.codehaus.jettison</groupId>
+		<artifactId>jettison</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.dom4j</groupId>
+		<artifactId>com.springsource.org.dom4j</artifactId>
+		<license>DOM4J License</license>
+	</artifact>
+	<artifact>
+		<groupId>org.hibernate.javax.persistence</groupId>
+		<artifactId>hibernate-jpa-2.0-api</artifactId>
+		<license>LGPL, v2.1</license>
+	</artifact>
+	<artifact>
+		<groupId>org.jaxen</groupId>
+		<artifactId>com.springsource.org.jaxen</artifactId>
+		<license>Jaxen License</license>
+	</artifact>
+	<artifact>
+		<groupId>org.jboss.javassist</groupId>
+		<artifactId>com.springsource.javassist</artifactId>
+		<license>Mozilla Public License, Version 1.1</license>
+	</artifact>
+	<artifact>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.compendium</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.core</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.osgi</groupId>
+		<artifactId>osgi_R4_core</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.slf4j</groupId>
+		<artifactId>com.springsource.slf4j.api</artifactId>
+		<license>MIT License</license>
+	</artifact>
+	<artifact>
+		<groupId>org.slf4j</groupId>
+		<artifactId>com.springsource.slf4j.log4j</artifactId>
+		<license>MIT License</license>
+	</artifact>
+	<artifact>
+		<groupId>org.slf4j</groupId>
+		<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.aop</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.asm</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.aspects</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.beans</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.context</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.context.support</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.core</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.expression</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.jdbc</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.orm</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.oxm</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.transaction</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aop</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-asm</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aspects</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-beans</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-expression</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jms</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-orm</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-oxm</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>xalan</groupId>
+		<artifactId>xalan</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>xerces</groupId>
+		<artifactId>xercesImpl</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>xerces</groupId>
+		<artifactId>xmlParserAPIs</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>xml-apis</groupId>
+		<artifactId>xml-apis</artifactId>
+		<license>Apache License, Version 2.0</license>
+	</artifact>
+	<artifact>
+		<groupId>xstream</groupId>
+		<artifactId>xstream</artifactId>
+		<license>BSD license</license>
+	</artifact>
+</license-lookup>

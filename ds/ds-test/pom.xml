@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.ds</groupId>
+		<artifactId>ds</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ds-test</artifactId>
+	<packaging>bundle</packaging>
+	<name>Data Source Testing Framework</name>
+	<description>Data source testing framework</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>test</shortName>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Data source base implementation -->
+		<!-- <dependency> <groupId>edu.utah.further.ds</groupId> <artifactId>ds-impl</artifactId> 
+			<version>${project.version}</version> </dependency> -->
+
+		<!-- MDR web service API, for data source MDR resource retrieval -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-ws-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.ws.rs</groupId>
+					<artifactId>jsr311-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Data source API -->
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-api</artifactId>
+		</dependency>
+
+		<!-- FURTHeR core testing modules -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-qunit</artifactId>
+		</dependency>
+
+		<!-- Override to compile-time -->
+		<dependency>
+			<!-- <groupId>org.junit</groupId> -->
+			<groupId>junit</groupId>
+			<!-- <artifactId>com.springsource.org.junit</artifactId> -->
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+
+		<!-- Override to compile-time -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${org.hamcrest-core.version}</version>
+		</dependency>
+
+		<!-- Override to compile-time -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${org.hamcrest-library.version}</version>
+		</dependency>
+
+		<!-- Spring JDBC access support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Datasource FQE test related classes -->
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-fqe-test</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- MDR web services implementation -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-ws</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- DTS service layer implementation, for the DTS Spring XML schema and 
+			DTS services -->
+		<dependency>
+			<groupId>edu.utah.further.dts</groupId>
+			<artifactId>dts-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- DTS web services implementation -->
+		<dependency>
+			<groupId>edu.utah.further.dts</groupId>
+			<artifactId>dts-ws</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

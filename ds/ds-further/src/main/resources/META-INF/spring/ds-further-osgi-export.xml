@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- Note: when we migrate from the i2b2 to FURTHeR analytical model, these 
+		services should be moved to ds-further's OSGi export file. -->
+
+	<!-- Data Access Object to this analytical model -->
+	<osgi:service ref="inMemoryDao" interface="edu.utah.further.core.api.data.Dao" />
+
+	<!-- Transaction Template for this analytical model -->
+	<osgi:service ref="inMemoryTransactionTemplate"
+		interface="org.springframework.transaction.support.TransactionTemplate" />
+
+	<!-- Data source for this analytical model -->
+	<osgi:service ref="inMemoryDs" interface="javax.sql.DataSource" />
+
+	<!-- Service for dealing with results in memory 
+	<osgi:service ref="resultService"
+		interface="edu.utah.further.fqe.ds.api.results.ResultService" />
+	-->
+	<!-- A comma separated value exporter for the i2b2 data model 
+	<osgi:service ref="csvExporter"
+		interface="edu.utah.further.fqe.ds.api.domain.Exporter" />
+	-->
+</beans>

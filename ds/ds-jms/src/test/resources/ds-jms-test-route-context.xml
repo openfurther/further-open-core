@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://camel.apache.org/schema/spring
+		http://camel.apache.org/schema/spring/camel-spring.xsd
+		http://further.utah.edu/schema/core
+		http://further.utah.edu/schema/core/core.xsd">
+
+	<!-- =============== -->
+	<!-- Library imports -->
+	<!-- =============== -->
+
+	<import resource="classpath*:META-INF/ds/impl/ds-impl-context-attributes.xml" />
+
+	<!-- ===================== -->
+	<!-- Life cycle management -->
+	<!-- ===================== -->
+
+	<!-- Main life cycle controller: routes commands to the appropriate life
+		cycles depending on the command type. We also illustrate overriding the life
+		cycle map in a ds-jms-based DS implementation. -->
+	<bean id="defaultCamelLifeCycleController" abstract="true">
+		<property name="lifeCycleMap">
+			<map>
+				<entry key="META_DATA" value-ref="metaDataLifeCycle" />
+				<!-- Purposely wrong life cycle, to illustrate overriding existing map
+					entries in the child definition that follows -->
+				<entry key="DATA_QUERY" value-ref="metaDataLifeCycle" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="camelLifeCycleController" parent="defaultCamelLifeCycleController"
+		class="edu.utah.further.ds.jms.lifecycle.CamelLifeCycleController">
+		<property name="lifeCycleMap">
+			<!-- The merge attribute is explained in http://static.springsource.org/spring/docs/2.5.x/reference/beans.html -->
+			<map merge="true">
+				<entry key="DATA_QUERY" value-ref="dataQueryLifeCycle" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Life cycle services -->
+	<!-- =========================================== -->
+
+	<bean id="mockInitializerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.InitializerQp"
+		scope="prototype" p:delegate-ref="initializerMock" />
+
+	<bean id="mockValidatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ValidatorQp"
+		scope="prototype" p:delegate-ref="validatorMock" />
+
+	<bean id="mockQueryTranslatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp"
+		scope="prototype" p:delegate-ref="queryTranslatorMock" />
+
+	<bean id="mockExecutorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ExecutorQp"
+		scope="prototype" p:delegate-ref="executionMock" />
+
+	<bean id="mockResultTranslatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp"
+		scope="prototype" p:delegate-ref="resultTranslatorMock"
+		p:resultAttr-ref="unmarshallResultAttr" />
+
+	<bean id="mockFinalizerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.FinalizerQp"
+		scope="prototype" p:delegate-ref="finalizerMock" />
+
+	<!-- Data Query life cycle -->
+	<bean id="dataQueryLifeCycle" class="edu.utah.further.ds.impl.lifecycle.DataQueryLifeCycle">
+		<property name="metadataRetriever" ref="metaDataService" />
+		<property name="requestProcessors">
+			<list>
+				<ref bean="mockInitializerQp" />
+				<ref bean="mockValidatorQp" />
+				<ref bean="mockQueryTranslatorQp" />
+				<ref bean="mockExecutorQp" />
+				<ref bean="mockResultTranslatorQp" />
+				<ref bean="mockFinalizerQp" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Data source meta-data life cycle -->
+	<bean id="metaDataLifeCycle" class="edu.utah.further.ds.impl.lifecycle.MetaDataLifeCycle">
+		<property name="requestProcessors">
+			<list>
+				<ref bean="metaDataService" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Mock Data source meta data service -->
+	<bean id="metaDataService"
+		class="edu.utah.further.ds.impl.service.metadata.MetaDataServiceMockImpl">
+		<property name="metaData">
+			<bean class="edu.utah.further.fqe.ds.api.domain.DsMetaData">
+				<property name="namespaceId" value="12345" />
+				<property name="name" value="Mock Ds" />
+				<property name="description" value="Mock Data Source" />
+				<property name="state" value="ACTIVE" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Camel routes -->
+	<!-- =========================================== -->
+
+	<!-- The default route for a data source flow -->
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<template id="producerTemplate" />
+
+		<!-- Reusable endpoints -->
+		<endpoint id="request" uri="activemq:topic:requestTopic" />
+		<endpoint id="result" uri="mock:activemq:topic:resultTopic" />
+		<endpoint id="status" uri="mock:activemq:topic:statusTopic" />
+		<endpoint id="marshalStatus" uri="direct:marshalStatus" />
+		<endpoint id="outcome" uri="mock:activemq:topic:outcome" /> <!-- For simple Camel unit tests -->
+
+		<!-- Includes all DS route input and output data types -->
+		<dataFormats>
+			<jaxb id="jaxbFormat"
+				contextPath="edu.utah.further.fqe.ds.api.domain:edu.utah.further.fqe.ds.api.to" />
+		</dataFormats>
+
+		<!-- The default route for a data source flow -->
+		<route>
+			<from ref="request" />
+			<filter>
+				<el>${in.headers.commandType ne null}</el>
+				<unmarshal ref="jaxbFormat" />
+				<to uri="bean:camelLifeCycleController?method=triggerCommand" />
+			</filter>
+
+			<!-- Marshal the results to an XML string and send to the result topic
+				to be read by the FQE -->
+			<marshal ref="jaxbFormat" />
+			<to ref="result" />
+		</route>
+
+		<!-- The default route for status messages -->
+		<route>
+			<from ref="marshalStatus" />
+			<marshal ref="jaxbFormat" />
+			<convertBodyTo type="java.lang.String" />
+			<to ref="status" />
+		</route>
+
+	</camelContext>
+
+</beans>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:core="http://further.utah.edu/schema/core"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd
+	">
+
+	<!-- =========================================== -->
+	<!-- Properties files                            -->
+	<!-- =========================================== -->
+
+	<!-- Property file locations -->
+	<context:property-placeholder
+		location="classpath:core-util-test-schema.properties" />
+
+	<!-- For programmatic access to context properties -->
+	<util:properties id="contextProperties"
+		location="classpath:core-util-test-schema.properties" />
+
+	<!-- =========================================== -->
+	<!-- Test bean declarations                      -->
+	<!-- =========================================== -->
+
+	<!-- Declare our tags as top-level beans -->
+	<core:dateformat id="topLevelDateFormat" pattern="yyyy-MM-dd HH:mm"
+		lenient="true" />
+	<core:boolean id="topLevelBoolean" value="${boolean.value}" />
+	<core:integer id="topLevelInteger" value="${integer.value}" />
+	<core:long id="topLevelLong" value="${long.value}" />
+	<core:float id="topLevelFloat" value="${float.value}" />
+	<core:double id="topLevelDouble" value="${double.value}" />
+	<core:string id="topLevelString" value="${string.value}" />
+	<core:class id="topLevelClass" value="${class.value}" />
+
+	<!-- Declare our tags as inner beans -->
+	<bean id="jobDetailTemplate" abstract="true">
+		<property name="boolean">
+			<core:boolean value="${boolean.value}" />
+		</property>
+		<property name="integer">
+			<core:integer value="${integer.value}" />
+		</property>
+		<property name="long">
+			<core:long value="${long.value}" />
+		</property>
+		<property name="float">
+			<core:float value="${float.value}" />
+		</property>
+		<property name="double">
+			<core:double value="${double.value}" />
+		</property>
+		<property name="string">
+			<core:string value="${string.value}" />
+		</property>
+		<property name="dateFormat">
+			<core:dateformat pattern="HH:mm MM-dd-yyyy" />
+		</property>
+	</bean>
+
+	<!-- Testing nesting custom tags within custom tags -->
+	<core:component id="bionic-family" name="Bionic-1">
+		<core:component name="Sport-1" />
+		<core:component name="Rock-1" />
+	</core:component>
+
+	<!-- Portable fixture manager with custom maven phase -->
+	<core:pfixture id="pfixtureManager" mavenPhase="integration-test">
+		<core:location value="/log4j.properties" />
+		<core:location value="location2" />
+	</core:pfixture>
+
+	<!-- Portable fixture manager with default maven phase -->
+	<core:pfixture id="pfixtureManagerDefaultPhase">
+		<core:location value="/log4j.properties" />
+		<core:location value="location3" />
+	</core:pfixture>
+
+	<!-- AspectJ auto-proxying -->
+	<core:aspectj-autoproxy>
+		<core:include value="abcd" />
+		<core:include value="abcd2" />
+		<core:include-bean value="abcd3" />
+		<core:include-bean value="abcd4" />
+	</core:aspectj-autoproxy>
+
+	<!-- Enumerated constant beans and injections -->
+
+	<bean id="simpleAttributeClient" class="edu.utah.further.core.util.schema.SimpleAttributeClient">
+		<property name="sourceAttr" value="CONST_A" />
+		<property name="stringAttr" value="abc" />
+		<property name="intAttr" value="123" />
+	</bean>
+
+	<bean id="simpleAttributeClient2" class="edu.utah.further.core.util.schema.SimpleAttributeClient"
+		p:sourceAttr="CONST_B" p:stringAttr="def" p:intAttr="456" />
+
+</beans>

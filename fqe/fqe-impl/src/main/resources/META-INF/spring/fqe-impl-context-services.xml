@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:core="http://further.utah.edu/schema/core" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation=" 
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	http://camel.apache.org/schema/spring
+	http://camel.apache.org/schema/spring/camel-spring.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd
+	">
+
+	<!-- regular spring configuration file defining the beans for this bundle. 
+		The configuration of OSGi definitions is kept in a separate configuration 
+		file so that this file can easily be used for integration testing outside 
+		of an OSGi environment -->
+
+	<!-- =========================================== -->
+	<!-- Aspect & proxies -->
+	<!-- =========================================== -->
+
+	<aop:aspectj-autoproxy />
+
+	<!-- =========================================== -->
+	<!-- Resources -->
+	<!-- =========================================== -->
+
+	<!-- Sends FQE commands to a request topic and listens for a response on 
+		a response queue -->
+	<bean id="fqeService" class="edu.utah.further.fqe.impl.service.route.FqeServiceImpl" />
+
+	<!-- Aggregation service with a custom result mask boundary -->
+	<bean id="aggregationService"
+		class="edu.utah.further.fqe.impl.service.query.AggregationServiceImpl">
+		<property name="resultMaskBoundary" value="${result.mask.boundary}" />
+		<property name="resultMaskOther" value="${result.mask.other}" />
+	</bean>
+
+	<!-- Data source exchange grouping strategy -->
+	<bean id="groupingStrategy"
+		class="edu.utah.further.core.camel.FederatedAggregationStrategy" />
+
+	<!-- Arbitrary namespace value to consistently use in all XML message processors 
+		below -->
+	<core:string id="dsMessageNamespace" value="ns1" />
+
+	<!-- Strips namespace from individual data source messages representing 
+		the JAXB type Data and/or its sub-classes. -->
+	<bean id="namespaceStripper" class="edu.utah.further.core.camel.JaxbNamespaceStripper"
+		factory-method="newInstance">
+		<constructor-arg index="0" ref="dsMessageNamespace" />
+	</bean>
+
+	<!-- Concatenates data source message bodies into a big delimited string -->
+	<bean id="bodyAggregator" class="edu.utah.further.core.camel.BodyAggregationProcessor" />
+
+	<!-- Wraps a data source response concatenation with a root entity tag. 
+		Useful after aggregation of all data source messages. -->
+	<bean id="dataRootTagTranslator" class="edu.utah.further.core.camel.JaxbRootTagTranslator">
+		<!-- Root tag to wrap data source XML message list with -->
+		<constructor-arg index="0" value="data" />
+
+		<!-- Root tag's namespace -->
+		<constructor-arg index="1" value="http://further.utah.edu/fqe" />
+
+		<!-- Individual messages' namespace -->
+		<constructor-arg index="2" ref="dsMessageNamespace" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Camel Route -->
+	<!-- =========================================== -->
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<!-- Producer/Consumer Templates -->
+		<template id="producerTemplate" />
+		<!--<consumerTemplate id="consumerTemplate" /> --> <!-- Not currently in use, but see http://camel.apache.org/polling-consumer.html 
+			for examples on how to poll-consumer -->
+
+		<!-- ############################################################## -->
+		<!-- Reusable Endpoints -->
+		<!-- ############################################################## -->
+
+		<!-- Requests -->
+		<endpoint id="request" uri="activemq:topic:request" />
+
+		<!-- Results -->
+		<endpoint id="result" uri="activemq:topic:result" />
+		<endpoint id="statusResult" uri="activemq:topic:statusResult" />
+		<endpoint id="federatedResult" uri="direct:federatedResult" />
+
+		<!-- Intermediate Marshalling -->
+		<endpoint id="marshalRequest" uri="direct:marshalRequest" />
+
+		<!-- Associated Results -->
+		<endpoint id="associatedResults" uri="activemq:queue:associatedResults" />
+
+		<dataFormats>
+			<jaxb id="jaxbFormat"
+				contextPath="edu.utah.further.fqe.ds.api.domain:edu.utah.further.fqe.ds.api.to" />
+		</dataFormats>
+
+		<!-- ############################################################## -->
+		<!-- Main FQE Routes -->
+		<!-- ############################################################## -->
+
+		<!-- FQE aggregation route -->
+		<route>
+			<from ref="result" />
+
+			<!-- Aggregate data source exchanges -->
+			<setExchangePattern pattern="InOnly" />
+			<aggregate strategyRef="groupingStrategy"
+				completionTimeout="1000">
+				<correlationExpression>
+					<simple>header.commandId</simple>
+				</correlationExpression>
+
+				<!-- Aggregate grouped data source exchange bodies into a federated XML 
+					message -->
+				<setExchangePattern pattern="InOnly" />
+				<process ref="bodyAggregator" />
+				<setExchangePattern pattern="InOnly" />
+				<process ref="dataRootTagTranslator" />
+				<setExchangePattern pattern="InOnly" />
+				<unmarshal ref="jaxbFormat" />
+
+				<!-- Consume the final results of the FQE flow into a cache for request-reply 
+					correlation -->
+				<setExchangePattern pattern="InOnly" />
+				<process ref="endpointConsumer" />
+			</aggregate>
+		</route>
+
+		<!-- Data source status/result notification to the FQE. Includes query 
+			plan updates. -->
+		<route>
+			<from ref="statusResult" />
+			<unmarshal ref="jaxbFormat" />
+			<filter>
+				<!-- Child updates. -->
+				<!-- Child must have a persistent parent to send a valid status message. 
+					In that case, send the child status message followed by synchronizing the 
+					parent state, and sending the parent to the FQC route. -->
+				<method bean="queryContextLogicService" method="parentExists" />
+				<to uri="bean:queryContextService?method=update" />
+				<to uri="bean:queryPlanService?method=updatePlan" />
+
+				<!-- Parent updates -->
+				<filter>
+					<method bean="queryContextLogicService" method="isParentNotCompleted" />
+					<to uri="bean:aggregationService?method=updateParentState" />
+
+					<to uri="bean:queryContextLogicService?method=getParent" />
+					<to ref="federatedResult" />
+				</filter>
+			</filter>
+		</route>
+
+		<!-- A route to process FQCs. Includes state synchronization and aggregation 
+			functions. -->
+		<route>
+			<from ref="federatedResult" />
+			<to uri="bean:aggregationService?method=updateCounts" />
+			<filter>
+				<method bean="queryContextLogicService" method="isCompleted" />
+				<to uri="bean:aggregationService?method=generateResultViews" />
+			</filter>
+		</route>
+
+		<!-- Associated Result Processing -->
+		<route>
+			<from ref="associatedResults" />
+			<to uri="bean:associatedResultService?method=getAssociatedResult" />
+		</route>
+
+		<!-- ############################################################## -->
+		<!-- Intermediate Marshalling Routes -->
+		<!-- ############################################################## -->
+
+		<!-- Data query endpoint which marshals and sends the request -->
+		<route>
+			<from ref="marshalRequest" />
+			<marshal ref="jaxbFormat" />
+			<convertBodyTo type="java.lang.String" />
+			<to ref="request" />
+		</route>
+
+		<!-- ############################################################## -->
+		<!-- Auditing Routes -->
+		<!-- ############################################################## -->
+
+
+		<!-- A route to log the query when it is initially submitted -->
+		<route>
+			<from ref="request" />
+			<filter>
+				<el>${(in.headers.commandType == 'DATA_QUERY' or in.headers.commandType == 'COUNT_QUERY') and (in.headers.canceled != 'true')}</el>
+				<unmarshal ref="jaxbFormat" />
+				<to uri="bean:auditService?method=logQuery" />
+			</filter>
+		</route>
+
+		<route>
+			<from ref="statusResult" />
+			<unmarshal ref="jaxbFormat" />
+			<filter>
+				<method bean="queryContextLogicService" method="isFinalState" />
+				<to uri="bean:auditService?method=logQueryResult" />
+			</filter>
+		</route>
+
+	</camelContext>
+
+	<!-- ActiveMQ JMS broker for client side connections -->
+	<bean name="activemq" class="org.apache.camel.component.jms.JmsComponent"
+		p:connectionFactory-ref="pooledConnectionFactory" />
+
+	<!-- =========================================== -->
+	<!-- Job Scheduling -->
+	<!-- =========================================== -->
+
+	<!-- Query Sealer -->
+	<bean id="querySealerJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="querySealer" />
+		<property name="targetMethod" value="run" />
+	</bean>
+
+	<!-- Look for queries to seal every 10 seconds -->
+	<bean id="querySealerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="querySealerJob" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="${sealer.frequency.ms}" />
+		<!-- repeat every 10 seconds -->
+		<property name="repeatInterval" value="${sealer.frequency.ms}" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="querySealerTrigger" />
+			</list>
+		</property>
+		<!-- Make the threads Daemon Threads otherwise the JVM won't shutdown until 
+			all threads are finished which may be a really long time. -->
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.instanceName">qs</prop>
+				<prop key="org.quartz.scheduler.threadName">QuerySealer</prop>
+				<prop key="org.quartz.threadPool.threadCount">1</prop>
+				<prop key="org.quartz.scheduler.makeSchedulerThreadDaemon">true</prop>
+				<prop key="org.quartz.threadPool.makeThreadsDaemons">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Temporary Mocks -->
+	<!-- =========================================== -->
+
+	<bean id="deEvaluator"
+		class="edu.utah.further.fqe.impl.internal.mock.DeEvaluatorMockImpl" />
+	<core:long id="mockNumResultsDependentQuery" value="${ds.numResults.dependentQuery}" />
+
+	<!-- =========================================== -->
+	<!-- Query Validation -->
+	<!-- =========================================== -->
+	<!-- For Marshalling & Unmarshalling -->
+	<bean id="validationMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>edu.utah.further.fqe.impl.validation.domain.ValidationRule
+				</value>
+			</list>
+		</property>
+		<property name="marshallerProperties">
+			<map>
+				<entry key="jaxb.encoding" value="UTF-8" />
+				<entry key="jaxb.formatted.output">
+					<value type="java.lang.Boolean">true</value>
+				</entry>
+			</map>
+		</property>
+		<property name="schema"
+			value="classpath:validation/schema/SearchQueryValidator.xsd" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Query Exporting -->
+	<!-- =========================================== -->
+
+	<!-- A map of export types and their exporter implementations -->
+	<util:map id="exporters">
+		<entry key="#{T(edu.utah.further.fqe.ds.api.domain.ExportFormat).CSV}"
+			value-ref="csvExporter" />
+	</util:map>
+
+	<!-- A list of allowed data source ids that allow exporting of results -->
+	<util:list id="exportWhitelist">
+		<value>UUEDW</value>
+	</util:list>
+</beans>

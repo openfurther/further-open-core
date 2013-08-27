@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<groupId>edu.utah.further.core</groupId>
+		<artifactId>core</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core-data</artifactId>
+	<packaging>bundle</packaging>
+	<name>Generic database support</name>
+	<description>Generic database persistence support</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>data</shortName>
+		<further.osgi.export.pkg>
+			!edu.utah.further.core.util.io,
+			${project.groupId}.${shortName}*
+		</further.osgi.export.pkg>
+		<further.osgi.import.pkg>
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			javassist.util.proxy,
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			org.apache.commons.dbcp,
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>aopalliance</groupId>
+					<artifactId>aopalliance</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Abstract query framework, implemented by DAOs -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<!-- Core utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<!-- Hibernate -->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Apache Commons connection pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons.dbcp.version}</version>
+		</dependency>
+
+		<!-- Spring JDBC access support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring AOP -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Run-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javassist.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjrt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<!-- HSQLDB driver (includes connector) -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsqldb.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- MySQL driver (needed only if a MySQL data source is used)
+		<dependency>
+			<groupId>com.mysql.jdbc</groupId>
+			<artifactId>com.springsource.com.mysql.jdbc</artifactId>
+			<version>${mysql.connector.java.version}</version>
+			<scope>test</scope>
+		</dependency>
+		 -->
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+		<!-- Core Testing framework -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>${aop.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

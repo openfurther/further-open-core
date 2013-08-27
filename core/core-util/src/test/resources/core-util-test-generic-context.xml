@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://further.utah.edu/schema/core 
+	http://further.utah.edu/schema/core/core.xsd
+	">
+
+	<!-- ########################################################## -->
+	<!-- Context file for generic bean tests                        -->
+	<!-- ########################################################## -->
+
+
+	<!-- =========================================== -->
+	<!-- Properties files                            -->
+	<!-- =========================================== -->
+
+	<!-- Property file locations -->
+	<context:property-placeholder location="classpath:*.properties" />
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration                    -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+	<!-- <context:spring-configured /> -->
+	<!-- <context:load-time-weaver /> -->
+
+	<!--
+
+		<context:component-scan
+		base-package="edu.utah.further.core.util.spring">
+		<context:include-filter type="annotation"
+		expression="edu.utah.further.core.api.context.Mock" />
+		</context:component-scan>
+	-->
+
+	<!-- =========================================== -->
+	<!-- Resources                                   -->
+	<!-- =========================================== -->
+
+	<bean id="integerList" class="java.util.ArrayList">
+		<constructor-arg index="0">
+			<list>
+				<value type="java.lang.Integer">0</value>
+				<value type="java.lang.Integer">1</value>
+				<value type="java.lang.Integer">2</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="doubleList" class="java.util.ArrayList">
+		<constructor-arg index="0">
+			<list>
+				<value type="java.lang.Double">0.5</value>
+				<value type="java.lang.Double">1.5</value>
+				<value type="java.lang.Double">2.5</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="accounts" class="java.util.HashMap">
+		<constructor-arg index="0">
+			<map>
+				<entry key="one">
+					<value type="java.lang.Double">9.99</value>
+				</entry>
+				<entry key="two">
+					<value type="java.lang.Double">2.75</value>
+				</entry>
+				<entry key="six">
+					<value type="java.lang.Double">3.99</value>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="fooInline" class="edu.utah.further.core.util.spring.Foo">
+		<property name="accounts">
+			<map>
+				<entry key="one">
+					<value type="java.lang.Double">9.99</value>
+				</entry>
+				<entry key="two">
+					<value type="java.lang.Double">2.75</value>
+				</entry>
+				<entry key="six">
+					<value type="java.lang.Double">3.99</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="fooIndirect" class="edu.utah.further.core.util.spring.Foo">
+		<property name="accounts" ref="accounts" />
+		<property name="integerList" ref="integerList" />
+	</bean>
+
+	<!--
+		Contains @Autowired to a strongly-typed Map that causes the context to
+		fail to load:
+	-->
+	<!--
+		Caused by: org.springframework.beans.factory.BeanCreationException:
+		Could not autowire field: private java.util.Map
+		edu.utah.further.core.util.spring.FooWithAutowire.accounts; nested
+		exception is
+		org.springframework.beans.factory.NoSuchBeanDefinitionException: No
+		matching bean of type [java.lang.Float] found for dependency [map with
+		value type java.lang.Float]: expected at least 1 bean which qualifies
+		as autowire candidate for this dependency. Dependency annotations:
+		{@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	-->
+	<!--
+		<bean id="fooWithAutowire"
+		class="edu.utah.further.core.util.spring.FooWithAutowire" />
+	-->
+</beans>

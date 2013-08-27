@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd
+    http://cxf.apache.org/jaxrs
+	http://cxf.apache.org/schemas/jaxrs.xsd
+	http://further.utah.edu/schema/core 
+	http://further.utah.edu/schema/core/core.xsd
+	"
+	default-autowire="byName">
+
+	<!-- ##################################################################### -->
+	<!-- FQE web server to be started and stopped by integration tests -->
+	<!-- ##################################################################### -->
+
+	<!-- =========================================== -->
+	<!-- Libraries -->
+	<!-- =========================================== -->
+
+	<import
+		resource="classpath:META-INF/ds/test/ds-test-common-ws-server-context.xml" />
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="edu.utah.further.fqe.ws">
+		<context:exclude-filter type="regex"
+			expression=".*FqeServiceRestImpl" />
+	</context:component-scan>
+
+	<!-- =========================================== -->
+	<!-- FQE Beans -->
+	<!-- =========================================== -->
+
+	<!-- ======================= -->
+	<!-- SOAP WS endpoints -->
+	<!-- ======================= -->
+
+	<!-- ======================= -->
+	<!-- REST WS endpoints -->
+	<!-- ======================= -->
+
+	<jaxrs:server id="fqeServerRest" address="${server.fqe.ws}/${fqe.ws.rest}">
+		<jaxrs:serviceBeans>
+			<ref bean="identifierServiceRest" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="jaxbProvider" />
+			<bean class="edu.utah.further.core.cxf.WsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+</beans>

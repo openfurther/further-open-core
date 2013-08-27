@@ -1,0 +1,23 @@
+<ns1:query_definition xmlns:ns1="http://www.i2b2.org/xsd/cell/crc/psm/1.1/">
+	<user group="FURTHeR" login="oren">oren</user>
+	<query_name>18-34-45-54-Percu@21:48:39</query_name>
+	<specificity_scale>0</specificity_scale>
+	<panel>
+		<panel_number>1</panel_number>
+		<invert>0</invert>
+		<total_item_occurrences>1</total_item_occurrences>
+		<item>
+			<hlevel>3</hlevel>
+			<item_name>18-34 years old</item_name>
+			<item_key>\\FURTHER\FURTHER\Demographics\Age\18-34 years old\
+			</item_key>
+			<tooltip>Demographic \ Age \ 18-34 years old</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+				<date_from>2006-01-01Z</date_from>
+			</constrain_by_date>
+			<item_icon>FA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+	</panel>
+</ns1:query_definition>

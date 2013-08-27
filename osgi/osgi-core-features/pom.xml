@@ -1,0 +1,337 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>osgi</artifactId>
+		<groupId>edu.utah.further.osgi</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>osgi-core-features</artifactId>
+	<name>OSGi Core Features</name>
+	<description>OSGi Core Features</description>
+	<url>http://further.utah.edu</url>
+
+	<properties>
+		<osgi.cglib.version>2.1_3_6</osgi.cglib.version>
+		<osgi.hibernate.version>${hibernate.version}</osgi.hibernate.version>
+		<osgi.jasypt.version>${jasypt.version}_1</osgi.jasypt.version>
+		<osgi.dom4j.version>${dom4j.version}_4</osgi.dom4j.version>
+		<osgi.ant.version>1.7.0_4</osgi.ant.version>
+		<osgi.httpclient.version>${httpclient.version}_6</osgi.httpclient.version>
+		<osgi.xpp3.version>1.1.4c_5</osgi.xpp3.version>
+		<osgi.xstream.version>1.4.1_1</osgi.xstream.version>
+		<osgi.antlr.version>${antlr.version}_5</osgi.antlr.version>
+		<osgi.slf4j.version>${org.slf4j.version}</osgi.slf4j.version>
+		<osgi.commons.lang.version>${commons.lang.version}.0</osgi.commons.lang.version>
+		<osgi.log4j.version>${log4j.version}</osgi.log4j.version>
+		<osgi.javax.mail.version>${javax.mail.version}</osgi.javax.mail.version>
+		<osgi.javax.jms.version>${javax.jms.version}.0</osgi.javax.jms.version>
+		<osgi.commons.io.version>${commons.io.version}.0</osgi.commons.io.version>
+		<osgi.spring.version>${spring.version}</osgi.spring.version>
+		<osgi.jaxb.api.version>${jaxb.api.version}</osgi.jaxb.api.version>
+		<osgi.oswego.version>${oswego.version}</osgi.oswego.version>
+		<osgi.commons.dbcp.version>${commons.dbcp.version}.osgi</osgi.commons.dbcp.version>
+		<osgi.javassist.version>${javassist.version}</osgi.javassist.version>
+		<osgi.aop.version>${aop.version}.0</osgi.aop.version>
+		<osgi.c3p0.version>${c3p0.version}</osgi.c3p0.version>
+		<osgi.org.quartz.version>${org.quartz.version}_1</osgi.org.quartz.version>
+		<spring.aspectj.version>${aspectj.version}.RELEASE</spring.aspectj.version>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- Declared as dependencies so they are downloaded and available to servicemix -->
+
+		<dependency>
+			<groupId>org.codehaus.aspectwerkz</groupId>
+			<artifactId>com.springsource.org.codehaus.aspectwerkz.hook</artifactId>
+			<version>${aspectwerkz.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.servicemix.extra.bundles</groupId>
+			<artifactId>com.googlecode.servicemix.extra.bundles.hibernate</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.jasypt</artifactId>
+			<version>${osgi.jasypt.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.cglib</artifactId>
+			<version>${osgi.cglib.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.dom4j</artifactId>
+			<version>${osgi.dom4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.ant</artifactId>
+			<version>${osgi.ant.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.quartz</artifactId>
+			<version>${osgi.org.quartz.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.antlr</artifactId>
+			<version>${osgi.antlr.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>com.springsource.org.aspectj.weaver</artifactId>
+			<version>${spring.aspectj.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>com.springsource.org.apache.commons.lang</artifactId>
+			<version>${osgi.commons.lang.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>com.springsource.slf4j.log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- JCL Over SLF4J -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
+			<version>${osgi.slf4j.version}</version>
+		</dependency>
+
+		<!-- SLF4J Log4J Bridge -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.log4j</artifactId>
+			<version>${osgi.slf4j.version}</version>
+		</dependency>
+
+		<!-- We extend Log4j for SQL Logging -->
+		<dependency>
+			<groupId>org.apache.log4j</groupId>
+			<artifactId>com.springsource.org.apache.log4j</artifactId>
+			<version>${osgi.log4j.version}</version>
+		</dependency>
+
+		<!-- E-mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>com.springsource.javax.mail</artifactId>
+			<version>${osgi.javax.mail.version}</version>
+		</dependency>
+
+		<!-- Java Messaging -->
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>com.springsource.javax.jms</artifactId>
+			<version>${osgi.javax.jms.version}</version>
+		</dependency>
+
+		<!-- I/O utilities -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>com.springsource.org.apache.commons.io</artifactId>
+			<version>${osgi.commons.io.version}</version>
+		</dependency>
+
+		<!-- %%%%%%%%%%%%%%%%%%%% -->
+		<!-- The Spring framework -->
+		<!-- %%%%%%%%%%%%%%%%%%%% -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.core</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.context</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.beans</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.context.support</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.transaction</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.orm</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.jdbc</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.aspects</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.oxm</artifactId>
+			<version>${osgi.spring.version}</version>
+		</dependency>
+
+		<!-- JAXB annotations -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${osgi.jaxb.api.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.oswego.cs.concurrent</groupId>
+			<artifactId>com.springsource.edu.oswego.cs.dl.util.concurrent</artifactId>
+			<version>${osgi.oswego.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Apache Commons connection pool -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
+			<version>${osgi.commons.dbcp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.javassist</groupId>
+			<artifactId>com.springsource.javassist</artifactId>
+			<version>${osgi.javassist.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aopalliance</groupId>
+			<artifactId>com.springsource.org.aopalliance</artifactId>
+			<version>${osgi.aop.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mchange.c3p0</groupId>
+			<artifactId>com.springsource.com.mchange.v2.c3p0</artifactId>
+			<version>${osgi.c3p0.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.dom4j</groupId>
+			<artifactId>com.springsource.org.dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jaxen</groupId>
+			<artifactId>com.springsource.org.jaxen</artifactId>
+			<version>${jaxen.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<!-- =========================================== -->
+		<!-- Main Resources -->
+		<!-- =========================================== -->
+		<resources>
+			<!-- Filter features and input files for external executable programs 
+				in the resource directory. -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.xml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<!-- =========================================== -->
+		<!-- Plugins -->
+		<!-- =========================================== -->
+		<plugins>
+
+			<!-- ########################## -->
+			<!-- OSGi feature installation -->
+			<!-- ########################## -->
+			<!-- Replace with maven features plugin to auto-generate feature.xml when 
+				the plugin becomes more stable - Nov 19 2009 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>${maven.install.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>install-file</id>
+						<phase>install</phase>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<configuration>
+							<file>${project.build.outputDirectory}/feature.xml</file>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<version>${project.version}</version>
+							<packaging>xml</packaging>
+							<classifier>features</classifier>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

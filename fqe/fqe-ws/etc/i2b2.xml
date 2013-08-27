@@ -1,0 +1,38 @@
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ns1:query_definition xmlns:ns1="http://www.i2b2.org/xsd/cell/crc/psm/1.1/">
+	<user group="FURTHeR" login="oren">oren</user>
+	<query_name>Unspecified inf@17:58:00</query_name>
+	<specificity_scale>0</specificity_scale>
+	<panel>
+		<panel_number>1</panel_number>
+		<invert>0</invert>
+		<total_item_occurrences>1</total_item_occurrences>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Unspecified infection of bone, hand [730.94]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Diseases of the musculoskeletal system and connective tissue (710-739.99)\Osteopathies, chondropathies, and acquired musculoskeletal deformities (730-739.99)\Osteomyelitis, periostitis, and other infections involving bone (730)\Unspecified infection of bone (730.9)\Unspecified infection of bone, hand (730.94)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Diseases of the musculoskeletal system and connective tissue (710-739.99) \ Osteopathies, chondropathies, and acquired musculoskeletal deformities (730-739.99) \ Osteomyelitis, periostitis, and other infections involving bone (730) \ Unspecified infection of bone (730.9) \ Unspecified infection of bone, hand (730.94)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+	</panel>
+</ns1:query_definition>

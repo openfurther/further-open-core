@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://camel.apache.org/schema/spring
+	http://camel.apache.org/schema/spring/camel-spring.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd">
+
+	<!-- ############################################################## -->
+	<!-- Main FQE-DS integration routes -->
+	<!-- ############################################################## -->
+
+	<!-- =========================================== -->
+	<!-- Camel test routes -->
+	<!-- =========================================== -->
+
+	<!-- The default route for a data source flow -->
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+
+		<!-- Reusable endpoints -->
+		<endpoint id="request" uri="activemq:topic:request" />
+		<endpoint id="marshalRequest" uri="direct:marshalRequest" />
+		<endpoint id="result" uri="activemq:topic:result" />
+		<endpoint id="statusResult" uri="mock:statusResult" />
+		<endpoint id="marshalStatus" uri="direct:marshalStatus" />
+		<endpoint id="federatedResult" uri="direct:federatedResult" />
+
+		<dataFormats>
+			<jaxb id="jaxbFormat"
+				contextPath="edu.utah.further.fqe.ds.api.domain:edu.utah.further.fqe.ds.api.to" />
+		</dataFormats>
+
+		<!-- Data source #1 flow -->
+		<route>
+			<from ref="request" />
+			<inOnly uri="bean:dataSource1?method=getDsMetaData" />
+			<marshal ref="jaxbFormat" />
+			<!-- <convertBodyTo type="java.lang.String" /> -->
+			<inOnly uri="bean:namespaceStripper?method=stripNamespace" />
+			<inOnly ref="result" />
+		</route>
+
+		<!-- Data source #2 flow -->
+		<route>
+			<from ref="request" />
+			<inOnly uri="bean:dataSource2?method=getDsMetaData" />
+			<marshal ref="jaxbFormat" />
+			<!-- <convertBodyTo type="java.lang.String" /> -->
+			<inOnly uri="bean:namespaceStripper?method=stripNamespace" />
+			<inOnly ref="result" />
+		</route>
+
+		<!-- Data source #3 flow / also send status -->
+		<route>
+			<from ref="request" />
+			<filter>
+				<!-- Process if this is a command addressing all data sources, or just 
+					this data source (FUR-564, FUR-584). Note: do not put parentheses around 
+					groups in simple expressions, otherwise they won't yield the expected result. 
+					Let's hope we never have to use complicated cases of operator precedence 
+					with it; use EL instead. -->
+				<simple><![CDATA[${in.header.dataSourceId} == null or ${in.header.dataSourceId} == ${bean:dataSource3?method=getName}]]></simple>
+				<filter>
+					<el>${in.headers.commandType == 'DATA_QUERY'}</el>
+					<unmarshal ref="jaxbFormat" />
+					<inOnly uri="bean:dataSource3?method=processQueryContext" />
+					<inOnly ref="marshalStatus" />
+				</filter>
+			</filter>
+		</route>
+
+		<!-- Data source #4 flow / also send status -->
+		<route>
+			<from ref="request" />
+			<filter>
+				<!-- Process if this is a command addressing all data sources, or just 
+					this data source (FUR-564, FUR-584). Note: do not put parentheses around 
+					groups in simple expressions, otherwise they won't yield the expected result. 
+					Let's hope we never have to use complicated cases of operator precedence 
+					with it; use EL instead. -->
+				<simple><![CDATA[${in.header.dataSourceId} == null or ${in.header.dataSourceId} == ${bean:dataSource4?method=getName}]]></simple>
+				<filter>
+					<el>${in.headers.commandType == 'DATA_QUERY'}</el>
+					<unmarshal ref="jaxbFormat" />
+					<inOnly uri="bean:dataSource4?method=processQueryContext" />
+					<inOnly ref="marshalStatus" />
+				</filter>
+			</filter>
+		</route>
+
+		<!-- FQE aggregation route -->
+		<route>
+			<from ref="result" />
+
+			<!-- Aggregate data source exchanges -->
+			<setExchangePattern pattern="InOnly" />
+			<aggregate strategyRef="groupingStrategy" 
+				completionTimeout="1000">
+				<correlationExpression>
+					<simple>header.commandId</simple>
+				</correlationExpression>
+
+				<!-- Aggregate grouped data source exchange bodies into a federated XML 
+					message -->
+				<setExchangePattern pattern="InOnly" />
+				<process ref="bodyAggregator" />
+				<setExchangePattern pattern="InOnly" />
+				<process ref="dataRootTagTranslator" />
+				<setExchangePattern pattern="InOnly" />
+				<unmarshal ref="jaxbFormat" />
+
+				<!-- Consume the final results of the FQE flow into a cache for request-reply 
+					correlation -->
+				<setExchangePattern pattern="InOnly" />
+				<process ref="endpointConsumer" />
+			</aggregate>
+		</route>
+
+		<!-- Note that direct:marshalStatus has been added for the sake of testing. 
+			Data source results/notifications will already be marshalled when they arrive 
+			at the statusResult topic. -->
+		<!-- FQE route for data source result notifications -->
+		<route>
+			<from ref="marshalStatus" />
+			<marshal ref="jaxbFormat" />
+			<convertBodyTo type="java.lang.String" />
+			<to ref="statusResult" />
+			<unmarshal ref="jaxbFormat" />
+
+			<filter>
+				<!-- Child updates. -->
+				<!-- Child must have a persistent parent to send a valid status message. 
+					In that case, send the child status message followed by synchronizing the 
+					parent state, and sending the parent to the FQC route. -->
+				<method bean="queryContextLogicService" method="parentExists" />
+				<to uri="bean:queryContextService?method=update" />
+				<to uri="bean:queryPlanService?method=updatePlan" />
+
+				<!-- Parent updates -->
+				<filter>
+					<method bean="queryContextLogicService" method="isParentNotCompleted" />
+					<to uri="bean:aggregationService?method=updateParentState" />
+
+					<to uri="bean:queryContextLogicService?method=getParent" />
+					<to ref="federatedResult" />
+				</filter>
+			</filter>
+		</route>
+
+		<!-- A route to process FQCs. Includes state synchronization and aggregation 
+			functions. -->
+		<route>
+			<from ref="federatedResult" />
+			<to uri="bean:aggregationService?method=updateCounts" />
+			<filter>
+				<method bean="queryContextLogicService" method="isCompleted" />
+				<to uri="bean:aggregationService?method=generateResultViews" />
+			</filter>
+		</route>
+
+		<!-- Data query endpoint which marshals and sends the request -->
+		<route>
+			<from ref="marshalRequest" />
+			<marshal ref="jaxbFormat" />
+			<convertBodyTo type="java.lang.String" />
+			<to ref="request" />
+		</route>
+
+	</camelContext>
+
+</beans>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>dts</artifactId>
+		<groupId>edu.utah.further.dts</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>dts-impl</artifactId>
+	<packaging>bundle</packaging>
+	<name>DTS Service Impl</name>
+	<description>DTS service implementation</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>impl</shortName>
+		<further.osgi.export.pkg>
+			!${project.groupId}.${shortName}.internal,
+			${project.groupId}.${shortName}*,
+			'=META-INF.dts.impl'
+		</further.osgi.export.pkg>
+		<further.osgi.import.pkg>
+			org.aspectj.lang,
+			org.aspectj.weaver.reflect,
+			org.aopalliance.aop,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.beans.factory.wiring,
+			org.springframework.context.config,
+			org.springframework.context.weaving,
+			org.springframework.core,
+			org.springframework.osgi.service.exporter.support,
+			edu.utah.further.dts.api.annotation,
+			'=META-INF.party3.apelon',
+			org.jasypt.encryption.pbe;version="${jasypt.version}";version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}";version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			'=META-INF.core.util',
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			net.sf.ehcache.config,
+			net.sf.ehcache,
+			*
+		</further.osgi.import.pkg>
+		<further.osgi.failok>true</further.osgi.failok>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Core utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-math</artifactId>
+		</dependency>
+
+		<!-- DTS business API -->
+		<dependency>
+			<groupId>edu.utah.further.dts</groupId>
+			<artifactId>dts-api</artifactId>
+		</dependency>
+
+		<!-- Apelon DTS implementation -->
+		<dependency>
+			<groupId>edu.utah.further.party3</groupId>
+			<artifactId>party3-apelon</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<!-- Contains useful annotations -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- The Spring framework -->
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- Required For Spring - required at runtime when proxying full target 
+			classes via Spring AOP. -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+	</dependencies>
+</project>

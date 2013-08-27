@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>mdr</artifactId>
+		<groupId>edu.utah.further.mdr</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>mdr-ws-api</artifactId>
+	<packaging>bundle</packaging>
+	<name>MDR Web Service API</name>
+	<description>MDR Web Service API</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>ws.api</shortName>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-api</artifactId>
+		</dependency>
+
+		<!-- JAX-RS annotations -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>${jsr311.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+	</dependencies>
+
+</project>

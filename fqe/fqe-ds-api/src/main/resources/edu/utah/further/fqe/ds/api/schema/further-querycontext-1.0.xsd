@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- FURTHeR QueryContext XSD -->
+<!--(c) 2008-2013 FURTHeR Project, AVP Health Sciences IT Office, University 
+	of Utah -->
+<!--Contact: {@code <further@utah.edu>} -->
+<!--Biomedical Informatics, 26 South 2000 East -->
+<!--Room 5775 HSEB, Salt Lake City, UT 84112 -->
+<!--Day Phone: 1-801-581-4080 -->
+<!--@author N. Dustin Schultz {@code <dustin.schultz@utah.edu>} -->
+<!--@version Apr 29, 2010 -->
+<xs:schema xmlns:query="http://further.utah.edu/core/query" xmlns:tns="http://further.utah.edu/fqe" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://further.utah.edu/fqe" version="1.0">
+	<xs:import namespace="http://further.utah.edu/core/query" schemaLocation="http://further.utah.edu/core/query/further-searchquery-1.0.xsd"/>
+	<!-- Status Meta Data -->
+	<xs:complexType name="statusMetaData">
+		<xs:annotation>
+			<xs:documentation>Represents the status of a given QueryContext
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="queryContextId" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference back to the owning query context
+						entity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dataSourceId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The unique identifier of the data source
+						generating this status message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statusDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date of status generation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="duration" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Duration of the process reporting this status, in
+						milliseconds. Can be 0 if this status is not associated with a
+						point in time rather than an interval.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statusMsg" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual representation of the status.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The unique identifier of the status message.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- End Status Meta Data -->
+	<xs:simpleType name="queryState">
+		<xs:annotation>
+			<xs:documentation>Query context state.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SUBMITTED"/>
+			<xs:enumeration value="QUEUED"/>
+			<xs:enumeration value="EXECUTING"/>
+			<xs:enumeration value="STOPPED"/>
+			<xs:enumeration value="COMPLETED"/>
+			<xs:enumeration value="FAILED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Main entity -->
+	<xs:element name="queryContext">
+		<xs:annotation>
+			<xs:documentation>Root element. Keeps track of the search criteria,
+				progress and results of a federated query</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="query_id" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The unique identifier of this entity.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="execution_id" type="xs:string" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Identifier within the federated context. Matches
+							the corresponding plan execution rules and dependency rules
+							execution ID.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dataSourceId" type="xs:string" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The unique identifier of the data source
+							generating this status message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="queryType" type="tns:queryType" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A string which describes type of result this query will be requesting.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="state" type="tns:queryState" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Query State.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="queued_date" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Query queuing time in the FQE.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="stale_date" type="xs:dateTime" form="qualified">
+					<xs:annotation>
+						<xs:documentation>Query stale date and time.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="is_stale" type="xs:boolean" form="qualified">
+					<xs:annotation>
+						<xs:documentation>Whether or not this QueryContext is stale.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="minRespondingDataSources" type="xs:int" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Minimum number of data sources sought.
+							Sufficient to complete the federated query if it times out.
+							Default: 2.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="maxRespondingDataSources" type="xs:int" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Maximum number of data sources sought.
+							Sufficient to complete the federated query even before it times
+							out. Currently treated as infinity (FUR-575).</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="start_date" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Query execution starting time.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="end_date" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Query execution end time.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="parentId" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Link to the federated parent.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="targetNamespaceId" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Id of destination namespace</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="query:query" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>List of search queries to execute according to
+							the plan section, each containing search criteria.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="tns:resultContext" minOccurs="0"/>
+				<xs:element name="currentStatus" type="tns:statusMetaData" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Holds information about the current status of
+							the context.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="statuses" type="tns:statusMetaData" form="qualified" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>List of statuses associated with this query.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="tns:plan" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="resultContext">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="type" type="tns:resultType" form="qualified" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Result set type, if this is a federated result
+							set.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="intersectionIndex" type="xs:int" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Intersection index, if this is an
+							intersection-type federated result set. If A1..An are the data
+							sets, a k-intersection is the set of records that are in at least
+							k sets. Union is the 1-intersection and the standard intersection
+							is the n-intersection.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="id" type="xs:long" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The unique identifier.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="rootEntityClass" type="xs:string" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Result set's root entity class' fully qualified
+							name. Uniquely identifies the database table containing the
+							result set rows.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="transferObjectClass" type="xs:string" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Result set's transfer object class fully
+							qualified name.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="numRecords" type="xs:long" form="qualified">
+					<xs:annotation>
+						<xs:documentation>Number of records matched by this query.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="queryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DATA_QUERY"/>
+			<xs:enumeration value="COUNT_QUERY"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="resultType">
+		<xs:annotation>
+			<xs:documentation>Result set type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INTERSECTION"/>
+			<xs:enumeration value="SUM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="plan">
+		<xs:annotation>
+			<xs:documentation>Query execution plan.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:executionRule" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Search query execution rule.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="tns:dependencyRule" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Specifies that a search query depends on
+							another.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="executionRule">
+		<xs:annotation>
+			<xs:documentation>A single search query execution rule.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="qid" type="xs:long" form="qualified">
+					<xs:annotation>
+						<xs:documentation>The unique identifier of the search query.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dataSourceId" type="xs:string" form="qualified" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If specified, the search query will run against
+							the data source with this ID (key).</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="executionId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Unique execution identifier within a fedetated
+						query context</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dependencyRule">
+		<xs:annotation>
+			<xs:documentation>A dependency rule of a execution on another.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence/>
+			<xs:attribute name="dependencyExecutionId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The ID of the execution that should run first.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="outcomeExecutionId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The ID of the execution that should run after
+						dependencyExecutionId.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!-- Could be non-empty in the future -->
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

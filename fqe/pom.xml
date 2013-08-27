@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information                         -->
+	<!-- =========================================== -->
+
+	<parent>
+		<groupId>edu.utah.further</groupId>
+		<artifactId>further</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.utah.further.fqe</groupId>
+	<artifactId>fqe</artifactId>
+	<packaging>pom</packaging>
+	<name>Federated Query Engine</name>
+	<description>Federated query engine</description>
+
+	<!-- =========================================== -->
+	<!-- Properties / version numbers                -->
+	<!-- =========================================== -->
+	<properties>
+		<!-- General -->
+		<final.name>fqe</final.name>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Global dependencies                         -->
+	<!-- =========================================== -->
+	<dependencies>
+		<!-- ########################## -->
+		<!-- Testing                    -->
+		<!-- ########################## -->
+
+		<!-- Core Testing framework -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- =========================================== -->
+	<!-- Modules                                     -->
+	<!-- =========================================== -->
+	<modules>
+		<module>fqe-ds-api</module>
+		<module>fqe-ds-test</module>
+		<module>fqe-api</module>
+		<module>fqe-impl</module>
+		<module>fqe-ws</module>
+		<module>fqe-mpi-api</module>
+		<module>fqe-mpi-impl</module>
+		<module>fqe-mpi-ws</module>
+	</modules>
+	
+</project>

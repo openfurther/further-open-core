@@ -1,0 +1,66 @@
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	">
+
+	<!-- These are all services that the data source modules use through some 
+		sort of messaging or web service layer but we need them for full integration 
+		testing -->
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="edu.utah.further.fqe.impl.domain"
+		use-default-filters="false">
+		<context:include-filter type="assignable"
+			expression="edu.utah.further.fqe.impl.domain.FqeDomainFactory" />
+	</context:component-scan>
+
+	<context:component-scan base-package="edu.utah.further.fqe.impl.data"
+		use-default-filters="false">
+		<context:include-filter type="assignable"
+			expression="edu.utah.further.fqe.impl.data.QueryContextDao" />
+	</context:component-scan>
+
+	<context:component-scan base-package="edu.utah.further.fqe.impl.service.query"
+		use-default-filters="false">
+		<context:include-filter type="assignable"
+			expression="edu.utah.further.fqe.api.service.query.QueryContextService" />
+		<context:include-filter type="assignable"
+			expression="edu.utah.further.fqe.ds.api.service.query.AssociatedResultService" />
+	</context:component-scan>
+
+	<context:component-scan base-package="edu.utah.further.ds.fqe.test.util" />
+
+</beans>
+

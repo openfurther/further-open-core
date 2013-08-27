@@ -1,0 +1,63 @@
+====
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+====
+
+karaf@root> fls
+START LEVEL 100
+   ID   State         Spring   Name
+[82  ] [Active     ] [Started] further-osgi-shell (1.0.0.SNAPSHOT)
+[83  ] [Active     ] [Started] further-osgi-hotdeploy (1.0.0.SNAPSHOT)
+[84  ] [Active     ] [Started] further-osgi-geronimo-el (1.0.0.SNAPSHOT)
+[169 ] [Active     ] [Started] further-party3-hibernate-osgi-uber (3.3.2.GA)
+[172 ] [Active     ] [Failed ] further-party3-apelon (1.0.0.SNAPSHOT)
+[173 ] [Active     ] [Started] further-osgi-load-aop (1.0.0.SNAPSHOT)
+[174 ] [Active     ] [Started] further-osgi-load-hb (1.0.0.SNAPSHOT)
+[175 ] [Active     ] [Started] further-osgi-load-hb-client (1.0.0.SNAPSHOT)
+[176 ] [Active     ] [Started] further-osgi-load-xquery (1.0.0.SNAPSHOT)
+[177 ] [Active     ] [Started] further-osgi-load-hb-xquery (1.0.0.SNAPSHOT)
+[178 ] [Active     ] [Started] further-core-api (1.0.0.SNAPSHOT)
+[179 ] [Active     ] [Started] further-core-metadata (1.0.0.SNAPSHOT)
+[180 ] [Active     ] [Started] further-core-util (1.0.0.SNAPSHOT)
+[181 ] [Active     ] [Started] further-core-util-jen (1.0.0.SNAPSHOT)
+[182 ] [Active     ] [Started] further-core-grid (1.0.0.SNAPSHOT)
+[183 ] [Active     ] [Started] further-core-query (1.0.0.SNAPSHOT)
+[184 ] [Active     ] [Started] further-core-data (1.0.0.SNAPSHOT)
+[185 ] [Active     ] [Started] further-core-data-oracle (1.0.0.SNAPSHOT)
+[186 ] [Active     ] [Started] further-core-ws (1.0.0.SNAPSHOT)
+[187 ] [Active     ] [Started] further-core-cxf (1.0.0.SNAPSHOT)
+[188 ] [Active     ] [Started] further-core-camel (1.0.0.SNAPSHOT)
+[189 ] [Active     ] [Started] further-dts-api (1.0.0.SNAPSHOT)
+[190 ] [Active     ] [Failed ] further-dts-impl (1.0.0.SNAPSHOT)
+[191 ] [Active     ] [Started] further-dts-ws-api (1.0.0.SNAPSHOT)
+[192 ] [Active     ] [Failed ] further-dts-ws (1.0.0.SNAPSHOT)
+[193 ] [Active     ] [Started] further-mdr-api (1.0.0.SNAPSHOT)
+[194 ] [Active     ] [Failed ] further-mdr-impl (1.0.0.SNAPSHOT)
+[195 ] [Active     ] [Started] further-mdr-ws-api (1.0.0.SNAPSHOT)
+[196 ] [Active     ] [Failed ] further-mdr-ws (1.0.0.SNAPSHOT)
+[197 ] [Active     ] [Started] further-i2b2-query (1.0.0.SNAPSHOT)
+[198 ] [Active     ] [Started] further-i2b2-dts-api (1.0.0.SNAPSHOT)
+[199 ] [Active     ] [Started] further-i2b2-dts-impl (1.0.0.SNAPSHOT)
+[200 ] [Active     ] [Started] further-fqe-ds-api (1.0.0.SNAPSHOT)
+[201 ] [Active     ] [Started] further-fqe-api (1.0.0.SNAPSHOT)
+[202 ] [Active     ] [Started] further-fqe-impl (1.0.0.SNAPSHOT)
+[203 ] [Active     ] [Started] further-fqe-ws (1.0.0.SNAPSHOT)
+[204 ] [Active     ] [Started] further-fqe-model-api (1.0.0.SNAPSHOT)
+[205 ] [Active     ] [Started] further-fqe-model-impl (1.0.0.SNAPSHOT)
+[206 ] [Active     ] [Started] further-ds-api (1.0.0.SNAPSHOT)
+[207 ] [Active     ] [Started] further-ds-impl (1.0.0.SNAPSHOT)
+[208 ] [Active     ] [Started] further-ds-jms (1.0.0.SNAPSHOT)
+[209 ] [Active     ] [Started] further-ds-uuedw (1.0.0.SNAPSHOT)
+[210 ] [Active     ] [Started] further-ds-ihc (1.0.0.SNAPSHOT)
+karaf@root>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) [2013] [The FURTHeR Project] Licensed under the Apache 
+	License, Version 2.0 (the "License"); you may not use this file except in 
+	compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!-- =============================================================================== 
+	(c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah Contact: 
+	Dr. Scott Narus {@code <scott.narus@hsc.utah.edu>} Biomedical Informatics, 
+	26 South 2000 East Room 5775 HSEB, Salt Lake City, UT 84112 Day Phone: 1-801-581-4080 
+	=============================================================================== -->
+<features name="further-${project.version}">
+
+	<!-- =========================================== -->
+	<!-- Main FURTHeR features -->
+	<!-- =========================================== -->
+
+	<!-- Must be installed before spring-aop to resolve optional binding without 
+		refresh -->
+	<feature name="aspectj" version="${project.version}">
+		<bundle><![CDATA[mvn:org.aspectj/com.springsource.org.aspectj.weaver/${spring.aspectj.version}]]></bundle>
+	</feature>
+
+	<!-- Must be installed before spring context to resolve optional binding 
+		without refresh -->
+	<feature name="quartz" version="${project.version}">
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.quartz/${osgi.org.quartz.version}]]></bundle>
+	</feature>
+
+	<feature name="jdbc-oracle" version="${oracle.driver.version}">
+		<bundle><![CDATA[wrap:mvn:com.oracle/ojdbc6/${oracle.driver.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:com.oracle/xmlparserv2/${oracle.xdk.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:com.oracle/xdb/${oracle.xdk.version}]]></bundle>
+	</feature>
+
+	<feature name="jdbc-hsqldb" version="${hsqldb.version}">
+		<bundle><![CDATA[wrap:mvn:org.hsqldb/hsqldb/${hsqldb.version}]]></bundle>
+	</feature>
+
+	<feature name="jdbc-mysql" version="${mysql.connector.java.version}">
+		<bundle><![CDATA[com.mysql.jdbc/com.springsource.com.mysql.jdbc/${mysql.connector.java.version}]]></bundle>
+	</feature>
+
+	<feature name="jdbc-sqlserver-sybase" version="${jtds.version}">
+		<bundle><![CDATA[net.sourceforge.jtds/com.springsource.net.sourceforge.jtds/${jtds.version}]]></bundle>
+	</feature>
+
+	<feature name="jdbc-postgresql3" version="${postgres3.version}">
+		<bundle><![CDATA[org.postgresql/com.springsource.org.postgresql.jdbc3/${postgres3.version}]]></bundle>
+	</feature>
+
+	<feature name="jdbc-postgresql4" version="${postgres4.version}">
+		<bundle><![CDATA[org.postgresql/com.springsource.org.postgresql.jdbc4/${postgres4.version}]]></bundle>
+	</feature>
+
+	<!-- Must be installed before spring orm to resolve optional binding without 
+		refresh -->
+	<feature name="hibernate" version="${project.version}">
+		<feature>jpa</feature>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/${osgi.cglib.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${osgi.dom4j.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ant/${osgi.ant.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr/${osgi.antlr.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.jboss.javassist/com.springsource.javassist/${osgi.javassist.version}]]></bundle>
+		<bundle><![CDATA[mvn:com.googlecode.servicemix.extra.bundles/com.googlecode.servicemix.extra.bundles.hibernate/${osgi.hibernate.version}]]></bundle>
+	</feature>
+
+	<!-- Production implementation -->
+	<feature name="further" version="${project.version}">
+		<feature>further-dependencies</feature>
+		<feature>further-modules</feature>
+	</feature>
+
+	<!-- Production FURTHeR modules only -->
+	<feature name="further-modules" version="${project.version}">
+		<feature>further-core</feature>
+		<feature>further-dts</feature>
+		<feature>further-mdr</feature>
+		<feature>further-security</feature>
+		<feature>further-mpi</feature>
+		<feature>further-i2b2</feature>
+		<feature>further-fqe</feature>
+		<feature>further-core-ds</feature>
+	</feature>
+
+	<feature name="further-dependencies" version="${project.version}">
+		<bundle><![CDATA[mvn:commons-io/commons-io/${commons.io.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.commons/com.springsource.org.apache.commons.lang/${osgi.commons.lang.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jasypt/${osgi.jasypt.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.jasypt/jasypt-spring3/${jasypt.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.log4j/com.springsource.org.apache.log4j/${osgi.log4j.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.oswego.cs.concurrent/com.springsource.edu.oswego.cs.dl.util.concurrent/${osgi.oswego.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:net.sf.ehcache/ehcache-core/${net.sf.ehcache.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.apache.commons/commons-math/${commons.math.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:commons-codec/commons-codec/${commons.codec.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:com.google.guava/guava/${guava.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.jgrapht/jgrapht-jdk1.5/${jgrapht.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:junit/junit/${junit.version}]]></bundle>
+		<feature>jpa</feature>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr/${osgi.antlr.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.jboss.javassist/com.springsource.javassist/${osgi.javassist.version}]]></bundle>
+		<bundle><![CDATA[mvn:com.googlecode.servicemix.extra.bundles/com.googlecode.servicemix.extra.bundles.hibernate/${hibernate.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.commons/com.springsource.org.apache.commons.dbcp/${osgi.commons.dbcp.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.osgi/osgi-c3p0/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:com.mchange.c3p0/com.springsource.com.mchange.v2.c3p0/${osgi.c3p0.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.apache.poi/poi/${poi.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.apache.poi/poi-ooxml/${poi.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.apache.poi/poi-ooxml-schemas/${poi.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.apache.poi/poi-scratchpad/${poi.version}]]></bundle>
+		<feature>camel-jaxb</feature>
+		<feature>camel-juel</feature>
+		<bundle><![CDATA[mvn:org.codehaus.staxmate/staxmate/${staxmate.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:javax.xml.xquery/xqj-api/${xqj.api.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.basex/basex-api/${basex.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:org.basex/basex/${basex.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/${osgi.httpclient.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xpp3/${osgi.xpp3.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/${osgi.xstream.version}]]></bundle>
+	</feature>
+
+	<feature name="further-spring-dependencies" version="${project.version}">
+		<feature>spring-web</feature>
+		<feature>spring-jdbc</feature>
+		<feature>spring-orm</feature>
+		<feature>spring-oxm</feature>
+		<bundle><![CDATA[mvn:org.springframework.security/spring-security-core/${osgi.spring.version}]]></bundle>
+		<bundle><![CDATA[mvn:org.springframework/org.springframework.aspects/${osgi.spring.version}]]></bundle>
+	</feature>
+
+	<!-- FUR-527: custom shell commands. Must be the first installed FURTHeR 
+		bundle to catch events of all other FURTHeR bundles. Deploy this bundle as 
+		early as possible. -->
+	<feature name="further-osgi-shell" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.osgi/osgi-shell/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Core utility modules -->
+	<!-- =========================================== -->
+	<feature name="further-core" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-metadata/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-chain/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-util/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-math/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-xml/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-xquery/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-query/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-data/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-ws/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-cxf/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-camel/${project.version}]]></bundle>
+	</feature>
+
+	<feature name="core-data-oracle" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.core/core-data-oracle/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Terminology services -->
+	<!-- =========================================== -->
+
+	<!-- Production implementation -->
+	<feature name="further-dts" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.party3/party3-apelon/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.dts/dts-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.dts/dts-impl/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.dts/dts-ws-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.dts/dts-ws/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Metadata repository services -->
+	<!-- =========================================== -->
+
+	<!-- Production implementation -->
+	<feature name="further-mdr" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-data-common/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-data/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-data-dao/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-common/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-impl/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-ws-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mdr/mdr-ws/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Security framework -->
+	<!-- =========================================== -->
+	<feature name="further-security" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.security/security-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.security/security-impl/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Federated linking -->
+	<!-- =========================================== -->
+	<feature name="further-mpi" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-impl/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-link-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-link-impl/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- i2b2-FURTHeR integration -->
+	<!-- =========================================== -->
+	<feature name="further-i2b2" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.i2b2/i2b2-query/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Federated query engine -->
+	<!-- =========================================== -->
+	<feature name="further-fqe" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-ds-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-impl/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-ws/${project.version}]]></bundle>
+	</feature>
+
+	<!-- =========================================== -->
+	<!-- Data source implementations -->
+	<!-- =========================================== -->
+
+	<!-- Production implementation -->
+	<feature name="further-core-ds" version="${project.version}">
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-data/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-impl/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-jms/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-further/${project.version}]]></bundle>
+	</feature>
+
+</features>

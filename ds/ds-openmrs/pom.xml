@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.ds</groupId>
+		<artifactId>ds</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ds-openmrs</artifactId>
+	<packaging>bundle</packaging>
+	<name>Data Source Model: OpenMRS</name>
+	<description>Data Source Model: OpenMRS</description>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>openmrs.model</shortName>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Core API -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+		</dependency>
+
+		<!-- Database support -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mysql.jdbc</groupId>
+			<artifactId>com.springsource.com.mysql.jdbc</artifactId>
+			<version>${mysql.connector.java.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

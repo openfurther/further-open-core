@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fqe:aggregatedResults xmlns="http://further.utah.edu/fqe"
+	xmlns:query="http://further.utah.edu/core/query" xmlns:fqe="http://further.utah.edu/fqe-dummy"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<aggregatedResult>
+		<resultContextKey type="SUM" />
+		<category name="age">
+			<values>
+				<entry value="2" key="10-19" />
+				<entry value="343434" key="20-29" />
+			</values>
+		</category>
+		<category name="race">
+			<values>
+				<entry value="456" key="Black" />
+				<entry value="123" key="White" />
+			</values>
+		</category>
+	</aggregatedResult>
+	<aggregatedResult>
+		<resultContextKey intersectionIndex="1" type="INTERSECTION" />
+		<category name="age">
+			<values>
+				<entry value="2" key="10-19" />
+				<entry value="343434" key="20-29" />
+			</values>
+		</category>
+		<category name="race">
+			<values>
+				<entry value="456" key="Black" />
+				<entry value="123" key="White" />
+			</values>
+		</category>
+	</aggregatedResult>
+	<aggregatedResult>
+		<resultContextKey intersectionIndex="2" type="INTERSECTION" />
+		<category name="age">
+			<values>
+				<entry value="2" key="10-19" />
+				<entry value="343434" key="20-29" />
+			</values>
+		</category>
+		<category name="race">
+			<values>
+				<entry value="456" key="Black" />
+				<entry value="123" key="White" />
+			</values>
+		</category>
+	</aggregatedResult>
+	<resultViews>
+		<entry>
+			<key type="SUM" />
+			<resultContext>
+				<numRecords>789</numRecords>
+			</resultContext>
+		</entry>
+		<entry>
+			<key intersectionIndex="1" type="INTERSECTION" />
+			<resultContext>
+				<numRecords>1023</numRecords>
+			</resultContext>
+		</entry>
+	</resultViews>
+	<numDataSources>2</numDataSources>
+	<result_status>
+		<status type="DONE">DONE</status>
+		<polling_url interval_ms="100" />
+	</result_status>
+</fqe:aggregatedResults>

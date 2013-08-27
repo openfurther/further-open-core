@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:core="http://further.utah.edu/schema/core"
+	xmlns:dts="http://further.utah.edu/schema/dts"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd
+    http://cxf.apache.org/jaxrs
+    http://cxf.apache.org/schemas/jaxrs.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd
+	http://further.utah.edu/schema/dts
+	http://further.utah.edu/schema/dts/dts.xsd
+    "
+	default-autowire="byName">
+
+	<!--
+		#####################################################################
+		A reusable spring context for DTS web service client programs.
+		#####################################################################
+	-->
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration                    -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+
+	<!--
+		Activate stub and mock implementations in the core utility module
+	-->
+	<context:component-scan base-package="edu.utah.further.core">
+		<context:include-filter type="annotation"
+			expression="edu.utah.further.core.api.context.Stub" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<!-- =========================================== -->
+	<!-- Aspect & proxies                            -->
+	<!-- =========================================== -->
+
+	<aop:aspectj-autoproxy />
+
+	<dts:aspect class="edu.utah.further.core.cxf.WsExceptionTranslationAspect" />
+
+	<!-- =========================================== -->
+	<!-- CXF Resources                               -->
+	<!-- =========================================== -->
+
+	<!-- Custom JAXB context that can marshal exception classes -->
+	<bean id="jaxbConfiguration"
+		class="edu.utah.further.core.xml.jaxb.JaxbConfigurationFactoryBean" />
+
+	<bean id="jaxbContext" class="org.apache.cxf.jaxb.JAXBDataBinding"
+		scope="prototype">
+		<property name="contextProperties" ref="jaxbConfiguration" />
+	</bean>
+
+	<bean id="jaxbProvider" class="edu.utah.further.core.cxf.JaxbElementProvider">
+		<property name="contextProperties" ref="jaxbConfiguration" />
+		<property name="jaxbPackages">
+			<set>
+				<value><![CDATA[edu.utah.further.core.metadata.to]]></value>
+				<value><![CDATA[edu.utah.further.core.api.exception]]></value>
+				<value><![CDATA[edu.utah.further.dts.api.to]]></value>
+				<value><![CDATA[edu.utah.further.dts.ws.api.domain]]></value>
+			</set>
+		</property>
+	</bean>
+
+	<!-- ======================= -->
+	<!-- REST WS clients         -->
+	<!-- ======================= -->
+
+	<!--
+		TODO: enforce naming conventions by encapsulating tags like the
+		following in our own Spring XML namespace tags that automatically
+		compute (say) the address "/search" from the id
+		"dtsSearchServiceRestClient" or better, from the serviceClass
+	-->
+	<jaxrs:client id="dtsSearchServiceRestClient" address="${server.dts.ws}/${dts.ws.rest}"
+		serviceClass="edu.utah.further.dts.ws.api.service.rest.SearchServiceRest"
+		inheritHeaders="true">
+		<jaxrs:headers>
+			<entry key="Accept" value="*/*" />
+		</jaxrs:headers>
+		<jaxrs:providers>
+			<ref bean="jaxbProvider" />
+			<bean class="edu.utah.further.core.cxf.ResponseWsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:client>
+
+	<jaxrs:client id="dtsTranslateServiceRestClient" address="${server.dts.ws}/${dts.ws.rest}"
+		serviceClass="edu.utah.further.dts.ws.api.service.rest.TranslateServiceRest"
+		inheritHeaders="true">
+		<jaxrs:headers>
+			<entry key="Accept" value="*/*" />
+		</jaxrs:headers>
+		<jaxrs:providers>
+			<ref bean="jaxbProvider" />
+			<bean class="edu.utah.further.core.cxf.ResponseWsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:client>
+
+	<jaxrs:client id="dtsUtilServiceRestClient" address="${server.dts.ws}/${dts.ws.rest}"
+		serviceClass="edu.utah.further.core.metadata.service.UtilServiceRest"
+		inheritHeaders="true">
+		<!--
+			To accommodate both xml and plain text return types from web
+			services, this client declares that it can accept anything.
+		-->
+		<jaxrs:headers>
+			<entry key="Accept" value="*/*" />
+		</jaxrs:headers>
+		<jaxrs:providers>
+			<ref bean="jaxbProvider" />
+			<bean class="edu.utah.further.core.cxf.ResponseWsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:client>
+
+	<!-- =========================================== -->
+	<!-- Resources                                   -->
+	<!-- =========================================== -->
+</beans>

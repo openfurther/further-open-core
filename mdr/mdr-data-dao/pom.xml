@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>mdr</artifactId>
+		<groupId>edu.utah.further.mdr</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>mdr-data-dao</artifactId>
+	<packaging>bundle</packaging>
+	<name>MDR DAO</name>
+	<description>Metadata repository - data access objects</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+	<properties>
+		<shortName>data.dao</shortName>
+		<further.osgi.import.pkg>
+			!oracle.aurora.rdbms,
+			!org.w3c.dom.validation,
+			!oracle.i18n.text,
+			javax.sql,
+			javax.persistence,
+			org.hibernate.cfg,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			org.apache.commons.dbcp,
+			javassist.util.proxy,
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			oracle.jdbc,
+			com.mysql.jdbc;resolution:=optional,
+			edu.utah.further.core.data.service,
+			edu.utah.further.core.util.io,
+			edu.utah.further.core.data.oracle.type,
+			edu.utah.further.core.util.text,
+			edu.utah.further.core.query.domain,
+			edu.utah.further.mdr.data.common.domain.asset,
+			edu.utah.further.mdr.data.impl.domain.asset,
+			'=META-INF.core.util',
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- MDR business API -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-api</artifactId>
+		</dependency>
+
+		<!-- Standard persistence library -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data</artifactId>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+		
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javaassist.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+	</dependencies>
+
+</project>

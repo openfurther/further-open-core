@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<groupId>edu.utah.further</groupId>
+		<artifactId>further</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.utah.further.core</groupId>
+	<artifactId>core</artifactId>
+	<packaging>pom</packaging>
+	<name>FURTHeR Core</name>
+	<description>FURTHeR Core Utilities</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Properties / version numbers -->
+	<!-- =========================================== -->
+	<properties>
+		<!-- General -->
+		<final.name>core</final.name>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+	</dependencies>
+
+	<!-- =========================================== -->
+	<!-- Modules -->
+	<!-- =========================================== -->
+	<modules>
+		<module>core-api</module>
+		<module>core-test</module>
+		<module>core-util</module>
+		<module>core-math</module>
+		<module>core-chain</module>
+		<module>core-xml</module>
+		<module>core-qunit</module>
+		<module>core-ws</module>
+		<module>core-cxf</module>
+		<module>core-camel</module>
+		<module>core-data</module>
+		<module>core-data-oracle</module>
+		<module>core-query</module>
+		<module>core-metadata</module>
+		<module>core-xquery</module>
+	</modules>
+
+</project>

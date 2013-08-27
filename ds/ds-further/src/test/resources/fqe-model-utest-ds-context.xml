@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    ">
+
+	<!-- =========================================== -->
+	<!-- Data Layer -->
+	<!-- =========================================== -->
+
+	<!-- Data source: reads a properties file and injects them into a DBCP DS -->
+	<bean id="dataSource"
+		class="edu.utah.further.core.data.service.ConfigurableBasicDataSource">
+		<constructor-arg index="0">
+			<bean class="org.apache.commons.dbcp.BasicDataSource" />
+		</constructor-arg>
+		<property name="properties">
+			<bean
+				class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+				<property name="locations">
+					<list>
+						<value>classpath:datasource-${datasource.unit.config}.properties
+						</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<!-- FUR-946: idle connections break. Adding connection testing. -->
+		<property name="testOnBorrow" value="true" />
+		<property name="testWhileIdle" value="true" />
+	</bean>
+
+	<!-- Session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- Hibernate configuration properties (read from a properties file) -->
+		<property name="hibernateProperties">
+			<bean
+				class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+				<property name="locations">
+					<list>
+						<!-- hibernate.config.file, datasource.config.file should be defined 
+							somewhere in the spring.properties layers -->
+						<value>classpath:hibernate-${hibernate.unit.config}.properties
+						</value>
+						<value>classpath:datasource-${datasource.unit.config}.properties
+						</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<!-- Using improved naming strategy -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+
+		<!-- Reads package-level Hibernate annotations. Unfortunately, this has 
+			to be manually maintained for all model packages -->
+		<property name="annotatedPackages">
+			<list>
+				<value>edu.utah.further.fqe.model.impl</value>
+			</list>
+		</property>
+
+		<!-- Mapping annotated classes using search patterns -->
+		<!-- Mapping annotated classes using search patterns -->
+		<property name="annotatedClasses">
+			<list>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ConditionEraId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ConditionEra]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ConditionOccurrenceId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ConditionOccurrence]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.EncounterId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Encounter]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.LocationId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Location]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ObservationId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Observation]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ObservationPeriodId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ObservationPeriod]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.OrderId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Order]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.PersonAssociationId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.PersonAssociation]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.PersonId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Person]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ProcedureOccurrenceId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ProcedureOccurrence]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ProviderId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Provider]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ProviderLocationId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.ProviderLocation]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.SpecimenId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Specimen]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.StorageId]]></value>
+				<value><![CDATA[edu.utah.further.fqe.model.impl.domain.Storage]]></value>		
+			</list>
+		</property>
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Transaction management -->
+	<!-- =========================================== -->
+
+	<!-- Enable the configuration of transactional behavior based on annotations 
+		According to Spring documentation, this only looks for @Transactional on 
+		beans in the same application context it is defined in Omit transaction-manager 
+		attribute due to PlatformTransactionManager being named the default expected 
+		name 'transactionManager' Using aspectj instead of proxies as it slightly 
+		performs better than Spring AOP -->
+	<tx:annotation-driven mode="aspectj" />
+
+	<!-- a PlatformTransactionManager is still required -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+</beans>

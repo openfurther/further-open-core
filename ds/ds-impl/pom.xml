@@ -1,0 +1,265 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.ds</groupId>
+		<artifactId>ds</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ds-impl</artifactId>
+	<packaging>bundle</packaging>
+	<name>Data Source Implementation</name>
+	<description>Data source Flow Implementation</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>impl</shortName>
+		<further.osgi.export.pkg>
+			!${project.groupId}.${shortName}.internal,
+			${project.groupId}.${shortName}*,
+			'=META-INF.ds.impl'
+		</further.osgi.export.pkg>
+		<further.osgi.import.pkg>
+			org.hibernate,
+			org.hibernate.annotations,
+			org.hibernate.cfg,
+			org.hibernate.proxy,
+			org.hibernate.hql.ast,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.beans.factory.config,
+			org.springframework.aop.aspectj.autoproxy,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.springframework.oxm.jaxb,
+			org.hsqldb,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			javassist.util.proxy,
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			javax.xml.stream,
+			javax.xml.bind,
+			org.apache.xerces.parsers,
+			com.mchange.v2.c3p0,
+			oracle.jdbc,
+			edu.utah.further.core.api.xml,
+			edu.utah.further.core.api.context,
+			edu.utah.further.core.api.io,
+			edu.utah.further.core.util.io,
+			edu.utah.further.core.metadata.to,
+			edu.utah.further.core.xml.jaxb,
+			edu.utah.further.core.xml.chain,
+			edu.utah.further.core.xml.transform,
+			edu.utah.further.core.xml.xquery,
+			edu.utah.further.core.query.schema,
+			edu.utah.further.core.query.domain,
+			edu.utah.further.core.util.converter,
+			edu.utah.further.core.ws,
+			edu.utah.further.ds.api.annotation,
+			edu.utah.further.ds.api.domain,
+			edu.utah.further.ds.api.executor,
+			edu.utah.further.ds.api.aspect,
+			edu.utah.further.ds.api.advice,
+			edu.utah.further.ds.api.service.query.logic,
+			edu.utah.further.ds.data.domain,
+			edu.utah.further.core.data.oracle.type,
+			edu.utah.further.core.data.service,
+			edu.utah.further.mdr.ws.impl.service.rest,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			'=META-INF.core.util',
+			'=META-INF.core.xquery',
+			edu.utah.further.security.api,
+			edu.utah.further.core.api.security,
+			edu.utah.further.core.api.discrete,
+			*
+		</further.osgi.import.pkg>
+		<further.osgi.failok>true</further.osgi.failok>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<!-- XML utilities, for marshalling & unmarshalling -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+		</dependency>
+
+		<!-- XQuery Service -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xquery</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<!-- Data layer including Oracle connector and custom type libraries -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data-oracle</artifactId>
+		</dependency>
+
+		<!-- MDR web service API, for data source MDR resource retrieval -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-ws-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.ws.rs</groupId>
+					<artifactId>jsr311-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- MDR is used to retrieve translation (and other types of) artifacts -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-api</artifactId>
+		</dependency>
+
+		<!-- Marshalling & Unmarshalling -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- I/O utilities -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+
+		<!-- FQE Data source API -->
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-ds-api</artifactId>
+		</dependency>
+
+		<!-- Analytical Model -->
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-further</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-data</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.security</groupId>
+			<artifactId>security-api</artifactId>
+		</dependency>
+
+		<!-- Spring Security Libraries -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- BaseX -->
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex</artifactId>
+			<version>${basex.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- BaseX API, includes basex-xqj dep -->
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex-api</artifactId>
+			<version>${basex.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+		<dependency>
+			<groupId>edu.utah.further.security</groupId>
+			<artifactId>security-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-chain</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

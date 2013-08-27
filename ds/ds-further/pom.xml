@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.ds</groupId>
+		<artifactId>ds</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ds-further</artifactId>
+	<packaging>bundle</packaging>
+	<name>Data Source Model: FURTHeR</name>
+	<description>Data Source Model: FURTHeR</description>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>further.model</shortName>
+		<further.osgi.import.pkg>
+			org.hibernate,
+			org.hibernate.annotations,
+			org.hibernate.cfg,
+			org.hibernate.proxy,
+			org.hibernate.hql.ast,
+			org.hibernate.type,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.jdbc.core.simple,
+			org.springframework.transaction.support,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.hsqldb,
+			com.mysql.jdbc;resolution:=optional,
+			com.mchange.v2.c3p0,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			org.jasypt.spring3.properties,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			javassist.util.proxy,
+			javax.sql,
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			edu.utah.further.core.metadata.to,
+			edu.utah.further.core.api.data,
+			edu.utah.further.fqe.ds.api.domain,
+			edu.utah.further.core.data.service,
+			edu.utah.further.mpi.link.impl.domain,
+			'=META-INF.core.util',
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Core API -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+		</dependency>
+
+		<!-- Database support -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data</artifactId>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<!-- Core XML -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

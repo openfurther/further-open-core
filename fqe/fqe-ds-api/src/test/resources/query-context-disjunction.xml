@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<queryContext xmlns="http://further.utah.edu/fqe"
+	xmlns:query="http://further.utah.edu/core/query" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<queryType>DATA_QUERY</queryType>
+	<state>QUEUED</state>
+	<stale_date>1969-12-31T17:00:10-07:00</stale_date>
+	<is_stale>false</is_stale>
+	<minRespondingDataSources>2</minRespondingDataSources>
+	<maxRespondingDataSources>100</maxRespondingDataSources>
+	<query:query>
+		<query:rootCriterion>
+			<query:searchType>DISJUNCTION</query:searchType>
+			<query:criteria>
+				<query:searchType>SIMPLE</query:searchType>
+				<query:parameters>
+					<query:parameter xsi:type="query:RelationType">EQ</query:parameter>
+					<query:parameter xsi:type="xs:string">age</query:parameter>
+					<query:parameter xsi:type="xs:int">40</query:parameter>
+				</query:parameters>
+			</query:criteria>
+			<query:criteria>
+				<query:searchType>CONJUNCTION</query:searchType>
+				<query:criteria>
+					<query:searchType>SIMPLE</query:searchType>
+					<query:parameters>
+						<query:parameter xsi:type="query:RelationType">GT</query:parameter>
+						<query:parameter xsi:type="xs:string">age</query:parameter>
+						<query:parameter xsi:type="xs:int">50</query:parameter>
+					</query:parameters>
+				</query:criteria>
+				<query:criteria>
+					<query:searchType>SIMPLE</query:searchType>
+					<query:parameters>
+						<query:parameter xsi:type="query:RelationType">LT</query:parameter>
+						<query:parameter xsi:type="xs:string">age</query:parameter>
+						<query:parameter xsi:type="xs:int">60</query:parameter>
+					</query:parameters>
+				</query:criteria>
+				<query:criteria>
+					<query:searchType>LIKE</query:searchType>
+					<query:parameters>
+						<query:parameter xsi:type="xs:string">comment
+						</query:parameter>
+						<query:parameter xsi:type="xs:string">keyword
+						</query:parameter>
+					</query:parameters>
+					<query:options>
+						<query:matchType>CONTAINS</query:matchType>
+						<query:ignoreCase>false</query:ignoreCase>
+					</query:options>
+				</query:criteria>
+			</query:criteria>
+		</query:rootCriterion>
+		<query:sortCriteria>
+			<query:sortCriterion>
+				<query:propertyName>age</query:propertyName>
+				<query:sortType>ASCENDING</query:sortType>
+			</query:sortCriterion>
+		</query:sortCriteria>
+		<query:aliases />
+		<query:firstResult>1</query:firstResult>
+		<query:maxResults>2</query:maxResults>
+	</query:query>
+	<resultContext>
+		<numRecords>123</numRecords>
+	</resultContext>
+</queryContext>

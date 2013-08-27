@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>core</artifactId>
+		<groupId>edu.utah.further.core</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>core-xquery</artifactId>
+	<packaging>bundle</packaging>
+	<name>Core XQuery Utilities</name>
+	<description>FURTHeR Core XQuery Utilities</description>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>xml.xquery</shortName>
+		<further.osgi.export.pkg>
+			!${project.groupId}.${shortName}.internal,
+			!${project.groupId}.${shortName}.test,
+			${project.groupId}.${shortName}*,
+			'=META-INF.core.xquery'
+		</further.osgi.export.pkg>
+		<further.osgi.private.pkg>
+			${project.groupId}.${shortName}.internal,
+			${project.groupId}.${shortName}.test,
+		</further.osgi.private.pkg>
+		<further.osgi.import.pkg>
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			*
+		</further.osgi.import.pkg>
+		<further.osgi.failok>true</further.osgi.failok>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- Core API -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+		</dependency>
+
+		<!-- Core Util -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<!-- Core XML -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+		</dependency>
+
+		<!-- Contains useful annotations -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- XQuery XQJ API -->
+		<dependency>
+			<groupId>javax.xml.xquery</groupId>
+			<artifactId>xqj-api</artifactId>
+			<version>${xqj.api.version}</version>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+
+		<!-- BaseX -->
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex</artifactId>
+			<version>${basex.version}</version>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- BaseX API, includes basex-xqj dep -->
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex-api</artifactId>
+			<version>${basex.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+			</exclusions>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Spring (Application)Context Support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Run-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+		<!-- Temporary workaround so that we can run Tester classes upon bundle 
+			start-up without compilation errors on not finding JUnit classes -->
+		<dependency>
+			<!-- <groupId>org.junit</groupId> -->
+			<groupId>junit</groupId>
+			<!-- <artifactId>com.springsource.org.junit</artifactId> -->
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

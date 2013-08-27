@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information                         -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>osgi</artifactId>
+		<groupId>edu.utah.further.osgi</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>osgi-c3p0</artifactId>
+	<packaging>bundle</packaging>
+	<name>C3P0 Fragment Bundle</name>
+	<description>C3P0 Fragment Bundle</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties                     -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>c3p0</shortName>
+		<further.osgi.export.pkg />
+		<further.osgi.private.pkg />
+		<!--
+			Add all drivers that need to be used in C3P0 data sources here.
+			Otherwise, a bundle that uses such a C3p0 data source will throw a
+			ClassNotFoundException, because the driver won't be on the C3P0 bundle
+			class-path.
+		 -->
+		<further.osgi.import.pkg>
+			org.hsqldb;resolution:=optional,
+			org.hsqldb.jdbc;resolution:=optional,
+			oracle.jdbc;resolution:=optional,
+			com.mysql.jdbc;resolution:=optional
+		</further.osgi.import.pkg>
+		<further.osgi.fragment.host>
+			com.springsource.com.mchange.v2.c3p0
+		</further.osgi.fragment.host>
+		<further.osgi.failok>true</further.osgi.failok>
+	</properties>
+</project>

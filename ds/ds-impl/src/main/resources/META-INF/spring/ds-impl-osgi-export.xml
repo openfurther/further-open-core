@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/osgi-compendium
+	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+	http://www.springframework.org/schema/osgi
+    http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- definitions using elements of the osgi namespace can be included in 
+		this file. There is no requirement to keep these definitions in a separate 
+		file if you do not want to. The rationale for keeping these definitions separate 
+		is to facilitate integration testing of the bundle outside of an OSGi container -->
+
+	<!-- =========================================== -->
+	<!-- Exported OSGi services -->
+	<!-- =========================================== -->
+
+	<!-- ################################### -->
+	<!-- Reusable Services -->
+	<!-- ################################### -->
+
+	<!-- Export answerable service for use by dses -->
+	<osgi:service ref="metadataAnswerableService"
+		interface="edu.utah.further.ds.api.service.query.AnswerableService" />
+
+	<!-- ################################### -->
+	<!-- Reusable processor advisors -->
+	<!-- ################################### -->
+
+	<!-- Data Query QueryContext Monitor Advice -->
+	<osgi:service ref="qpMonitorAdvice"
+		interface="edu.utah.further.ds.api.advice.RequestProcessorAroundAdvice" />
+
+	<!-- ################################### -->
+	<!-- Reusable MOCK Data Query Processors -->
+	<!-- ################################### -->
+
+	<!-- Export the MOCK SearchQuery Initializer for data sources which are 
+		still mocked -->
+	<osgi:service id="mockInitializer"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockInitializerQp" />
+
+	<!-- Export MOCK validator query processor for data sources still mocked -->
+	<osgi:service id="mockValidator"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockValidatorQp" />
+
+	<!-- Export MOCK destination translator query processor for data sources 
+		still mocked -->
+	<osgi:service id="mockQueryTranslator"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockQueryTranslatorQp" />
+
+	<!-- Export the MOCK Result Translator Query Processor for data sources 
+		still mocked -->
+	<osgi:service id="mockResultTranslator"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockResultTranslatorQp" />
+
+	<!-- Export the MOCK Executor Query Processor for data sources still mocked -->
+	<osgi:service id="mockExecution"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockExecutionQp" />
+
+	<!-- Export the MOCK Finalizer Query Processor for data sources still mocked -->
+	<osgi:service id="mockFinalizer"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockFinalizerQp" />
+		
+	<!-- Export the Count Finalizer Query Processor for count query life cycle -->
+	<osgi:service id="countFinalizer"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="countFinalizerQp" />
+
+	<!-- ################################### -->
+	<!-- Reusable Data Query Processors -->
+	<!-- ################################### -->
+
+	<!-- Export the SearchQuery Destination Translator Query Processor for data 
+		sources implementing real processors -->
+	<osgi:service id="queryTranslator"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="queryTranslatorQp" />
+
+	<!-- Export the Result Translator Query Processor for data sources implementing 
+		real processors -->
+	<osgi:service id="resultTranslator"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="resultTranslatorQp" />
+
+	<!-- Export the Result page finalization Processor -->
+	<osgi:service id="pageFinalizerProcessor"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="pageFinalizerQp" />
+
+	<!-- Export the Stream finalization Processor -->
+	<osgi:service id="streamFinalizerProcessor"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="streamFinalizerQp" />
+
+	<!-- Export the Hibernate page finalization Processor -->
+	<osgi:service id="pageFinalizerHibernateProcessor"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="pageFinalizerHibernateQp" />
+
+	<!-- Export the SearchQuery Execution Query Processor for data sources implementing 
+		real processors -->
+	<osgi:service id="queryExecution"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="queryExecutorQp" />
+
+	<!-- Export the default Result Validator Query Processor for data sources 
+		implementing real processors. The default handles core-ws xml exceptions -->
+	<osgi:service id="resultValidator"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="resultValidatorQp" />
+
+	<!-- Export the default Associated Results Query Processor for data sources -->
+	<osgi:service id="associatedResultProcessor"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="associatedResultQp" />
+
+	<!-- ============================================= -->
+	<!-- Reusable Marshalling/Unmarshalling Processors -->
+	<!-- ============================================= -->
+
+	<osgi:service id="marshallingProcessor"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="marshallRequestProcessor" />
+
+	<osgi:service id="unmarshallingProcessor"
+		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="unmarshallRequestProcessor" />
+
+</beans>

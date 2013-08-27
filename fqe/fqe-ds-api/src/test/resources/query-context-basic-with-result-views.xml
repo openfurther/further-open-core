@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<queryContext xmlns="http://further.utah.edu/fqe"
+	xmlns:query="http://further.utah.edu/core/query" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<queryType>DATA_QUERY</queryType>
+	<state>QUEUED</state>
+	<stale_date>1969-12-31T17:00:10-07:00</stale_date>
+	<is_stale>false</is_stale>
+	<minRespondingDataSources>2</minRespondingDataSources>
+	<maxRespondingDataSources>100</maxRespondingDataSources>
+	<query:query qid="123">
+		<query:rootCriterion>
+			<query:searchType>CONJUNCTION</query:searchType>
+			<query:criteria>
+				<query:searchType>SIMPLE</query:searchType>
+				<query:parameters>
+					<query:parameter xsi:type="query:RelationType">EQ</query:parameter>
+					<query:parameter xsi:type="xs:string">age</query:parameter>
+					<query:parameter xsi:type="xs:int">30</query:parameter>
+				</query:parameters>
+			</query:criteria>
+		</query:rootCriterion>
+		<query:aliases />
+	</query:query>
+	<resultViews>
+		<entry>
+			<key type="SUM" />
+			<resultContext>
+				<numRecords>123</numRecords>
+			</resultContext>
+		</entry>
+		<entry>
+			<key intersectionIndex="1" type="INTERSECTION" />
+			<resultContext>
+				<numRecords>456</numRecords>
+			</resultContext>
+		</entry>
+	</resultViews>
+</queryContext>

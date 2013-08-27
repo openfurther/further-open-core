@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<queryContext xmlns="http://further.utah.edu/fqe"
+	xmlns:query="http://further.utah.edu/core/query" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<queryType>DATA_QUERY</queryType>
+	<state>QUEUED</state>
+	<stale_date>1969-12-31T17:00:10-07:00</stale_date>
+	<is_stale>false</is_stale>
+	<minRespondingDataSources>2</minRespondingDataSources>
+	<maxRespondingDataSources>100</maxRespondingDataSources>
+	<resultContext>
+		<numRecords>123</numRecords>
+	</resultContext>
+</queryContext>

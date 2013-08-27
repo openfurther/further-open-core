@@ -1,0 +1,174 @@
+#!/bin/bash
+
+# Copyright (C) [2013] [The FURTHeR Project]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+ 
+##############################################################################
+# Send a CLI POST to one of the FURTHeR FQE web service's query submission
+# methods.
+#
+# Author: Oren E. Livne
+# Date: 13-SEP-2009
+##############################################################################
+
+NO_ARGS=0
+E_OPTERROR=65
+
+if [ $# -eq "$NO_ARGS" ]  # Script invoked with no command-line args?
+then
+    echo "Usage: `basename $0` -c command -a arg [-h host] [-v] [command_args]"
+    echo ""
+    echo "Submits a query command to the FURTHeR federated query engine web services."
+    echo ""
+    echo -e " -c command\tFQE command:"
+    echo -e " \t\tlist\t\tList all queries. No arguments required."
+    echo -e " \t\ttrigger\t\tTrigger a logical query. Args: filename"
+    echo -e " \t\ttriggeri2b2\tTrigger an i2b2 query. Args: filename"
+    echo -e " \t\ttriggeri2b2WithId Trigger an i2b2 query with origin ID. Args: filename i2b2QueryId"
+    echo -e " \t\ttriggeri2b2Raw\tTrigger a query from raw i2b2 message. Args: filename"
+    echo -e " \t\tstop\t\tStop a query by ID. Args: queryId"
+    echo -e " \t\tdelete\t\tDelete a query by ID. Args: queryId"
+	echo -e " \t\tdeleteByUser\tDelete all queries submitted by a user. Args: userId"
+    echo -e " \t\tstatus\t\tRetrieve data sources' status and meta data."
+    echo -e " \t\t\t\tOptional Args: dataSourceId"
+    echo -e " \t\tupdatestatus\tUpdate a single data sources' status."
+    echo -e " \t\t\t\tArgs: dataSourceId, newStatus (ACTIVE|INACTIVE)"
+    echo -e ""
+    echo -e " -h host\tFQE WS host name. Default: localhost"
+    echo -e " -p port\tFQE WS port name. Default: 9000"
+    echo -e " -v\t\tPrint verbose output."
+    exit $E_OPTERROR        # Exit and explain usage if no argument(s) given.
+fi
+
+# Set default options
+host="localhost"
+port="9000"
+verbose_opts=""
+command=""
+
+# Override defaults with CLI options
+while getopts ":vc:h:p:" Option
+do
+  case $Option in
+    c)
+       command=$OPTARG
+       ;;
+    v) verbose_opts="-v" ;;
+    h) host=$OPTARG ;;
+    p) port=$OPTARG ;;
+    *)
+      echo "Unrecognized option '$Option'"
+      exit $E_OPTERROR
+    ;;
+  esac
+done
+
+#  Decrements the argument pointer so it points to next argument.
+#  $1 now references the first non option item supplied on the command-line if one exists.
+shift $(($OPTIND - 1))
+
+# Argument validation
+if [ -z "$command" ];
+then
+    echo "A command must be specified."
+    exit $E_OPTERROR
+fi
+
+# Global variables
+url_prefix="http://$host:$port/fqe/pretty/fqe"
+
+# Read command line arguments and construct WS URL
+case "$command" in
+    'list')
+       url="$url_prefix/query/list"
+       method="GET"
+       echo "Fetch query list"
+        ;;
+    'trigger')
+       post_data=$1
+       url="$url_prefix/query/trigger/logical"
+       method="POST"
+       echo "Submit logical query from file $post_data"
+        ;;
+    'triggeri2b2')
+       post_data=$1
+       url="$url_prefix/query/trigger/i2b2"
+       method="POST"
+       echo "Submit i2b2 query from file $post_data"
+        ;;
+    'triggeri2b2WithId')
+       post_data=$1
+       url="$url_prefix/query/trigger/i2b2/$2"
+       method="POST"
+       echo "Submit i2b2 query with origin ID $2 from file $post_data"
+        ;;
+    'triggeri2b2Raw')
+       post_data=$1
+       url="$url_prefix/query/trigger/i2b2/raw"
+       method="POST"
+       echo "Submit query from raw i2b2 XML of input file $post_data"
+        ;;
+    'stop')
+       id=$1
+       url="$url_prefix/query/stop/$id"
+       method="GET"
+       echo "Stop query with ID $id"
+       ;;
+    'delete')
+       id=$1
+       url="$url_prefix/query/delete/$id"
+       method="GET"
+       echo "Delete query with ID $id"
+       ;;
+	'deleteByUser')
+		userId=$1
+		url="$url_prefix/query/delete/user/$userId"
+		method="GET"
+		echo "Delete all queries submitted by user ID $userId"
+		;;
+    'status')
+       id=$1
+       url="$url_prefix/ds/status"
+	   if [[ -n $id ]]; then
+          url="$url/$id"
+	   fi
+       method="GET"
+       echo "Getting data source status"
+       ;;
+    'updatestatus')
+       id=$1
+       status=$2
+       url="$url_prefix/ds/update/$id/$status"
+       method="GET"
+       echo "Updating data source $id status to $status"
+       ;;
+    *)
+       echo "Unsupported command '$command'. Recognized commands are list|trigger|triggeri2b2|triggeri2b2WithId|triggeri2b2Raw|stop|delete|deleteByUser|status|updatestatus"
+       ;;
+esac
+
+# Call the appropriate FQE web service
+case "$method" in
+    'GET')
+       echo "Using GET with $url"
+       curl $verbose_opts $url
+    ;;
+    'POST')
+       echo "Using POST with $url"
+       curl $verbose_opts -X $method -H"Content-Type: application/xml" -H"Accept: application/xml" -d "@$post_data" $url
+    ;;
+    *)
+       echo "Unsupported HTTP method: $method"
+       ;;
+esac

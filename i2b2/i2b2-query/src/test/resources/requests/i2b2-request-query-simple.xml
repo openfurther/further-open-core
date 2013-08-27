@@ -1,0 +1,99 @@
+<ns1:query_definition xmlns:ns1="http://www.i2b2.org/xsd/cell/crc/psm/1.1/">
+	<user group="FURTHeR" login="oren">oren</user>
+	<query_name>18-34-45-54-Percu@21:48:39</query_name>
+	<specificity_scale>0</specificity_scale>
+	<panel>
+		<panel_number>1</panel_number>
+		<invert>0</invert>
+		<total_item_occurrences>1</total_item_occurrences>
+		<item>
+			<hlevel>3</hlevel>
+			<item_name>18-34 years old</item_name>
+			<item_key>\\FURTHER\FURTHER\Demographics\Age\18-34 years old\
+			</item_key>
+			<tooltip>Demographic \ Age \ 18-34 years old</tooltip>
+			<class>ENC</class>
+			<constrain_by_date></constrain_by_date>
+			<item_icon>FA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>2</hlevel>
+			<item_name>Diseases and injuries [001-999.99]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\
+			</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date></constrain_by_date>
+			<item_icon>FA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>6</hlevel>
+			<item_name>Intraoperative cholangiogram [87.53]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Procedures (00-99.99)\Miscellaneous
+				diagnostic and therapeutic procedures (87-99.99)\Diagnostic
+				radiology (87)\Biliary tract x-ray (87.5)\Intraoperative
+				cholangiogram (87.53)\</item_key>
+			<tooltip>ICD-9 \ Procedures (00-99.99) \ Miscellaneous diagnostic and
+				therapeutic procedures (87-99.99) \ Diagnostic radiology (87) \
+				Biliary tract x-ray (87.5) \ Intraoperative cholangiogram (87.53)
+			</tooltip>
+			<class>ENC</class>
+			<constrain_by_date></constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+	</panel>
+	<panel>
+		<panel_number>2</panel_number>
+		<invert>0</invert>
+		<total_item_occurrences>1</total_item_occurrences>
+		<item>
+			<hlevel>3</hlevel>
+			<item_name>45-54 years old</item_name>
+			<item_key>\\FURTHER\FURTHER\Demographics\Age\45-54 years old\
+			</item_key>
+			<tooltip>Demographic \ Age \ 45-54 years old</tooltip>
+			<class>ENC</class>
+			<constrain_by_date></constrain_by_date>
+			<item_icon>FA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>5</hlevel>
+			<item_name>Other x-ray of digestive system [87.6]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Procedures (00-99.99)\Miscellaneous
+				diagnostic and therapeutic procedures (87-99.99)\Diagnostic
+				radiology (87)\Other x-ray of digestive system (87.6)\</item_key>
+			<tooltip>ICD-9 \ Procedures (00-99.99) \ Miscellaneous diagnostic and
+				therapeutic procedures (87-99.99) \ Diagnostic radiology (87) \
+				Other x-ray of digestive system (87.6)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date></constrain_by_date>
+			<item_icon>FA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+	</panel>
+	<panel>
+		<panel_number>3</panel_number>
+		<invert>0</invert>
+		<total_item_occurrences>1</total_item_occurrences>
+		<item>
+			<hlevel>6</hlevel>
+			<item_name>Percutaneous hepatic cholangiogram [87.51]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Procedures (00-99.99)\Miscellaneous
+				diagnostic and therapeutic procedures (87-99.99)\Diagnostic
+				radiology (87)\Biliary tract x-ray (87.5)\Percutaneous hepatic
+				cholangiogram (87.51)\</item_key>
+			<tooltip>ICD-9 \ Procedures (00-99.99) \ Miscellaneous diagnostic and
+				therapeutic procedures (87-99.99) \ Diagnostic radiology (87) \
+				Biliary tract x-ray (87.5) \ Percutaneous hepatic cholangiogram
+				(87.51)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date></constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+	</panel>
+</ns1:query_definition>

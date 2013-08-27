@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>mdr</artifactId>
+		<groupId>edu.utah.further.mdr</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>mdr-impl</artifactId>
+	<packaging>bundle</packaging>
+	<name>MDR Service Impl</name>
+	<description>Metadata repository service implementation</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>impl</shortName>
+		<further.osgi.import.pkg>
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			org.hibernate.hql.ast,
+			edu.utah.further.core.util.io,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			'=META-INF.core.util',
+			'=META-INF.core.xquery',
+			edu.utah.further.mdr.api.util,
+			edu.utah.further.core.util.text,
+			edu.utah.further.core.query.domain,
+			edu.utah.further.mdr.api.dao,
+			edu.utah.further.mdr.data.common.domain.asset,
+			edu.utah.further.mdr.data.impl.domain.asset,
+			edu.utah.further.mdr.common.advice,
+			javax.xml.stream,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.aop.aspectj.autoproxy,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<!-- MDR business API -->
+		<dependency>
+			<groupId>edu.utah.further.mdr</groupId>
+			<artifactId>mdr-common</artifactId>
+		</dependency>
+
+		<!-- Math utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-math</artifactId>
+		</dependency>
+
+		<!-- XML utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+		</dependency>
+
+		<!-- XMI parsers -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xquery</artifactId>
+		</dependency>
+
+		<!-- Search query API -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<!-- For Spring dynamic proxies. See http://opensource.atlassian.com/projects/hibernate/browse/HHH-3826 -->
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javaassist.version}</version>
+		</dependency>
+
+		<!-- Transactions -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.staxmate</groupId>
+			<artifactId>staxmate</artifactId>
+			<version>${staxmate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- Simplified Encryption library -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>${aop.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

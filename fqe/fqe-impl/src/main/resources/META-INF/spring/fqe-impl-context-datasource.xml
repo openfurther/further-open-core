@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	">
+
+	<!-- =========================================== -->
+	<!-- Properties files -->
+	<!-- =========================================== -->
+
+	<!-- Property file locations: suppressed here because it might override 
+		the main context file's resources. The main context is responsible for defining 
+		them. -->
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+
+	<!-- =========================================== -->
+	<!-- Data Layer -->
+	<!-- =========================================== -->
+
+	<!-- Data source virtual repository connection pool -->
+	<bean id="virtualRepositoryDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="dataSourceName" value="${datasource.name}" />
+		<property name="driverClass" value="${datasource.driver}" />
+		<property name="jdbcUrl" value="${datasource.url}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<property name="maxStatements" value="${c3p0.maxStatements}" />
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+		<property name="testConnectionOnCheckin" value="${c3p0.testConnectionOnCheckin}" />
+		<!-- Although this is expensive, it's absolutely necessary that a connection 
+			not be stale as it will cause an otherwise successful query to completely 
+			fail. -->
+		<property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}" />
+		<property name="preferredTestQuery" value="${c3p0.preferredTestQuery}" />
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+		<property name="properties">
+			<props>
+				<prop key="user">${datasource.user}</prop>
+				<prop key="password">${datasource.password}</prop>
+
+				<!-- ################################## -->
+				<!-- Oracle configuration -->
+				<!-- ################################## -->
+				<prop key="oracle.net.READ_TIMEOUT">${oracle.net.readTimeout}</prop>
+				<prop key="oracle.net.CONNECT_TIMEOUT">${oracle.net.connectTimeout}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- IMPORTANT: SessionFactory depends on the resource locator being created 
+		before it can be created in order to properly configure stale date times. -->
+
+	<!-- Session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+		depends-on="fqeDsApiResourceLocator">
+		<property name="dataSource" ref="virtualRepositoryDataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<!-- ################################## -->
+				<!-- Hibernate configuration -->
+				<!-- ################################## -->
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+			</props>
+		</property>
+
+		<!-- Using improved naming strategy -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.DefaultNamingStrategy" />
+		</property>
+
+		<!-- Reads package-level Hibernate annotations. Unfortunately, this has 
+			to be manually maintained for all model packages -->
+		<property name="annotatedPackages">
+			<list>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain]]></value>
+				<value><![CDATA[edu.utah.further.core.data.oracle.type]]></value>
+			</list>
+		</property>
+
+		<!-- Mapping annotated classes using search patterns -->
+		<property name="annotatedClasses">
+			<!-- May need to be replaced by a edu.utah.further.core.util.io.ResourceMatchingFactoryBean 
+				factory bean if this list gets too large. -->
+			<list>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain.QueryContextEntity]]></value>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain.SearchQueryEntity]]></value>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain.ResultContextEntity]]></value>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain.ResultContextKeyEntity]]></value>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain.StatusMetaDataEntity]]></value>
+				<value><![CDATA[edu.utah.further.fqe.impl.domain.TimeIntervalEntity]]></value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Hibernate data access template -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Transaction management -->
+	<!-- =========================================== -->
+
+	<!-- Enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven />
+
+	<!-- a PlatformTransactionManager is still required -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- FURTHeR data layer -->
+	<!-- =========================================== -->
+
+	<!-- Component auto-detection configuration in the data layer package. Must 
+		come AFTER sessionFactory is declared for some strange reason when deployed 
+		to the ESB. -->
+	<context:component-scan base-package="edu.utah.further.core.data" />
+</beans>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/osgi-compendium
+	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+	http://www.springframework.org/schema/osgi
+    http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!--
+		definitions using elements of the osgi namespace can be included in
+		this file. There is no requirement to keep these definitions in a
+		separate file if you do not want to. The rationale for keeping these
+		definitions separate is to facilitate integration testing of the
+		bundle outside of an OSGi container
+	-->
+
+	<!-- =========================================== -->
+	<!-- Property encryption                         -->
+	<!-- =========================================== -->
+
+	<!-- Turn on properties encryption for all properties files -->
+	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
+	<bean parent="propertiesEncryptor">
+		<property name="properties" ref="i2b2QueryProps" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Managed properties                          -->
+	<!-- =========================================== -->
+
+	<!-- Configuration Admin entry -->
+	<osgix:cm-properties id="i2b2QueryProps"
+		persistent-id="further.i2b2.query">
+
+		<!-- ################################## -->
+		<!-- i2b2 Ontology database config      -->
+		<!-- ################################## -->
+		<!-- Oracle dev database on further-repo  -->
+		<!--
+			Do not delete this comment or maven properties will not be replaced.
+			Seems to be a maven bug when an at-sign immediately precedes a
+			property placeholder. datasource.host=@${db.host}
+		-->
+		<prop key="datasource.name">i2b2-query</prop>
+		<prop key="datasource.url"></prop>
+		<prop key="datasource.driver"></prop>
+		<prop key="datasource.user"></prop>
+		<prop key="datasource.password"></prop>
+		
+		<!-- ============================ -->
+		<!--C3P0 connection pool config -->
+		<!-- ============================ -->
+
+		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
+		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
+		<!-- Times are in seconds. -->
+		<prop key="c3p0.initialPoolSize">5</prop>
+		<prop key="c3p0.minPoolSize">5</prop>
+		<prop key="c3p0.maxPoolSize">15</prop>
+		<prop key="c3p0.maxStatements">50</prop>
+		<prop key="c3p0.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.acquireIncrement">5</prop>
+		<prop key="c3p0.testConnectionOnCheckin">true</prop>
+		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
+		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.maxIdleTime">1800</prop>
+		<prop key="c3p0.preferredTestQuery"></prop>
+
+		<!-- ============================ -->
+		<!-- Oracle config -->
+		<!-- ============================ -->
+
+		<prop key="oracle.net.readTimeout">2000</prop>
+		<prop key="oracle.net.connectTimeout">2000</prop>
+		
+		
+		<!-- SQL implementation Hibernate dialect -->
+		<prop key="hibernate.dialect"></prop>
+	</osgix:cm-properties>
+
+	<!-- =========================================== -->
+	<!-- Imported OSGi services                      -->
+	<!-- =========================================== -->
+
+	<osgi:reference id="namespaceService"
+		interface="edu.utah.further.core.api.scope.NamespaceService" />
+		
+</beans>

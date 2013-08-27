@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd">
+
+	<!-- =========================================== -->
+	<!-- Library imports -->
+	<!-- =========================================== -->
+	<import
+		resource="classpath:META-INF/core/util/core-util-property-editors-context.xml" />
+
+	<!-- =========================================== -->
+	<!-- Reusable MOCK Data Query Services -->
+	<!-- =========================================== -->
+
+	<bean id="mockInitializerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.InitializerQp"
+		scope="prototype" p:delegate-ref="initializerMock" />
+
+	<bean id="mockValidatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ValidatorQp"
+		scope="prototype" p:delegate-ref="validatorMock" />
+
+	<bean id="mockQueryTranslatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp"
+		scope="prototype" p:delegate-ref="queryTranslatorMock" />
+
+	<bean id="mockExecutionQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ExecutorQp"
+		scope="prototype" p:delegate-ref="executionMock" />
+
+	<bean id="mockResultTranslatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp"
+		scope="prototype" p:delegate-ref="resultTranslatorMock"
+		p:resultAttr-ref="unmarshallResultAttr" />
+
+	<bean id="mockFinalizerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.FinalizerQp"
+		scope="prototype" p:delegate-ref="finalizerMock" />
+		
+	<bean id="countFinalizerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.FinalizerQp"
+		scope="prototype" p:delegate-ref="finalizerCount" />
+		
+	<!-- =========================================== -->
+	<!-- Reusable Data Query Services -->
+	<!-- =========================================== -->
+
+	<!-- Query Translator Query Processor: Stored Procedure Impl -->
+	<bean id="queryTranslatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp"
+		scope="prototype" p:delegate-ref="queryTranslatorSp" />
+
+	<!-- Query Result Translator Query Processor: XQuery Impl -->
+	<bean id="resultTranslatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp"
+		scope="prototype" p:delegate-ref="resultTranslatorXQuery"
+		p:resultAttr-ref="unmarshallResultAttr" />
+
+	<!-- Result set page finalization Query Processor -->
+	<bean id="pageFinalizerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.PageFinalizerQp"
+		scope="prototype" p:delegate-ref="pageFinalizer" />
+
+	<!-- InputStream finalizer for executions that use InputStreams and don't 
+		autoclose their streams -->
+	<bean id="streamFinalizerQp"
+		class="edu.utah.further.ds.impl.service.query.processor.StreamFinalizerQp"
+		scope="prototype" />
+
+	<!-- Result set page finalization Query Processor for Hibernate-based data 
+		sources -->
+	<bean id="pageFinalizerHibernateQp"
+		class="edu.utah.further.ds.impl.service.query.processor.PageFinalizerHibernateQp"
+		scope="prototype" p:delegate-ref="pageFinalizer" />
+
+	<!-- Query Executor Query Processor: QUEST Impl -->
+	<bean id="queryExecutorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ExecutorQp"
+		scope="prototype" p:delegate-ref="questExecution" />
+
+	<!-- Request processor to join asynchronous futures -->
+	<bean id="joinRp" class="edu.utah.further.ds.impl.service.query.processor.JoinRp" />
+
+	<!-- Associated Results Attacher Processor -->
+	<bean id="associatedResultQp"
+		class="edu.utah.further.ds.impl.service.query.processor.AssociatedResultQp"
+		scope="prototype" p:delegate-ref="associatedResultsAttacher"
+		p:assetService-ref="mdrAssetServiceRestClient" />
+
+	<!-- Core WS Namespace -->
+	<bean id="coreWsNsContext" class="edu.utah.further.core.xml.xpath.XPathNamespaceContext">
+		<property name="defaultNamespace" value="http://further.utah.edu/core/ws" />
+	</bean>
+
+	<!-- Default XML result message validator with support for Core Ws Errors -->
+	<bean id="resultValidatorQp"
+		class="edu.utah.further.ds.impl.service.query.processor.ResultValidatorQp"
+		scope="prototype">
+
+		<!-- Validates the XML -->
+		<property name="delegate">
+			<bean
+				class="edu.utah.further.ds.impl.service.query.logic.ValidatorXpathImpl"
+				p:nsContext-ref="coreWsNsContext" p:expression="//pre:error">
+			</bean>
+		</property>
+
+		<!-- Propagates the error message, if an invalid XML is encountered by 
+			the delegate bean -->
+		<property name="errorHandler">
+			<bean
+				class="edu.utah.further.ds.impl.service.query.logic.ErrorHandlerXpathImpl"
+				p:nsContext-ref="coreWsNsContext" p:expression="//pre:error/message/text()">
+			</bean>
+		</property>
+	</bean>
+
+	<!-- ============================================ -->
+	<!-- Marshalling/Unmarshalling Request Processors -->
+	<!-- ============================================ -->
+
+	<!-- Wired by default with AttributeName enums -->
+	<bean id="marshallRequestProcessor"
+		class="edu.utah.further.core.xml.chain.MarshallRequestProcessorImpl"
+		scope="prototype" p:sourceAttr-ref="marshallSourceAttr"
+		p:resultAttr-ref="marshallResultAttr" p:schemaAttr-ref="marshalSchemaAttr" />
+
+	<!-- Wired by default with AttributeName enums -->
+	<bean id="unmarshallRequestProcessor"
+		class="edu.utah.further.core.xml.chain.UnmarshallRequestProcessorImpl"
+		scope="prototype" p:sourceAttr-ref="unmarshallSourceAttr"
+		p:resultAttr-ref="unmarshallResultAttr" p:jaxbPackageAttr-ref="unmarshallPkgAttr" />
+
+	<!-- =========================================== -->
+	<!-- Query Execution Strategies -->
+	<!-- =========================================== -->
+
+	<!-- Core XML -->
+	<context:component-scan base-package="edu.utah.further.core.xml.jaxb" />
+
+	<!-- Core WS Client -->
+	<!-- <context:component-scan base-package="edu.utah.further.core.ws" /> -->
+	<!-- HTTP service with default timeouts -->
+	<bean id="httpClientTemplate" class="edu.utah.further.core.ws.HttpClientTemplate" />
+
+	<!-- QUEST -->
+	<context:component-scan base-package="edu.utah.further.ds.impl.advice" />
+	<context:component-scan base-package="edu.utah.further.ds.impl.plan" />
+	<context:component-scan base-package="edu.utah.further.ds.impl.request" />
+	<context:component-scan base-package="edu.utah.further.ds.impl.executor" />
+
+	<!-- Right now the executor plan is static but in the future it will likely 
+		need to be dynamic. Need to figure out how to have a dynamic list while still 
+		defining the Query Executors in Spring so they are advisable. Perhaps a list 
+		of Query Executors will be available to the execution but it can make decisions 
+		based on metadata as whether or not to add them to the plan. -->
+
+	<bean id="databaseQueryExecutionHibernate" class="edu.utah.further.ds.impl.executor.StaticQueryExecution">
+		<property name="executors">
+			<map>
+				<entry key="DATA_QUERY">
+					<list>
+						<ref bean="hibernateSearchQueryExecutor" />
+						<ref bean="hibernateDistinctEntityExecutor" />
+						<ref bean="hibernateCriteriaScrollableResultsExecutor" />
+					</list>
+				</entry>
+				<entry key="COUNT_QUERY">
+					<list>
+						<ref bean="hibernateSearchQueryExecutor" />
+						<ref bean="hibernateCountQueryExecutor" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="webserviceQueryExecution" class="edu.utah.further.ds.impl.executor.StaticQueryExecution">
+		<property name="executors">
+			<map>
+				<entry key="DATA_QUERY">
+					<list>
+						<ref bean="webserviceExecutor" />
+					</list>
+				</entry>
+				<entry key="COUNT_QUERY">
+					<list>
+						<ref bean="webserviceExecutor" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Execution factory which returns an execution based on a data source 
+		type. This will also likely need to be refactor when we work more on the 
+		MDR since the MDR can hold the information necessary in order to determine 
+		the execution type -->
+	<bean id="queryExecutionFactory" class="edu.utah.further.ds.impl.executor.QueryExecutionFactory"
+		p:databaseQueryExecution-ref="databaseQueryExecutionHibernate"
+		p:webserviceQueryExecution-ref="webserviceQueryExecution" />
+
+</beans>

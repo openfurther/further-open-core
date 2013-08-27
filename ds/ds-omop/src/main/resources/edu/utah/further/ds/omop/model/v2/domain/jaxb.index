@@ -1,0 +1,13 @@
+ConditionEra
+ConditionOccurrence
+ConditionOccurrenceRef
+DrugEra
+DrugExposure
+DrugExposureRef
+Observation
+ObservationPeriod
+ObservationTypeRef
+Person
+ProcedureOccurrence
+ProcedureOccurrenceRef
+VisitOccurrence

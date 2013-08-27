@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p=" http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:core="http://further.utah.edu/schema/core"
+	xmlns:dts="http://further.utah.edu/schema/dts"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd
+    http://cxf.apache.org/jaxrs
+	http://cxf.apache.org/schemas/jaxrs.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd
+	http://further.utah.edu/schema/dts
+	http://further.utah.edu/schema/dts/dts.xsd
+	"
+	default-autowire="byName">
+
+	<!-- #####################################################################
+		Common spring includes of any web server to be started and stopped by integration tests.
+		##################################################################### -->
+
+	<!-- =========================================== -->
+	<!-- Property editors                            -->
+	<!-- =========================================== -->
+
+	<import resource="classpath:META-INF/ds/test/ds-test-properties-ws-context.xml" />
+
+	<!-- =========================================== -->
+	<!-- Libraries                                   -->
+	<!-- =========================================== -->
+
+	<!-- Load CXF modules from cxf.jar -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration                    -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+	<!-- <context:spring-configured /> -->
+	<!-- <context:load-time-weaver /> -->
+
+	<!-- Component auto-detection configuration -->
+
+	<context:component-scan base-package="edu.utah.further.core.api" />
+	<context:component-scan base-package="edu.utah.further.core.util" />
+	<context:component-scan base-package="edu.utah.further.core.xml">
+		<context:exclude-filter type="regex"
+			expression=".*\.XQuery.*" />
+	</context:component-scan>
+	<context:component-scan base-package="edu.utah.further.core.cxf" />
+
+	<!-- =========================================== -->
+	<!-- Aspect & proxies                            -->
+	<!-- =========================================== -->
+
+	<aop:aspectj-autoproxy />
+	<aop:config />
+
+	<!-- Redirect standard output/error messages from CXF to log4j -->
+	<bean class="edu.utah.further.core.util.io.RedirectSystemStreamService" />
+
+	<!-- Translate web service exceptions -->
+	<dts:aspect class="edu.utah.further.core.cxf.WsExceptionTranslationAspect" />
+
+	<!-- =========================================== -->
+	<!-- CXF Resources                               -->
+	<!-- =========================================== -->
+
+	<!-- Custom JAXB context that can marshal exception classes -->
+	<bean id="jaxbConfiguration"
+		class="edu.utah.further.core.xml.jaxb.JaxbConfigurationFactoryBean" />
+
+	<bean id="jaxbContext" class="org.apache.cxf.jaxb.JAXBDataBinding"
+		scope="prototype">
+		<property name="contextProperties" ref="jaxbConfiguration" />
+	</bean>
+
+	<!-- Include ALL (DTS, MDR, ...) web server packages here -->
+	<bean id="jaxbProvider" class="edu.utah.further.core.cxf.JaxbElementProvider">
+		<property name="contextProperties" ref="jaxbConfiguration" />
+		<property name="jaxbPackages">
+			<set>
+				<value><![CDATA[edu.utah.further.core.metadata.to]]></value>
+				<value><![CDATA[edu.utah.further.core.api.exception]]></value>
+				<value><![CDATA[edu.utah.further.dts.api.to]]></value>
+				<value><![CDATA[edu.utah.further.dts.ws.api.domain]]></value>
+				<value><![CDATA[edu.utah.further.mdr.ws.api.to]]></value>
+				<value><![CDATA[edu.utah.further.fqe.ds.api.domain]]></value>
+				<value><![CDATA[edu.utah.further.fqe.ds.api.to]]></value>
+				<value><![CDATA[edu.utah.further.i2b2.query.model]]></value>
+				<value><![CDATA[edu.utah.further.fqe.api.ws.to]]></value>
+			</set>
+		</property>
+	</bean>
+
+</beans>

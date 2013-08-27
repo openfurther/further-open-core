@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<parent>
+		<artifactId>dts</artifactId>
+		<groupId>edu.utah.further.dts</groupId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>dts-ws</artifactId>
+	<packaging>bundle</packaging>
+	<name>DTS Web Services</name>
+	<description>DTS Web Services</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>ws.impl</shortName>
+		<further.osgi.import.pkg>
+			META-INF.cxf,
+			META-INF.cxf.osgi,
+			org.apache.cxf.bus,
+			org.apache.cxf.bus.spring,
+			org.apache.cxf.bus.resource,
+			org.apache.cxf.resource,
+			org.apache.cxf.configuration.spring,
+			org.apache.cxf.binding,
+			org.apache.camel.converter*,
+			javax.wsdl,
+			javax.ws.rs,
+			javax.jws,
+			javax.jws.soap,
+			org.apache.cxf.jaxb,
+			org.apache.cxf.jaxrs.utils,
+			org.apache.cxf.transport.http,
+			org.springframework.beans.factory.config,
+			org.springframework.stereotype,
+			edu.utah.further.core.api.context,
+			edu.utah.further.core.api.exception,
+			edu.utah.further.core.util.io,
+			edu.utah.further.core.xml.jaxb,
+			edu.utah.further.core.cxf,
+			edu.utah.further.core.ws,
+			*
+		</further.osgi.import.pkg>
+		<further.osgi.require.bundle>
+			org.apache.cxf.bundle
+		</further.osgi.require.bundle>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Dependencies -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.dts</groupId>
+			<artifactId>dts-ws-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-cxf</artifactId>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.geronimo.specs</groupId>
+					<artifactId>geronimo-activation_1.1_spec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Terminology services implementation -->
+		<dependency>
+			<groupId>edu.utah.further.dts</groupId>
+			<artifactId>dts-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- We run the util web service -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-metadata</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>${jasypt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<!-- XML utilities, for JAXB marshalling and unmarshalling -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- ########################## -->
+		<!-- Container-provided -->
+		<!-- ########################## -->
+
+	</dependencies>
+</project>

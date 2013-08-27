@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/osgi-compendium
+	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+	http://www.springframework.org/schema/osgi
+    http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- definitions using elements of the osgi namespace can be included in 
+		this file. There is no requirement to keep these definitions in a separate 
+		file if you do not want to. The rationale for keeping these definitions separate 
+		is to facilitate integration testing of the bundle outside of an OSGi container. -->
+
+	<!-- =========================================== -->
+	<!-- Managed properties -->
+	<!-- =========================================== -->
+
+	<!-- Encryptable property placeholder configurer -->
+	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
+	<bean parent="propertiesEncryptor">
+		<property name="properties" ref="fqeImplProps" />
+	</bean>
+
+	<!-- placeholder configurer -->
+	<ctx:property-placeholder properties-ref="fqeImplProps" />
+
+	<!-- Configuration Admin entry -->
+	<osgix:cm-properties id="fqeImplProps"
+		persistent-id="further.fqe.impl">
+		<!-- Add default property values here -->
+		
+		<!-- ################################## -->
+		<!-- Database configuration -->
+		<!-- ################################## -->
+		<!-- Oracle dev database on further-repo -->
+		<!-- Do not delete this comment or maven properties will not be replaced. 
+			Seems to be a maven bug when an at-sign immediately precedes a property placeholder. 
+			datasource.host=@${db.host} -->
+		<prop key="datasource.name">fqe-impl-datasource</prop>
+		<prop key="datasource.url"></prop>
+		<prop key="datasource.driver"></prop>
+		<prop key="datasource.user"></prop>
+		<prop key="datasource.password"></prop>
+		<prop key="hibernate.dialect"></prop>
+
+		<!-- ################################## -->
+		<!-- Hibernate configuration -->
+		<!-- ################################## -->
+
+		<!-- ============================ -->
+		<!-- Hibernate options -->
+		<!-- ============================ -->
+
+		<!-- Turn on for SQL debugging -->
+		<prop key="hibernate.show_sql">false</prop>
+
+		<!-- Changed to validate for the production environment so that the query 
+			context information can be retained for auditing purpose -->
+		<prop key="hibernate.hbm2ddl.auto">validate</prop>
+
+		<!-- ============================ -->
+		<!--C3P0 connection pool config -->
+		<!-- ============================ -->
+
+		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
+		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
+		<!-- Times are in seconds. -->
+		<prop key="c3p0.initialPoolSize">5</prop>
+		<prop key="c3p0.minPoolSize">5</prop>
+		<prop key="c3p0.maxPoolSize">25</prop>
+		<prop key="c3p0.maxStatements">50</prop>
+		<prop key="c3p0.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.acquireIncrement">5</prop>
+		<prop key="c3p0.testConnectionOnCheckin">true</prop>
+		<prop key="c3p0.testConnectionOnCheckout">true</prop>
+		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
+		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.maxIdleTime">1800</prop>
+		<prop key="c3p0.preferredTestQuery"></prop>
+
+		<!-- ============================ -->
+		<!-- Oracle config -->
+		<!-- ============================ -->
+
+		<prop key="oracle.net.readTimeout">2000</prop>
+		<prop key="oracle.net.connectTimeout">2000</prop>
+
+		<!-- ============================ -->
+		<!-- Stale query sealer config -->
+		<!-- ============================ -->
+
+		<prop key="sealer.frequency.ms">5000</prop> <!-- Job frequency in milliseconds -->
+
+		<!-- ============================ -->
+		<!-- Temporary Mock -->
+		<!-- ============================ -->
+
+		<prop key="ds.numResults.dependentQuery">10</prop>
+		<prop key="result.mask.boundary">5</prop> <!-- Threshold for scrubbing small counts -->
+		<prop key="result.mask.other">Other</prop> <!-- Title of lumped category of all small counts (FUR-1745) -->
+	</osgix:cm-properties>
+
+	<!-- =========================================== -->
+	<!-- Imported OSGi services -->
+	<!-- =========================================== -->
+
+	<!-- Pooled connection factory configured and started by ActiveMq. See activemq-broker.xml -->
+	<osgi:reference id="pooledConnectionFactory" interface="javax.jms.ConnectionFactory" />
+
+	<osgi:reference id="defaultStaleDateTimeFactory"
+		interface="edu.utah.further.fqe.ds.api.factory.StaleDateTimeFactory" />
+
+	<!-- Result Service for generating result views -->
+	<osgi:reference id="resultService" bean-name="resultService"
+		interface="edu.utah.further.fqe.ds.api.results.ResultService" />
+
+	<osgi:reference id="xmlService"
+		interface="edu.utah.further.core.api.xml.XmlService" />
+
+	<osgi:reference id="authenticationProvider"
+		interface="edu.utah.further.security.api.authentication.PreAuthenticatedFederatedAuthenticationProvider" />
+
+	<!-- Security Service -->
+	<osgi:reference id="securityService"
+		interface="edu.utah.further.security.api.services.SecurityService" />
+
+	<osgi:reference id="auditService"
+		interface="edu.utah.further.security.api.services.AuditService" />
+
+	<!-- A CSV Data Exporter -->
+	<osgi:reference id="csvExporter"
+		interface="edu.utah.further.fqe.ds.api.domain.Exporter" />
+
+</beans>

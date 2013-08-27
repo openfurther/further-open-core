@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+	<!-- Example of a raw i2b2 request intercepted by the FURTHeR hook -->
+<ns6:request xmlns:ns4="http://www.i2b2.org/xsd/cell/crc/psm/1.1/"
+	xmlns:ns7="http://www.i2b2.org/xsd/cell/ont/1.1/" xmlns:ns3="http://www.i2b2.org/xsd/cell/crc/pdo/1.1/"
+	xmlns:ns5="http://www.i2b2.org/xsd/hive/plugin/" xmlns:ns2="http://www.i2b2.org/xsd/hive/pdo/1.1/"
+	xmlns:ns6="http://www.i2b2.org/xsd/hive/msg/1.1/" xmlns:ns8="http://www.i2b2.org/xsd/cell/crc/psm/1.1/">
+	<message_header>
+		<sending_application>
+			<application_name>i2b2_QueryTool</application_name>
+			<application_version>0.2</application_version>
+		</sending_application>
+		<sending_facility>
+			<facility_name>PHS</facility_name>
+		</sending_facility>
+		<receiving_application>
+			<application_name>i2b2_DataRepositoryCell</application_name>
+			<application_version>0.2</application_version>
+		</receiving_application>
+		<receiving_facility>
+			<facility_name>PHS</facility_name>
+		</receiving_facility>
+		<security>
+			<domain>FURTHeR</domain>
+			<username>oren</username>
+			<password>en00vil</password>
+		</security>
+		<message_type>
+			<message_code>Q04</message_code>
+			<event_type>EQQ</event_type>
+		</message_type>
+		<message_control_id>
+			<message_num>0Qj54dS30sU28gpDv4o67</message_num>
+			<instance_num>0</instance_num>
+		</message_control_id>
+		<processing_id>
+			<processing_id>P</processing_id>
+			<processing_mode>I</processing_mode>
+		</processing_id>
+		<accept_acknowledgement_type>messageId</accept_acknowledgement_type>
+		<project_id>FURTHeR</project_id>
+	</message_header>
+	<request_header>
+		<result_waittime_ms>180000</result_waittime_ms>
+	</request_header>
+	<message_body>
+		<ns4:psmheader>
+			<user group="FURTHeR" login="oren">oren</user>
+			<patient_set_limit>0</patient_set_limit>
+			<estimated_time>0</estimated_time>
+			<request_type>CRC_QRY_runQueryInstance_fromQueryDefinition
+			</request_type>
+		</ns4:psmheader>
+		<ns4:request xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="ns4:query_definition_requestType">
+			<query_definition>
+				<query_name>18-34-45-54-Percu@21:48:39</query_name>
+				<specificity_scale>0</specificity_scale>
+				<panel>
+					<panel_number>1</panel_number>
+					<invert>0</invert>
+					<total_item_occurrences>1</total_item_occurrences>
+					<item>
+						<hlevel>3</hlevel>
+						<item_name>18-34 years old</item_name>
+						<item_key>\\FURTHER\FURTHER\Demographics\Age\18-34 years old\
+						</item_key>
+						<tooltip>Demographic \ Age \ 18-34 years old</tooltip>
+						<class>ENC</class>
+						<constrain_by_date>
+						</constrain_by_date>
+						<item_icon>FA</item_icon>
+						<item_is_synonym>false</item_is_synonym>
+					</item>
+					<item>
+						<hlevel>2</hlevel>
+						<item_name>Diseases and injuries [001-999.99]</item_name>
+						<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries
+							(001-999.99)\</item_key>
+						<tooltip>ICD-9 \ Diseases and injuries (001-999.99)</tooltip>
+						<class>ENC</class>
+						<constrain_by_date>
+						</constrain_by_date>
+						<item_icon>FA</item_icon>
+						<item_is_synonym>false</item_is_synonym>
+					</item>
+					<item>
+						<hlevel>6</hlevel>
+						<item_name>Intraoperative cholangiogram [87.53]</item_name>
+						<item_key>\\FURTHER\FURTHER\ICD-9\Procedures
+							(00-99.99)\Miscellaneous diagnostic and therapeutic procedures
+							(87-99.99)\Diagnostic radiology (87)\Biliary tract x-ray
+							(87.5)\Intraoperative cholangiogram (87.53)\</item_key>
+						<tooltip>ICD-9 \ Procedures (00-99.99) \ Miscellaneous diagnostic
+							and therapeutic procedures (87-99.99) \ Diagnostic radiology (87)
+							\ Biliary tract x-ray (87.5) \ Intraoperative cholangiogram
+							(87.53)</tooltip>
+						<class>ENC</class>
+						<constrain_by_date>
+						</constrain_by_date>
+						<item_icon>LA</item_icon>
+						<item_is_synonym>false</item_is_synonym>
+					</item>
+				</panel>
+				<panel>
+					<panel_number>2</panel_number>
+					<invert>0</invert>
+					<total_item_occurrences>1</total_item_occurrences>
+					<item>
+						<hlevel>3</hlevel>
+						<item_name>45-54 years old</item_name>
+						<item_key>\\FURTHER\FURTHER\Demographics\Age\45-54 years old\
+						</item_key>
+						<tooltip>Demographic \ Age \ 45-54 years old</tooltip>
+						<class>ENC</class>
+						<constrain_by_date>
+						</constrain_by_date>
+						<item_icon>FA</item_icon>
+						<item_is_synonym>false</item_is_synonym>
+					</item>
+					<item>
+						<hlevel>5</hlevel>
+						<item_name>Other x-ray of digestive system [87.6]</item_name>
+						<item_key>\\FURTHER\FURTHER\ICD-9\Procedures
+							(00-99.99)\Miscellaneous diagnostic and therapeutic procedures
+							(87-99.99)\Diagnostic radiology (87)\Other x-ray of digestive
+							system (87.6)\</item_key>
+						<tooltip>ICD-9 \ Procedures (00-99.99) \ Miscellaneous diagnostic
+							and therapeutic procedures (87-99.99) \ Diagnostic radiology (87)
+							\ Other x-ray of digestive system (87.6)</tooltip>
+						<class>ENC</class>
+						<constrain_by_date>
+						</constrain_by_date>
+						<item_icon>FA</item_icon>
+						<item_is_synonym>false</item_is_synonym>
+					</item>
+				</panel>
+				<panel>
+					<panel_number>3</panel_number>
+					<invert>0</invert>
+					<total_item_occurrences>1</total_item_occurrences>
+					<item>
+						<hlevel>6</hlevel>
+						<item_name>Percutaneous hepatic cholangiogram [87.51]</item_name>
+						<item_key>\\FURTHER\FURTHER\ICD-9\Procedures
+							(00-99.99)\Miscellaneous diagnostic and therapeutic procedures
+							(87-99.99)\Diagnostic radiology (87)\Biliary tract x-ray
+							(87.5)\Percutaneous hepatic cholangiogram (87.51)\</item_key>
+						<tooltip>ICD-9 \ Procedures (00-99.99) \ Miscellaneous diagnostic
+							and therapeutic procedures (87-99.99) \ Diagnostic radiology (87)
+							\ Biliary tract x-ray (87.5) \ Percutaneous hepatic cholangiogram
+							(87.51)</tooltip>
+						<class>ENC</class>
+						<constrain_by_date>
+						</constrain_by_date>
+						<item_icon>LA</item_icon>
+						<item_is_synonym>false</item_is_synonym>
+					</item>
+				</panel>
+			</query_definition>
+
+			<result_output_list>
+				<result_output priority_index="1" name="patient_count_xml" />
+				<further-config>
+					<fqe-process>true</fqe-process>
+				</further-config>
+			</result_output_list>
+
+		</ns4:request>
+	</message_body>
+</ns6:request>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+	<!--
+		########################################################################
+		FURTHeR core utilities spring XML schema
+		########################################################################
+	-->
+
+<xsd:schema xmlns="http://further.utah.edu/schema/core"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://further.utah.edu/schema/core"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+	<!-- A generic object with a value attribute. -->
+	<xsd:complexType name="value">
+		<xsd:attribute name="value" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<!-- Creates a Boolean bean from value. A convenient shortcut. -->
+	<xsd:element name="boolean">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Creates an Integer bean from value. A convenient shortcut. -->
+	<xsd:element name="integer">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Creates a Long bean from value. A convenient shortcut. -->
+	<xsd:element name="long">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Creates a Float bean from value. A convenient shortcut. -->
+	<xsd:element name="float">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Creates a Double bean from value. A convenient shortcut. -->
+	<xsd:element name="double">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<!-- Creates a String bean from value. A convenient shortcut. -->
+	<xsd:element name="string">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Creates a Class<?> bean from value. A convenient shortcut. -->
+	<xsd:element name="class">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="value" type="xsd:string" use="required" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Creates a SimpleDateFormat bean -->
+	<xsd:element name="dateformat">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="pattern" type="xsd:string" use="required" />
+					<xsd:attribute name="lenient" type="xsd:boolean" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Testing nesting custom tags within custom tags -->
+	<xsd:element name="component">
+		<xsd:complexType>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="component" />
+			</xsd:choice>
+			<xsd:attribute name="id" type="xsd:ID" />
+			<xsd:attribute name="name" use="required" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Portable fixture manager -->
+	<xsd:element name="pfixture">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<!-- Must have at least one location -->
+					<xsd:choice minOccurs="1" maxOccurs="unbounded">
+						<xsd:element ref="location" />
+					</xsd:choice>
+					<xsd:attribute name="mavenPhase" type="xsd:string" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Maven phase -->
+	<xsd:simpleType name="mavenPhase">
+		<xsd:annotation>
+			<xsd:documentation>Maven testing phase</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="test" />
+			<xsd:enumeration value="integration-test" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Location element -->
+	<xsd:element name="location">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="value" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="aspectj-autoproxy">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[AspectJ Auto-proxying]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="include" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="include-bean" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attribute name="proxy-target-class" type="xsd:boolean" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="include">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Aspect inclusion regular expression]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="value" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="include-bean">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Proxied bean inclusion regular expression]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="value" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

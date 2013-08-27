@@ -1,0 +1,1 @@
+This is some resource that uses the DTS Web Service located at ${server.dts.ws}

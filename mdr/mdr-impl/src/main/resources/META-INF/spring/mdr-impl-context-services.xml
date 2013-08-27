@@ -1,0 +1,91 @@
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	">
+
+	<!-- =========================================== -->
+	<!-- Library imports -->
+	<!-- =========================================== -->
+
+	<!-- =========================================== -->
+	<!-- Resources -->
+	<!-- =========================================== -->
+
+	<!-- Uses method injection to produce XMI parser instances. Injects into
+		a sub-class of the API's AbstractXmiParserFactory to prevent OSGi CGLIB factory
+		ClassNotFoundException. -->
+	<bean id="xmiParserFactory"
+		class="edu.utah.further.mdr.api.util.AbstractXmiParserFactory">
+		<lookup-method name="newXmiParser11" bean="xmiParser11" />
+		<lookup-method name="newXmiParser21" bean="xmiParser21" />
+		<lookup-method name="newXmiParserOptions" bean="xmiParserOptions" />
+	</bean>
+
+	<!-- List of known UML model Meta Data (MD). -->
+	<bean id="modelMetaDataList" class="java.util.ArrayList">
+		<constructor-arg index="0">
+			<list>
+				<!-- <ref bean="modelFurther" /> -->
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- The FURTHeR test model -->
+	<!-- <bean id="modelFurther" class="edu.utah.further.mdr.api.domain.uml.ModelMetaData">
+		<constructor-arg index="0" value="further" /> <constructor-arg index="1"
+		value="FURTHeR test model" /> <property name="xmiResource" value="medication_order_2_1.xmi"
+		/> <property name="queryResource" value="model_info_2_1.xquery" /> <property
+		name="modelPackageName" value="EA_Model.edu.utah" /> </bean> -->
+
+	<!-- This asset service is exposed to the OSGi bus. Here we override the
+		default mdr-impl asset service to fetch eagerly properties because we are
+		not within a transaction scope when calling it from web service methods and
+		may otherwise encountered a LazyInitializationException. The standard implementation
+		("assetService" bean) is meant to be used within this bundle only. -->
+	<bean id="assetService"
+		class="edu.utah.further.mdr.impl.service.asset.AssetServiceImpl">
+		<property name="fetchProperties" value="true" />
+
+		<!-- MDR resource place-holder resolver. Uses OSGi CM properties -->
+		<property name="resolver">
+			<bean id="placeHolderResolver"
+				class="edu.utah.further.core.util.text.PlaceHolderResolverImpl">
+				<property name="defaultPlaceHolders" ref="mdrImplProps" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="assetUtilService" class="edu.utah.further.mdr.common.asset.AssetUtilServiceImpl" />
+
+</beans>

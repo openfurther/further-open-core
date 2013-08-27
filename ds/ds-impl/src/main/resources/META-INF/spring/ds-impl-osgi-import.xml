@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/osgi-compendium
+	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+	http://www.springframework.org/schema/osgi
+    http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- definitions using elements of the osgi namespace can be included in 
+		this file. There is no requirement to keep these definitions in a separate 
+		file if you do not want to. The rationale for keeping these definitions separate 
+		is to facilitate integration testing of the bundle outside of an OSGi container -->
+
+	<!--Encryptable property placeholder configurer -->
+	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
+	<bean parent="propertiesEncryptor">
+		<property name="properties" ref="dsImpl" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Property placeholder configuration -->
+	<!-- =========================================== -->
+
+	<!-- Create an alias for QpMonitorAdvice wiring -->
+	<alias name="dsImpl" alias="dsProperties" />
+
+	<!-- placeholder configurer -->
+	<ctx:property-placeholder properties-ref="dsImpl" />
+
+	<!-- Configuration Admin entry -->
+	<osgix:cm-properties id="dsImpl" persistent-id="further.ds.impl">
+		<!-- Add default property values here -->
+
+		<!-- ################################## -->
+		<!-- Hibernate configuration -->
+		<!-- ################################## -->
+
+		<!-- ============================ -->
+		<!-- Hibernate options -->
+		<!-- ============================ -->
+
+		<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+
+		<!-- Turn on for SQL debugging -->
+		<prop key="hibernate.show_sql">false</prop>
+
+		<!-- ============================ -->
+		<!--C3P0 connection pool config -->
+		<!-- ============================ -->
+
+		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
+		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
+		<!-- Times are in seconds. -->
+		<prop key="c3p0.minPoolSize">5</prop>
+		<prop key="c3p0.maxPoolSize">25</prop>
+		<prop key="c3p0.maxStatements">50</prop>
+		<prop key="c3p0.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.acquireIncrement">5</prop>
+		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.maxIdleTime">1800</prop>
+
+		<!-- =========================================== -->
+		<!-- Data query flow processors -->
+		<!-- =========================================== -->
+
+		<prop key="edu.utah.further.ds.impl.service.query.processor.InitializerQp">${title.edu.utah.further.ds.impl.service.query.processor.InitializerQp}
+		</prop>
+		<prop key="edu.utah.further.ds.impl.service.query.processor.ValidatorQp">${title.edu.utah.further.ds.impl.service.query.processor.ValidatorQp}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp">${title.edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.service.query.processor.AssociatedResultQp">${title.edu.utah.further.ds.impl.service.query.processor.AssociatedResultQp}
+		</prop>
+		<prop key="edu.utah.further.ds.impl.service.query.processor.ExecutorQp">${title.edu.utah.further.ds.impl.service.query.processor.ExecutorQp}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp">${title.edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp}
+		</prop>
+		<prop key="edu.utah.further.ds.impl.service.query.processor.PersistenceQp">${title.edu.utah.further.ds.impl.service.query.processor.PersistenceQp}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.service.query.processor.PageFinalizerQp">${title.edu.utah.further.ds.impl.service.query.processor.PageFinalizerQp}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.service.query.processor.PageFinalizerHibernateQp">${title.edu.utah.further.ds.impl.service.query.processor.PageFinalizerHibernateQp}
+		</prop>
+		<prop key="edu.utah.further.ds.impl.service.query.processor.FinalizerQp">${title.edu.utah.further.ds.impl.service.query.processor.FinalizerQp}
+		</prop>
+
+		<!-- =========================================== -->
+		<!-- Data query executors -->
+		<!-- =========================================== -->
+		<prop
+			key="edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateCriteriaListExecutor">${title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateCriteriaListExecutor}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctIdExecutor">${title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctIdExecutor}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctRootExecutor">${title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctRootExecutor}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateLoadByIdExecutor">${title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateLoadByIdExecutor}
+		</prop>
+		<prop
+			key="edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateSearchQueryExecutor">${title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateSearchQueryExecutor}
+		</prop>
+
+		<!-- =========================================== -->
+		<!-- Data meta data flow processors -->
+		<!-- =========================================== -->
+		<prop
+			key="edu.utah.further.ds.impl.service.metadata.UpdateMetaDataProcessor">${title.edu.utah.further.ds.impl.service.metadata.UpdateMetaDataProcessor}
+		</prop>
+
+		<!-- =========================================== -->
+		<!-- Utility processors -->
+		<!-- =========================================== -->
+		<prop key="edu.utah.further.core.xml.chain.MarshallRequestProcessorImpl">${title.edu.utah.further.core.xml.chain.MarshallRequestProcessorImpl}
+		</prop>
+		<prop key="edu.utah.further.core.xml.chain.UnmarshallRequestProcessorImpl">${title.edu.utah.further.core.xml.chain.UnmarshallRequestProcessorImpl}
+		</prop>
+		<prop key="edu.utah.further.core.chain.RandomSleepRequestProcessor">${title.edu.utah.further.core.chain.RandomSleepRequestProcessor}
+		</prop>
+
+	</osgix:cm-properties>
+
+	<!-- =========================================== -->
+	<!-- Imported OSGi services -->
+	<!-- =========================================== -->
+
+	<!-- %%%%%%%%%%%%%%%%%%%%%%%% -->
+	<!-- XML services -->
+	<!-- %%%%%%%%%%%%%%%%%%%%%%%% -->
+
+	<osgi:reference id="xmlService"
+		interface="edu.utah.further.core.api.xml.XmlService" />
+
+	<osgi:reference id="xqueryService"
+		interface="edu.utah.further.core.xml.xquery.XQueryService" />
+
+	<!-- %%%%%%%%%%%%%%%%%%%%%%%% -->
+	<!-- Meta data services -->
+	<!-- %%%%%%%%%%%%%%%%%%%%%%%% -->
+
+	<osgi:reference id="mdrAssetServiceRestClient"
+		interface="edu.utah.further.mdr.ws.api.service.rest.AssetServiceRest" />
+
+	<!-- %%%%%%%%%%%%%%%%%%%%%%%% -->
+	<!-- Data Source services -->
+	<!-- %%%%%%%%%%%%%%%%%%%%%%%% -->
+
+	<osgi:reference id="dsDomainFactory"
+		interface="edu.utah.further.ds.api.domain.DsDomainFactory" />
+
+	<!-- Status notifiers, used by ds-impl advices -->
+	<osgi:reference id="statusReporter" bean-name="statusReporter"
+		interface="edu.utah.further.ds.api.service.query.processor.StatusReporter" />
+
+	<!-- Associated Result Service -->
+	<osgi:reference id="associatedResultService" bean-name="associatedResultService"
+		interface="edu.utah.further.fqe.ds.api.service.query.AssociatedResultService" />
+
+	<!-- Import the Virtual Repository Datasource -->
+	<osgi:reference id="dataSource" bean-name="virtualRepositoryDataSource"
+		interface="com.mchange.v2.c3p0.PooledDataSource" />
+
+</beans>

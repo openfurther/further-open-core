@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) [2013] [The FURTHeR Project] Licensed under the Apache 
+	License, Version 2.0 (the "License"); you may not use this file except in 
+	compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- =========================================== -->
+	<!-- In-memory data source + dao Layer -->
+	<!-- =========================================== -->
+
+	<!-- Data source virtual repository connection pool -->
+	<bean id="inMemoryDs" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="dataSourceName" value="${datasource.name}" />
+		<property name="driverClass" value="${datasource.driver}" />
+		<property name="jdbcUrl" value="${datasource.url}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<property name="maxStatements" value="${c3p0.maxStatements}" />
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+		<property name="testConnectionOnCheckin" value="${c3p0.testConnectionOnCheckin}" />
+		<property name="preferredTestQuery" value="${c3p0.preferredTestQuery}" />
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+		<property name="properties">
+			<props>
+				<prop key="user">${datasource.user}</prop>
+				<prop key="password">${datasource.password}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- Session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="inMemoryDs" />
+
+		<!-- Hibernate configuration properties (read from a properties file) -->
+		<property name="hibernateProperties">
+			<props>
+				<!-- ################################## -->
+				<!-- Hibernate configuration -->
+				<!-- ################################## -->
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+			</props>
+		</property>
+
+		<!-- Using improved naming strategy -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.DefaultNamingStrategy" />
+		</property>
+
+		<!-- Mapping annotated classes using search patterns -->
+		<property name="annotatedClasses">
+			<!-- May need to be replaced by a edu.utah.further.core.util.io.ResourceMatchingFactoryBean 
+				factory bean if this list gets too large. -->
+			<list>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionEraId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionEra]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionOccurrenceId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionOccurrence]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.EncounterId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Encounter]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.LocationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Location]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ObservationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Observation]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ObservationPeriodId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ObservationPeriod]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.OrderId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Order]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.PersonAssociationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.PersonAssociation]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.PersonId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Person]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProcedureOccurrenceId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProcedureOccurrence]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProviderId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Provider]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProviderLocationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProviderLocation]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.SpecimenId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Specimen]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.StorageId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.Storage]]></value>		
+			</list>
+		</property>
+
+	</bean>
+
+	<!-- SimpleJdbcTemplate, used by some DAOs -->
+	<bean id="inMemoryJdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+		<constructor-arg index="0" ref="inMemoryDs" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Transaction management -->
+	<!-- =========================================== -->
+
+	<!-- a PlatformTransactionManager is still required -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Transaction template for more fine control transactions -->
+	<bean id="inMemoryTransactionTemplate"
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- =========================================== -->
+	<!-- I2b2 Logical Model data layer -->
+	<!-- =========================================== -->
+	<!-- Must come AFTER sessionFactory is declared for some strange reason 
+		when deployed to the ESB. -->
+
+	<bean id="inMemoryDao" class="edu.utah.further.core.data.service.DaoHibernateImpl">
+		<constructor-arg index="0" ref="sessionFactory" />
+	</bean>
+
+	<alias name="inMemoryDao" alias="dao" />
+
+</beans>

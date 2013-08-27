@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    ">
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+
+	<!-- Core XML -->
+	<context:component-scan base-package="edu.utah.further.core.xml" />
+
+	<!-- FQE DS Impl -->
+	<context:component-scan base-package="edu.utah.further.ds.impl.service.query.mock" />
+	<context:component-scan base-package="edu.utah.further.ds.impl.advice">
+		<!-- Using JMS status reporters, turning off mock reporters. -->
+		<context:exclude-filter type="annotation"
+			expression="edu.utah.further.core.api.context.Mock" />
+	</context:component-scan>
+
+	<!-- DS Persistent layer -->
+	<context:component-scan base-package="edu.utah.further.ds.data" />
+
+	<!-- DS messaging layer -->
+	<context:component-scan base-package="edu.utah.further.ds.jms" />
+
+	<!-- Resource locator & StaleDateTimeFactory -->
+	<context:component-scan base-package="edu.utah.further.fqe.ds.api.util" />
+	<context:component-scan base-package="edu.utah.further.fqe.ds.api.factory" />
+
+	<!-- FQE Impl -->
+	<context:component-scan base-package="edu.utah.further.fqe.impl.service.query">
+		<context:exclude-filter type="regex"
+			expression=".*\.AggregationServiceImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*\.QueryContextServiceImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*\.QueryValidationServiceImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*\.IdentifierServiceSpImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*\.AssociatedResultServiceImpl" />
+	</context:component-scan>
+
+	<!-- ResultService -->
+	<context:component-scan
+		base-package="edu.utah.further.fqe.model.impl.internal.service.query.mock" />
+
+</beans>

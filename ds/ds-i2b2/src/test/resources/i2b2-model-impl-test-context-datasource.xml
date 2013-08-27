@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd
+	">
+
+	<!-- =========================================== -->
+	<!-- Properties files -->
+	<!-- =========================================== -->
+
+	<!-- Property file locations: suppressed here because it might override
+		the main context file's resources. The main context is responsible for defining
+		them. -->
+
+	<!-- =========================================== -->
+	<!-- Annotation configuration -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+
+	<!-- =========================================== -->
+	<!-- Data Layer -->
+	<!-- =========================================== -->
+
+	<!-- Data source: reads a properties file and injects them into a DBCP DS -->
+	<bean id="dataSource"
+		class="edu.utah.further.core.data.service.ConfigurableBasicDataSource">
+		<constructor-arg index="0">
+			<bean class="org.apache.commons.dbcp.BasicDataSource" />
+		</constructor-arg>
+		<property name="properties">
+			<bean
+				class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+				<property name="locations">
+					<list>
+						<value>classpath:datasource-${datasource.unit.config}.properties
+						</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<!-- FUR-946: idle connections break. Adding connection testing. -->
+		<property name="testOnBorrow" value="true" />
+		<property name="testWhileIdle" value="true" />
+	</bean>
+
+	<!-- Session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- Hibernate configuration properties (read from a properties file) -->
+		<property name="hibernateProperties">
+			<bean
+				class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+				<property name="locations">
+					<list>
+						<!-- hibernate.config.file, datasource.config.file should be defined
+							somewhere in the spring.properties layers -->
+						<value>classpath:hibernate-${hibernate.unit.config}.properties
+						</value>
+						<value>classpath:datasource-${datasource.unit.config}.properties
+						</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<!-- Using improved naming strategy -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.DefaultNamingStrategy" />
+		</property>
+
+		<!-- Reads package-level Hibernate annotations. Unfortunately, this has
+			to be manually maintained for all model packages -->
+		<property name="annotatedPackages">
+			<list>
+				<value>edu.utah.further.ds.i2b2.model.impl.domain</value>
+			</list>
+		</property>
+
+		<!-- Mapping annotated classes using search patterns -->
+		<property name="annotatedClasses">
+			<!-- May need to be replaced by a edu.utah.further.core.util.io.ResourceMatchingFactoryBean
+				factory bean if this list gets too large. -->
+			<list>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.ConceptDimensionEntity]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.EncounterMappingEntity]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.EncounterMappingPK]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.ObservationFactEntity]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.ObservationFactPK]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.PatientDimensionEntity]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.PatientMappingPK]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.ProviderDimensionEntity]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.ProviderDimensionPK]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.VisitDimensionEntity]]></value>
+				<value><![CDATA[edu.utah.further.ds.i2b2.model.impl.domain.VisitDimensionPK]]></value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Hibernate data access template -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- SimpleJdbcTemplate for use in testing -->
+	<bean id="simpleJdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+		<constructor-arg index="0" ref="dataSource" />
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Transaction management -->
+	<!-- =========================================== -->
+
+	<!-- a PlatformTransactionManager is still required -->
+	<bean id="transactionManagerMain"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="transactionManagerMain" />
+	<!-- <alias name="transactionManagerView" alias="transactionManager" /> -->
+
+	<!-- =========================================== -->
+	<!-- FURTHeR data layer -->
+	<!-- =========================================== -->
+
+	<!-- Component auto-detection configuration in the data layer package. Must
+		come AFTER sessionFactory is declared for some strange reason when deployed
+		to the ESB. -->
+	<!-- <context:component-scan base-package="edu.utah.further.core.data" /> -->
+	<bean id="dao" class="edu.utah.further.core.data.service.DaoHibernateImpl">
+		<constructor-arg index="0" ref="sessionFactory" />
+	</bean>
+
+</beans>

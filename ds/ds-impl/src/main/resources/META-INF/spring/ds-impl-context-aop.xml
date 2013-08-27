@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:core="http://further.utah.edu/schema/core" xmlns:dts="http://further.utah.edu/schema/dts"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd
+	http://further.utah.edu/schema/dts
+	http://further.utah.edu/schema/dts/dts.xsd
+	">
+
+	<!-- =========================================== -->
+	<!-- Aspects and advices                         -->
+	<!-- =========================================== -->
+
+	<!-- Enable @Aspect annotations -->
+	<!-- <aop:aspectj-autoproxy /> -->
+	<aop:config />
+
+	<!-- Advise beans within the FURTHeR code only to avoid FUR-900 -->
+	<core:aspectj-autoproxy>
+		<core:include-bean value="edu\.utah\.further\..+" />
+	</core:aspectj-autoproxy>
+
+	<!-- Data query flow status notification aspect -->
+	<bean id="monitorAspect" class="edu.utah.further.ds.api.aspect.QpAroundAspect">
+		<property name="aroundAdvice" ref="qpMonitorAdvice" />
+	</bean>
+
+	<!-- Redirect standard output/error messages from Saxon to log4j -->
+	<dts:aspect class="edu.utah.further.core.util.io.SuppressSystemStreamAspect" />
+
+</beans>

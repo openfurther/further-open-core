@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<xs:schema xmlns="http://further.utah.edu/fqe/validation" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://further.utah.edu/fqe/validation" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="RuleDefinition">
+		<xs:sequence>
+			<xs:element name="ruleType" type="RuleType"/>
+			<xs:element name="ruleCondition" type="RuleCondition"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RuleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DataTypeRestriction"/>
+			<xs:enumeration value="ObservationRestriction"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="fail"/>
+			<xs:enumeration value="pass"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RelationshipType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="conjunction"/>
+			<xs:enumeration value="disjunction"/>
+			<xs:enumeration value="in"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RuleCondition">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="greater"/>
+			<xs:enumeration value="lessthan"/>
+			<xs:enumeration value="equals"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RuleParameter">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="ObservationType">
+		<xs:list itemType="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="Rule">
+		<xs:sequence>
+			<xs:element name="ruleDefinition" type="RuleDefinition"/>
+			<xs:element name="parameter" type="RuleParameter"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CriteriaIdentifier">
+		<xs:sequence>
+			<xs:element name="observation" type="ObservationType"/>
+			<xs:element name="relationship" type="RelationshipType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ValidationRule">
+		<xs:sequence>
+			<xs:element name="criteriaIdentifier" type="CriteriaIdentifier"/>
+			<xs:element name="rule" type="Rule"/>
+			<xs:element name="action" type="ActionType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="validationRule" type="ValidationRule">
+		<xs:annotation>
+			<xs:documentation>Search Query Rule to execute against incoming root criterion</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

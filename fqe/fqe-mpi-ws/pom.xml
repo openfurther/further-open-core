@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.fqe</groupId>
+		<artifactId>fqe</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>fqe-mpi-ws</artifactId>
+	<name>FQE MPI Implementation</name>
+	<description>FQE MPI Implementation</description>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>mpi.ws.impl</shortName>
+		<further.osgi.import.pkg>
+			META-INF.cxf,
+			org.apache.cxf.bus,
+			org.apache.cxf.bus.spring,
+			org.apache.cxf.bus.resource,
+			org.apache.cxf.resource,
+			org.apache.cxf.configuration.spring,
+			org.apache.cxf.binding,
+			org.apache.camel.converter.jaxb,
+			org.apache.camel.converter*,
+			org.apache.commons.lang;version="${commons.lang.version}",
+			javax.wsdl,
+			javax.ws.rs,
+			javax.jws,
+			javax.jws.soap,
+			org.apache.cxf.jaxrs.utils,
+			org.apache.cxf.transport.http,
+			org.springframework.beans.factory.config,
+			edu.utah.further.fqe.impl.service.*,
+			edu.utah.further.core.api.xml,
+			edu.utah.further.core.cxf,
+			edu.utah.further.core.query.domain,
+			edu.utah.further.core.util.io,
+			edu.utah.further.fqe.ds.api.to,
+			edu.utah.further.i2b2.query.criteria.service,
+			edu.utah.further.fqe.api.service.query,
+			javax.xml.bind,
+			org.jasypt.encryption.pbe;version="${jasypt.version}",
+			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
+			org.jasypt.spring3.properties,
+			'=META-INF.core.util',
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-mpi-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-cxf</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.geronimo.specs</groupId>
+					<artifactId>geronimo-activation_1.1_spec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- JAX-RS annotations -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>${jsr311.version}</version>
+		</dependency>
+
+		<!-- XML utilities for marshalling & unmarshalling -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-xml</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-cxf</artifactId>
+		</dependency>
+
+		<!-- Web Service Utilities -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-ws</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

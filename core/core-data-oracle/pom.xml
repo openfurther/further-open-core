@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information                         -->
+	<!-- =========================================== -->
+	<parent>
+		<groupId>edu.utah.further.core</groupId>
+		<artifactId>core</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core-data-oracle</artifactId>
+	<packaging>bundle</packaging>
+	<name>Oracle Database Support</name>
+	<description>Oracle JDBC Support</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties                     -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>data.oracle</shortName>
+		<further.osgi.import.pkg>
+			!oracle.aurora.rdbms,
+			!org.w3c.dom.validation,
+			!oracle.i18n.text,
+			!oracle.i18n.util,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			javassist.util.proxy,
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			org.apache.commons.dbcp,
+			oracle.jdbc,
+			oracle.sql,
+			oracle.xdb,
+			oracle.xml.binxml,
+			*
+		</further.osgi.import.pkg>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle                -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Compile-time               -->
+		<!-- ########################## -->
+
+		<!-- Database utilities, required for JSF domain converters -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-data</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>${c3p0.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Run-time                   -->
+		<!-- ########################## -->
+		
+		<!-- ########################## -->
+		<!-- Provided                   -->
+		<!-- ########################## -->
+		
+		<!-- See README.txt on how to install Oracle dependencies -->
+		
+		<!-- Oracle JDBC Driver 
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>${oracle.driver.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		-->
+		
+		<!-- Oracle XMLTYPE: required libraries
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>xdb</artifactId>
+			<version>${oracle.xdk.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>xmlparserv2</artifactId>
+			<version>${oracle.xdk.version}</version>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		 -->
+
+		<!-- ########################## -->
+		<!-- Testing                    -->
+		<!-- ########################## -->
+
+		<!-- Core Testing framework -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

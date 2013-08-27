@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transferObjectWithMap xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<properties>
+		<entry>
+			<key xsi:type="xs:string">2</key>
+			<value xsi:type="xs:string">Two</value>
+		</entry>
+		<entry>
+			<key xsi:type="xs:string">1</key>
+			<value xsi:type="xs:string">One</value>
+		</entry>
+	</properties>
+</transferObjectWithMap>

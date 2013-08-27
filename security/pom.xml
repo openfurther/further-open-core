@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information                         -->
+	<!-- =========================================== -->
+
+	<parent>
+		<groupId>edu.utah.further</groupId>
+		<artifactId>further</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.utah.further.security</groupId>
+	<artifactId>security</artifactId>
+	<packaging>pom</packaging>
+	<name>FURTHeR Security</name>
+	<description>FURTHeR Security Framework</description>
+
+	<!-- =========================================== -->
+	<!-- Properties / version numbers                -->
+	<!-- =========================================== -->
+	<properties>
+		<!-- General -->
+		<final.name>security</final.name>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Global dependencies                         -->
+	<!-- =========================================== -->
+	<dependencies>
+	
+		<!-- ########################## -->
+		<!-- Compile-time               -->
+		<!-- ########################## -->
+
+		<!--
+			SLF4J logging API. Must match the SLF4J implementation's version. To
+			override Hibernate's shipped SLF4J version, use compile scope. SLF4J
+			is also the preferred logging mechanism for OSGi bundles.
+		-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+		
+		<!-- ########################## -->
+		<!-- Testing                    -->
+		<!-- ########################## -->
+
+		<!-- Core Testing framework -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+
+	<!-- =========================================== -->
+	<!-- Modules                                     -->
+	<!-- =========================================== -->
+	<modules>
+		<module>security-api</module>
+		<module>security-impl</module>
+	</modules>
+
+</project>

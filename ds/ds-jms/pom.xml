@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information -->
+	<!-- =========================================== -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.ds</groupId>
+		<artifactId>ds</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ds-jms</artifactId>
+	<packaging>bundle</packaging>
+	<name>Data Source JMS Support</name>
+	<description>Data Source JMS Binding Component</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>jms</shortName>
+		<further.osgi.export.pkg>
+			!${project.groupId}.${shortName}.internal,
+			${project.groupId}.${shortName}*,
+			'=META-INF.ds.jms'
+		</further.osgi.export.pkg>
+		<further.osgi.import.pkg>
+			*,
+			org.apache.camel.osgi,
+			org.apache.camel.component.jms,
+			javax.jms,
+			org.springframework.context,
+			org.apache.activemq,
+			org.apache.activemq.spring,
+			org.apache.camel.converter,
+			org.apache.camel.converter.*,
+			org.apache.camel.converter.jaxb,
+			edu.utah.further.fqe.ds.api.domain,
+			edu.utah.further.fqe.ds.api.service,
+			edu.utah.further.fqe.ds.api.service.query,
+			edu.utah.further.fqe.ds.api.to,
+			edu.utah.further.core.metadata.to,
+			edu.utah.further.core.api.context,
+			edu.utah.further.ds.api.advice,
+			edu.utah.further.ds.api.service.query.processor
+		</further.osgi.import.pkg>
+		<further.osgi.failok>true</further.osgi.failok>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- OSGi bundle -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>${aop.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-camel</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-metadata</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<!-- Override earlier spring versions in the above spring WS dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Runtime -->
+		<!-- ########################## -->
+
+		<!-- ########################## -->
+		<!-- Testing -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-camel</artifactId>
+			<version>${activemq.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jaxb</artifactId>
+			<version>${camel.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Regard this as an OSGi import - do not refer to the classes explicitly 
+			in Java class. OK to inject/define beans with types from this module in a 
+			spring test context file. -->
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-data</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-further</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

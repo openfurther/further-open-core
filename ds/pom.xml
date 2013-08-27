@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- =========================================== -->
+	<!-- Project information                         -->
+	<!-- =========================================== -->
+	<parent>
+		<groupId>edu.utah.further</groupId>
+		<artifactId>further</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.utah.further.ds</groupId>
+	<artifactId>ds</artifactId>
+	<packaging>pom</packaging>
+	<name>Data Sources</name>
+	<description>FURTHeR Data Source Implementations</description>
+	<url>http://further.utah.edu</url>
+
+	<!-- =========================================== -->
+	<!-- Properties / version numbers                -->
+	<!-- =========================================== -->
+	<properties>
+		<!-- General -->
+		<final.name>ds</final.name>
+
+		<!-- Request processor descriptions -->
+		<title.edu.utah.further.ds.impl.service.query.processor.InitializerQp><![CDATA[Step 4: Initialization]]></title.edu.utah.further.ds.impl.service.query.processor.InitializerQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.ValidatorQp><![CDATA[Step 6: Validation]]></title.edu.utah.further.ds.impl.service.query.processor.ValidatorQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp><![CDATA[Step 7: Query translation]]></title.edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.AssociatedResultQp><![CDATA[Step 7.5: Attaching associated results (if any)]]></title.edu.utah.further.ds.impl.service.query.processor.AssociatedResultQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.ExecutorQp><![CDATA[Step 8: Execution]]></title.edu.utah.further.ds.impl.service.query.processor.ExecutorQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp><![CDATA[Step 11: Result translation]]></title.edu.utah.further.ds.impl.service.query.processor.ResultTranslatorQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.PageFinalizerQp><![CDATA[Step 14: Result page finalization]]></title.edu.utah.further.ds.impl.service.query.processor.PageFinalizerQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.PageFinalizerHibernateQp><![CDATA[Step 14: Result page finalization (HB)]]></title.edu.utah.further.ds.impl.service.query.processor.PageFinalizerHibernateQp>
+		<title.edu.utah.further.ds.impl.service.query.processor.FinalizerQp><![CDATA[Step 15: Finalization]]></title.edu.utah.further.ds.impl.service.query.processor.FinalizerQp>
+
+		<!--  Data query executors -->
+
+		<title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateCriteriaListExecutor><![CDATA[Step 9.A: Criteria list query]]></title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateCriteriaListExecutor>
+		<title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctIdExecutor><![CDATA[Step 9.B: Distinct ID query]]></title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctIdExecutor>
+		<title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctRootExecutor><![CDATA[Step 9.C: Distinct root entity query]]></title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateDistinctRootExecutor>
+		<title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateLoadByIdExecutor><![CDATA[Step 9.D: Load by ID query]]></title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateLoadByIdExecutor>
+		<title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateSearchQueryExecutor><![CDATA[Step 9.E: Search query execution]]></title.edu.utah.further.ds.impl.executor.hibernate.criteria.HibernateSearchQueryExecutor>
+
+		<!--  Data meta data flow processors -->
+		<title.edu.utah.further.ds.impl.service.metadata.UpdateMetaDataProcessor>Update meta data</title.edu.utah.further.ds.impl.service.metadata.UpdateMetaDataProcessor>
+
+		<!--  Utility processors -->
+		<title.edu.utah.further.core.xml.chain.MarshallRequestProcessorImpl><![CDATA[Marshalling]]></title.edu.utah.further.core.xml.chain.MarshallRequestProcessorImpl>
+		<title.edu.utah.further.core.xml.chain.UnmarshallRequestProcessorImpl><![CDATA[Unmarshalling]]></title.edu.utah.further.core.xml.chain.UnmarshallRequestProcessorImpl>
+		<title.edu.utah.further.ds.impl.service.query.processor.PersistenceQp><![CDATA[Saving entities]]></title.edu.utah.further.ds.impl.service.query.processor.PersistenceQp>
+		<title.edu.utah.further.core.chain.RandomSleepRequestProcessor><![CDATA[Sleeping]]></title.edu.utah.further.core.chain.RandomSleepRequestProcessor>
+	</properties>
+
+	<!-- =========================================== -->
+	<!-- Global dependencies                         -->
+	<!-- =========================================== -->
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time               -->
+		<!-- ########################## -->
+
+		<!--
+			SLF4J logging API. Must match the SLF4J implementation's version. To
+			override Hibernate's shipped SLF4J version, use compile scope. SLF4J
+			is also the preferred logging mechanism for OSGi bundles.
+		-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+
+		<!-- ########################## -->
+		<!-- Testing                    -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-qunit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<!-- =========================================== -->
+	<!-- Modules                                     -->
+	<!-- =========================================== -->
+	<modules>
+		<module>ds-api</module>
+		<module>ds-data</module>
+		<module>ds-fqe-test</module>
+		<module>ds-test</module>
+		<module>ds-impl</module>
+		<module>ds-jms</module>
+		<module>ds-i2b2</module>
+		<module>ds-omop</module>
+		<module>ds-further</module>
+		<module>ds-openmrs</module>
+	</modules>
+
+</project>

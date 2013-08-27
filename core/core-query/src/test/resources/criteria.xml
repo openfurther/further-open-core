@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ns1:entity xmlns:ns1="http://further.utah.edu/core/query"
+	xmlns:ns2="http://www.w3.org/2001/XMLSchema-instance" ns2:type="ns1:criterion">
+	<ns1:searchType>SEARCH_CRITERIA</ns1:searchType>
+	<ns1:aliases />
+	<ns1:firstResult>1</ns1:firstResult>
+	<ns1:maxResults>2</ns1:maxResults>
+	<ns1:criterion ns2:type="ns1:criterion">
+		<ns1:searchType>DISJUNCTION</ns1:searchType>
+		<ns1:criteria>
+			<ns3:SearchCriterion xmlns:ns3="http://domain.query.core.further.utah.edu"
+				ns2:type="ns1:criterion">
+				<ns1:searchType>EQ</ns1:searchType>
+				<ns1:criteria />
+				<ns1:propertyName>age</ns1:propertyName>
+				<ns1:value xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+					ns2:type="xsd:int">40</ns1:value>
+			</ns3:SearchCriterion>
+			<ns3:SearchCriterion xmlns:ns3="http://domain.query.core.further.utah.edu"
+				ns2:type="ns1:criterion">
+				<ns1:searchType>CONJUNCTION</ns1:searchType>
+				<ns1:criteria>
+					<ns3:SearchCriterion ns2:type="ns1:criterion">
+						<ns1:searchType>GT</ns1:searchType>
+						<ns1:criteria />
+						<ns1:propertyName>age</ns1:propertyName>
+						<ns1:value xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+							ns2:type="xsd:int">50</ns1:value>
+					</ns3:SearchCriterion>
+					<ns3:SearchCriterion ns2:type="ns1:criterion">
+						<ns1:searchType>LT</ns1:searchType>
+						<ns1:criteria />
+						<ns1:propertyName>age</ns1:propertyName>
+						<ns1:value xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+							ns2:type="xsd:int">60</ns1:value>
+					</ns3:SearchCriterion>
+					<ns3:SearchCriterion ns2:type="ns1:criterion">
+						<ns1:searchType>LIKE</ns1:searchType>
+						<ns1:criteria />
+						<ns1:propertyName>comment</ns1:propertyName>
+						<ns1:value xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+							ns2:type="xsd:string">keyword</ns1:value>
+						<ns1:ignoreCase>false</ns1:ignoreCase>
+						<ns1:matchType>CONTAINS</ns1:matchType>
+					</ns3:SearchCriterion>
+				</ns1:criteria>
+			</ns3:SearchCriterion>
+		</ns1:criteria>
+	</ns1:criterion>
+	<ns1:sortCriteria />
+</ns1:entity>

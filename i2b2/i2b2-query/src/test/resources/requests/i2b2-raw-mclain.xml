@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ns6:request xmlns:ns4="http://www.i2b2.org/xsd/cell/crc/psm/1.1/" xmlns:ns7="http://www.i2b2.org/xsd/cell/ont/1.1/" xmlns:ns3="http://www.i2b2.org/xsd/cell/crc/pdo/1.1/" xmlns:ns5="http://www.i2b2.org/xsd/hive/plugin/" xmlns:ns2="http://www.i2b2.org/xsd/hive/pdo/1.1/" xmlns:ns6="http://www.i2b2.org/xsd/hive/msg/1.1/" xmlns:ns8="http://www.i2b2.org/xsd/cell/crc/psm/querydefinition/1.1/">
+	<message_header>
+		<proxy>
+            <redirect_url>http://dev-i2b2-sw.further.utah.edu:9090/i2b2/rest/QueryToolService/request</redirect_url>
+        </proxy>
+
+		<sending_application>
+			<application_name>i2b2_QueryTool</application_name>
+			<application_version>0.2</application_version>
+		</sending_application>
+		<sending_facility>
+			<facility_name>PHS</facility_name>
+		</sending_facility>
+		<receiving_application>
+			<application_name>i2b2_DataRepositoryCell</application_name>
+			<application_version>0.2</application_version>
+		</receiving_application>
+		<receiving_facility>
+			<facility_name>PHS</facility_name>
+		</receiving_facility>
+		<security>
+			<domain>FURTHeR</domain>
+			<username>susan</username>
+			<password>5u54n</password>
+		</security>
+		<message_type>
+			<message_code>Q04</message_code>
+			<event_type>EQQ</event_type>
+		</message_type>
+		<message_control_id>
+			<message_num>kUmrf10rrG15H586YpqwR</message_num>
+			<instance_num>0</instance_num>
+		</message_control_id>
+		<processing_id>
+			<processing_id>P</processing_id>
+			<processing_mode>I</processing_mode>
+		</processing_id>
+		<accept_acknowledgement_type>messageId</accept_acknowledgement_type>
+		<project_id>FURTHeR</project_id>
+	</message_header>
+	<request_header>
+		<result_waittime_ms>180000</result_waittime_ms>
+	</request_header>
+	<message_body>
+		<ns4:psmheader>
+			<user group="FURTHeR" login="susan">susan</user>
+			<patient_set_limit>0</patient_set_limit>
+			<estimated_time>0</estimated_time>
+			<request_type>CRC_QRY_runQueryInstance_fromQueryDefinition</request_type>
+		</ns4:psmheader>
+		<ns4:request xsi:type="ns4:query_definition_requestType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<query_definition>
+	<query_name>Impaired glucos@17:58:26</query_name>
+	<specificity_scale>0</specificity_scale>
+	<panel>
+		<panel_number>1</panel_number>
+		<invert>0</invert>
+		<total_item_occurrences>1</total_item_occurrences>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Impaired glucose tolerance test (oral) [790.22]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Symptoms, signs, and ill-defined conditions (780-799.99)\Nonspecific abnormal findings (790-796.99)\Nonspecific findings on examination of blood (790)\Abnormal glucose (790.2)\Impaired glucose tolerance test (oral) (790.22)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Symptoms, signs, and ill-defined conditions (780-799.99) \ Nonspecific abnormal findings (790-796.99) \ Nonspecific findings on examination of blood (790) \ Abnormal glucose (790.2) \ Impaired glucose tolerance test (oral) (790.22)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>6</hlevel>
+			<item_name>Dysmetabolic syndrome x [277.7]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Other metabolic and immunity disorders (270-279.99)\Other and unspecified disorders of metabolism (277)\Dysmetabolic syndrome x (277.7)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Other metabolic and immunity disorders (270-279.99) \ Other and unspecified disorders of metabolism (277) \ Dysmetabolic syndrome x (277.7)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Obesity, unspecified [278.00]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Other metabolic and immunity disorders (270-279.99)\Overweight, obesity and other hyperalimentation (278)\Overweight and obesity (278.0)\Obesity, unspecified (278.00)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Other metabolic and immunity disorders (270-279.99) \ Overweight, obesity and other hyperalimentation (278) \ Overweight and obesity (278.0) \ Obesity, unspecified (278.00)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Morbid obesity [278.01]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Other metabolic and immunity disorders (270-279.99)\Overweight, obesity and other hyperalimentation (278)\Overweight and obesity (278.0)\Morbid obesity (278.01)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Other metabolic and immunity disorders (270-279.99) \ Overweight, obesity and other hyperalimentation (278) \ Overweight and obesity (278.0) \ Morbid obesity (278.01)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitustype ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type with hyperosmolarity, uncontrolled [250.22]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes mellitus with hyperosmolarity (250.2)\Diabetes mellitustype ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type with hyperosmolarity, uncontrolled (250.22)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes mellitus with hyperosmolarity (250.2) \ Diabetes mellitustype ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type with hyperosmolarity, uncontrolled (250.22)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, not stated as uncontrolled, with renal manifestations [250.40]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with renal manifestations (250.4)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with renal manifestations (250.40)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with renal manifestations (250.4) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with renal manifestations (250.40)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, uncontrolled, with renal manifestations [250.42]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with renal manifestations (250.4)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with renal manifestations (250.42)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with renal manifestations (250.4) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with renal manifestations (250.42)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, not stated as uncontrolled, with ophthalmic manifestations [250.50]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with ophthalmic manifestations (250.5)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with ophthalmic manifestations (250.50)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with ophthalmic manifestations (250.5) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with ophthalmic manifestations (250.50)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, uncontrolled, with ophthalmic manifestations [250.52]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with ophthalmic manifestations (250.5)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with ophthalmic manifestations (250.52)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with ophthalmic manifestations (250.5) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with ophthalmic manifestations (250.52)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, not stated as uncontrolled, with neurological manifestations [250.60]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with neurological manifestations (250.6)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with neurological manifestations (250.60)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with neurological manifestations (250.6) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with neurological manifestations (250.60)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, uncontrolled, with neurological manifestations [250.62]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with neurological manifestations (250.6)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with neurological manifestations (250.62)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with neurological manifestations (250.6) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with neurological manifestations (250.62)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, not stated as uncontrolled, with peripheral circulatory disorders [250.70]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with peripheral circulatory disorders (250.7)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with peripheral circulatory disorders (250.70)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with peripheral circulatory disorders (250.7) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with peripheral circulatory disorders (250.70)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, uncontrolled, with peripheral circulatory disorders [250.72]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with peripheral circulatory disorders (250.7)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with peripheral circulatory disorders (250.72)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with peripheral circulatory disorders (250.7) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with peripheral circulatory disorders (250.72)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, not stated as uncontrolled, with other specified manifestations [250.80]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with other specified manifestations (250.8)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with other specified manifestations (250.80)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with other specified manifestations (250.8) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with other specified manifestations (250.80)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, uncontrolled, with other specified manifestations [250.82]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with other specified manifestations (250.8)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with other specified manifestations (250.82)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with other specified manifestations (250.8) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with other specified manifestations (250.82)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, not stated as uncontrolled, with unspecified complication [250.90]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with unspecified complication (250.9)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with unspecified complication (250.90)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with unspecified complication (250.9) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, not stated as uncontrolled, with unspecified complication (250.90)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+		<item>
+			<hlevel>7</hlevel>
+			<item_name>Diabetes mellitus type ii [non-insulin dependent type] [niddm type] [adult-onset type] or unspecified type, uncontrolled, with unspecified complication [250.92]</item_name>
+			<item_key>\\FURTHER\FURTHER\ICD-9\Diseases and injuries (001-999.99)\Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99)\Diseases of other endocrine glands (249-259.99)\Diabetes mellitus (250)\Diabetes with unspecified complication (250.9)\Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with unspecified complication (250.92)\</item_key>
+			<tooltip>ICD-9 \ Diseases and injuries (001-999.99) \ Endocrine, nutritional and metabolic diseases, and immunity disorders (240-279.99) \ Diseases of other endocrine glands (249-259.99) \ Diabetes mellitus (250) \ Diabetes with unspecified complication (250.9) \ Diabetes mellitus type ii (non-insulin dependent type) (niddm type) (adult-onset type) or unspecified type, uncontrolled, with unspecified complication (250.92)</tooltip>
+			<class>ENC</class>
+			<constrain_by_date>
+			</constrain_by_date>
+			<item_icon>LA</item_icon>
+			<item_is_synonym>false</item_is_synonym>
+		</item>
+	</panel>
+</query_definition>
+
+			<result_output_list><result_output priority_index="1" name="patient_count_xml"/><further-config><fqe-process>true</fqe-process></further-config></result_output_list>
+		</ns4:request>
+	</message_body>
+</ns6:request>

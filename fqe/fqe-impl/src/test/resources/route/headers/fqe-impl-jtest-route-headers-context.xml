@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) [2013] [The FURTHeR Project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:core="http://further.utah.edu/schema/core"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://camel.apache.org/schema/spring 
+	http://camel.apache.org/schema/spring/camel-spring.xsd
+	http://further.utah.edu/schema/core
+	http://further.utah.edu/schema/core/core.xsd">
+
+	<!-- =========================================== -->
+	<!-- Camel test beans                            -->
+	<!-- =========================================== -->
+
+	<!-- Data sources -->
+	<core:integer id="numDataSources" value="2" />
+
+	<bean id="dataSource1" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS1" />
+	</bean>
+
+	<bean id="dataSource2" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS2" />
+	</bean>
+
+	<bean id="dataSource3" class="edu.utah.further.fqe.impl.service.route.DataSourceMock">
+		<constructor-arg index="0" value="DS3" />
+	</bean>
+
+	<bean id="replyPreProcessor"
+		class="edu.utah.further.fqe.impl.service.route.ReplyPreProcessor" />
+	<bean id="replyPostProcessor"
+		class="edu.utah.further.fqe.impl.service.route.ReplyPostProcessor" />
+
+	<!-- =========================================== -->
+	<!-- Camel test routes                           -->
+	<!-- =========================================== -->
+
+	<!-- Data source exchange grouping strategy -->
+	<bean id="groupingStrategy"
+		class="edu.utah.further.fqe.impl.service.route.HeadersAggregationStrategy" />
+
+	<!-- The default route for a data source flow -->
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+
+		<!-- Reusable endpoints -->
+		<endpoint id="request" uri="activemq:topic:request" />
+		<endpoint id="requestReply" uri="activemq:topic:requestReply" />
+		<endpoint id="result" uri="activemq:topic:result" />
+		<endpoint id="mockResult" uri="mock:result" />
+		<endpoint id="mockAggregatedResult" uri="mock:aggregatedResult" />
+
+		<!-- Data source #1 flow -->
+		<route>
+			<from ref="request" />
+			<setExchangePattern pattern="InOnly" />
+			<process ref="replyPreProcessor" />
+			<!-- Note process2 method -->
+			<inOnly uri="bean:dataSource1?method=process2" />
+			<inOnly uri="direct:aggregatedResult" />
+		</route>
+
+		<!-- Data source #2 flow -->
+		<route>
+			<from ref="request" />
+			<setExchangePattern pattern="InOnly" />
+			<process ref="replyPreProcessor" />
+			<!-- Note process2 method -->
+			<inOnly uri="bean:dataSource2?method=process2" />
+			<inOnly uri="direct:aggregatedResult" />
+		</route>
+
+		<!--
+			FQE aggregation testing processing fork
+		-->
+		<route>
+			<from uri="direct:aggregatedResult" />
+			<setExchangePattern pattern="InOnly" />
+			<aggregate batchSize="2" strategyRef="groupingStrategy">
+				<correlationExpression>
+					<simple>header.commandId</simple>
+				</correlationExpression>
+				<setExchangePattern pattern="InOnly" />
+				<process ref="replyPostProcessor" />
+			</aggregate>
+		</route>
+
+		<!-- Below isn't used right now -->
+		<!-- Request-reply pattern for an FQE command -->
+		<route>
+			<from ref="requestReply" />
+			<filter>
+				<el>${in.headers.messageContext == 'FEDERATED'}</el>
+				<setExchangePattern pattern="InOnly" />
+				<to ref="request" />
+			</filter>
+			<filter>
+				<el>${in.headers.messageContext == 'AGGREGATED'}</el>
+				<to uri="bean:replyProcessor?method=process" />
+			</filter>
+		</route>
+
+	</camelContext>
+
+</beans>
