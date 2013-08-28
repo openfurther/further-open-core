@@ -19,9 +19,10 @@ ability to assess feasibility of particular clinical research studies, export bi
 datasets for analysis, and create aggregate databases for comparative effectiveness 
 research. With the ability to link unique individuals from these sources, OpenFurther is 
 able to identify cohorts for clinical research. It provides semantic and syntactic 
-interoperability as it federates health information on-the-fly and in real-time and requires 
-neither data extraction nor homogenization by data source partners, facilitating 
-integration by retaining data in their native format and in their originating systems.
+interoperability as it federates health information on-the-fly and in real-time and 
+requires neither data extraction nor homogenization by data source partners, 
+facilitating integration by retaining data in their native format and in their 
+originating systems.
 
 
 OpenFurther is built upon Maven, Spring, Hibernate, ServiceMix, and other open source 
