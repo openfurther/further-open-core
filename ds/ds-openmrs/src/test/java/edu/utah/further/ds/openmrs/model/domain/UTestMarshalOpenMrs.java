@@ -15,6 +15,9 @@
  */
 package edu.utah.further.ds.openmrs.model.domain;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+
 import java.util.Date;
 
 import javax.xml.bind.JAXBException;
@@ -61,21 +64,26 @@ public class UTestMarshalOpenMrs
 		person.setVoidedBy(1);
 		person.setVoidReason("reason");
 
-		final Patient patient = new Patient();
-		patient.setPerson(person);
-		patient.setChangedBy(1);
-		patient.setCreator(1);
-		patient.setDateChanged(new Date());
-		patient.setDateCreated(new Date());
-		patient.setDateVoided(new Date());
-		patient.setId(new Integer(1));
-		patient.setTribe(1);
-		patient.setVoided(Byte.MAX_VALUE);
-		patient.setVoidedBy(1);
-		patient.setVoidReason("reason");
-
 		final XmlService service = new XmlServiceImpl();
-		final String result = service.marshal(patient);
-		System.out.println(result);
+		final String result = service.marshal(person);
+
+		assertThat(result, containsString("<Person"));
+		assertThat(result, containsString("<personId>"));
+		assertThat(result, containsString("<birthdate>"));
+		assertThat(result, containsString("<birthdateEstimated>"));
+		assertThat(result, containsString("<causeOfDeath>"));
+		assertThat(result, containsString("<changedBy>"));
+		assertThat(result, containsString("<creator>"));
+		assertThat(result, containsString("<dateChanged>"));
+		assertThat(result, containsString("<dateCreated>"));
+		assertThat(result, containsString("<dateVoided>"));
+		assertThat(result, containsString("<dead>"));
+		assertThat(result, containsString("<deathDate>"));
+		assertThat(result, containsString("<gender>"));
+		assertThat(result, containsString("<uuid>"));
+		assertThat(result, containsString("<voidReason>"));
+		assertThat(result, containsString("<voided>"));
+		assertThat(result, containsString("<voidedBy>"));
+
 	}
 }

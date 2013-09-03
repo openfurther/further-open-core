@@ -29,7 +29,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -101,7 +100,7 @@ public class Patient implements PersistentEntity<Integer>
 	// bi-directional one-to-one association to Person
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "patient_id")
-	@XmlElement(name = "Person")
+	@XmlTransient
 	private Person person;
 
 	public Patient()
