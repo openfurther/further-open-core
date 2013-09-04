@@ -64,17 +64,28 @@ public class UTestMarshalOpenMrs
 		person.setVoided(Byte.MAX_VALUE);
 		person.setVoidedBy(1);
 		person.setVoidReason("reason");
-		
+
 		final PersonAttributeType personAttributeType = new PersonAttributeType();
 		personAttributeType.setName("Race");
-		personAttributeType.setDescription("Group of persons related by common descent or heredity");
+		personAttributeType
+				.setDescription("Group of persons related by common descent or heredity");
 		personAttributeType.setFormat("java.lang.String");
-		personAttributeType.setSearchable((byte)0);
+		personAttributeType.setSearchable((byte) 0);
 		personAttributeType.setCreator(1);
 		personAttributeType.setDateCreated(new Date());
-		personAttributeType.setRetired((byte)0);
+		personAttributeType.setRetired((byte) 0);
 		personAttributeType.setUuid(UUID.randomUUID().toString());
 		personAttributeType.setSortWeight(6);
+
+		final PersonAttribute personAttribute = new PersonAttribute();
+		personAttribute.setCreator(1);
+		personAttribute.setPersonAttributeType(personAttributeType);
+		personAttribute.setValue("Caucasian");
+		personAttribute.setPerson(person);
+		personAttribute.setVoided((byte) 0);
+		personAttribute.setUuid(UUID.randomUUID().toString());
+
+		person.addPersonAttribute(personAttribute);
 
 		final XmlService service = new XmlServiceImpl();
 		final String result = service.marshal(person);
@@ -96,6 +107,11 @@ public class UTestMarshalOpenMrs
 		assertThat(result, containsString("<voidReason>"));
 		assertThat(result, containsString("<voided>"));
 		assertThat(result, containsString("<voidedBy>"));
+		assertThat(result, containsString("<voidedBy>"));
+		assertThat(result, containsString("<personAttributes>"));
+		assertThat(result, containsString("<personAttribute>"));
+		assertThat(result, containsString("<personAttributeId>"));
+		assertThat(result, containsString("<personAttributeType>"));
 
 	}
 }
