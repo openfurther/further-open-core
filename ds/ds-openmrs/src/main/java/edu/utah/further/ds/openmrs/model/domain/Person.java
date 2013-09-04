@@ -112,6 +112,10 @@ public class Person implements PersistentEntity<Integer> {
 	@OneToOne(mappedBy="person", fetch=FetchType.LAZY)
 	@XmlTransient
 	private Patient patient;
+	
+	//bi-directional many-to-one association to PersonAttribute
+	@OneToMany(mappedBy="person")
+	private List<PersonAttribute> personAttributes;
 
 	public Person() {
 	}
@@ -274,9 +278,31 @@ public class Person implements PersistentEntity<Integer> {
 	public Patient getPatient() {
 		return this.patient;
 	}
+	
+	public List<PersonAttribute> getPersonAttributes() {
+		return this.personAttributes;
+	}
 
 	public void setPatient(final Patient patient) {
 		this.patient = patient;
+	}
+	
+	public void setPersonAttributes(final List<PersonAttribute> personAttributes) {
+		this.personAttributes = personAttributes;
+	}
+
+	public PersonAttribute addPersonAttribute(final PersonAttribute personAttribute) {
+		getPersonAttributes().add(personAttribute);
+		personAttribute.setPerson(this);
+
+		return personAttribute;
+	}
+
+	public PersonAttribute removePersonAttribute(final PersonAttribute personAttribute) {
+		getPersonAttributes().remove(personAttribute);
+		personAttribute.setPerson(null);
+
+		return personAttribute;
 	}
 
 }

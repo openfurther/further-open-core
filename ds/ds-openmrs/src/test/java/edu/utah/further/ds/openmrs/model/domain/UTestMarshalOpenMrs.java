@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
@@ -63,6 +64,17 @@ public class UTestMarshalOpenMrs
 		person.setVoided(Byte.MAX_VALUE);
 		person.setVoidedBy(1);
 		person.setVoidReason("reason");
+		
+		final PersonAttributeType personAttributeType = new PersonAttributeType();
+		personAttributeType.setName("Race");
+		personAttributeType.setDescription("Group of persons related by common descent or heredity");
+		personAttributeType.setFormat("java.lang.String");
+		personAttributeType.setSearchable((byte)0);
+		personAttributeType.setCreator(1);
+		personAttributeType.setDateCreated(new Date());
+		personAttributeType.setRetired((byte)0);
+		personAttributeType.setUuid(UUID.randomUUID().toString());
+		personAttributeType.setSortWeight(6);
 
 		final XmlService service = new XmlServiceImpl();
 		final String result = service.marshal(person);
