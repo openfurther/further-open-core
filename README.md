@@ -26,7 +26,7 @@ Getting Started
 For FURTHeR source distribution, please read 
 BUILDING.txt for instructions on building FURTHeR. 
 
-Please submit all bug reports to the OpenFurther JIRA located at https://openfurther.atlassian.net/secure/Dashboard.jspa
+Please submit all bug reports to the OpenFurther JIRA located at https://openfurther.atlassian.net/secure/Dashboard.jspa  
 Please submit any sensitive security issues to openfurther-security@googlegroups.com
 
 We welcome contributions, and encourage you to get involved in the community. 
