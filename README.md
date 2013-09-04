@@ -26,7 +26,8 @@ Getting Started
 For FURTHeR source distribution, please read 
 BUILDING.txt for instructions on building FURTHeR. 
 
-If you find any issues with FURTHeR, please email us at: openfurther@gmail.com
+Please submit all bug reports to the OpenFurther JIRA located at https://openfurther.atlassian.net/secure/Dashboard.jspa
+Please submit any sensitive security issues to openfurther-security@googlegroups.com
 
 We welcome contributions, and encourage you to get involved in the community. 
 If you'd like to learn more about how you can 
