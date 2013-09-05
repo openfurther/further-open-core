@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Person xmlns:ns2="http://further.utah.edu" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<id>
+		<datasetId>1</datasetId>
+		<id>1</id>
+	</id>
+	<compositeId>12345</compositeId>
+	<administrativeGenderNamespaceId>30</administrativeGenderNamespaceId>
+	<administrativeGender>12345</administrativeGender>
+	<raceNamespaceId>30</raceNamespaceId>
+	<race>12345</race>
+	<ethnicityNamespaceId>30</ethnicityNamespaceId>
+	<ethnicity>Caucasian</ethnicity>
+	<dateOfBirth>2013-09-05T14:19:26.404-06:00</dateOfBirth>
+	<birthYear>1980</birthYear>
+	<birthMonth>1</birthMonth>
+	<birthDay>1</birthDay>
+	<educationLevel>High</educationLevel>
+	<primaryLanguageNamespaceId>30</primaryLanguageNamespaceId>
+	<primaryLanguage>12345</primaryLanguage>
+	<maritalStatusNamespaceId>30</maritalStatusNamespaceId>
+	<maritalStatus>12345</maritalStatus>
+	<religionNamespaceId>30</religionNamespaceId>
+	<religion>12345</religion>
+	<multipleBirthIndicator>true</multipleBirthIndicator>
+	<multipleBirthIndicatorOrderNumber>1</multipleBirthIndicatorOrderNumber>
+	<causeOfDeathNamespaceId>30</causeOfDeathNamespaceId>
+	<causeOfDeath>12345</causeOfDeath>
+	<dateOfDeath>2013-09-05T14:19:26.404-06:00</dateOfDeath>
+	<deathYear>2013</deathYear>
+	<pedigreeQuality>1</pedigreeQuality>
+</ns2:Person>
