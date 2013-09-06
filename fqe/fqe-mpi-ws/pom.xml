@@ -16,7 +16,7 @@
 	<!-- =========================================== -->
 
 	<properties>
-		<shortName>mpi.ws.impl</shortName>
+		<shortName>mpi.ws</shortName>
 		<further.osgi.import.pkg>
 			META-INF.cxf,
 			org.apache.cxf.bus,
