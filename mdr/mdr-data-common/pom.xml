@@ -60,7 +60,7 @@
 			javax.persistence,
 			edu.utah.further.core.data.service,
 			edu.utah.further.core.util.io,
-			edu.utah.further.core.data.oracle.type,
+			edu.utah.further.core.data.oracle.type;resolution:=optional,
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
 			org.jasypt.spring3.properties,
