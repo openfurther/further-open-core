@@ -90,7 +90,6 @@
 		<property name="annotatedPackages">
 			<list>
 				<value><![CDATA[edu.utah.further.ds.data.domain]]></value>
-				<value><![CDATA[edu.utah.further.core.data.oracle.type]]></value>
 			</list>
 		</property>
 

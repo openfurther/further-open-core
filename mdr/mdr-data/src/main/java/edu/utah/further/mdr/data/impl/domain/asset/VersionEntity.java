@@ -21,8 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
-
 import edu.utah.further.mdr.api.domain.asset.Asset;
 import edu.utah.further.mdr.api.domain.asset.Version;
 import edu.utah.further.mdr.data.common.domain.asset.AbstractVersionEntity;
@@ -65,7 +63,6 @@ public class VersionEntity extends AbstractVersionEntity
 	 * Asset properties in XML format.
 	 */
 	@Column(name = "ASSET_PROPERTIES_XML", nullable = true)
-	@Type(type = "xml-type")
 	private String propertiesXml;
 
 	// ========================= CONSTRUCTORS ==============================

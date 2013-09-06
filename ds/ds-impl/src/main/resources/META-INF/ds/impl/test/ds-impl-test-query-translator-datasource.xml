@@ -87,7 +87,6 @@
 				<value>edu.utah.further.fqe.model.impl</value>
 				<value>edu.utah.further.ds.data.domain</value>
 				<value>edu.utah.further.fqe.impl.domain></value>
-				<value>edu.utah.further.core.data.oracle.type</value>
 			</list>
 		</property>
 		<!-- Mapping annotated classes using search patterns -->

@@ -58,7 +58,6 @@
 			com.mysql.jdbc;resolution:=optional,
 			edu.utah.further.core.data.service,
 			edu.utah.further.core.util.io,
-			edu.utah.further.core.data.oracle.type,
 			edu.utah.further.core.util.text,
 			edu.utah.further.core.query.domain,
 			edu.utah.further.mdr.data.common.domain.asset,

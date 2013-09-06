@@ -83,7 +83,6 @@
 			edu.utah.further.ds.api.advice,
 			edu.utah.further.ds.api.service.query.logic,
 			edu.utah.further.ds.data.domain,
-			edu.utah.further.core.data.oracle.type,
 			edu.utah.further.core.data.service,
 			edu.utah.further.mdr.ws.impl.service.rest,
 			org.jasypt.encryption.pbe;version="${jasypt.version}",

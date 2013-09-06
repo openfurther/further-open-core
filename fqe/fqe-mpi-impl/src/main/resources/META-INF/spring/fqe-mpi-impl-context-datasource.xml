@@ -83,14 +83,6 @@
 			<bean class="org.hibernate.cfg.DefaultNamingStrategy" />
 		</property>
 
-		<!-- Reads package-level Hibernate annotations. Unfortunately, this has 
-			to be manually maintained for all model packages -->
-		<property name="annotatedPackages">
-			<list>
-				<!-- <value><![CDATA[edu.utah.further.mpi.impl.domain]]></value> <value><![CDATA[edu.utah.further.core.data.oracle.type]]></value> -->
-			</list>
-		</property>
-
 		<!-- Mapping annotated classes using search patterns -->
 		<property name="annotatedClasses">
 			<!-- May need to be replaced by a edu.utah.further.core.util.io.ResourceMatchingFactoryBean 

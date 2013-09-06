@@ -97,7 +97,6 @@
 			<list>
 				<value>edu.utah.further.mdr.data.common.domain.asset</value>
 				<value>edu.utah.further.mdr.data.impl.domain.asset</value>
-				<!-- <value>edu.utah.further.core.data.oracle.type</value> -->
 			</list>
 		</property>
 
