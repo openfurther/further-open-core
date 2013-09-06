@@ -52,7 +52,7 @@
 	<ctx:property-placeholder properties-ref="fqeMpiWsProps" />
 
 	<!-- Configuration Admin entry -->
-	<osgix:cm-properties id="fqeWsProps" persistent-id="further.fqe.mpi.ws">
+	<osgix:cm-properties id="fqeMpiWsProps" persistent-id="further.fqe.mpi.ws">
 
 		<!-- ################################# -->
 		<!-- Server parameters -->
