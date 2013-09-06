@@ -75,34 +75,34 @@
 			<!-- May need to be replaced by a edu.utah.further.core.util.io.ResourceMatchingFactoryBean 
 				factory bean if this list gets too large. -->
 			<list>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionEraId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionEra]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionOccurrenceId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ConditionOccurrence]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.EncounterId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Encounter]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.LocationId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Location]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ObservationId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Observation]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ObservationPeriodId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ObservationPeriod]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.OrderId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Order]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.PersonAssociationId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.PersonAssociation]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.PersonId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Person]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProcedureOccurrenceId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProcedureOccurrence]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProviderId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Provider]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProviderLocationId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.ProviderLocation]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.SpecimenId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Specimen]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.StorageId]]></value>
-				<value><![CDATA[edu.utah.further.ds.further.model.impl.Storage]]></value>		
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ConditionEraId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ConditionEra]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ConditionOccurrenceId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ConditionOccurrence]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.EncounterId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Encounter]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.LocationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Location]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ObservationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Observation]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ObservationPeriodId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ObservationPeriod]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.OrderId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Order]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.PersonAssociationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.PersonAssociation]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.PersonId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Person]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ProcedureOccurrenceId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ProcedureOccurrence]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ProviderId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Provider]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ProviderLocationId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.ProviderLocation]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.SpecimenId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Specimen]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.StorageId]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain.Storage]]></value>		
 			</list>
 		</property>
 
