@@ -79,7 +79,6 @@
 		<feature>further-dts</feature>
 		<feature>further-mdr</feature>
 		<feature>further-security</feature>
-		<feature>further-mpi</feature>
 		<feature>further-i2b2</feature>
 		<feature>further-fqe</feature>
 		<feature>further-core-ds</feature>
@@ -196,16 +195,6 @@
 	</feature>
 
 	<!-- =========================================== -->
-	<!-- Federated linking -->
-	<!-- =========================================== -->
-	<feature name="further-mpi" version="${project.version}">
-		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-api/${project.version}]]></bundle>
-		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-impl/${project.version}]]></bundle>
-		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-link-api/${project.version}]]></bundle>
-		<bundle><![CDATA[mvn:edu.utah.further.mpi/mpi-link-impl/${project.version}]]></bundle>
-	</feature>
-
-	<!-- =========================================== -->
 	<!-- i2b2-FURTHeR integration -->
 	<!-- =========================================== -->
 	<feature name="further-i2b2" version="${project.version}">
@@ -220,6 +209,9 @@
 		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-api/${project.version}]]></bundle>
 		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-impl/${project.version}]]></bundle>
 		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-ws/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-mpi-api/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-mpi-impl/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-mpi-ws/${project.version}]]></bundle>
 	</feature>
 
 	<!-- =========================================== -->
