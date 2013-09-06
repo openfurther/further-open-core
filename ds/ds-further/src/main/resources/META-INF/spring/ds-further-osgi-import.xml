@@ -31,15 +31,15 @@
 	<!-- Encryptable property placeholder configurer -->
 	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
 	<bean parent="propertiesEncryptor">
-		<property name="properties" ref="fqeModelImplProps" />
+		<property name="properties" ref="dsFurtherProps" />
 	</bean>
 
 	<!-- placeholder configurer -->
-	<ctx:property-placeholder properties-ref="fqeModelImplProps" />
+	<ctx:property-placeholder properties-ref="dsFurtherProps" />
 
 	<!-- Configuration Admin entry -->
-	<osgix:cm-properties id="fqeModelImplProps"
-		persistent-id="further.fqe.model.impl">
+	<osgix:cm-properties id="dsFurtherProps"
+		persistent-id="further.ds.further">
 
 		<!-- Add default property values here -->
 
