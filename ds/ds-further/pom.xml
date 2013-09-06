@@ -63,7 +63,6 @@
 			edu.utah.further.core.api.data,
 			edu.utah.further.fqe.ds.api.domain,
 			edu.utah.further.core.data.service,
-			edu.utah.further.mpi.link.impl.domain,
 			'=META-INF.core.util',
 			*
 		</further.osgi.import.pkg>
