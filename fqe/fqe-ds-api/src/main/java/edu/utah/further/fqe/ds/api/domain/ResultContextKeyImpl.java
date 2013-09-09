@@ -16,7 +16,7 @@
 package edu.utah.further.fqe.ds.api.domain;
 
 import edu.utah.further.core.api.context.Api;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * A convenient JavaBean that holds the key fields of a result context, for map indexing.

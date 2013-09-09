@@ -28,12 +28,6 @@
 	<!-- Managed properties -->
 	<!-- =========================================== -->
 
-	<!-- Encryptable property placeholder configurer -->
-	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
-	<bean parent="propertiesEncryptor">
-		<property name="properties" ref="dsFurtherProps" />
-	</bean>
-
 	<!-- placeholder configurer -->
 	<ctx:property-placeholder properties-ref="dsFurtherProps" />
 
@@ -43,59 +37,10 @@
 
 		<!-- Add default property values here -->
 
-		<!-- ################################## -->
-		<!-- Database configuration -->
-		<!-- ################################## -->
-
-		<prop key="datasource.name">ds.further</prop>
-		<prop key="datasource.url"></prop>
-		<prop key="datasource.driver"></prop>
-		<prop key="datasource.user"></prop>
-		<prop key="datasource.password"></prop>
-		<prop key="hibernate.dialect"></prop>
-
-		<!-- ################################################## -->
-		<!-- Hibernate configuration - Main i2b2 model database -->
-		<!-- ################################################## -->
-
-		<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
-
-		<!-- ============================ -->
-		<!-- Hibernate options -->
-		<!-- ============================ -->
-
-		<!-- Turn on for SQL debugging -->
-		<prop key="hibernate.show_sql">false</prop>
-
-		<!-- ============================ -->
-		<!--C3P0 connection pool config -->
-		<!-- ============================ -->
-
-		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
-		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
-		<!-- Times are in seconds. -->
-		<prop key="c3p0.initialPoolSize">5</prop>
-		<prop key="c3p0.minPoolSize">5</prop>
-		<prop key="c3p0.maxPoolSize">15</prop>
-		<prop key="c3p0.maxStatements">50</prop>
-		<prop key="c3p0.acquireRetryAttempts">30</prop>
-		<prop key="c3p0.acquireIncrement">5</prop>
-		<prop key="c3p0.testConnectionOnCheckin">true</prop>
-		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
-		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
-		<prop key="c3p0.maxIdleTime">1800</prop>
-		<!-- Note this property valuy is for HSQLDB ONLY! -->
-		<prop key="c3p0.preferredTestQuery"></prop>
-
 	</osgix:cm-properties>
 
 	<!-- =========================================== -->
 	<!-- Imported OSGi services -->
 	<!-- =========================================== -->
-
-	<!-- 
-	<osgi:reference id="dtsOperationService"
-		interface="edu.utah.further.dts.api.service.DtsOperationService" />
-	-->
 
 </beans>

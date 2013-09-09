@@ -26,7 +26,7 @@ import edu.utah.further.core.api.xml.XmlNamespace;
 import edu.utah.further.fqe.ds.api.domain.AbstractResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * A convenient JAXB entity that holds the key fields of a result context, for map

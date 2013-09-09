@@ -37,7 +37,7 @@ import edu.utah.further.fqe.ds.api.ResultContextMapAdapter;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
 

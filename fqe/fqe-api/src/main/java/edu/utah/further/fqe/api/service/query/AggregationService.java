@@ -22,7 +22,7 @@ import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * A data source result set aggregation service implementation. Relies on a Hibernate

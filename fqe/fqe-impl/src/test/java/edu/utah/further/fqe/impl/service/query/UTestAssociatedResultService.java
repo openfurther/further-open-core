@@ -32,8 +32,8 @@ import org.junit.Test;
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
-import edu.utah.further.fqe.ds.api.results.ResultService;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultService;
 import edu.utah.further.fqe.mpi.api.IdentifierService;
 
 /**

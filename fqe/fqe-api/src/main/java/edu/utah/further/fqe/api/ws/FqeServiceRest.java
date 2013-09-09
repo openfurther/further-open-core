@@ -37,7 +37,7 @@ import edu.utah.further.fqe.ds.api.domain.DsMetaData;
 import edu.utah.further.fqe.ds.api.domain.DsState;
 import edu.utah.further.fqe.ds.api.domain.ExportContext;
 import edu.utah.further.fqe.ds.api.domain.ExportFormat;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ExportContextTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextIdentifierTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextStateTo;

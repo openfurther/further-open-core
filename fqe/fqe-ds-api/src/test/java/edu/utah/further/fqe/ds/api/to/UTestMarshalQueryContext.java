@@ -26,8 +26,8 @@ import static edu.utah.further.core.query.domain.SearchCriteria.stringExpression
 import static edu.utah.further.core.query.domain.SearchType.CONJUNCTION;
 import static edu.utah.further.core.query.domain.SearchType.DISJUNCTION;
 import static edu.utah.further.core.query.domain.SearchType.LIKE;
-import static edu.utah.further.fqe.ds.api.results.ResultType.INTERSECTION;
-import static edu.utah.further.fqe.ds.api.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.INTERSECTION;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;

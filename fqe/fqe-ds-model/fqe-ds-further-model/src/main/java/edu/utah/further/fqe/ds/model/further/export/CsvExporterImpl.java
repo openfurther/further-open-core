@@ -13,40 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.fqe.ds.api.results;
+package edu.utah.further.fqe.ds.model.further.export;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import edu.utah.further.fqe.ds.api.domain.ExportContext;
+import edu.utah.further.fqe.ds.api.domain.Exporter;
 
 /**
- * Federated result set types.
+ * ...
  * <p>
  * -----------------------------------------------------------------------------------<br>
- * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
+ * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
  * Contact: {@code <further@utah.edu>}<br>
  * Biomedical Informatics, 26 South 2000 East<br>
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
- * @see https://jira.chpc.utah.edu/browse/FUR-1184
- * @author Oren E. Livne {@code <oren.livne@utah.edu>}
- * @version Oct 18, 2010
+ * 
+ * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
+ * @version Sep 9, 2013
  */
-public enum ResultType
+@Service("csvExporter")
+public class CsvExporterImpl implements Exporter
 {
-	// ========================= ENUMERATED CONSTANTS ======================
 
-	/**
-	 * For two sets: A + B (i.e. the union of A and B, with the intersection counted
-	 * twice). Similarly for n sets.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.fqe.ds.api.domain.Exporter#format(java.util.List,
+	 * edu.utah.further.fqe.ds.api.domain.ExportContext)
 	 */
-	SUM,
+	@Override
+	public <F> F format(final List<?> results, final ExportContext exportContext)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * The generalized intersection: if A1..An are the data sets, a k-intersection is the
-	 * set of records that are in at least k sets. Union is the 1-intersection and the
-	 * standard intersection is the n-intersection.
-	 */
-	INTERSECTION;
-
-	// ========================= PRIVATE METHODS ===========================
 }

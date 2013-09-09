@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.utah.further.fqe</groupId>
+		<artifactId>fqe-ds-model</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+	</parent>
+	<packaging>bundle</packaging>
+	<artifactId>fqe-ds-further-model</artifactId>
+	<name>FQE Data Source OpenFurther Model</name>
+	<description>FQE Data Source OpenFurther Model</description>
+
+	<!-- =========================================== -->
+	<!-- Externalized properties -->
+	<!-- =========================================== -->
+
+	<properties>
+		<shortName>ds.model.further</shortName>
+	</properties>
+
+	<dependencies>
+
+		<!-- ########################## -->
+		<!-- Compile-time -->
+		<!-- ########################## -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-ds-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-further</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

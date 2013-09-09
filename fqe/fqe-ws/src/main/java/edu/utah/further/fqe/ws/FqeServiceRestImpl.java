@@ -67,7 +67,7 @@ import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.StatusMetaData;
 import edu.utah.further.fqe.ds.api.domain.plan.ExecutionRule;
 import edu.utah.further.fqe.ds.api.domain.plan.Plan;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ExportContextTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextIdentifierTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextStateTo;
@@ -584,7 +584,7 @@ public class FqeServiceRestImpl implements FqeServiceRest
 	 * @return an object holding histograms of aggregated counts for each of several
 	 *         demographic category
 	 * @see edu.utah.further.fqe.api.ws.FqeServiceRest#aggregatedResultByOriginId(long,
-	 *      edu.utah.further.fqe.ds.api.results.ResultType, int)
+	 *      edu.utah.further.fqe.ds.api.service.results.ResultType, int)
 	 */
 	@Override
 	public AggregatedResultTo aggregatedResultByOriginId(final long originId,

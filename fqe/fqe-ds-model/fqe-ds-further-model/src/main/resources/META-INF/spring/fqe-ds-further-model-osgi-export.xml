@@ -34,11 +34,7 @@
 	<!-- Data source for this analytical model -->
 	<osgi:service ref="inMemoryDs" interface="javax.sql.DataSource" />
 
-	<!-- Service for dealing with results in memory 
-	<osgi:service ref="resultService"
-		interface="edu.utah.further.fqe.ds.api.results.ResultService" />
-	-->
-	<!-- A comma separated value exporter for the i2b2 data model 
+	<!-- A comma separated value exporter for the data model 
 	<osgi:service ref="csvExporter"
 		interface="edu.utah.further.fqe.ds.api.domain.Exporter" />
 	-->

@@ -17,7 +17,7 @@ package edu.utah.further.fqe.impl.service.query;
 
 import static edu.utah.further.core.test.util.AssertUtil.assertSizeEquals;
 import static edu.utah.further.core.util.io.LoggingUtil.debugPrintBigTitle;
-import static edu.utah.further.fqe.ds.api.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
 import static edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil.NUM_RESULTS_IN_VIEW;
 import static edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil.addResultViewTo;
 import static edu.utah.further.fqe.ds.test.QueryContextTestUtil.assertTransientContext;

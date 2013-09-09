@@ -52,7 +52,7 @@ import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.StatusMetaData;
 import edu.utah.further.fqe.ds.api.domain.plan.Plan;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.plan.PlanToImpl;
 import edu.utah.further.fqe.ds.api.util.CommandType;
 import edu.utah.further.fqe.ds.api.util.FqeDsApiResourceLocator;

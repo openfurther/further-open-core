@@ -39,6 +39,5 @@
 	<!-- =========================================== -->
 
 	<import resource="ds-further-osgi-import.xml" />
-	<import resource="ds-further-context-datasource.xml"/>
 
 </beans> 

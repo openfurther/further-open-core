@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.fqe.ds.api.results;
+package edu.utah.further.fqe.ds.api.service.results;
 
 import java.util.List;
 import java.util.Map;

@@ -28,7 +28,7 @@ import javax.persistence.Table;
 import edu.utah.further.core.api.lang.Final;
 import edu.utah.further.fqe.ds.api.domain.AbstractResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * An result context map-indexing key (NOT the Hibernate entity identifier). Also serves

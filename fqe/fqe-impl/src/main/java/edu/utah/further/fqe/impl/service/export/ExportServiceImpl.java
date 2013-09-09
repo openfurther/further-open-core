@@ -37,7 +37,7 @@ import edu.utah.further.fqe.ds.api.domain.ExportContext;
 import edu.utah.further.fqe.ds.api.domain.ExportFormat;
 import edu.utah.further.fqe.ds.api.domain.Exporter;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
-import edu.utah.further.fqe.ds.api.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultService;
 import edu.utah.further.security.api.exceptions.AuthorizationException;
 import edu.utah.further.security.api.services.AuditService;
 import edu.utah.further.security.api.services.SecurityService;

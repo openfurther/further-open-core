@@ -36,7 +36,7 @@ import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.StatusMetaData;
 import edu.utah.further.fqe.ds.api.domain.plan.Plan;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * A decorator of {@link QueryContext}. The only difference between this class and
@@ -751,7 +751,7 @@ public final class QueryJob implements QueryContext
 	 * @param intersectionIndex
 	 * @param resultContext
 	 * @return
-	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#addResultView(edu.utah.further.fqe.ds.api.results.ResultType,
+	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#addResultView(edu.utah.further.fqe.ds.api.service.results.ResultType,
 	 *      java.lang.Integer, edu.utah.further.fqe.ds.api.domain.ResultContext)
 	 */
 	@Override
@@ -787,7 +787,7 @@ public final class QueryJob implements QueryContext
 	 * @param type
 	 * @param intersectionIndex
 	 * @return
-	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getResultView(edu.utah.further.fqe.ds.api.results.ResultType,
+	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getResultView(edu.utah.further.fqe.ds.api.service.results.ResultType,
 	 *      java.lang.Integer)
 	 */
 	@Override

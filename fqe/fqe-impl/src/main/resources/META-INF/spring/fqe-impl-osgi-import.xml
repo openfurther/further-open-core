@@ -135,7 +135,7 @@
 
 	<!-- Result Service for generating result views -->
 	<osgi:reference id="resultService" bean-name="resultService"
-		interface="edu.utah.further.fqe.ds.api.results.ResultService" />
+		interface="edu.utah.further.fqe.ds.api.service.results.ResultService" />
 
 	<osgi:reference id="xmlService"
 		interface="edu.utah.further.core.api.xml.XmlService" />

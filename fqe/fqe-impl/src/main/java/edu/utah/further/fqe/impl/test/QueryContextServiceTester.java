@@ -16,7 +16,7 @@
 package edu.utah.further.fqe.impl.test;
 
 import static edu.utah.further.core.util.io.LoggingUtil.debugPrintAndCenter;
-import static edu.utah.further.fqe.ds.api.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
 import static edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil.addResultViewTo;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

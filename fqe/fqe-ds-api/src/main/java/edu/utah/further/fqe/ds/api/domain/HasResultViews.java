@@ -17,7 +17,7 @@ package edu.utah.further.fqe.ds.api.domain;
 
 import java.util.Map;
 
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * An object that holds a query result's federated join aggregated counts.

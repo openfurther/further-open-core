@@ -16,8 +16,8 @@
 package edu.utah.further.fqe.impl.service.query;
 
 import static edu.utah.further.core.api.constant.Constants.INVALID_VALUE_INTEGER;
-import static edu.utah.further.fqe.ds.api.results.ResultType.INTERSECTION;
-import static edu.utah.further.fqe.ds.api.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.INTERSECTION;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
@@ -48,8 +48,8 @@ import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.results.ResultService;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
 

@@ -44,7 +44,7 @@
 	<!-- ResultService Mock -->
 	<bean id="resultService" class="org.easymock.EasyMock"
 		factory-method="createMock">
-		<constructor-arg value="edu.utah.further.fqe.ds.api.results.ResultService" />
+		<constructor-arg value="edu.utah.further.fqe.ds.api.service.results.ResultService" />
 	</bean>
 
 	<bean id="deEvaluator"

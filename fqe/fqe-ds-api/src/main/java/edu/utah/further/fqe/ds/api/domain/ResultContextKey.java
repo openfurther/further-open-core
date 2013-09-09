@@ -16,7 +16,7 @@
 package edu.utah.further.fqe.ds.api.domain;
 
 import edu.utah.further.core.api.constant.Constants;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * An immutable {@link QueryContext} result set information placeholder. Allows to

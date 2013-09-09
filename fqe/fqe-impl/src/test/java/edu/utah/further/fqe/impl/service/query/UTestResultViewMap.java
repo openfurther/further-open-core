@@ -15,7 +15,7 @@
  */
 package edu.utah.further.fqe.impl.service.query;
 
-import static edu.utah.further.fqe.ds.api.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
 import static edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil.NUM_RESULTS_IN_VIEW;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +33,7 @@ import edu.utah.further.core.test.annotation.UnitTest;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.results.ResultType;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.QueryContextToImpl;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
 import edu.utah.further.fqe.impl.domain.QueryContextEntity;
