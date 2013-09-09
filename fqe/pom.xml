@@ -53,6 +53,7 @@
 		<module>fqe-mpi-api</module>
 		<module>fqe-mpi-impl</module>
 		<module>fqe-mpi-ws</module>
+		<module>fqe-ds-model</module>
 	</modules>
 	
 </project>
