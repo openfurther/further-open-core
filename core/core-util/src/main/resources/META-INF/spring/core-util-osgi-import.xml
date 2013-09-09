@@ -54,6 +54,7 @@
 		<prop key="namespace.rxnorm.name"></prop>
 		<prop key="namespace.rxterms.name"></prop>
 		<prop key="namespace.ucum.name"></prop>
+		<prop key="namespace.openmrs-v1_9.name"></prop>
 
 		<!-- ################################## -->
 		<!-- # Standard namespace identifiers # -->
@@ -73,6 +74,7 @@
 		<prop key="namespace.rxnorm.id"></prop>
 		<prop key="namespace.rxterms.id"></prop>
 		<prop key="namespace.ucum.id"></prop>
+		<prop key="namespace.openmrs-v1_9.id"></prop>
 
 		<!-- ########################## -->
 		<!-- # Custom namespace names # -->
