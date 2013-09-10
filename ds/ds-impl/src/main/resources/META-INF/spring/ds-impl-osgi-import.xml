@@ -186,8 +186,4 @@
 	<osgi:reference id="associatedResultService" bean-name="associatedResultService"
 		interface="edu.utah.further.fqe.ds.api.service.query.AssociatedResultService" />
 
-	<!-- Import the Virtual Repository Datasource -->
-	<osgi:reference id="dataSource" bean-name="virtualRepositoryDataSource"
-		interface="com.mchange.v2.c3p0.PooledDataSource" />
-
 </beans>
