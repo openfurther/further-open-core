@@ -227,6 +227,9 @@
 		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-impl/${project.version}]]></bundle>
 		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-jms/${project.version}]]></bundle>
 		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-further/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-omop/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-openmrs/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.ds/ds-i2b2/${project.version}]]></bundle>
 	</feature>
 
 </features>
