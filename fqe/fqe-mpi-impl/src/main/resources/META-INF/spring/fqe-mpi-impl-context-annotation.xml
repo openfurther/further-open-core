@@ -52,7 +52,7 @@
 	<!-- <context:spring-configured /> -->
 	<!-- <context:load-time-weaver /> -->
 
-	<context:component-scan base-package="edu.utah.further.mpi.impl" />
+	<context:component-scan base-package="edu.utah.further.fqe.mpi.impl" />
 
 
 </beans>
