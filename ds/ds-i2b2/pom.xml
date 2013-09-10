@@ -20,53 +20,15 @@
 	<properties>
 		<shortName>i2b2.model</shortName>
 		<further.osgi.import.pkg>
-			org.hibernate,
-			org.hibernate.annotations,
-			org.hibernate.cfg,
-			org.hibernate.proxy,
-			org.hibernate.hql.ast,
-			org.hibernate.type,
-			org.springframework.orm,
-			org.springframework.orm.hibernate3.support,
-			org.springframework.orm.hibernate3.annotation,
-			org.springframework.orm.hibernate3,
-			org.springframework.orm.jpa,
-			org.springframework.orm.jpa.vendor,
-			org.springframework.orm.jpa.support,
-			org.springframework.aop,
-			org.springframework.aop.framework,
-			org.springframework.aop.config,
-			org.springframework.aop.aspectj.annotation,
-			org.springframework.beans.factory.aspectj,
-			org.springframework.transaction.aspectj,
-			org.springframework.jdbc.support.lob,
-			org.springframework.dao.support,
-			org.springframework.context.weaving,
-			org.springframework.transaction.support,
-			org.hsqldb,
-			com.mysql.jdbc;resolution:=optional,
-			com.mchange.v2.c3p0,
-			org.apache.commons.dbcp,
-			org.aopalliance.aop,
-			org.aspectj.lang,
-			org.aspectj.lang.reflect,
-			org.aspectj.lang.annotation,
-			org.jasypt.spring3.properties,
-			org.jasypt.encryption.pbe;version="${jasypt.version}",
-			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
-			javassist.util.proxy,
-			javax.persistence,
-			javax.persistence.spi,
-			javax.sql,
-			net.sf.cglib.proxy,
-			net.sf.cglib.core,
-			net.sf.cglib.reflect,
-			edu.utah.further.core.data.jpa,
-			edu.utah.further.core.data.hibernate.listeners,
-			edu.utah.further.mpi.link.impl.domain,
-			edu.utah.further.dts.api.service,
-			edu.utah.further.core.data.service,
-			'=META-INF.core.util',
+			org.hibernate;resolution:=optional,
+			org.hibernate.annotations;resolution:=optional,
+			org.hibernate.cfg;resolution:=optional,
+			org.hibernate.proxy;resolution:=optional,
+			org.hibernate.hql.ast;resolution:=optional,
+			org.hibernate.type;resolution:=optional,
+			javassist.util.proxy;resolution:=optional,
+			javax.persistence;resolution:=optional,
+			javax.persistence.spi;resolution:=optional,
 			*
 		</further.osgi.import.pkg>
 	</properties>
@@ -91,7 +53,7 @@
 			<groupId>edu.utah.further.core</groupId>
 			<artifactId>core-data</artifactId>
 		</dependency>
-		
+
 		<!-- FQE Datasource API -->
 		<dependency>
 			<groupId>edu.utah.further.fqe</groupId>
@@ -147,15 +109,10 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- MySQL driver (needed only if a MySQL data source is used) 
-		<dependency>
-			<groupId>com.mysql.jdbc</groupId>
-			<artifactId>com.springsource.com.mysql.jdbc</artifactId>
-			<version>${mysql.connector.java.version}</version>
-			<scope>test</scope>
-		</dependency>
-		-->
-		
+		<!-- MySQL driver (needed only if a MySQL data source is used) <dependency> 
+			<groupId>com.mysql.jdbc</groupId> <artifactId>com.springsource.com.mysql.jdbc</artifactId> 
+			<version>${mysql.connector.java.version}</version> <scope>test</scope> </dependency> -->
+
 		<!-- Terminology Support -->
 		<dependency>
 			<groupId>edu.utah.further.dts</groupId>

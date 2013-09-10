@@ -17,6 +17,18 @@
 
 	<properties>
 		<shortName>openmrs.model</shortName>
+		<further.osgi.import.pkg>
+			org.hibernate;resolution:=optional,
+			org.hibernate.annotations;resolution:=optional,
+			org.hibernate.cfg;resolution:=optional,
+			org.hibernate.proxy;resolution:=optional,
+			org.hibernate.hql.ast;resolution:=optional,
+			org.hibernate.type;resolution:=optional,
+			javassist.util.proxy;resolution:=optional,
+			javax.persistence;resolution:=optional,
+			javax.persistence.spi;resolution:=optional,
+			*
+		</further.osgi.import.pkg>
 	</properties>
 
 	<!-- =========================================== -->
