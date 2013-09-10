@@ -25,6 +25,7 @@
 			org.apache.cxf.resource,
 			org.apache.cxf.configuration.spring,
 			org.apache.cxf.binding,
+			org.apache.cxf.jaxrs.provider,
 			org.apache.camel.converter.jaxb,
 			org.apache.camel.converter*,
 			org.apache.commons.lang;version="${commons.lang.version}",
