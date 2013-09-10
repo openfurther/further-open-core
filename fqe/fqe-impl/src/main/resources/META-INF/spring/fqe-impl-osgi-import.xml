@@ -140,6 +140,9 @@
 	<osgi:reference id="xmlService"
 		interface="edu.utah.further.core.api.xml.XmlService" />
 
+	<osgi:reference id="identifierService"
+		context-class-loader="service-provider" interface="edu.utah.further.fqe.mpi.api.IdentifierService" />
+
 	<osgi:reference id="authenticationProvider"
 		interface="edu.utah.further.security.api.authentication.PreAuthenticatedFederatedAuthenticationProvider" />
 
