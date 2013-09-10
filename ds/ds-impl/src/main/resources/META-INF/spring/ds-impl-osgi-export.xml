@@ -43,7 +43,7 @@
 	<!-- ################################### -->
 
 	<!-- Export answerable service for use by dses -->
-	<osgi:service ref="metadataAnswerableService"
+	<osgi:service ref="answerableServiceAlways"
 		interface="edu.utah.further.ds.api.service.query.AnswerableService" />
 
 	<!-- ################################### -->

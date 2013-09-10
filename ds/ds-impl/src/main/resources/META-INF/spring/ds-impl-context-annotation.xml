@@ -31,13 +31,12 @@
 
 	<context:annotation-config />
 
-	<!-- Core Data -->
-	<context:component-scan base-package="edu.utah.further.core.data" />
-
 	<!-- DS Impl -->
 	<context:component-scan base-package="edu.utah.further.ds.impl" >
 		<context:exclude-filter type="regex"
 			expression=".*\.PersisterCreateImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*\.AnswerableServiceMetadataImpl" />
 	</context:component-scan>
 
 	<!-- Core XML -->
