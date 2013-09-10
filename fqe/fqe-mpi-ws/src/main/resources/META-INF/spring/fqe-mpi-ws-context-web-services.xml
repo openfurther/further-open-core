@@ -55,5 +55,31 @@
 			</map>
 		</property>
 	</bean>
+	
+	<!-- =========================================== -->
+	<!-- REST service endpoints -->
+	<!-- =========================================== -->
+
+	<!-- Main REST services -->
+	<jaxrs:server id="fqeMpiEndpointRest" address="${fqe.mpi.ws.context}/${fqe.mpi.ws.rest}">
+		<jaxrs:serviceBeans>
+			<ref bean="identifierServiceRest" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="edu.utah.further.core.cxf.WsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!-- REST services - pretty XML output. The same as the main server, just 
+		with a different JAXB context. -->
+	<jaxrs:server id="fqeMpiEndpointPretty" address="${fqe.mpi.ws.context}/${fqe.mpi.ws.rest.pretty}">
+		<jaxrs:serviceBeans>
+			<ref bean="identifierServiceRest" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="jaxbProviderPretty" />
+			<bean class="edu.utah.further.core.cxf.WsExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
 
 </beans>
