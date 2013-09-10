@@ -211,7 +211,8 @@
 		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-ws/${project.version}]]></bundle>
 		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-mpi-api/${project.version}]]></bundle>
 		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-mpi-impl/${project.version}]]></bundle>
-		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-mpi-ws/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-ds-model-common/${project.version}]]></bundle>
+		<bundle><![CDATA[mvn:edu.utah.further.fqe/fqe-ds-further-model/${project.version}]]></bundle>
 	</feature>
 
 	<!-- =========================================== -->
