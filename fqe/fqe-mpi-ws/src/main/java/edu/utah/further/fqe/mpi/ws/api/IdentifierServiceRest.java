@@ -38,7 +38,7 @@ import edu.utah.further.fqe.mpi.ws.api.to.IdentifierTo;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Jul 8, 2010
  */
-@Path("/fqe/id")
+@Path("/id")
 @Produces("application/xml")
 @Documentation(name = "FQE WS-REST", description = "Restful identifier service")
 public interface IdentifierServiceRest
