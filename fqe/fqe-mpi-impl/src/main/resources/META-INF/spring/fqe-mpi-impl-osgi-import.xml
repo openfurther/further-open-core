@@ -31,32 +31,15 @@
 	<!-- Encryptable property placeholder configurer -->
 	<import resource="classpath:META-INF/core/util/core-util-encryption-sha1.xml" />
 	<bean parent="propertiesEncryptor">
-		<property name="properties" ref="mpiImplProps" />
+		<property name="properties" ref="fqeMpiImplProps" />
 	</bean>
 
 	<!-- placeholder configurer -->
-	<ctx:property-placeholder properties-ref="mpiImplProps" />
+	<ctx:property-placeholder properties-ref="fqeMpiImplProps" />
 
 	<!-- Configuration Admin entry -->
-	<osgix:cm-properties id="mpiImplProps"
-		persistent-id="further.mpi.impl">
-		<!-- ################################## -->
-		<!-- Database configuration -->
-		<!-- ################################## -->
-
-		<prop key="datasource.fqe.name">mpi-impl-datasource</prop>
-		<prop key="datasource.fqe.url"></prop>
-		<prop key="datasource.fqe.driver"></prop>
-		<prop key="datasource.fqe.user"></prop>
-		<prop key="datasource.fqe.password"></prop>
-		<prop key="hibernate.fqe.dialect"></prop>
-
-		<!-- ============================ -->
-		<!-- Oracle config -->
-		<!-- ============================ -->
-
-		<prop key="oracle.net.readTimeout">2000</prop>
-		<prop key="oracle.net.connectTimeout">2000</prop>
+	<osgix:cm-properties id="fqeMpiImplProps"
+		persistent-id="further.fqe.mpi.impl">
 
 		<!-- ################################## -->
 		<!-- Hibernate configuration -->
@@ -72,7 +55,7 @@
 		<prop key="hibernate.show_sql">false</prop>
 
 		<!-- Generate schema? -->
-		<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+		<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
 
 		<!-- ============================ -->
 		<!--C3P0 connection pool config -->
