@@ -51,7 +51,7 @@
 		resource="classpath:META-INF/ds/test/ds-test-common-ws-server-context.xml" />
 		
 	<!-- manually configure for correct dependencies -->
-	<bean id="identifierService" class="edu.utah.further.fqe.mpi.impl.service.IdentifierServiceLookupCreateNewImpl">
+	<bean id="identifierService" class="edu.utah.further.fqe.mpi.impl.service.IdentifierServiceImpl">
 		<property name="daoFqeMpi" ref="daoFqeMpi"/>
 		<property name="jdbcTemplateFqeMpi" ref="jdbcTemplateFqeMpi"/>
 	</bean>

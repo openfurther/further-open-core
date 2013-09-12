@@ -15,7 +15,6 @@
  */
 package edu.utah.further.fqe.impl.schedule.jobs;
 
-import static org.easymock.EasyMock.anyInt;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -41,7 +40,7 @@ import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.QueryState;
 import edu.utah.further.fqe.ds.api.factory.DefaultStaleDateTimeFactory;
 import edu.utah.further.fqe.ds.api.factory.StaleDateTimeFactory;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
 import edu.utah.further.fqe.impl.fixture.FqeImplUtestFixture;
@@ -93,7 +92,7 @@ public final class UTestQuerySealer extends FqeImplUtestFixture
 	 * Service for retrieving count results for result views.
 	 */
 	@Autowired
-	private ResultService resultService;
+	private ResultSummaryService resultService;
 
 	/**
 	 * A factory for producing stale date times.
@@ -106,8 +105,6 @@ public final class UTestQuerySealer extends FqeImplUtestFixture
 	 * Clean up database.
 	 */
 	@Before
-	@SuppressWarnings(
-	{ "boxing" })
 	public void setup()
 	{
 		querySealer.setQcService(queryContextService);
@@ -117,7 +114,7 @@ public final class UTestQuerySealer extends FqeImplUtestFixture
 		staleDateTime = FqeDsQueryContextUtil.getStaleDateTimeInPast();
 		expect(
 				resultService.join(EasyMock.<List<String>> anyObject(),
-						anyObject(ResultType.class), anyInt()))
+						anyObject(ResultType.class)))
 				.andStubReturn(new Long(1));
 		replay(resultService);
 	}

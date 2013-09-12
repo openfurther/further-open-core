@@ -37,7 +37,7 @@ import edu.utah.further.fqe.ds.api.domain.ExportContext;
 import edu.utah.further.fqe.ds.api.domain.ExportFormat;
 import edu.utah.further.fqe.ds.api.domain.Exporter;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.security.api.exceptions.AuthorizationException;
 import edu.utah.further.security.api.services.AuditService;
 import edu.utah.further.security.api.services.SecurityService;
@@ -78,7 +78,7 @@ public class ExportServiceImpl implements ExportService
 	 * Retrieves query results
 	 */
 	@Autowired
-	private ResultService resultService;
+	private ResultDataService resultService;
 
 	/**
 	 * Audit service for logging export requests.
@@ -202,7 +202,7 @@ public class ExportServiceImpl implements ExportService
 	 * 
 	 * @return the resultService
 	 */
-	public ResultService getResultService()
+	public ResultDataService getResultService()
 	{
 		return resultService;
 	}
@@ -213,7 +213,7 @@ public class ExportServiceImpl implements ExportService
 	 * @param resultService
 	 *            the resultService to set
 	 */
-	public void setResultService(final ResultService resultService)
+	public void setResultService(final ResultDataService resultService)
 	{
 		this.resultService = resultService;
 	}

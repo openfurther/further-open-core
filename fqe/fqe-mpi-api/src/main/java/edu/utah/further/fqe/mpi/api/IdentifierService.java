@@ -17,11 +17,11 @@ package edu.utah.further.fqe.mpi.api;
 
 import java.util.List;
 
-
 /**
- * A service which provides unique identifiers or returns an existing identifier if one
- * exists based on criteria.
- *
+ * A service which provides and retrieves virtual identifiers for queries and results.
+ * Virtual identifiers are new identifiers requested during result translation or other
+ * processes so as to avoid identifier collisions.
+ * 
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -30,39 +30,49 @@ import java.util.List;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Jul 6, 2010
  */
 public interface IdentifierService
 {
 	// ========================= CONSTANTS =================================
-	
+
 	// ========================= METHODS ===================================
-	
+
 	/**
 	 * Generates a new unique identifier
-	 *
+	 * 
 	 * @return a unique identifier
 	 */
 	Long generateNewId();
 
 	/**
-	 * Generates a unique identifier based on the parameters. If an identifier already
-	 * exists for these parameters, the existing identifier is returned.
-	 *
+	 * Generates a unique virtual identifier based on the parameters. If a virtual
+	 * identifier already exists for these parameters, the existing virtual identifier is
+	 * returned.
+	 * 
 	 * @param params
 	 *            Parameters required to generate or retrieve the identifier
 	 * @return the generated or existing identifier
 	 */
 	Long generateId(Identifier params);
-	
+
 	/**
-	 * Translates a list of federated IDs to physical IDs.
-	 *
-	 * @param federatedIds
+	 * Translates a list of virtual IDs to physical IDs.
+	 * 
+	 * @param virtualIds
 	 *            list of federated IDs
 	 * @return corresponding list of physical IDs
 	 */
-	List<Long> translateIds(List<Long> federatedIds, String dataSourceId);
+	List<Long> translateIds(List<Long> virtualIds, String dataSourceId);
+
+	/**
+	 * Returns a list of virtual identifiers based on the query ids.
+	 * 
+	 * @param a
+	 *            list of query ids
+	 * @return a list of identifiers
+	 */
+	List<Long> getVirtualIdentifiers(List<String> queryIds);
 }

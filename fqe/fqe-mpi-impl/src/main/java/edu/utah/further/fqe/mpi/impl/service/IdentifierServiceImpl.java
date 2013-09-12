@@ -17,12 +17,16 @@ package edu.utah.further.fqe.mpi.impl.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,14 +54,14 @@ import edu.utah.further.fqe.mpi.impl.domain.IdentifierEntity;
  * @version Nov 1, 2011
  */
 @Service("identifierService")
-public final class IdentifierServiceLookupCreateNewImpl implements IdentifierService
+public final class IdentifierServiceImpl implements IdentifierService
 {
 	// ========================= CONSTANTS =================================
 
 	/**
 	 * A logger that helps identify this class' printouts.
 	 */
-	private static final Logger log = getLogger(IdentifierServiceLookupCreateNewImpl.class);
+	private static final Logger log = getLogger(IdentifierServiceImpl.class);
 
 	// ========================= FIELDS =================================
 
@@ -83,6 +87,11 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 	 */
 	@Autowired
 	private JdbcTemplate jdbcTemplateFqeMpi;
+
+	/**
+	 * A 'simpler' version of JdbcTemplate
+	 */
+	private SimpleJdbcTemplate simpleJdbcTemplate;
 
 	// =================== IMPL:IdentifierService =================================
 
@@ -197,6 +206,28 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 		return translatedVirtualIds;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.fqe.mpi.api.IdentifierService#getIdentifiers(java.util.List)
+	 */
+	@Override
+	public List<Long> getVirtualIdentifiers(final List<String> queryIds)
+	{
+		final List<Map<String, Object>> results = getSimpleJdbcTemplate()
+				.queryForList(
+						"SELECT virtual_obj_id FROM virtual_obj_id_map WHERE query_id IN :queryIds",
+						Collections.singletonMap("queryIds", queryIds));
+
+		final List<Long> ids = new ArrayList<>();
+		for (final Map<String, Object> result : results)
+		{
+			ids.add((Long) result.get("virtual_obj_id"));
+		}
+
+		return ids;
+	}
+
 	/**
 	 * Return the daoFqeMpi property.
 	 * 
@@ -237,6 +268,32 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 	public void setJdbcTemplateFqeMpi(final JdbcTemplate jdbcTemplateFqeMpi)
 	{
 		this.jdbcTemplateFqeMpi = jdbcTemplateFqeMpi;
+	}
+
+	/**
+	 * Return the simpleJdbcTemplate property.
+	 * 
+	 * @return the simpleJdbcTemplate
+	 */
+	public SimpleJdbcTemplate getSimpleJdbcTemplate()
+	{
+		if (simpleJdbcTemplate == null)
+		{
+			setSimpleJdbcTemplate(new SimpleJdbcTemplate(jdbcTemplateFqeMpi));
+		}
+
+		return simpleJdbcTemplate;
+	}
+
+	/**
+	 * Set a new value for the simpleJdbcTemplate property.
+	 * 
+	 * @param simpleJdbcTemplate
+	 *            the simpleJdbcTemplate to set
+	 */
+	private void setSimpleJdbcTemplate(final SimpleJdbcTemplate simpleJdbcTemplate)
+	{
+		this.simpleJdbcTemplate = simpleJdbcTemplate;
 	}
 
 }

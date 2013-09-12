@@ -58,10 +58,16 @@
 			value="org.apache.camel.ProducerTemplate" />
 	</bean>
 
-	<!-- ResultService Mock -->
-	<bean id="resultService" class="org.easymock.EasyMock"
+	<!-- ResultSummaryService Mock -->
+	<bean id="resultSummaryService" class="org.easymock.EasyMock"
 		factory-method="createMock">
-		<constructor-arg value="edu.utah.further.fqe.ds.api.service.results.ResultService" />
+		<constructor-arg value="edu.utah.further.fqe.ds.api.service.results.ResultSummaryService" />
+	</bean>
+	
+	<!-- ResultDataService Mock -->
+	<bean id="resultDataService" class="org.easymock.EasyMock"
+		factory-method="createMock">
+		<constructor-arg value="edu.utah.further.fqe.ds.api.service.results.ResultDataService" />
 	</bean>
 
 	<!-- SecurityService Mock -->

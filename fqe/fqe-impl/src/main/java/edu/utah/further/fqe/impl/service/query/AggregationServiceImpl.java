@@ -48,7 +48,8 @@ import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
+import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
@@ -122,10 +123,16 @@ public class AggregationServiceImpl implements AggregationService
 	private QueryContextService qcService;
 
 	/**
-	 * Service for retrieving count results for result views.
+	 * Service for retrieving count results
 	 */
 	@Autowired
-	private ResultService resultService;
+	private ResultSummaryService resultSummaryService;
+
+	/**
+	 * Service for retrieving data results
+	 */
+	@Autowired
+	private ResultDataService resultDataService;
 
 	/**
 	 * Handles generic DAO operations and searches.
@@ -443,7 +450,89 @@ public class AggregationServiceImpl implements AggregationService
 	{
 		this.resultMaskOther = resultMaskOther;
 	}
+	
+	// ========================= GET/SET METHODS ===========================
 
+	/**
+	 * Return the qcService property.
+	 *
+	 * @return the qcService
+	 */
+	public QueryContextService getQcService()
+	{
+		return qcService;
+	}
+
+	/**
+	 * Set a new value for the qcService property.
+	 *
+	 * @param qcService the qcService to set
+	 */
+	public void setQcService(final QueryContextService qcService)
+	{
+		this.qcService = qcService;
+	}
+
+	/**
+	 * Return the resultSummaryService property.
+	 *
+	 * @return the resultSummaryService
+	 */
+	public ResultSummaryService getResultSummaryService()
+	{
+		return resultSummaryService;
+	}
+
+	/**
+	 * Set a new value for the resultSummaryService property.
+	 *
+	 * @param resultSummaryService the resultSummaryService to set
+	 */
+	public void setResultSummaryService(final ResultSummaryService resultSummaryService)
+	{
+		this.resultSummaryService = resultSummaryService;
+	}
+
+	/**
+	 * Return the resultDataService property.
+	 *
+	 * @return the resultDataService
+	 */
+	public ResultDataService getResultDataService()
+	{
+		return resultDataService;
+	}
+
+	/**
+	 * Set a new value for the resultDataService property.
+	 *
+	 * @param resultDataService the resultDataService to set
+	 */
+	public void setResultDataService(final ResultDataService resultDataService)
+	{
+		this.resultDataService = resultDataService;
+	}
+
+	/**
+	 * Return the dao property.
+	 *
+	 * @return the dao
+	 */
+	public Dao getDao()
+	{
+		return dao;
+	}
+
+	/**
+	 * Set a new value for the dao property.
+	 *
+	 * @param dao the dao to set
+	 */
+	public void setDao(final Dao dao)
+	{
+		this.dao = dao;
+	}
+	
 	// ========================= PRIVATE METHODS ===========================
 
 	/**
@@ -480,7 +569,7 @@ public class AggregationServiceImpl implements AggregationService
 			final AttributeMetadata attributeMetadata, final ResultType resultType,
 			final int intersectionIndex)
 	{
-		final Map<String, Long> join = resultService.join(queryIds,
+		final Map<String, Long> join = resultDataService.join(queryIds,
 				attributeMetadata.getColumnName(), resultType, intersectionIndex);
 		return new CategoryTo(attributeMetadata.getDisplayName(), join);
 	}
@@ -495,7 +584,7 @@ public class AggregationServiceImpl implements AggregationService
 			final ResultType resultType, final Integer intersectionIndex)
 	{
 		FqeDsQueryContextUtil.addResultViewTo(parent, resultType, intersectionIndex,
-				resultService.join(queryIds, resultType, intersectionIndex).longValue());
+				resultSummaryService.join(queryIds, resultType).longValue());
 	}
 
 	/**

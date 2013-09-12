@@ -15,41 +15,36 @@
  */
 package edu.utah.further.fqe.ds.api.service.results;
 
+import java.util.List;
 
 /**
- * Federated result set types.
+ * Result service for displaying summary or aggregated results.
+ * 
  * <p>
  * -----------------------------------------------------------------------------------<br>
- * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
+ * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
  * Contact: {@code <further@utah.edu>}<br>
  * Biomedical Informatics, 26 South 2000 East<br>
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
- * @see https://jira.chpc.utah.edu/browse/FUR-1184
- * @author Oren E. Livne {@code <oren.livne@utah.edu>}
- * @version Oct 18, 2010
+ * 
+ * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
+ * @version Sep 16, 2013
  */
-public enum ResultType
+public interface ResultSummaryService
 {
-	// ========================= ENUMERATED CONSTANTS ======================
+	// ========================= METHODS ===================================
 
 	/**
-	 * For two sets: A + B (i.e. the union of A and B, with the intersection counted
-	 * twice). Similarly for n sets.
+	 * Generate a union result from the list of query identifiers. This is used to display
+	 * the overall results depending on the {@link ResultType}
+	 * 
+	 * @param queryIds
+	 *            list of DQC IDs to join
+	 * @param resultType
+	 *            join result type
+	 * @return union result
 	 */
-	SUM,
-	
-	/**
-	 * The union of result sets 
-	 */
-	UNION,
-
-	/**
-	 * The intersection of result sets
-	 */
-	INTERSECTION;
-
-	// ========================= PRIVATE METHODS ===========================
+	Long join(List<String> queryIds, ResultType resultType);
 }

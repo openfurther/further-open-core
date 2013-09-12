@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.mpi.api.IdentifierService;
 
 /**
@@ -60,7 +60,7 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 	 * Retrieves completed results
 	 */
 	@Autowired
-	private ResultService resultService;
+	private ResultDataService resultDataService;
 
 	/**
 	 * Identifier service for translation federated identifiers to physical data source
@@ -77,7 +77,8 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 	 * (java.lang.Long, java.lang.String)
 	 */
 	@Override
-	public List<Long> getAssociatedResult(final Long queryContextId, final String datasourceId)
+	public List<Long> getAssociatedResult(final Long queryContextId,
+			final String datasourceId)
 	{
 		final QueryContext queryContext = qcService.findById(queryContextId);
 		final List<String> queryIds = newList();
@@ -98,8 +99,8 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 			queryIds.add(queryContext.getExecutionId());
 		}
 
-		return identifierService.translateIds(resultService.getQueryResultIdentifiers(queryIds),
-				datasourceId);
+		return identifierService.translateIds(
+				identifierService.getVirtualIdentifiers(queryIds), datasourceId);
 	}
 
 	/**
@@ -121,27 +122,6 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 	public void setQcService(final QueryContextService qcService)
 	{
 		this.qcService = qcService;
-	}
-
-	/**
-	 * Return the resultService property.
-	 * 
-	 * @return the resultService
-	 */
-	public ResultService getResultService()
-	{
-		return resultService;
-	}
-
-	/**
-	 * Set a new value for the resultService property.
-	 * 
-	 * @param resultService
-	 *            the resultService to set
-	 */
-	public void setResultService(final ResultService resultService)
-	{
-		this.resultService = resultService;
 	}
 
 	/**

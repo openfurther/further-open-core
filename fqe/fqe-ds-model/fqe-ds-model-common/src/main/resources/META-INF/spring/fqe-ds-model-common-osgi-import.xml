@@ -54,7 +54,10 @@
 	</osgix:cm-properties>
 
 	<!-- =========================================== -->
-	<!-- Imported services                           -->
+	<!-- Imported services -->
 	<!-- =========================================== -->
+
+	<osgi:reference id="dataSource" interface="javax.sql.DataSource"
+		bean-name="inMemoryDs" />
 
 </beans>

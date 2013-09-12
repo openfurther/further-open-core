@@ -21,10 +21,11 @@ import java.util.Map;
 import edu.utah.further.core.query.domain.SearchQuery;
 
 /**
- * Retrieves results and processes results from completed queries.
+ * Result service responsible for serving and processing actual data results instead of
+ * just summary results.
  * <p>
  * -----------------------------------------------------------------------------------<br>
- * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
+ * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
  * Contact: {@code <further@utah.edu>}<br>
  * Biomedical Informatics, 26 South 2000 East<br>
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
@@ -32,29 +33,10 @@ import edu.utah.further.core.query.domain.SearchQuery;
  * -----------------------------------------------------------------------------------
  * 
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
- * @version Nov 2, 2010
+ * @version Sep 16, 2013
  */
-public interface ResultService
+public interface ResultDataService
 {
-	// ========================= METHODS ===================================
-
-	/**
-	 * Generate a union result from the list of query identifiers. This is used to display
-	 * the overall results depending on the {@link ResultType}
-	 * 
-	 * @param queryIds
-	 *            list of DQC IDs to join
-	 * @param resultType
-	 *            join result type
-	 * @param intersectionIndex
-	 *            if <code>resultType = INTERESECTION</code>, the intersection index of
-	 *            the join, or <code>null</code>, if inapplicable to this join type. Use
-	 *            <code>null</code> for a classical intersection (n-intersection of
-	 *            n-sets)
-	 * @return union result
-	 */
-	Long join(List<String> queryIds, ResultType resultType, Integer intersectionIndex);
-
 	/**
 	 * Generate a union result from the list of query identifiers by attribute name. This
 	 * is used to display results per attribute depending on the {@link ResultType}
@@ -75,29 +57,20 @@ public interface ResultService
 			ResultType resultType, int intersectionIndex);
 
 	/**
-	 * Returns the result of a previous query as a list of identifiers. Typically patient
-	 * identifiers but they could be other identifiers as long as they could be related in
-	 * some fashion.
-	 * 
-	 * @param a
-	 *            list of query ids
-	 * @return a list of identifiers
-	 */
-	List<Long> getQueryResultIdentifiers(List<String> queryIds);
-
-	/**
 	 * Return all the results of a query. A typical implementation of this method returns
 	 * a list of root entity objects (e.g. a List of Person objects)
 	 * 
-	 * @param ids a list of query ids
+	 * @param ids
+	 *            a list of query ids
 	 * @return a list of results
 	 */
 	<T> List<T> getQueryResults(final List<String> queryIds);
-	
+
 	/**
 	 * Fetch the results of a query by using another query
 	 * 
-	 * @param query the query to execute
+	 * @param query
+	 *            the query to execute
 	 * @return a list of results
 	 */
 	<T> List<T> getQueryResults(final SearchQuery query);

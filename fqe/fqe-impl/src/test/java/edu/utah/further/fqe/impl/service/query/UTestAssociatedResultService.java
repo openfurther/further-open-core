@@ -33,7 +33,6 @@ import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
 import edu.utah.further.fqe.mpi.api.IdentifierService;
 
 /**
@@ -66,11 +65,6 @@ public class UTestAssociatedResultService
 	/**
 	 * Mocked result service
 	 */
-	private final ResultService mockResultService = createMock(ResultService.class);
-
-	/**
-	 * Mocked result service
-	 */
 	private final IdentifierService mockIdentifierService = createMock(IdentifierService.class);
 
 	/**
@@ -84,8 +78,6 @@ public class UTestAssociatedResultService
 		((AssociatedResultServiceImpl) associatedResultService)
 				.setQcService(mockQueryContextService);
 		((AssociatedResultServiceImpl) associatedResultService)
-				.setResultService(mockResultService);
-		((AssociatedResultServiceImpl) associatedResultService)
 				.setIdentifierService(mockIdentifierService);
 	}
 
@@ -93,7 +85,6 @@ public class UTestAssociatedResultService
 	 * Test getting an associated result from a parent qc
 	 */
 	@Test
-	@SuppressWarnings("unchecked")
 	public void getAssociatedResultsFromParent()
 	{
 		final QueryContext parent = newQueryContextEntity();
@@ -102,37 +93,30 @@ public class UTestAssociatedResultService
 		children.add(newQueryContextEntity());
 		children.add(newQueryContextEntity());
 		expect(mockQueryContextService.findChildren(parent)).andReturn(children);
-		expect(
-				mockIdentifierService.translateIds(isA(List.class),
-						eq("UUEDW"))).andReturn(
+		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
+				.andReturn(CollectionUtil.<Long> newList());
+		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList());
-		expect(mockResultService.getQueryResultIdentifiers(isA(List.class))).andReturn(
-				CollectionUtil.<Long> newList());
-		replay(mockQueryContextService, mockResultService);
-		associatedResultService.getAssociatedResult(new Long(1L),
-				"UUEDW");
-		verify(mockQueryContextService, mockResultService);
+		replay(mockQueryContextService, mockIdentifierService);
+		associatedResultService.getAssociatedResult(new Long(1L), "UUEDW");
+		verify(mockQueryContextService, mockIdentifierService);
 	}
 
 	/**
 	 * Test getting an associated result from a child qc
 	 */
 	@Test
-	@SuppressWarnings("unchecked")
 	public void getAssociatedResultsFromChild()
 	{
 		final QueryContext child = newQueryContextEntity();
 		child.setParent(newQueryContextEntity());
 		expect(mockQueryContextService.findById(new Long(1L))).andReturn(child);
-		expect(
-				mockIdentifierService.translateIds(isA(List.class),
-						eq("UUEDW"))).andReturn(
+		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
+				.andReturn(CollectionUtil.<Long> newList());
+		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList());
-		expect(mockResultService.getQueryResultIdentifiers(isA(List.class))).andReturn(
-				CollectionUtil.<Long> newList());
-		replay(mockQueryContextService, mockResultService);
-		associatedResultService.getAssociatedResult(new Long(1L),
-				"UUEDW");
-		verify(mockQueryContextService, mockResultService);
+		replay(mockQueryContextService, mockIdentifierService);
+		associatedResultService.getAssociatedResult(new Long(1L), "UUEDW");
+		verify(mockQueryContextService, mockIdentifierService);
 	}
 }

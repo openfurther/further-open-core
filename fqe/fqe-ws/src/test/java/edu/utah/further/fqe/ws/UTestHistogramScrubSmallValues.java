@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.replay;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Arrays;
@@ -34,6 +35,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
+import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.fqe.api.service.query.AggregationService;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResult;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultTo;
@@ -41,8 +43,7 @@ import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultsTo;
 import edu.utah.further.fqe.api.ws.to.aggregate.Category;
 import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
-import edu.utah.further.fqe.ds.api.service.results.AbstractResultService;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ws.fixture.FqeWsFixture;
 
@@ -75,7 +76,7 @@ public final class UTestHistogramScrubSmallValues extends FqeWsFixture
 	 * The DAO to be tested.
 	 */
 	@Autowired
-	private ResultService resultService;
+	private ResultDataService resultDataService;
 
 	/**
 	 * Creates and manages query plans.
@@ -88,12 +89,13 @@ public final class UTestHistogramScrubSmallValues extends FqeWsFixture
 	@Before
 	public void setup()
 	{
-		EasyMock.reset(resultService);
+		EasyMock.reset(resultDataService);
 		EasyMock.expect(
-				resultService.join(EasyMock.<List<String>> anyObject(),
+				resultDataService.join(EasyMock.<List<String>> anyObject(),
 						anyObject(String.class), anyObject(ResultType.class), anyInt()))
-				.andStubDelegateTo(new AbstractResultService()
+				.andStubDelegateTo(new ResultDataService()
 				{
+					
 					@Override
 					@SuppressWarnings("boxing")
 					public Map<String, Long> join(final List<String> queryIds,
@@ -129,8 +131,22 @@ public final class UTestHistogramScrubSmallValues extends FqeWsFixture
 						}
 						return histogram;
 					}
+					
+					@Override
+					public <T> List<T> getQueryResults(final SearchQuery query)
+					{
+						fail();
+						return null;
+					}
+					
+					@Override
+					public <T> List<T> getQueryResults(final List<String> queryIds)
+					{
+						fail();
+						return null;
+					}
 				});
-		replay(resultService);
+		replay(resultDataService);
 	}
 
 	// ========================= METHODS ===================================
@@ -213,7 +229,7 @@ public final class UTestHistogramScrubSmallValues extends FqeWsFixture
 		// Compute a raw histogram
 		final ResultType type = ResultType.SUM;
 		final Integer intersectionIndex = NumberUtils.INTEGER_ZERO;
-		final Map<String, Long> histogram = resultService.join(
+		final Map<String, Long> histogram = resultDataService.join(
 				Arrays.asList("12345", "67890"), category, type, 0);
 		if (log.isDebugEnabled())
 		{

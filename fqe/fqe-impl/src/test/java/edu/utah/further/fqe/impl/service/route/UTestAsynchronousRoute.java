@@ -21,7 +21,6 @@ import static edu.utah.further.core.query.domain.SearchCriteria.simpleExpression
 import static edu.utah.further.core.query.domain.SearchType.CONJUNCTION;
 import static edu.utah.further.fqe.ds.api.domain.QueryState.COMPLETED;
 import static edu.utah.further.fqe.ds.test.QueryContextTestUtil.assertQueryContextStateEquals;
-import static org.easymock.EasyMock.anyInt;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -62,7 +61,7 @@ import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.api.service.route.FqeService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.plan.Plan;
-import edu.utah.further.fqe.ds.api.service.results.ResultService;
+import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.QueryContextToImpl;
 import edu.utah.further.fqe.ds.api.to.plan.DependencyRuleToImpl;
@@ -131,20 +130,19 @@ public final class UTestAsynchronousRoute extends FqeImplRouteFixture
 	 * Service for retrieving count results for result views.
 	 */
 	@Autowired
-	private ResultService resultService;
+	private ResultSummaryService resultSummaryService;
 
 	// ========================= SETUP METHODS =============================
 
-	@SuppressWarnings("boxing")
 	@Before
 	public void setup()
 	{
 		// mock setup
 		expect(
-				resultService.join(EasyMock.<List<String>> anyObject(),
-						anyObject(ResultType.class), anyInt()))
+				resultSummaryService.join(EasyMock.<List<String>> anyObject(),
+						anyObject(ResultType.class)))
 				.andStubReturn(new Long(1));
-		replay(resultService);
+		replay(resultSummaryService);
 	}
 
 	/**
