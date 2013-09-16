@@ -48,7 +48,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name = "CONDITION_OCCURRENCE")
-@XmlRootElement
+@XmlRootElement(name = "ConditionOccurence")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ConditionOccurrence implements PersistentEntity<Long>
 {
@@ -173,7 +173,8 @@ public class ConditionOccurrence implements PersistentEntity<Long>
 		return this.conditionOccurrenceRef;
 	}
 
-	public void setConditionOccurrenceRef(final ConditionOccurrenceRef conditionOccurrenceRef)
+	public void setConditionOccurrenceRef(
+			final ConditionOccurrenceRef conditionOccurrenceRef)
 	{
 		this.conditionOccurrenceRef = conditionOccurrenceRef;
 	}

@@ -46,7 +46,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name = "CONDITION_OCCURRENCE_REF")
-@XmlRootElement
+@XmlRootElement(name = "ConditionOccurenceRef")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ConditionOccurrenceRef implements PersistentEntity<String>
 {

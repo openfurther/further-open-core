@@ -49,7 +49,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name="VISIT_OCCURRENCE")
-@XmlRootElement
+@XmlRootElement(name = "VisitOccurrence")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VisitOccurrence implements PersistentEntity<Long> {
 	private static final long serialVersionUID = 1L;

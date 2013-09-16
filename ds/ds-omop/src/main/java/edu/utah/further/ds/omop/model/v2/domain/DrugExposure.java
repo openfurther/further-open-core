@@ -48,7 +48,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name = "DRUG_EXPOSURE")
-@XmlRootElement
+@XmlRootElement(name = "DrugExposure")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DrugExposure implements PersistentEntity<Long>
 {

@@ -45,7 +45,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @version Apr 24, 2013
  */
 @Entity
-@XmlRootElement
+@XmlRootElement(name = "Person")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Person implements PersistentEntity<Long> {
 	private static final long serialVersionUID = 1L;

@@ -46,7 +46,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name="OBSERVATION_TYPE_REF")
-@XmlRootElement
+@XmlRootElement(name = "ObservationTypeRef")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObservationTypeRef implements PersistentEntity<String> {
 	private static final long serialVersionUID = 1L;

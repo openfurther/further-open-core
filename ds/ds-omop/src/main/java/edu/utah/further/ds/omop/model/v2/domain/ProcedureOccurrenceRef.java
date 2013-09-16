@@ -45,7 +45,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name = "PROC_OCCURRENCE_REF")
-@XmlRootElement
+@XmlRootElement(name = "ProcedureOccurrenceRef")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcedureOccurrenceRef implements PersistentEntity<String>
 {

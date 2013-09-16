@@ -46,7 +46,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @version Apr 24, 2013
  */
 @Entity
-@XmlRootElement
+@XmlRootElement(name = "Observation")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Observation implements PersistentEntity<Long>
 {

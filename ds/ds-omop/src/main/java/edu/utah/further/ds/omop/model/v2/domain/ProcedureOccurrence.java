@@ -48,7 +48,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  */
 @Entity
 @Table(name = "PROCEDURE_OCCURRENCE")
-@XmlRootElement
+@XmlRootElement(name = "ProcedureOccurrence")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcedureOccurrence implements PersistentEntity<Long>
 {

@@ -81,8 +81,8 @@ public class UTestMarshallOmopV2
 		final XmlService service = new XmlServiceImpl();
 		final String result = service.marshal(person);
 
-		assertThat(result, containsString("<person"));
-		assertThat(result, containsString("</person>"));
+		assertThat(result, containsString("<Person"));
+		assertThat(result, containsString("</Person>"));
 		assertThat(result, containsString("Male"));
 		assertThat(result, containsString("Moon"));
 		assertThat(result, containsString("Blue"));
