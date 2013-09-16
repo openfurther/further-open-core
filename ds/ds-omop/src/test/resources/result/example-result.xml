@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ResultList xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<person>
-		<personId>1</personId>
-		<genderConceptId>1</genderConceptId>
-		<locationConceptId>1</locationConceptId>
-		<raceConceptId>1</raceConceptId>
-		<sourceGenderCode>Male</sourceGenderCode>
-		<sourceLocationCode>Moon</sourceLocationCode>
-		<sourcePersonKey>key</sourcePersonKey>
-		<sourceRaceCode>Blue</sourceRaceCode>
-		<yearOfBirth>2013</yearOfBirth>
-	</person>
+	<Person>
+		<personId>123</personId>
+		<genderConceptId>442985</genderConceptId>
+		<raceConceptId>4185154</raceConceptId>
+	  <yearOfBirth>2004</yearOfBirth>
+	</Person>
+	<Person>
+		<personId>999</personId>
+		<genderConceptId>442986</genderConceptId>
+		<raceConceptId>4211353</raceConceptId>
+	  <yearOfBirth>1976</yearOfBirth>
+	</Person>
 </ResultList>
