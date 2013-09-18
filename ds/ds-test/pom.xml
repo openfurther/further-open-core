@@ -168,6 +168,17 @@
 			<artifactId>dts-ws</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-mpi-impl</artifactId>
+		</dependency>
+		
+		<!-- FQE MPI web services implementation -->
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-mpi-ws</artifactId>
+		</dependency>
 
 	</dependencies>
 

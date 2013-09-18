@@ -76,13 +76,13 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 	 * A data access object for querying for the federated ID
 	 */
 	@Autowired
-	private Dao dao;
+	private Dao daoFqeMpi;
 
 	/**
 	 * Virtual repository jdbc template for querying
 	 */
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateFqeMpi;
 
 	// =================== IMPL:IdentifierService =================================
 
@@ -108,8 +108,8 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 	{
 		final IdentifierEntity idEntity = IdentifierEntity.newCopy(id);
 
-		final List<IdentifierEntity> existingId = dao.findByExample(idEntity, false,
-				"createDate", "createdBy");
+		final List<IdentifierEntity> existingId = daoFqeMpi.findByExample(idEntity,
+				false, "createDate", "createdBy");
 
 		// We should only ever return 1 because the criteria for each identifier should be
 		// unique
@@ -157,7 +157,7 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 		}
 
 		// Persist all details and the generated virtual id
-		dao.save(idEntity);
+		daoFqeMpi.save(idEntity);
 
 		return idEntity.getVirtualId();
 	}
@@ -181,7 +181,7 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 
 		// Our input is actually virtual federated ids and not federated ids - we have to
 		// translate to the actual federated id before we can do a lookup.
-		final List<Long> translatedVirtualIds = jdbcTemplate
+		final List<Long> translatedVirtualIds = jdbcTemplateFqeMpi
 				.queryForList(
 						"SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
 								+ "src_obj_nmspc_id = ? AND "
@@ -198,23 +198,45 @@ public final class IdentifierServiceLookupCreateNewImpl implements IdentifierSer
 	}
 
 	/**
-	 * Return the dao property.
+	 * Return the daoFqeMpi property.
 	 * 
-	 * @return the dao
+	 * @return the daoFqeMpi
 	 */
-	public Dao getDao()
+	public Dao getDaoFqeMpi()
 	{
-		return dao;
+		return daoFqeMpi;
 	}
 
 	/**
-	 * Set a new value for the dao property.
+	 * Set a new value for the daoFqeMpi property.
 	 * 
-	 * @param dao
-	 *            the dao to set
+	 * @param daoFqeMpi
+	 *            the daoFqeMpi to set
 	 */
-	public void setDao(final Dao dao)
+	public void setDaoFqeMpi(final Dao daoFqeMpi)
 	{
-		this.dao = dao;
+		this.daoFqeMpi = daoFqeMpi;
 	}
+
+	/**
+	 * Return the jdbcTemplateFqeMpi property.
+	 * 
+	 * @return the jdbcTemplateFqeMpi
+	 */
+	public JdbcTemplate getJdbcTemplateFqeMpi()
+	{
+		return jdbcTemplateFqeMpi;
+	}
+
+	/**
+	 * Set a new value for the jdbcTemplateFqeMpi property.
+	 * 
+	 * @param jdbcTemplateFqeMpi
+	 *            the jdbcTemplateFqeMpi to set
+	 */
+	public void setJdbcTemplateFqeMpi(final JdbcTemplate jdbcTemplateFqeMpi)
+	{
+		this.jdbcTemplateFqeMpi = jdbcTemplateFqeMpi;
+	}
+
 }

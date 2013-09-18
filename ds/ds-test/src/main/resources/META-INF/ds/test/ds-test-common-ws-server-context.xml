@@ -125,6 +125,7 @@
 				<value><![CDATA[edu.utah.further.fqe.ds.api.to]]></value>
 				<value><![CDATA[edu.utah.further.i2b2.query.model]]></value>
 				<value><![CDATA[edu.utah.further.fqe.api.ws.to]]></value>
+				<value><![CDATA[edu.utah.further.fqe.mpi.ws.api.to]]></value>
 			</set>
 		</property>
 	</bean>
