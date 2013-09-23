@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.annotations.Formula;
+
 import edu.utah.further.core.api.data.PersistentEntity;
 
 /**
@@ -104,6 +106,9 @@ public class Person implements PersistentEntity<Integer>
 
 	@Column(name = "voided_by")
 	private int voidedBy;
+	
+	@Formula("extract(year from birthdate)")
+	private int birthYear;
 
 	// bi-directional many-to-one association to Observation
 	@OneToMany(mappedBy = "person")
