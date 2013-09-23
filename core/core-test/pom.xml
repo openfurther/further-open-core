@@ -106,6 +106,13 @@
 			<artifactId>easymock</artifactId>
 			<version>${org.easymock.version}</version>
 		</dependency>
+		
+		<!-- Very useful for comparing XML -->
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+			<version>${xmlunit.version}</version>
+		</dependency>
 
 		<!-- ########################## -->
 		<!-- Runtime -->
