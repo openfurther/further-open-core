@@ -245,6 +245,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math</artifactId>
+			<version>${commons.math.version}</version>
+			<scope>runtime</scope>			
+		</dependency>
+
 		<!-- ########################## -->
 		<!-- Testing -->
 		<!-- ########################## -->
