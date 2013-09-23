@@ -48,12 +48,6 @@
 	<!--
 		Activate production implementations in the core utility module
 	-->
-	<context:component-scan base-package="edu.utah.further.core.util">
-		<context:exclude-filter type="regex"
-			expression="edu.utah.further.core.util.cache.*" />
-		<context:exclude-filter type="annotation"
-			expression="edu.utah.further.core.api.context.Stub" />
-	</context:component-scan>
 	<context:component-scan base-package="edu.utah.further.core.xml">
 		<context:exclude-filter type="regex"
 			expression=".*\.XQuery.*" />
