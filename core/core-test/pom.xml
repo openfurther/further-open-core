@@ -100,14 +100,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Mathematical/statistical library, for ULPS-based comparisons and statistical 
-			tests. -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math</artifactId>
-			<version>${commons.math.version}</version>
-		</dependency>
-
 		<!-- Object mocking library -->
 		<dependency>
 			<groupId>org.easymock</groupId>

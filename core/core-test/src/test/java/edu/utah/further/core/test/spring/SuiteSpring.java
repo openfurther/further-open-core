@@ -28,13 +28,13 @@ import org.junit.runners.Suite;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne <code>&lt;oren.livne@utah.edu&gt;</code>
  * @version Feb 5, 2009
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses(
-{ UTesTSuiteExecutionListener.class, UTestJunitCategory.class })
+{ UTestJunitCategory.class })
 public final class SuiteSpring
 {
 }

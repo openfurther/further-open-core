@@ -27,7 +27,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.math.util.MathUtils;
 import org.slf4j.Logger;
 
 import edu.utah.further.core.api.chain.AttributeContainer;
@@ -93,23 +92,6 @@ public final class AssertUtil
 	{
 		assertTrue("Expected " + expected + ", actual " + actual,
 				expected.tolerantlyEquals(actual, maxUlps));
-	}
-
-	/**
-	 * Assert that two double-precision values are equal up to a tolerance.
-	 * 
-	 * @param expected
-	 *            expected result
-	 * @param actual
-	 *            actual result
-	 * @param maxUlps
-	 *            tolerance in ULPs
-	 */
-	public static void assertTolerantlyEquals(final double expected, final double actual,
-			final int maxUlps)
-	{
-		assertTrue("Expected " + expected + ", actual " + actual,
-				MathUtils.equals(expected, actual, maxUlps));
 	}
 
 	/**

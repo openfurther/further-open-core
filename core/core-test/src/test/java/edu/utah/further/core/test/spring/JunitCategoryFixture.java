@@ -18,7 +18,6 @@ package edu.utah.further.core.test.spring;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
@@ -35,8 +34,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Jul 30, 2010
  */
-@TestExecutionListeners(
-{ CategoryTestExecutionListener.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations =
 { "/core-test-test-context.xml" })
