@@ -31,10 +31,8 @@
 
 	<feature name="jdbc-oracle" version="${oracle.driver.version}">
 		<bundle><![CDATA[wrap:mvn:com.oracle/ojdbc6/${oracle.driver.version}]]></bundle>
-		<bundle><![CDATA[wrap:mvn:com.oracle/xmlparserv2/${oracle.xdk.version}]]></bundle>
-		<bundle><![CDATA[wrap:mvn:com.oracle/xdb/${oracle.xdk.version}]]></bundle>
 	</feature>
-
+	
 	<feature name="jdbc-hsqldb" version="${hsqldb.version}">
 		<bundle><![CDATA[wrap:mvn:org.hsqldb/hsqldb/${hsqldb.version}]]></bundle>
 	</feature>
@@ -54,6 +52,12 @@
 	<feature name="jdbc-postgresql4" version="${postgres4.version}">
 		<bundle><![CDATA[org.postgresql/com.springsource.org.postgresql.jdbc4/${postgres4.version}]]></bundle>
 	</feature>
+	
+	<feature name="oracle-xmlparsers" version="${oracle.driver.version}">
+		<bundle><![CDATA[wrap:mvn:com.oracle/xmlparserv2/${oracle.xdk.version}]]></bundle>
+		<bundle><![CDATA[wrap:mvn:com.oracle/xdb/${oracle.xdk.version}]]></bundle>
+	</feature>
+	
 
 	<!-- Must be installed before spring orm to resolve optional binding without 
 		refresh -->
