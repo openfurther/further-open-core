@@ -171,19 +171,9 @@ public enum AttributeName implements Labeled
 	PAGING_PAGE_SIZE,
 
 	/**
-	 * The Schematron schema.
-	 */
-	SCHEMATRON_SCHEMA,
-
-	/**
 	 * Datasource webservice client.
 	 */
-	WS_DS_CLIENT,
-
-	/**
-	 * Attribute for Linker Futures.
-	 */
-	FUTURES_LINK;
+	WS_DS_CLIENT;
 
 	// ========================= CONSTANTS =================================
 

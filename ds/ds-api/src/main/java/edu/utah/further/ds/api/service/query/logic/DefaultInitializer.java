@@ -96,46 +96,6 @@ public final class DefaultInitializer implements Initializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see edu.utah.further.ds.api.service.query.logic.Initializer#getInitialAttributes()
-	 */
-	@Override
-	public Map<String, Object> getInitialAttributes()
-	{
-		return mainContainer.getAttributes();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.utah.further.ds.api.service.query.logic.Initializer#setAttributes(java.util
-	 * .Map)
-	 */
-	@Override
-	public void setAttributes(final Map<String, Object> attributes)
-	{
-		mainContainer.setAttributes(attributes);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.utah.further.ds.api.service.query.logic.Initializer#setAttributeList(java.util
-	 * .List)
-	 */
-	@Override
-	public void setAttributeList(final List<Map<String, Object>> attributeList)
-	{
-		for (final Map<String, ?> attributes : attributeList)
-		{
-			mainContainer.addAttributes(attributes);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * edu.utah.further.ds.api.service.query.logic.Initializer#initialize(edu.utah.further
 	 * .fqe.ds.api.domain.QueryContext, edu.utah.further.fqe.ds.api.domain.DsMetaData)
@@ -176,6 +136,46 @@ public final class DefaultInitializer implements Initializer
 		attributes.add(null);
 
 		accessDecisionManager.decide(authentication, this, attributes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.ds.api.service.query.logic.Initializer#getAttributes()
+	 */
+	@Override
+	public Map<String, Object> getAttributes()
+	{
+		return mainContainer.getAttributes();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.ds.api.service.query.logic.Initializer#setAttributes(java.util
+	 * .Map)
+	 */
+	@Override
+	public void setAttributes(final Map<String, Object> attributes)
+	{
+		mainContainer.addAttributes(attributes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.ds.api.service.query.logic.Initializer#setNamedAttributes(java
+	 * .util.Map)
+	 */
+	@Override
+	public void setNamedAttributes(final Map<AttributeName, Object> attributes)
+	{
+		for (final Map.Entry<AttributeName, Object> entry : attributes.entrySet())
+		{
+			mainContainer.setAttribute(entry.getKey().getLabel(), entry.getValue());
+		}
 	}
 
 	// ========================= GET & SET =================================

@@ -15,12 +15,12 @@
  */
 package edu.utah.further.ds.api.service.query.logic;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 
 import edu.utah.further.core.api.exception.ApplicationException;
+import edu.utah.further.ds.api.util.AttributeName;
 import edu.utah.further.fqe.ds.api.domain.DsMetaData;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 
@@ -93,7 +93,7 @@ public interface Initializer
 	 *
 	 * @return the attributes
 	 */
-	public Map<String, Object> getInitialAttributes();
+	public Map<String, Object> getAttributes();
 
 	/**
 	 * Sets the initial attributes used to seed the request chain
@@ -103,11 +103,9 @@ public interface Initializer
 	public void setAttributes(final Map<String, Object> attributes);
 	
 	/**
-	 * Set the initial attributes from a list of attributes
-	 * 
-	 * @param attributeList the attribute list to set
+	 * Sets the initial attributes used to seed the request chain
+	 *
+	 * @param attributes the attributes to set
 	 */
-	public void setAttributeList(final List<Map<String, Object>> attributeList);
-
-	
+	public void setNamedAttributes(final Map<AttributeName, Object> attributes);
 }
