@@ -46,6 +46,11 @@ public enum AttributeName implements Labeled
 	 * <code>QueryContext</code>.
 	 */
 	QUERY_CONTEXT,
+	
+	/**
+	 * A result context
+	 */
+	RESULT_CONTEXT,
 
 	/**
 	 * Execution ID.

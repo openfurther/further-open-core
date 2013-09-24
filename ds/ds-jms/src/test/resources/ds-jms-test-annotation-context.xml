@@ -35,6 +35,11 @@
 	<context:component-scan base-package="edu.utah.further.core.xml" />
 
 	<!-- FQE DS Impl -->
+	<context:component-scan base-package="edu.utah.further.ds.impl.service.query.internal">
+		<context:exclude-filter type="regex"
+			expression=".*\.AnswerableServiceMetadataImpl" />
+	</context:component-scan>
+	
 	<context:component-scan base-package="edu.utah.further.ds.impl.service.query.mock" />
 	<context:component-scan base-package="edu.utah.further.ds.impl.advice">
 		<!-- Using JMS status reporters, turning off mock reporters. -->

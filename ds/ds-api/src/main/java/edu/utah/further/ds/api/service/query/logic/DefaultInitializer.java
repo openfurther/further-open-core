@@ -19,7 +19,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -30,28 +29,17 @@ import org.springframework.security.core.Authentication;
 import edu.utah.further.core.api.chain.AttributeContainer;
 import edu.utah.further.core.api.chain.AttributeContainerImpl;
 import edu.utah.further.core.api.collections.CollectionUtil;
-import edu.utah.further.core.api.context.Labeled;
 import edu.utah.further.ds.api.service.query.AnswerableService;
+import edu.utah.further.ds.api.util.AttributeName;
 import edu.utah.further.fqe.ds.api.domain.DsMetaData;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
 
 /**
- * Abstract Query Processor provides default behavior.
- * <p>
- * Unlike other Query Processors, the initializer is somewhat special in that it has a
- * required behavior. {@link AbstractInitializer} provides that required behavior and
- * hooks in order for the data source flow to execute.
- * <p>
- * This class was built for extension.
- * <ul>
- * <li>call canAnswer to determine whether or not this data source can answer this query</li>
- * <li>check if the data source is INACTIVE, if so, terminate</li>
- * <li>create a child QueryContext from the federated QueryContext and set the parent to
- * the federated QueryContext</li>
- * <li>inject any attributes for future Query Processors</li>
- * </ul>
+ * The default implementation of the {@link Initializer} responsible for determining
+ * whether or not the query can be answered, whether or not the user is allowed to answer
+ * the query, and the setup of attributes used throughout the chain request.
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -64,14 +52,14 @@ import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Apr 13, 2010
  */
-public abstract class AbstractInitializer implements Initializer
+public final class DefaultInitializer implements Initializer
 {
 	// ========================= CONSTANTS =================================
 
 	/**
 	 * A logger that helps identify this class' printouts.
 	 */
-	private static final Logger log = getLogger(AbstractInitializer.class);
+	private static final Logger log = getLogger(DefaultInitializer.class);
 
 	// ========================= FIELDS ====================================
 
@@ -81,7 +69,7 @@ public abstract class AbstractInitializer implements Initializer
 	private final AttributeContainer mainContainer = new AttributeContainerImpl();
 
 	/**
-	 * Service for determing whether or not a data source can answer a query
+	 * Service for determining whether or not a data source can answer a query
 	 */
 	private AnswerableService answerableService;
 
@@ -105,16 +93,44 @@ public abstract class AbstractInitializer implements Initializer
 		return answerableService.canAnswer(queryContext, dsMetaData);
 	}
 
-	/**
-	 * Add all key-value pairs loaded from the properties file as request attributes.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return
-	 * @see edu.utah.further.ds.api.service.query.processor.AbstractInitializerQp#getInjectedAttributes()
+	 * @see edu.utah.further.ds.api.service.query.logic.Initializer#getInitialAttributes()
 	 */
 	@Override
-	public Map<String, Object> getInjectedAttributes()
+	public Map<String, Object> getInitialAttributes()
 	{
 		return mainContainer.getAttributes();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.ds.api.service.query.logic.Initializer#setAttributes(java.util
+	 * .Map)
+	 */
+	@Override
+	public void setAttributes(final Map<String, Object> attributes)
+	{
+		mainContainer.setAttributes(attributes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.ds.api.service.query.logic.Initializer#setAttributeList(java.util
+	 * .List)
+	 */
+	@Override
+	public void setAttributeList(final List<Map<String, Object>> attributeList)
+	{
+		for (final Map<String, ?> attributes : attributeList)
+		{
+			mainContainer.addAttributes(attributes);
+		}
 	}
 
 	/*
@@ -165,20 +181,6 @@ public abstract class AbstractInitializer implements Initializer
 	// ========================= GET & SET =================================
 
 	/**
-	 * Set a new value for the containers property.
-	 * 
-	 * @param containers
-	 *            the containers to set
-	 */
-	public void setContainers(final List<AttributeContainer> containers)
-	{
-		for (final AttributeContainer container : containers)
-		{
-			addContainer(container);
-		}
-	}
-
-	/**
 	 * Set a new value for the answerableService property.
 	 * 
 	 * @param answerableService
@@ -202,114 +204,6 @@ public abstract class AbstractInitializer implements Initializer
 
 	// ========================= METHODS ===================================
 
-	/**
-	 * @param <T>
-	 * @param label
-	 * @return
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#getAttribute(edu.utah.further.core.api.context.Labeled)
-	 */
-	@Override
-	public <T> T getAttribute(final Labeled label)
-	{
-		return mainContainer.<T> getAttribute(label);
-	}
-
-	/**
-	 * @param label
-	 * @param value
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#setAttribute(edu.utah.further.core.api.context.Labeled,
-	 *      java.lang.Object)
-	 */
-	@Override
-	public void setAttribute(final Labeled label, final Object value)
-	{
-		mainContainer.setAttribute(label, value);
-	}
-
-	/**
-	 * @return
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#getAttributes()
-	 */
-	@Override
-	public Map<String, Object> getAttributes()
-	{
-		return mainContainer.getAttributes();
-	}
-
-	/**
-	 * @param attributes
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#setAttributes(java.util.Map)
-	 */
-	@Override
-	public void setAttributes(final Map<String, ?> attributes)
-	{
-		mainContainer.setAttributes(attributes);
-	}
-
-	/**
-	 * @param map
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#addAttributes(java.util.Map)
-	 */
-	@Override
-	public void addAttributes(final Map<String, ?> map)
-	{
-		mainContainer.addAttributes(map);
-	}
-
-	/**
-	 * @param <T>
-	 * @param name
-	 * @return
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#getAttribute(java.lang.String)
-	 */
-	@Override
-	public <T> T getAttribute(final String name)
-	{
-		return mainContainer.<T> getAttribute(name);
-	}
-
-	/**
-	 * @return
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#getAttributeNames()
-	 */
-	@Override
-	public Set<String> getAttributeNames()
-	{
-		return mainContainer.getAttributeNames();
-	}
-
-	/**
-	 * 
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#removeAllAttributes()
-	 */
-	@Override
-	public void removeAllAttributes()
-	{
-		mainContainer.removeAllAttributes();
-	}
-
-	/**
-	 * @param key
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#removeAttribute(java.lang.String)
-	 */
-	@Override
-	public void removeAttribute(final String key)
-	{
-		mainContainer.removeAttribute(key);
-	}
-
-	/**
-	 * @param key
-	 * @param value
-	 * @see edu.utah.further.core.api.chain.AttributeContainer#setAttribute(java.lang.String,
-	 *      java.lang.Object)
-	 */
-	@Override
-	public void setAttribute(final String key, final Object value)
-	{
-		mainContainer.setAttribute(key, value);
-	}
-
 	// ========================= PRIVATE METHODS ===========================
 
 	/**
@@ -320,17 +214,14 @@ public abstract class AbstractInitializer implements Initializer
 	 */
 	protected ResultContext getResultContext()
 	{
-		return new ResultContextToImpl();
-	}
+		final ResultContext resultContext = mainContainer
+				.getAttribute(AttributeName.RESULT_CONTEXT);
+		if (resultContext == null)
+		{
+			log.info("No preconfigured ResultContext found, creating default");
+			return new ResultContextToImpl();
+		}
 
-	/**
-	 * Overlay an attribute container over the current main attribute container.
-	 * 
-	 * @param container
-	 *            attribute container to add (overlay) to this object
-	 */
-	private void addContainer(final AttributeContainer container)
-	{
-		this.mainContainer.addAttributes(container.getAttributes());
+		return resultContext;
 	}
 }
