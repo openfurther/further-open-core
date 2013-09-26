@@ -133,9 +133,13 @@
 	<osgi:reference id="defaultStaleDateTimeFactory"
 		interface="edu.utah.further.fqe.ds.api.factory.StaleDateTimeFactory" />
 
+	<!-- Result Summary Service for generating aggregated result counts -->
+	<osgi:reference id="resultSummaryService" bean-name="resultSummaryService"
+		interface="edu.utah.further.fqe.ds.api.service.results.ResultSummaryService" />
+		
 	<!-- Result Service for generating result views -->
-	<osgi:reference id="resultService" bean-name="resultService"
-		interface="edu.utah.further.fqe.ds.api.service.results.ResultService" />
+	<osgi:reference id="resultDataService" bean-name="resultDataService"
+		interface="edu.utah.further.fqe.ds.api.service.results.ResultDataService" />
 
 	<osgi:reference id="xmlService"
 		interface="edu.utah.further.core.api.xml.XmlService" />

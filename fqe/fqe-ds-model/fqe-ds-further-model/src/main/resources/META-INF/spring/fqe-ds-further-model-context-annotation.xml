@@ -35,6 +35,8 @@
 	">
 
 	<context:component-scan base-package="edu.utah.further.fqe.ds.model.further.export" />
+	<context:component-scan
+		base-package="edu.utah.further.fqe.ds.model.further.service.results" />
 
 </beans>
 

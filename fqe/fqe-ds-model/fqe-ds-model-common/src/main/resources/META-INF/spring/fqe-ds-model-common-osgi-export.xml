@@ -45,7 +45,7 @@
 		Centralizes the *default* stale time generated for all queries. Can
 		still be overridden in specific queries.
 	-->
-	<osgi:service ref="resultService"
-		interface="edu.utah.further.fqe.ds.api.service.results.ResultService" />
+	<osgi:service ref="resultSummaryService"
+		interface="edu.utah.further.fqe.ds.api.service.results.ResultSummaryService" />
 
 </beans>

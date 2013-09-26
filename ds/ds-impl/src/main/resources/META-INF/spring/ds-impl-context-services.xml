@@ -103,9 +103,6 @@
 		class="edu.utah.further.ds.impl.service.query.processor.ExecutorQp"
 		scope="prototype" p:delegate-ref="questExecution" />
 
-	<!-- Request processor to join asynchronous futures -->
-	<bean id="joinRp" class="edu.utah.further.ds.impl.service.query.processor.JoinRp" />
-
 	<!-- Associated Results Attacher Processor -->
 	<bean id="associatedResultQp"
 		class="edu.utah.further.ds.impl.service.query.processor.AssociatedResultQp"

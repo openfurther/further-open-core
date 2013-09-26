@@ -40,6 +40,7 @@
 
 	<import resource="fqe-ds-model-common-osgi-import.xml" />
 	<import resource="fqe-ds-model-common-context-annotation.xml" />
+	<import resource="fqe-ds-model-common-context-services.xml" />
 	<import resource="fqe-ds-model-common-osgi-export.xml" />
 
 </beans> 

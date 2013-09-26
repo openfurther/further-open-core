@@ -17,6 +17,42 @@
 
 	<properties>
 		<shortName>ds.model.common</shortName>
+		<further.osgi.import.pkg>
+			org.hibernate,
+			org.hibernate.annotations,
+			org.hibernate.cfg,
+			org.hibernate.proxy,
+			org.hibernate.hql.ast,
+			org.hibernate.type,
+			org.springframework.orm,
+			org.springframework.orm.hibernate3.support,
+			org.springframework.orm.hibernate3.annotation,
+			org.springframework.orm.hibernate3,
+			org.springframework.aop,
+			org.springframework.aop.framework,
+			org.springframework.aop.config,
+			org.springframework.aop.aspectj.annotation,
+			org.springframework.beans.factory.aspectj,
+			org.springframework.transaction.aspectj,
+			org.springframework.jdbc.support.lob,
+			org.springframework.jdbc.core.simple,
+			org.springframework.transaction.support,
+			org.springframework.dao.support,
+			org.springframework.context.weaving,
+			org.hsqldb,
+			com.mysql.jdbc;resolution:=optional,
+			com.mchange.v2.c3p0,
+			org.aopalliance.aop,
+			org.aspectj.lang,
+			org.aspectj.lang.reflect,
+			org.aspectj.lang.annotation,
+			javassist.util.proxy,
+			javax.sql,
+			net.sf.cglib.proxy,
+			net.sf.cglib.core,
+			net.sf.cglib.reflect,
+			*
+		</further.osgi.import.pkg>
 	</properties>
 
 	<dependencies>

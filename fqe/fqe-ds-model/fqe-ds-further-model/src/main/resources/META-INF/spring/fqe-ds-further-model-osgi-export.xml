@@ -36,5 +36,8 @@
 
 	<osgi:service ref="csvExporter"
 		interface="edu.utah.further.fqe.ds.api.domain.Exporter" />
+
+	<osgi:service ref="resultDataService"
+		interface="edu.utah.further.fqe.ds.api.service.results.ResultDataService" />
 		
 </beans>

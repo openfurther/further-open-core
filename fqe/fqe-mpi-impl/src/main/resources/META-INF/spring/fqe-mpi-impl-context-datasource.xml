@@ -112,7 +112,7 @@
 	<!-- =========================================== -->
 
 	<bean id="daoFqeMpi" class="edu.utah.further.core.data.service.DaoHibernateImpl">
-		<property name="sessionFactory" />
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
 </beans>
