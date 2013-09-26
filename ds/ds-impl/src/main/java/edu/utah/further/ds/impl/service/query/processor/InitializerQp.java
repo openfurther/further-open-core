@@ -132,7 +132,7 @@ public class InitializerQp extends AbstractDelegatingUtilityProcessor<Initialize
 		request.setAttribute(QUERY_CONTEXT, childQc);
 
 		// Inject initialization attributes
-		injectAttributes(request, getDelegate().getInjectedAttributes());
+		injectAttributes(request, getDelegate().getAttributes());
 
 		// Finish initializing the child query context
 		getDelegate().initialize(childQc, metaData);

@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 
-import edu.utah.further.core.api.chain.AttributeContainer;
 import edu.utah.further.core.api.exception.ApplicationException;
+import edu.utah.further.ds.api.util.AttributeName;
 import edu.utah.further.fqe.ds.api.domain.DsMetaData;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 
@@ -44,7 +44,7 @@ import edu.utah.further.fqe.ds.api.domain.QueryContext;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Jan 26, 2010
  */
-public interface Initializer extends AttributeContainer
+public interface Initializer
 {
 	// ========================= METHODS ===================================
 
@@ -87,12 +87,25 @@ public interface Initializer extends AttributeContainer
 	 * @return true if the data source can answer this query or false if it cannot
 	 */
 	boolean canAnswer(QueryContext queryContext, DsMetaData dsMetaData);
+	
+	/**
+	 * Returns the initial attributes used to seed the request chain
+	 *
+	 * @return the attributes
+	 */
+	public Map<String, Object> getAttributes();
 
 	/**
-	 * Returns a list of attributes to inject such that they are available for subsequent
-	 * Query Processors.
-	 * 
-	 * @return a Map of attribute names and values
+	 * Sets the initial attributes used to seed the request chain
+	 *
+	 * @param attributes the attributes to set
 	 */
-	Map<String, Object> getInjectedAttributes();
+	public void setAttributes(final Map<String, Object> attributes);
+	
+	/**
+	 * Sets the initial attributes used to seed the request chain
+	 *
+	 * @param attributes the attributes to set
+	 */
+	public void setNamedAttributes(final Map<AttributeName, Object> attributes);
 }

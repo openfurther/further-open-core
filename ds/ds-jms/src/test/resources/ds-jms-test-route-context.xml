@@ -60,6 +60,10 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="initializer" class="edu.utah.further.ds.api.service.query.logic.DefaultInitializer">
+		<property name="answerableService" ref="answerableServiceAlways"/>
+	</bean>
 
 	<!-- =========================================== -->
 	<!-- Life cycle services -->
@@ -67,7 +71,7 @@
 
 	<bean id="mockInitializerQp"
 		class="edu.utah.further.ds.impl.service.query.processor.InitializerQp"
-		scope="prototype" p:delegate-ref="initializerMock" />
+		scope="prototype" p:delegate-ref="initializer" />
 
 	<bean id="mockValidatorQp"
 		class="edu.utah.further.ds.impl.service.query.processor.ValidatorQp"

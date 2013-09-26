@@ -22,7 +22,8 @@ import edu.utah.further.core.api.context.Labeled;
 
 /**
  * A request object passed to a chain of handlers. Like <code>ServletRequest</code>, holds
- * a map of input/output attributes that may be manipulated by handlers.
+ * a map of input/output attributes that may be manipulated by handlers. An
+ * {@link AttributeContainer} is a map with generic methods.
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -31,7 +32,7 @@ import edu.utah.further.core.api.context.Labeled;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Sep 28, 2009
  */
@@ -41,20 +42,20 @@ public interface AttributeContainer
 
 	/**
 	 * Return the attributes map property. (This is NOT a deep copy of the map.)
-	 *
+	 * 
 	 * @return the attribute map
 	 */
 	Map<String, Object> getAttributes();
 
 	/**
 	 * Sets the attributes map property
-	 *
+	 * 
 	 */
 	void setAttributes(Map<String, ?> attributes);
 
 	/**
 	 * Add attributes, overriding existing key-value pairs.
-	 *
+	 * 
 	 * @param map
 	 *            attributes to overlay over the existing attributes in the container.
 	 */
@@ -66,7 +67,7 @@ public interface AttributeContainer
 	 * <code>null</code> if no attribute of the given name exists.
 	 * <p>
 	 * Attribute names should follow the naming conventions of {@link CommonStrings}.
-	 *
+	 * 
 	 * @param <T>
 	 *            attribute value type
 	 * @param name
@@ -80,7 +81,7 @@ public interface AttributeContainer
 	 * Returns the value of the named attribute as a generic type. This is a convenience
 	 * method that gets an attribute from a {@link Labeled} object by calling its
 	 * {@link Labeled#getLabel()} method for the attribute's name.
-	 *
+	 * 
 	 * @param <T>
 	 *            attribute value type
 	 * @param label
@@ -95,7 +96,7 @@ public interface AttributeContainer
 	 * Returns an <code>Set</code> containing the names of the attributes available to
 	 * this request. This method returns an empty <code>Set</code> if the request has no
 	 * attributes available to it.
-	 *
+	 * 
 	 * @return an <code>Enumeration</code> of strings containing the names of the
 	 *         request's attributes
 	 */
@@ -111,7 +112,7 @@ public interface AttributeContainer
 	 * found, this method has no effect.
 	 * <p>
 	 * Attribute names should follow the naming conventions of {@link CommonStrings}.
-	 *
+	 * 
 	 * @param key
 	 *            a <code>String</code> specifying the name of the attribute
 	 */
@@ -121,7 +122,7 @@ public interface AttributeContainer
 	 * Stores an attribute in the context of this request.
 	 * <p>
 	 * Attribute names should follow the naming conventions of {@link CommonStrings}.
-	 *
+	 * 
 	 * @param key
 	 *            a <code>String</code> specifying the name of the attribute
 	 * @param value
@@ -135,7 +136,7 @@ public interface AttributeContainer
 	 * its {@link Labeled#getLabel()} method for the attribute's name.
 	 * <p>
 	 * This method has no effect if the <code>label</code> object is null.
-	 *
+	 * 
 	 * @param label
 	 *            an object with a label to use for the key
 	 * @param value
