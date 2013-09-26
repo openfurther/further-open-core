@@ -84,7 +84,6 @@
 		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
 		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
 		<prop key="c3p0.maxIdleTime">1800</prop>
-		<!-- Note this property valuy is for HSQLDB ONLY! -->
 		<prop key="c3p0.preferredTestQuery"></prop>
 
 	</osgix:cm-properties>
