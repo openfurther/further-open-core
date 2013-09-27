@@ -73,7 +73,7 @@
 	<!-- Query Translator Query Processor: Stored Procedure Impl -->
 	<bean id="queryTranslatorQp"
 		class="edu.utah.further.ds.impl.service.query.processor.QueryTranslatorQp"
-		scope="prototype" p:delegate-ref="queryTranslatorSp" />
+		scope="prototype" p:delegate-ref="queryTranslatorXquery" />
 
 	<!-- Query Result Translator Query Processor: XQuery Impl -->
 	<bean id="resultTranslatorQp"
