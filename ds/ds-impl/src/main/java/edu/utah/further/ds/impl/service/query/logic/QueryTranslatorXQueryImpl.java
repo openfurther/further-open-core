@@ -153,6 +153,7 @@ public class QueryTranslatorXQueryImpl implements QueryTranslator
 		{
 			{
 				put("tgNmspcId", dsMetaData.getNamespaceId().toString());
+				put("tgNmspcName", dsMetaData.getName());
 			}
 		};
 
