@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain;
+package edu.utah.further.ds.openmrs.model.domain.v1_9;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -35,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import edu.utah.further.core.api.data.PersistentEntity;
 
 /**
- * The persistent class and data transfer object for the patient database table.
+ * The persistent class for and data transfer object the order_type database table.
  * 
  * <p>
  * -----------------------------------------------------------------------------------<br>
@@ -50,82 +48,59 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @version Sep 3, 2013
  */
 @Entity
-@XmlRootElement(name = "Patient")
+@Table(name = "order_type")
+@XmlRootElement(name = "OrderType")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Patient implements PersistentEntity<Integer>
+public class OrderType implements PersistentEntity<Integer>
 {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "patient_id")
-	private Integer patientId;
-
-	@Column(name = "changed_by")
-	private int changedBy;
+	@Column(name = "order_type_id")
+	private Integer orderTypeId;
 
 	private int creator;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_changed")
-	private Date dateChanged;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created")
 	private Date dateCreated;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_voided")
-	private Date dateVoided;
+	@Column(name = "date_retired")
+	private Date dateRetired;
 
-	private int tribe;
+	private String description;
 
-	@Column(name = "void_reason")
-	private String voidReason;
+	private String name;
 
-	private byte voided;
+	@Column(name = "retire_reason")
+	private String retireReason;
 
-	@Column(name = "voided_by")
-	private int voidedBy;
+	private byte retired;
 
-	// bi-directional many-to-one association to Encounter
-	@OneToMany(mappedBy = "patient")
-	@XmlTransient
-	private List<Encounter> encounters;
+	@Column(name = "retired_by")
+	private int retiredBy;
+
+	private String uuid;
 
 	// bi-directional many-to-one association to Order
-	@OneToMany(mappedBy = "patient")
+	@OneToMany(mappedBy = "orderType")
 	@XmlTransient
 	private List<Order> orders;
 
-	// bi-directional one-to-one association to Person
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patient_id")
-	@XmlTransient
-	private Person person;
-
-	public Patient()
+	public OrderType()
 	{
 	}
 
 	@Override
 	public Integer getId()
 	{
-		return this.patientId;
+		return this.orderTypeId;
 	}
 
-	public void setId(final Integer patientId)
+	public void setId(final Integer orderTypeId)
 	{
-		this.patientId = patientId;
-	}
-
-	public int getChangedBy()
-	{
-		return this.changedBy;
-	}
-
-	public void setChangedBy(final int changedBy)
-	{
-		this.changedBy = changedBy;
+		this.orderTypeId = orderTypeId;
 	}
 
 	public int getCreator()
@@ -138,16 +113,6 @@ public class Patient implements PersistentEntity<Integer>
 		this.creator = creator;
 	}
 
-	public Date getDateChanged()
-	{
-		return this.dateChanged;
-	}
-
-	public void setDateChanged(final Date dateChanged)
-	{
-		this.dateChanged = dateChanged;
-	}
-
 	public Date getDateCreated()
 	{
 		return this.dateCreated;
@@ -158,80 +123,74 @@ public class Patient implements PersistentEntity<Integer>
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateVoided()
+	public Date getDateRetired()
 	{
-		return this.dateVoided;
+		return this.dateRetired;
 	}
 
-	public void setDateVoided(final Date dateVoided)
+	public void setDateRetired(final Date dateRetired)
 	{
-		this.dateVoided = dateVoided;
+		this.dateRetired = dateRetired;
 	}
 
-	public int getTribe()
+	public String getDescription()
 	{
-		return this.tribe;
+		return this.description;
 	}
 
-	public void setTribe(final int tribe)
+	public void setDescription(final String description)
 	{
-		this.tribe = tribe;
+		this.description = description;
 	}
 
-	public String getVoidReason()
+	public String getName()
 	{
-		return this.voidReason;
+		return this.name;
 	}
 
-	public void setVoidReason(final String voidReason)
+	public void setName(final String name)
 	{
-		this.voidReason = voidReason;
+		this.name = name;
 	}
 
-	public byte getVoided()
+	public String getRetireReason()
 	{
-		return this.voided;
+		return this.retireReason;
 	}
 
-	public void setVoided(final byte voided)
+	public void setRetireReason(final String retireReason)
 	{
-		this.voided = voided;
+		this.retireReason = retireReason;
 	}
 
-	public int getVoidedBy()
+	public byte getRetired()
 	{
-		return this.voidedBy;
+		return this.retired;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setRetired(final byte retired)
 	{
-		this.voidedBy = voidedBy;
+		this.retired = retired;
 	}
 
-	public List<Encounter> getEncounters()
+	public int getRetiredBy()
 	{
-		return this.encounters;
+		return this.retiredBy;
 	}
 
-	public void setEncounters(final List<Encounter> encounters)
+	public void setRetiredBy(final int retiredBy)
 	{
-		this.encounters = encounters;
+		this.retiredBy = retiredBy;
 	}
 
-	public Encounter addEncounter(final Encounter encounter)
+	public String getUuid()
 	{
-		getEncounters().add(encounter);
-		encounter.setPatient(this);
-
-		return encounter;
+		return this.uuid;
 	}
 
-	public Encounter removeEncounter(final Encounter encounter)
+	public void setUuid(final String uuid)
 	{
-		getEncounters().remove(encounter);
-		encounter.setPatient(null);
-
-		return encounter;
+		this.uuid = uuid;
 	}
 
 	public List<Order> getOrders()
@@ -247,7 +206,7 @@ public class Patient implements PersistentEntity<Integer>
 	public Order addOrder(final Order order)
 	{
 		getOrders().add(order);
-		order.setPatient(this);
+		order.setOrderType(this);
 
 		return order;
 	}
@@ -255,19 +214,9 @@ public class Patient implements PersistentEntity<Integer>
 	public Order removeOrder(final Order order)
 	{
 		getOrders().remove(order);
-		order.setPatient(null);
+		order.setOrderType(null);
 
 		return order;
-	}
-
-	public Person getPerson()
-	{
-		return this.person;
-	}
-
-	public void setPerson(final Person person)
-	{
-		this.person = person;
 	}
 
 }

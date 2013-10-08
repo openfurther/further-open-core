@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain;
+package edu.utah.further.ds.openmrs.model.domain.v1_9;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
@@ -27,6 +27,9 @@ import org.junit.Test;
 
 import edu.utah.further.core.api.xml.XmlService;
 import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
+import edu.utah.further.ds.openmrs.model.domain.v1_9.Person;
+import edu.utah.further.ds.openmrs.model.domain.v1_9.PersonAttribute;
+import edu.utah.further.ds.openmrs.model.domain.v1_9.PersonAttributeType;
 
 /**
  * Test marshalling the output of a patient in OpenMRS
@@ -42,7 +45,7 @@ import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Aug 14, 2013
  */
-public class UTestMarshalOpenMrs
+public class UTestMarshalOpenMrsV1_9
 {
 	@Test
 	public void marshalPatient() throws JAXBException

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain;
+package edu.utah.further.ds.openmrs.model.domain.v1_9;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,23 +22,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
-import org.hibernate.annotations.Formula;
 
 import edu.utah.further.core.api.data.PersistentEntity;
 
 /**
- * The persistent class and data transfer object for the person database table.
+ * The persistent class and data transfer object for the encounter database table.
+ * 
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -53,24 +50,15 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @version Sep 3, 2013
  */
 @Entity
-@XmlRootElement(name = "Person")
+@XmlRootElement(name = "Encounter")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Person implements PersistentEntity<Integer>
+public class Encounter implements PersistentEntity<Integer>
 {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "person_id")
-	private Integer personId;
-
-	@Temporal(TemporalType.DATE)
-	private Date birthdate;
-
-	@Column(name = "birthdate_estimated")
-	private byte birthdateEstimated;
-
-	@Column(name = "cause_of_death")
-	private int causeOfDeath;
+	@Column(name = "encounter_id")
+	private Integer encounterId;
 
 	@Column(name = "changed_by")
 	private int changedBy;
@@ -89,15 +77,20 @@ public class Person implements PersistentEntity<Integer>
 	@Column(name = "date_voided")
 	private Date dateVoided;
 
-	private byte dead;
-
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "death_date")
-	private Date deathDate;
+	@Column(name = "encounter_datetime")
+	private Date encounterDatetime;
 
-	private String gender;
+	@Column(name = "form_id")
+	private int formId;
+
+	@Column(name = "location_id")
+	private int locationId;
 
 	private String uuid;
+
+	@Column(name = "visit_id")
+	private int visitId;
 
 	@Column(name = "void_reason")
 	private String voidReason;
@@ -106,27 +99,30 @@ public class Person implements PersistentEntity<Integer>
 
 	@Column(name = "voided_by")
 	private int voidedBy;
-	
-	@Formula("extract(year from birthdate)")
-	private int birthYear;
 
-	// bi-directional many-to-one association to Observation
-	@OneToMany(mappedBy = "person")
-	@XmlTransient
-	private List<Observation> observations = new ArrayList<>();
-
-	// bi-directional one-to-one association to Patient
-	@OneToOne(mappedBy = "person", fetch = FetchType.LAZY)
+	// bi-directional many-to-one association to Patient
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "patient_id")
 	@XmlTransient
 	private Patient patient;
 
-	// bi-directional many-to-one association to PersonAttribute
-	@OneToMany(mappedBy = "person")
-	@XmlElementWrapper(name="personAttributes")
-	@XmlElement(name="personAttribute")
-	private List<PersonAttribute> personAttributes = new ArrayList<>();
+	// bi-directional many-to-one association to EncounterType
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "encounter_type")
+	@XmlTransient
+	private EncounterType encounterType;
 
-	public Person()
+	// bi-directional many-to-one association to Observation
+	@OneToMany(mappedBy = "encounter")
+	@XmlTransient
+	private List<Observation> observations;
+
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "encounter")
+	@XmlTransient
+	private List<Order> orders;
+
+	public Encounter()
 	{
 	}
 
@@ -138,42 +134,12 @@ public class Person implements PersistentEntity<Integer>
 	@Override
 	public Integer getId()
 	{
-		return this.personId;
+		return this.encounterId;
 	}
 
-	public void setId(final Integer personId)
+	public void setId(final Integer encounterId)
 	{
-		this.personId = personId;
-	}
-
-	public Date getBirthdate()
-	{
-		return this.birthdate;
-	}
-
-	public void setBirthdate(final Date birthdate)
-	{
-		this.birthdate = birthdate;
-	}
-
-	public byte getBirthdateEstimated()
-	{
-		return this.birthdateEstimated;
-	}
-
-	public void setBirthdateEstimated(final byte birthdateEstimated)
-	{
-		this.birthdateEstimated = birthdateEstimated;
-	}
-
-	public int getCauseOfDeath()
-	{
-		return this.causeOfDeath;
-	}
-
-	public void setCauseOfDeath(final int causeOfDeath)
-	{
-		this.causeOfDeath = causeOfDeath;
+		this.encounterId = encounterId;
 	}
 
 	public int getChangedBy()
@@ -226,34 +192,34 @@ public class Person implements PersistentEntity<Integer>
 		this.dateVoided = dateVoided;
 	}
 
-	public byte getDead()
+	public Date getEncounterDatetime()
 	{
-		return this.dead;
+		return this.encounterDatetime;
 	}
 
-	public void setDead(final byte dead)
+	public void setEncounterDatetime(final Date encounterDatetime)
 	{
-		this.dead = dead;
+		this.encounterDatetime = encounterDatetime;
 	}
 
-	public Date getDeathDate()
+	public int getFormId()
 	{
-		return this.deathDate;
+		return this.formId;
 	}
 
-	public void setDeathDate(final Date deathDate)
+	public void setFormId(final int formId)
 	{
-		this.deathDate = deathDate;
+		this.formId = formId;
 	}
 
-	public String getGender()
+	public int getLocationId()
 	{
-		return this.gender;
+		return this.locationId;
 	}
 
-	public void setGender(final String gender)
+	public void setLocationId(final int locationId)
 	{
-		this.gender = gender;
+		this.locationId = locationId;
 	}
 
 	public String getUuid()
@@ -264,6 +230,16 @@ public class Person implements PersistentEntity<Integer>
 	public void setUuid(final String uuid)
 	{
 		this.uuid = uuid;
+	}
+
+	public int getVisitId()
+	{
+		return this.visitId;
+	}
+
+	public void setVisitId(final int visitId)
+	{
+		this.visitId = visitId;
 	}
 
 	public String getVoidReason()
@@ -296,40 +272,9 @@ public class Person implements PersistentEntity<Integer>
 		this.voidedBy = voidedBy;
 	}
 
-	public List<Observation> getObservations()
-	{
-		return this.observations;
-	}
-
-	public void setObservations(final List<Observation> obs)
-	{
-		this.observations = obs;
-	}
-
-	public Observation addObservation(final Observation observation)
-	{
-		getObservations().add(observation);
-		observation.setPerson(this);
-
-		return observation;
-	}
-
-	public Observation removeObservation(final Observation observation)
-	{
-		getObservations().remove(observation);
-		observation.setPerson(null);
-
-		return observation;
-	}
-
 	public Patient getPatient()
 	{
 		return this.patient;
-	}
-
-	public List<PersonAttribute> getPersonAttributes()
-	{
-		return this.personAttributes;
 	}
 
 	public void setPatient(final Patient patient)
@@ -337,25 +282,66 @@ public class Person implements PersistentEntity<Integer>
 		this.patient = patient;
 	}
 
-	public void setPersonAttributes(final List<PersonAttribute> personAttributes)
+	public EncounterType getEncounterTypeBean()
 	{
-		this.personAttributes = personAttributes;
+		return this.encounterType;
 	}
 
-	public PersonAttribute addPersonAttribute(final PersonAttribute personAttribute)
+	public void setEncounterTypeBean(final EncounterType encounterTypeBean)
 	{
-		getPersonAttributes().add(personAttribute);
-		personAttribute.setPerson(this);
-
-		return personAttribute;
+		this.encounterType = encounterTypeBean;
 	}
 
-	public PersonAttribute removePersonAttribute(final PersonAttribute personAttribute)
+	public List<Observation> getObs()
 	{
-		getPersonAttributes().remove(personAttribute);
-		personAttribute.setPerson(null);
+		return this.observations;
+	}
 
-		return personAttribute;
+	public void setObs(final List<Observation> obs)
+	{
+		this.observations = obs;
+	}
+
+	public Observation addOb(final Observation ob)
+	{
+		getObs().add(ob);
+		ob.setEncounter(this);
+
+		return ob;
+	}
+
+	public Observation removeOb(final Observation ob)
+	{
+		getObs().remove(ob);
+		ob.setEncounter(null);
+
+		return ob;
+	}
+
+	public List<Order> getOrders()
+	{
+		return this.orders;
+	}
+
+	public void setOrders(final List<Order> orders)
+	{
+		this.orders = orders;
+	}
+
+	public Order addOrder(final Order order)
+	{
+		getOrders().add(order);
+		order.setEncounter(this);
+
+		return order;
+	}
+
+	public Order removeOrder(final Order order)
+	{
+		getOrders().remove(order);
+		order.setEncounter(null);
+
+		return order;
 	}
 
 }

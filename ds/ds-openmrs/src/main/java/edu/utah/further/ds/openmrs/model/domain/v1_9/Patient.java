@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain;
+package edu.utah.further.ds.openmrs.model.domain.v1_9;
 
 import java.util.Date;
 import java.util.List;
@@ -23,8 +23,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import edu.utah.further.core.api.data.PersistentEntity;
 
 /**
- * The persistent class and data transfer object for the encounter database table.
+ * The persistent class and data transfer object for the patient database table.
  * 
  * <p>
  * -----------------------------------------------------------------------------------<br>
@@ -50,15 +50,15 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @version Sep 3, 2013
  */
 @Entity
-@XmlRootElement(name = "Encounter")
+@XmlRootElement(name = "Patient")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Encounter implements PersistentEntity<Integer>
+public class Patient implements PersistentEntity<Integer>
 {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "encounter_id")
-	private Integer encounterId;
+	@Column(name = "patient_id")
+	private Integer patientId;
 
 	@Column(name = "changed_by")
 	private int changedBy;
@@ -77,20 +77,7 @@ public class Encounter implements PersistentEntity<Integer>
 	@Column(name = "date_voided")
 	private Date dateVoided;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "encounter_datetime")
-	private Date encounterDatetime;
-
-	@Column(name = "form_id")
-	private int formId;
-
-	@Column(name = "location_id")
-	private int locationId;
-
-	private String uuid;
-
-	@Column(name = "visit_id")
-	private int visitId;
+	private int tribe;
 
 	@Column(name = "void_reason")
 	private String voidReason;
@@ -100,46 +87,35 @@ public class Encounter implements PersistentEntity<Integer>
 	@Column(name = "voided_by")
 	private int voidedBy;
 
-	// bi-directional many-to-one association to Patient
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patient_id")
+	// bi-directional many-to-one association to Encounter
+	@OneToMany(mappedBy = "patient")
 	@XmlTransient
-	private Patient patient;
-
-	// bi-directional many-to-one association to EncounterType
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "encounter_type")
-	@XmlTransient
-	private EncounterType encounterType;
-
-	// bi-directional many-to-one association to Observation
-	@OneToMany(mappedBy = "encounter")
-	@XmlTransient
-	private List<Observation> observations;
+	private List<Encounter> encounters;
 
 	// bi-directional many-to-one association to Order
-	@OneToMany(mappedBy = "encounter")
+	@OneToMany(mappedBy = "patient")
 	@XmlTransient
 	private List<Order> orders;
 
-	public Encounter()
+	// bi-directional one-to-one association to Person
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "patient_id")
+	@XmlTransient
+	private Person person;
+
+	public Patient()
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.utah.further.core.api.discrete.HasIdentifier#getId()
-	 */
 	@Override
 	public Integer getId()
 	{
-		return this.encounterId;
+		return this.patientId;
 	}
 
-	public void setId(final Integer encounterId)
+	public void setId(final Integer patientId)
 	{
-		this.encounterId = encounterId;
+		this.patientId = patientId;
 	}
 
 	public int getChangedBy()
@@ -192,54 +168,14 @@ public class Encounter implements PersistentEntity<Integer>
 		this.dateVoided = dateVoided;
 	}
 
-	public Date getEncounterDatetime()
+	public int getTribe()
 	{
-		return this.encounterDatetime;
+		return this.tribe;
 	}
 
-	public void setEncounterDatetime(final Date encounterDatetime)
+	public void setTribe(final int tribe)
 	{
-		this.encounterDatetime = encounterDatetime;
-	}
-
-	public int getFormId()
-	{
-		return this.formId;
-	}
-
-	public void setFormId(final int formId)
-	{
-		this.formId = formId;
-	}
-
-	public int getLocationId()
-	{
-		return this.locationId;
-	}
-
-	public void setLocationId(final int locationId)
-	{
-		this.locationId = locationId;
-	}
-
-	public String getUuid()
-	{
-		return this.uuid;
-	}
-
-	public void setUuid(final String uuid)
-	{
-		this.uuid = uuid;
-	}
-
-	public int getVisitId()
-	{
-		return this.visitId;
-	}
-
-	public void setVisitId(final int visitId)
-	{
-		this.visitId = visitId;
+		this.tribe = tribe;
 	}
 
 	public String getVoidReason()
@@ -272,50 +208,30 @@ public class Encounter implements PersistentEntity<Integer>
 		this.voidedBy = voidedBy;
 	}
 
-	public Patient getPatient()
+	public List<Encounter> getEncounters()
 	{
-		return this.patient;
+		return this.encounters;
 	}
 
-	public void setPatient(final Patient patient)
+	public void setEncounters(final List<Encounter> encounters)
 	{
-		this.patient = patient;
+		this.encounters = encounters;
 	}
 
-	public EncounterType getEncounterTypeBean()
+	public Encounter addEncounter(final Encounter encounter)
 	{
-		return this.encounterType;
+		getEncounters().add(encounter);
+		encounter.setPatient(this);
+
+		return encounter;
 	}
 
-	public void setEncounterTypeBean(final EncounterType encounterTypeBean)
+	public Encounter removeEncounter(final Encounter encounter)
 	{
-		this.encounterType = encounterTypeBean;
-	}
+		getEncounters().remove(encounter);
+		encounter.setPatient(null);
 
-	public List<Observation> getObs()
-	{
-		return this.observations;
-	}
-
-	public void setObs(final List<Observation> obs)
-	{
-		this.observations = obs;
-	}
-
-	public Observation addOb(final Observation ob)
-	{
-		getObs().add(ob);
-		ob.setEncounter(this);
-
-		return ob;
-	}
-
-	public Observation removeOb(final Observation ob)
-	{
-		getObs().remove(ob);
-		ob.setEncounter(null);
-
-		return ob;
+		return encounter;
 	}
 
 	public List<Order> getOrders()
@@ -331,7 +247,7 @@ public class Encounter implements PersistentEntity<Integer>
 	public Order addOrder(final Order order)
 	{
 		getOrders().add(order);
-		order.setEncounter(this);
+		order.setPatient(this);
 
 		return order;
 	}
@@ -339,9 +255,19 @@ public class Encounter implements PersistentEntity<Integer>
 	public Order removeOrder(final Order order)
 	{
 		getOrders().remove(order);
-		order.setEncounter(null);
+		order.setPatient(null);
 
 		return order;
+	}
+
+	public Person getPerson()
+	{
+		return this.person;
+	}
+
+	public void setPerson(final Person person)
+	{
+		this.person = person;
 	}
 
 }
