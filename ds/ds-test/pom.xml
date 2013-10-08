@@ -121,6 +121,20 @@
 			<artifactId>ds-fqe-test</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- Groovy testing related classes -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
+		</dependency>
+		
+		<!-- Spock framework for spock test -->
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>${spock.version}</version>
+		</dependency>
 
 		<!-- ########################## -->
 		<!-- Runtime -->
