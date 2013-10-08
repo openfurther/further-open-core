@@ -55,7 +55,7 @@
 		<guava.version>11.0.1</guava.version>
 		<org.quartz.version>1.8.5</org.quartz.version>
 		<groovy.version>1.8.8</groovy.version>
-		<basex.version>7.6</basex.version>
+		<basex.version>7.7.2</basex.version>
 
 		<!-- Spring -->
 		<spring.version>3.0.7.RELEASE</spring.version>
