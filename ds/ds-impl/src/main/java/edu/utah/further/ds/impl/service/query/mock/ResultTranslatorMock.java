@@ -17,6 +17,7 @@ package edu.utah.further.ds.impl.service.query.mock;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import edu.utah.further.core.api.context.Mock;
 import edu.utah.further.core.chain.UtilityProcessor;
+import edu.utah.further.ds.api.results.ResultList;
 import edu.utah.further.ds.api.service.query.logic.ResultTranslator;
 
 /**
@@ -83,7 +85,7 @@ public class ResultTranslatorMock implements ResultTranslator
 	public Object translate(final Object result, final Map<String, Object> attributes)
 	{
 		common.printTitle();
-		return new MutableTransferListMock();
+		return new ResultList(new ArrayList<>());
 	}
 
 }

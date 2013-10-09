@@ -71,17 +71,7 @@ public class PatientDimensionsToImpl implements PatientDimensionsTo
 				.<PatientDimensionTo> newList(this.patientDimension) : CollectionUtil
 				.<PatientDimensionTo> newList();
 	}
-
-	/**
-	 * @return
-	 * @see edu.utah.further.core.api.xml.TransferList#getList()
-	 */
-	@Override
-	public List<PatientDimensionTo> getList()
-	{
-		return getPatientDimension();
-	}
-
+	
 	// ========================= IMPL: Object ==============================
 
 	/**

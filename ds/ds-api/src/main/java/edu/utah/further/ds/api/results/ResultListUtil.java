@@ -13,47 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.impl.service.query.mock;
+package edu.utah.further.ds.api.results;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.utah.further.core.api.data.PersistentEntity;
-import edu.utah.further.core.api.xml.MutableTransferList;
 
 /**
- * A mock implementation of an entity list transfer object.
+ * ...
  * <p>
  * -----------------------------------------------------------------------------------<br>
- * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
+ * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
  * Contact: {@code <further@utah.edu>}<br>
  * Biomedical Informatics, 26 South 2000 East<br>
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
- * @author Oren E. Livne {@code <oren.livne@utah.edu>}</code>
- * @version Jun 4, 2010
+ * 
+ * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
+ * @version Oct 9, 2013
  */
-final class MutableTransferListMock implements MutableTransferList<PersistentEntity<Long>>
+public class ResultListUtil
 {
 	/**
+	 * Return the resultList property as a given type
+	 * 
+	 * @param clazz
+	 *            the type of the list
 	 * @return
-	 * @see edu.utah.further.core.api.xml.TransferList#getList()
 	 */
-	@Override
-	public List<PersistentEntity<Long>> getList()
+	public static final List<PersistentEntity<?>> getResultListAsEntities(
+			final ResultList resultList)
 	{
-		// Method stub
-		return null;
-	}
-
-	/**
-	 * @param entities
-	 * @see edu.utah.further.core.api.xml.MutableTransferList#setList(java.util.List)
-	 */
-	@Override
-	public void setList(final List<? extends PersistentEntity<Long>> entities)
-	{
-		// Method stub
+		final List<PersistentEntity<?>> results = new ArrayList<>();
+		for (final Object object : resultList.getResultList())
+		{
+			results.add(PersistentEntity.class.cast(object));
+		}
+		return results;
 	}
 }

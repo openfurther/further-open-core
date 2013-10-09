@@ -17,7 +17,7 @@ package edu.utah.further.ds.i2b2.model.api.to;
 
 import java.util.List;
 
-import edu.utah.further.core.api.xml.TransferList;
+import edu.utah.further.ds.i2b2.model.impl.to.PatientDimensionToImpl;
 
 /**
  * Patient result set transfer object.
@@ -33,7 +33,7 @@ import edu.utah.further.core.api.xml.TransferList;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Apr 19, 2010
  */
-public interface PatientDimensionsTo extends TransferList<PatientDimensionTo>
+public interface PatientDimensionsTo
 {
 	// ========================= METHODS ===================================
 

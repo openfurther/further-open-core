@@ -30,25 +30,18 @@ import edu.utah.further.core.api.collections.page.PagingLoopController;
 import edu.utah.further.core.api.concurrent.Semaphore;
 import edu.utah.further.core.api.data.PersistentEntity;
 import edu.utah.further.core.api.exception.ApplicationException;
-import edu.utah.further.core.api.lang.PubliclyCloneable;
-import edu.utah.further.core.api.xml.TransferListUtil;
 import edu.utah.further.core.chain.AbstractUtilityTransformer;
+import edu.utah.further.ds.api.results.ResultList;
+import edu.utah.further.ds.api.results.ResultListUtil;
 import edu.utah.further.ds.api.service.query.logic.Persister;
 import edu.utah.further.ds.api.util.AttributeName;
 
 /**
  * A {@link RequestProcessor} that persists the entity(ies) available in the request.
- * {@link PubliclyCloneable}, which returns a type of {@link PersistentEntity}, else an
- * exception will be thrown. Acceptable inputs are:
+ * Acceptable inputs are:
  * <ul>
  * <li>
  * {@code List<PersistentEntity<?>>}</li>
- * <li>{@code List<PubliclyCloneable<?>>}</li>
- * <li>{@code PubliclyCloneable<?>}</li>
- * <li>* {@code PersistentEntity<?>}</li>
- * <li>
- * {@code TransferList<? extends PubliclyCloneable>}</li>
- * <li>
  * </ul>
  * <p>
  * -----------------------------------------------------------------------------------<br>
@@ -58,7 +51,7 @@ import edu.utah.further.ds.api.util.AttributeName;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version May 5, 2010
  */
@@ -92,7 +85,7 @@ public class PersistenceQp extends AbstractUtilityTransformer<Persister>
 	 */
 	@Override
 	public boolean process(final ChainRequest request)
-	{		
+	{
 		// Persist to database
 		// --------------------------------------------------------------------------------
 		// FUR-1274: must run this in a parallel thread so that scrollable result sets in
@@ -116,9 +109,9 @@ public class PersistenceQp extends AbstractUtilityTransformer<Persister>
 				{
 					final PagingLoopController controller = request
 							.getAttribute(AttributeName.PAGING_LOOP_CONTROLLER);
-					final Object entities = request.getAttribute(getSourceAttr());
-					final List<PersistentEntity<?>> rawEntities = TransferListUtil
-							.getEntities(entities);
+					final ResultList entities = request.getAttribute(getSourceAttr());
+					final List<PersistentEntity<?>> rawEntities = ResultListUtil
+							.getResultListAsEntities(entities);
 					final List<PersistentEntity<?>> persistedEntities = getDelegate()
 							.persist(rawEntities, controller, request);
 

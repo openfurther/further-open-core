@@ -15,6 +15,8 @@
  */
 package edu.utah.further.core.chain;
 
+import java.util.Collection;
+
 import edu.utah.further.core.api.context.Labeled;
 
 /**
@@ -41,4 +43,11 @@ public interface MarshallRequestProcessor extends RequestTransformer
 	 * @return the schemaAttr
 	 */
 	Labeled getSchemaAttr();
+	
+	/**
+	 * Set additional packages to search while marshalling.
+	 * 
+	 * @param packages
+	 */
+	void setExtraPackages(final Collection<String> packages);
 }

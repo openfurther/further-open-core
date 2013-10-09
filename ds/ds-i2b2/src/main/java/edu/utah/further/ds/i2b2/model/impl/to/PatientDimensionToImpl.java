@@ -602,9 +602,13 @@ public class PatientDimensionToImpl implements PatientDimensionTo
 						.getUploadId()) : null);
 		entity.setVitalStatusCd(this.getVitalStatusCd());
 		entity.setZipCd(this.getZipCd());
-		Collection<ObservationFact> observationFactList = CollectionUtil.newList();
-		if (this.getObservationFacts() != null) {
-			for (ObservationFactTo observationFact:this.getObservationFacts().getList()) {
+		final Collection<ObservationFact> observationFactList = CollectionUtil.newList();
+		if (this.getObservationFacts() != null)
+		{
+			for (final ObservationFactTo observationFact : this
+					.getObservationFacts()
+					.getObservationFact())
+			{
 				observationFactList.add(observationFact.copy());
 			}
 		}

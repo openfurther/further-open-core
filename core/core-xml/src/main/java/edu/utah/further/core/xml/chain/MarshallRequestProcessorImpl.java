@@ -17,6 +17,7 @@ package edu.utah.further.core.xml.chain;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,13 +52,13 @@ import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Apr 23, 2010
  */
 @Qualifier("marshallRequestProcessor")
-public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Object> implements
-		MarshallRequestProcessor
+public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Object>
+		implements MarshallRequestProcessor
 {
 	// ========================= CONSTANTS =================================
 
@@ -93,6 +94,11 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 	// private Map<String, Object> jaxbConfig =
 	// JaxbConfigurationFactoryBean.TRANSIENT_ANNOTATION_READER_JAXB_CONFIG;
 	private Map<String, Object> jaxbConfig = CollectionUtil.<String, Object> newMap();
+	
+	/**
+	 * Additional packages that should be searched while unmarshalling. 
+	 */
+	private Collection<String> extraPackages;
 
 	// ========================= CONSTRUCTORS ==============================
 
@@ -147,7 +153,7 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see edu.utah.further.core.chain.MarshallRequestProcessor#getSchemaAttr()
 	 */
 	@Override
@@ -160,7 +166,7 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 
 	/**
 	 * Set a new value for the rootNamespaceUrisAttr property.
-	 *
+	 * 
 	 * @param rootNamespaceUrisAttr
 	 *            the rootNamespaceUrisAttr to set
 	 */
@@ -171,7 +177,7 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 
 	/**
 	 * Set a new value for the schemaAttr property.
-	 *
+	 * 
 	 * @param schemaAttr
 	 *            the schemaAttr to set
 	 */
@@ -182,13 +188,24 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 
 	/**
 	 * Set a new value for the jaxbConfig property.
-	 *
+	 * 
 	 * @param jaxbConfig
 	 *            the jaxbConfig to set
 	 */
 	public void setJaxbConfig(final Map<String, Object> jaxbConfig)
 	{
 		this.jaxbConfig = jaxbConfig;
+	}
+
+	
+	/*
+	 * (non-Javadoc)
+	 * @see edu.utah.further.core.chain.MarshallRequestProcessor#setExtraPackages(java.util.Collection)
+	 */
+	@Override
+	public void setExtraPackages(final Collection<String> packages)
+	{
+		this.extraPackages = packages;
 	}
 
 	// ========================= PRIVATE METHODS =========================
@@ -206,6 +223,7 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 			final MarshallerOptions options = xmlService
 					.options()
 					.addClass(object.getClass())
+					.addPackages(extraPackages)
 					.setJaxbConfig(jaxbConfig);
 			// FUR-1108: set custom root namespace URI set if it exists in the request
 			final Set<String> rootNamespaceUris = request

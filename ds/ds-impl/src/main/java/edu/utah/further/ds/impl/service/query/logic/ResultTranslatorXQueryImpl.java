@@ -19,7 +19,6 @@ import static edu.utah.further.core.api.collections.CollectionUtil.newMap;
 import static edu.utah.further.core.api.constant.Constants.Scope.PROTOTYPE;
 import static edu.utah.further.core.api.constant.Strings.NEW_LINE_STRING;
 import static edu.utah.further.core.api.lang.ReflectionUtil.instanceOf;
-import static edu.utah.further.core.api.lang.ReflectionUtil.newInstance;
 import static edu.utah.further.core.chain.RequestHandlerBuilder.chainBuilder;
 import static edu.utah.further.ds.api.util.AttributeName.QUERY_CONTEXT;
 import static edu.utah.further.ds.api.util.AttributeName.RESULT_SCHEMA;
@@ -30,6 +29,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +47,6 @@ import edu.utah.further.core.api.chain.ChainRequest;
 import edu.utah.further.core.api.chain.RequestHandler;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.text.StringUtil;
-import edu.utah.further.core.api.xml.MutableTransferList;
 import edu.utah.further.core.chain.AbstractRequestProcessor;
 import edu.utah.further.core.chain.ChainRequestImpl;
 import edu.utah.further.core.chain.MarshallRequestProcessor;
@@ -56,6 +55,7 @@ import edu.utah.further.core.chain.RequestTransformer;
 import edu.utah.further.core.util.io.LoggingUtil;
 import edu.utah.further.core.xml.stax.XmlStreamPrinter;
 import edu.utah.further.core.xml.xquery.XQueryService;
+import edu.utah.further.ds.api.results.ResultList;
 import edu.utah.further.ds.api.service.query.logic.ResultTranslator;
 import edu.utah.further.ds.api.util.AttributeName;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
@@ -248,39 +248,20 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 		@Override
 		public boolean process(final ChainRequest request)
 		{
-			final QueryContext queryContext = request.getAttribute(QUERY_CONTEXT);
-			final Object transferList = newInstance(queryContext
-					.getResultContext()
-					.getTransferObjectClass());
-
-			if (!(instanceOf(transferList, MutableTransferList.class)))
-			{
-				throw new ApplicationException(
-						"Transfer object must implement MutableTransferList");
-			}
-
-			// set the list only if it's an EntityTransferList
 			final List<?> entityList = (List<?>) result;
-			setList((MutableTransferList<?>) transferList, entityList);
 			LoggingUtil.printEntityList(log, entityList);
 
-			// Set the marshalling processor input attribute to a transfer object copy of
-			// the input result set
-			request.setAttribute(marshallRp.getSourceAttr(), transferList);
+			// Ensure that all of the entities/dtos are included since we'll be wrapping
+			// this in a ResultList
+			final List<String> packages = new ArrayList<>();
+			packages.add((String) request.getAttribute(AttributeName.SEARCH_QUERY_PKG));
+			marshallRp.setExtraPackages(packages);
+
+			// Set the marshalling processor input attribute to a ResultList to marshall
+			// to XML
+			request.setAttribute(marshallRp.getSourceAttr(), new ResultList(entityList));
 
 			return false;
-		}
-
-		/**
-		 * @param <T>
-		 * @param transferList
-		 * @param entityList
-		 */
-		@SuppressWarnings("unchecked")
-		private <T> void setList(final MutableTransferList<T> transferList,
-				final List<?> entityList)
-		{
-			transferList.setList((List<T>) entityList);
 		}
 	}
 
@@ -339,10 +320,9 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 			}
 			catch (final IOException e)
 			{
-				//ignore if an exception on close is called
+				// ignore if an exception on close is called
 			}
 
-			
 			return false;
 		}
 	}

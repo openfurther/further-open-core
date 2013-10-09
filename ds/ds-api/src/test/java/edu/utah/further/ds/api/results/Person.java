@@ -13,35 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.core.api.xml;
+package edu.utah.further.ds.api.results;
 
-import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Represents a transfer object which is a list of other transfer objects. Allows setting
- * this list from an input list (that might be either a persistent entity list or just a
- * TO list).
+ * ...
  * <p>
  * -----------------------------------------------------------------------------------<br>
- * (c) 2008-2013 FURTHeR Project, Health Sciences IT, University of Utah<br>
+ * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
  * Contact: {@code <further@utah.edu>}<br>
  * Biomedical Informatics, 26 South 2000 East<br>
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
  *
- * @author Oren E. Livne {@code <oren.livne@utah.edu>}
- * @version Feb 4, 2011
+ * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
+ * @version Oct 9, 2013
  */
-public interface MutableTransferList<T> extends TransferList<T>
+@XmlRootElement(name="Person")
+public class Person
 {
-	// ========================= METHODS ===================================
+	@XmlElement
+	private final String name;
+	
+	@XmlElement
+	private final int age;
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unused")
+	private Person()
+	{
+		throw new UnsupportedOperationException("Default constructor not supported");
+	}
+
+
 
 	/**
-	 * Sets the collection held by this transfer object.
-	 *
-	 * @param entities
-	 *            a collection of persistent objects
+	 * @param name
+	 * @param age
 	 */
-	void setList(List<? extends T> entities);
+	public Person(final String name, final int age)
+	{
+		super();
+		this.name = name;
+		this.age = age;
+	}
 }

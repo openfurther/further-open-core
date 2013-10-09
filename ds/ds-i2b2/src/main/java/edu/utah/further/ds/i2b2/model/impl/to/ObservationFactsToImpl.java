@@ -65,16 +65,6 @@ public class ObservationFactsToImpl implements ObservationFactsTo
 				.<ObservationFactTo> newList(this.observationFact) : CollectionUtil
 				.<ObservationFactTo> newList();
 	}
-	
-	/**
-	 * @return
-	 * @see edu.utah.further.core.api.xml.TransferList#getList()
-	 */
-	@Override
-	public List<ObservationFactTo> getList()
-	{
-		return getObservationFact();
-	}
 
 	/**
 	 * @param obj
