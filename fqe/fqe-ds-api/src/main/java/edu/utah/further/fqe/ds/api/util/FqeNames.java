@@ -41,12 +41,12 @@ public abstract class FqeNames
 	/**
 	 * Query ID object property, column name, etc.
 	 */
-	public static final String QUERY_ID = "queryId";
+	public static final String QUERY_ID = "dataSetId";
 
 	/**
 	 * Result set translation - local DTS namespace ID (e.g. XQuery parameter name).
 	 */
-	public static final String LOCAL_NAMESPACE_ID = "localNamespaceId";
+	public static final String LOCAL_NAMESPACE_ID = "srcNmspcId";
 
 	/**
 	 * Camel header name: data source identifier column name.
