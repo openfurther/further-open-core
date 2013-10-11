@@ -15,6 +15,7 @@
  */
 package edu.utah.further.ds.api.results;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -41,18 +42,14 @@ public class ResultList
 
 	// ========================= FIELDS ===================================
 
-	@XmlAnyElement
-	private final List<?> resultList;
+	@XmlAnyElement(lax=true)
+	private List<?> resultList = new ArrayList<>();
 
 	// ========================= CONSTRUCTORS =============================
 
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unused")
-	private ResultList()
+	public ResultList()
 	{
-		throw new UnsupportedOperationException("Default constructor not supported");
+
 	}
 
 	/**

@@ -15,11 +15,23 @@
  */
 package edu.utah.further.ds.api.results;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
+import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+import edu.utah.further.core.api.xml.XmlService;
+import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
 
 /**
- * ...
+ * Unmarshal a result list and ensure that the type of the List is of type {@link Person}
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -30,31 +42,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  * -----------------------------------------------------------------------------------
  * 
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
- * @version Oct 9, 2013
+ * @version Oct 10, 2013
  */
-@XmlRootElement(name = "Person")
-public class Person
+public class UTestUnmarshalResultList
 {
-	@XmlElement
-	private final String name;
-
-	@XmlElement
-	private final int age;
-
-	public Person()
+	@Test
+	public void unmarshalResultList() throws IOException, JAXBException
 	{
-		name = null;
-		age = 0;
-	}
+		final XmlService xmlService = new XmlServiceImpl();
+		final Resource input = new ClassPathResource("expected.xml");
+		try (final InputStream unmarshalInputStream = input.getInputStream())
+		{
+			final ResultList resultList = xmlService.unmarshal(unmarshalInputStream, ResultList.class);
+			final List<?> results = resultList.getResultList();
+			assertTrue(Person.class.isAssignableFrom(results.get(0).getClass()));
+		}
+		finally
+		{
 
-	/**
-	 * @param name
-	 * @param age
-	 */
-	public Person(final String name, final int age)
-	{
-		super();
-		this.name = name;
-		this.age = age;
+		}
 	}
 }

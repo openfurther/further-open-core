@@ -96,6 +96,16 @@ public enum AttributeName implements Labeled
 	 * Result set translation artifact.
 	 */
 	RESULT_TRANSLATION,
+	
+	/**
+	 * The packages required to marshal results.
+	 */
+	RESULT_MARSHAL_PKGS,
+	
+	/**
+	 * The packages required to unmarshal results after result translation.
+	 */
+	RESULT_UNMARSHAL_PKGS,
 
 	// /**
 	// * Result set translation - local DTS namespace ID. -- done via
@@ -107,6 +117,11 @@ public enum AttributeName implements Labeled
 	 * Marshalled object.
 	 */
 	MARSHAL_OBJ,
+	
+	/**
+	 * Marshalled pkgs.
+	 */
+	MARSHAL_PKGS,
 
 	/**
 	 * Marshalled result.
@@ -134,9 +149,9 @@ public enum AttributeName implements Labeled
 	UNMARSHAL_SRC,
 
 	/**
-	 * Unmarshalled pkg.
+	 * Unmarshalled pkgs.
 	 */
-	UNMARSHAL_PKG,
+	UNMARSHAL_PKGS,
 
 	/**
 	 * Unmarshalled result.

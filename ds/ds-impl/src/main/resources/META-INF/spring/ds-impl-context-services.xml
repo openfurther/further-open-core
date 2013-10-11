@@ -145,13 +145,14 @@
 	<bean id="marshallRequestProcessor"
 		class="edu.utah.further.core.xml.chain.MarshallRequestProcessorImpl"
 		scope="prototype" p:sourceAttr-ref="marshallSourceAttr"
-		p:resultAttr-ref="marshallResultAttr" p:schemaAttr-ref="marshalSchemaAttr" />
+		p:resultAttr-ref="marshallResultAttr" p:schemaAttr-ref="marshalSchemaAttr"
+		p:marshalPkgsAttr-ref="marshallPkgsAttr" />
 
 	<!-- Wired by default with AttributeName enums -->
 	<bean id="unmarshallRequestProcessor"
 		class="edu.utah.further.core.xml.chain.UnmarshallRequestProcessorImpl"
 		scope="prototype" p:sourceAttr-ref="unmarshallSourceAttr"
-		p:resultAttr-ref="unmarshallResultAttr" p:jaxbPackageAttr-ref="unmarshallPkgAttr" />
+		p:resultAttr-ref="unmarshallResultAttr" p:marshalPkgsAttr-ref="unmarshallPkgsAttr" />
 
 	<!-- =========================================== -->
 	<!-- Query Execution Strategies -->

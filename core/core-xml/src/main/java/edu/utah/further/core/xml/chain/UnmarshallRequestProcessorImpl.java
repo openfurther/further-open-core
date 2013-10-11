@@ -20,6 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import edu.utah.further.core.api.context.Labeled;
 import edu.utah.further.core.api.text.StringUtil;
 import edu.utah.further.core.api.xml.XmlService;
 import edu.utah.further.core.chain.AbstractUtilityTransformer;
+import edu.utah.further.core.chain.MarshallRequestProcessor;
 import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
 
@@ -59,6 +61,7 @@ import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
  */
 @Qualifier("unmarshallRequestProcessor")
 public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<Object>
+		implements MarshallRequestProcessor
 {
 	// ========================= CONSTANTS =================================
 
@@ -70,9 +73,10 @@ public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<O
 	// ========================= FIELDS =================================
 
 	/**
-	 * The name of the jaxbPackage.
+	 * The name of the attribute where to retrieve the package names that should be
+	 * considered when marshalling. A {@link Collection} of Strings is expected.
 	 */
-	private Labeled jaxbPackageAttr;
+	private Labeled marshalPkgsAttr;
 
 	/**
 	 * Marshalling service. TODO: replace with DI.
@@ -102,8 +106,8 @@ public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<O
 		try
 		{
 			// Set up unmarshaller: configure the JAXB context
-			Validate.notNull(request.getAttribute(jaxbPackageAttr),
-					"JAXB unmarshalling requires jaxb package attribute");
+			Validate.notNull(request.getAttribute(getMarshalPkgsAttr()),
+					"JAXB unmarshalling requires jab packages attribute");
 
 			// Read the input XML from the request
 			final Object source = request.getAttribute(getSourceAttr());
@@ -138,7 +142,7 @@ public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<O
 				{
 					inputStream.close();
 				}
-				catch (IOException e)
+				catch (final IOException e)
 				{
 					// ignore
 				}
@@ -146,18 +150,32 @@ public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<O
 		}
 	}
 
-	// ========================= GET/SET =================================
+	// ========================= IMPL: MarshallRequestProcessor ==========
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.core.chain.MarshallRequestProcessor#getSchemaAttr()
+	 */
+	@Override
+	public Labeled getSchemaAttr()
+	{
+		throw new UnsupportedOperationException(
+				"Unmarshal request processor does not support the schema attribute at this time.");
+	}
 
 	/**
-	 * Set a new value for the jaxbPackageAttr property.
+	 * Return the marshalPkgsAttr property.
 	 * 
-	 * @param jaxbPackageAttr
-	 *            the jaxbPackageAttr to set
+	 * @return the marshalPkgsAttr
 	 */
-	public void setJaxbPackageAttr(final Labeled jaxbPackageAttr)
+	@Override
+	public Labeled getMarshalPkgsAttr()
 	{
-		this.jaxbPackageAttr = jaxbPackageAttr;
+		return marshalPkgsAttr;
 	}
+
+	// ========================= GET/SET =================================
 
 	/**
 	 * Set a new value for the jaxbConfig property.
@@ -170,6 +188,17 @@ public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<O
 		this.jaxbConfig = jaxbConfig;
 	}
 
+	/**
+	 * Set a new value for the marshalPkgsAttr property.
+	 * 
+	 * @param marshalPkgsAttr
+	 *            the marshalPkgsAttr to set
+	 */
+	public void setMarshalPkgsAttr(final Labeled marshalPkgsAttr)
+	{
+		this.marshalPkgsAttr = marshalPkgsAttr;
+	}
+
 	// ========================= PRIVATE METHODS =========================
 
 	/**
@@ -179,13 +208,23 @@ public class UnmarshallRequestProcessorImpl extends AbstractUtilityTransformer<O
 	 */
 	private Object unmarshal(final ChainRequest request, final InputStream inputStream)
 	{
+		final Object extraPackages = request.getAttribute(getMarshalPkgsAttr());
+
+		if (!Collection.class.isAssignableFrom(extraPackages.getClass()))
+		{
+			throw new RuntimeException("Expected a Collection for jaxb packages but got "
+					+ extraPackages.getClass());
+		}
+
 		try
 		{
 			return xmlService.unmarshal(
 					inputStream,
 					xmlService
 							.options()
-							.addPackage((String) request.getAttribute(jaxbPackageAttr))
+							.addPackages(
+									(Collection<String>) request
+											.getAttribute(getMarshalPkgsAttr()))
 							.setJaxbConfig(jaxbConfig));
 		}
 		catch (final JAXBException e)

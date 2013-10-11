@@ -51,6 +51,9 @@
 
 	<util:constant id="marshallResultAttr"
 		static-field="edu.utah.further.ds.api.util.AttributeName.MARSHAL_RSLT" />
+		
+	<util:constant id="marshallPkgsAttr"
+		static-field="edu.utah.further.ds.api.util.AttributeName.MARSHAL_PKGS" />
 
 	<util:constant id="marshalSchemaAttr"
 		static-field="edu.utah.further.ds.api.util.AttributeName.MARSHAL_SCHEMA" />
@@ -67,8 +70,8 @@
 	<util:constant id="unmarshallResultAttr"
 		static-field="edu.utah.further.ds.api.util.AttributeName.UNMARSHAL_RSLT" />
 
-	<util:constant id="unmarshallPkgAttr"
-		static-field="edu.utah.further.ds.api.util.AttributeName.UNMARSHAL_PKG" />
+	<util:constant id="unmarshallPkgsAttr"
+		static-field="edu.utah.further.ds.api.util.AttributeName.UNMARSHAL_PKGS" />
 
 	<util:constant id="persistentEntitiesAttr"
 		static-field="edu.utah.further.ds.api.util.AttributeName.PERSIST_ENTITIES" />

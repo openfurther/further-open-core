@@ -21,6 +21,7 @@ import static edu.utah.further.core.api.constant.Strings.NEW_LINE_STRING;
 import static edu.utah.further.core.api.lang.ReflectionUtil.instanceOf;
 import static edu.utah.further.core.chain.RequestHandlerBuilder.chainBuilder;
 import static edu.utah.further.ds.api.util.AttributeName.QUERY_CONTEXT;
+import static edu.utah.further.ds.api.util.AttributeName.RESULT_MARSHAL_PKGS;
 import static edu.utah.further.ds.api.util.AttributeName.RESULT_SCHEMA;
 import static edu.utah.further.ds.api.util.AttributeName.RESULT_TRANSLATION;
 import static edu.utah.further.ds.impl.util.DsImplUtil.getMdrResourceInputStream;
@@ -29,7 +30,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +51,6 @@ import edu.utah.further.core.chain.AbstractRequestProcessor;
 import edu.utah.further.core.chain.ChainRequestImpl;
 import edu.utah.further.core.chain.MarshallRequestProcessor;
 import edu.utah.further.core.chain.RequestHandlerBuilder;
-import edu.utah.further.core.chain.RequestTransformer;
 import edu.utah.further.core.util.io.LoggingUtil;
 import edu.utah.further.core.xml.stax.XmlStreamPrinter;
 import edu.utah.further.core.xml.xquery.XQueryService;
@@ -110,7 +109,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 	 */
 	@Autowired
 	@Qualifier("unmarshallRequestProcessor")
-	private RequestTransformer unmarshallRp;
+	private MarshallRequestProcessor unmarshallRp;
 
 	/**
 	 * MDR web service client.
@@ -191,6 +190,9 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 		subChainBuilder.addProcessor(new XQueryExecutionProcessorImpl());
 		subChainBuilder.addProcessor(unmarshallRp);
 
+		request.setAttribute(unmarshallRp.getMarshalPkgsAttr(),
+				request.getAttribute(AttributeName.RESULT_UNMARSHAL_PKGS));
+
 		final RequestHandler subChain = subChainBuilder.build();
 
 		if (log.isDebugEnabled())
@@ -253,9 +255,8 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 
 			// Ensure that all of the entities/dtos are included since we'll be wrapping
 			// this in a ResultList
-			final List<String> packages = new ArrayList<>();
-			packages.add((String) request.getAttribute(AttributeName.SEARCH_QUERY_PKG));
-			marshallRp.setExtraPackages(packages);
+			request.setAttribute(marshallRp.getMarshalPkgsAttr(),
+					request.getAttribute(RESULT_MARSHAL_PKGS));
 
 			// Set the marshalling processor input attribute to a ResultList to marshall
 			// to XML

@@ -20,6 +20,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +69,7 @@ public final class UTestUnmarshallRequestProcessor extends CoreXmlFixture
 	{
 		unmarshallRp.setSourceAttr(RequestAttributes.SOURCE_ATTR);
 		unmarshallRp.setResultAttr(RequestAttributes.RESULT_ATTR);
-		unmarshallRp.setJaxbPackageAttr(RequestAttributes.JAXB_PKG_ATTR);
+		unmarshallRp.setMarshalPkgsAttr(RequestAttributes.JAXB_PKG_ATTR);
 	}
 
 	/**
@@ -84,9 +86,11 @@ public final class UTestUnmarshallRequestProcessor extends CoreXmlFixture
 
 		final Resource books = new ClassPathResource(BOOKS_XML);
 
+		final List<String> packages = new ArrayList<>();
+		packages.add(UnmarshallRequestProcessorImpl.class.getPackage().getName());
+		
 		chainRequest.setAttribute(RequestAttributes.SOURCE_ATTR, books.getInputStream());
-		chainRequest.setAttribute(RequestAttributes.JAXB_PKG_ATTR,
-				UnmarshallRequestProcessorImpl.class.getPackage().getName());
+		chainRequest.setAttribute(RequestAttributes.JAXB_PKG_ATTR,packages);
 		final RequestHandler chain = chainBuilder.build();
 		chain.handle(chainRequest);
 		assertThat(chainRequest.getAttribute(RequestAttributes.RESULT_ATTR),

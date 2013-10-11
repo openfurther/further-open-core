@@ -88,17 +88,18 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 	private Labeled schemaAttr;
 
 	/**
+	 * The name of the attribute where to retrieve the package names that should be
+	 * considered when marshalling. A {@link Collection} of Strings is expected.
+	 */
+	private Labeled marshalPkgsAttr;
+
+	/**
 	 * The JAXB configuration to use during unmarshalling, default is empty. Must support
 	 * exception marshalling in case of chain flow failure.
 	 */
 	// private Map<String, Object> jaxbConfig =
 	// JaxbConfigurationFactoryBean.TRANSIENT_ANNOTATION_READER_JAXB_CONFIG;
 	private Map<String, Object> jaxbConfig = CollectionUtil.<String, Object> newMap();
-	
-	/**
-	 * Additional packages that should be searched while unmarshalling. 
-	 */
-	private Collection<String> extraPackages;
 
 	// ========================= CONSTRUCTORS ==============================
 
@@ -162,6 +163,17 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 		return schemaAttr;
 	}
 
+	/**
+	 * Return the marshalPkgsAttr property.
+	 * 
+	 * @return the marshalPkgsAttr
+	 */
+	@Override
+	public Labeled getMarshalPkgsAttr()
+	{
+		return marshalPkgsAttr;
+	}
+
 	// ========================= GET/SET =================================
 
 	/**
@@ -197,15 +209,15 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 		this.jaxbConfig = jaxbConfig;
 	}
 
-	
-	/*
-	 * (non-Javadoc)
-	 * @see edu.utah.further.core.chain.MarshallRequestProcessor#setExtraPackages(java.util.Collection)
+	/**
+	 * Set a new value for the marshalPkgsAttr property.
+	 * 
+	 * @param marshalPkgsAttr
+	 *            the marshalPkgsAttr to set
 	 */
-	@Override
-	public void setExtraPackages(final Collection<String> packages)
+	public void setMarshalPkgsAttr(final Labeled marshalPkgsAttr)
 	{
-		this.extraPackages = packages;
+		this.marshalPkgsAttr = marshalPkgsAttr;
 	}
 
 	// ========================= PRIVATE METHODS =========================
@@ -215,6 +227,7 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 	 * @param object
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private String marshal(final ChainRequest request, final Object object)
 	{
 		try
@@ -223,8 +236,18 @@ public class MarshallRequestProcessorImpl extends AbstractUtilityTransformer<Obj
 			final MarshallerOptions options = xmlService
 					.options()
 					.addClass(object.getClass())
-					.addPackages(extraPackages)
 					.setJaxbConfig(jaxbConfig);
+			
+			final Object extraPackages = request.getAttribute(getMarshalPkgsAttr());
+			
+			if (extraPackages != null)
+			{
+				if (Collection.class.isAssignableFrom(extraPackages.getClass()))
+				{
+					options.addPackages((Collection<String>) extraPackages);
+				}
+			}
+			
 			// FUR-1108: set custom root namespace URI set if it exists in the request
 			final Set<String> rootNamespaceUris = request
 					.getAttribute(rootNamespaceUrisAttr);
