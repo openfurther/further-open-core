@@ -95,6 +95,12 @@
 			<artifactId>basex</artifactId>
 			<version>${basex.version}</version>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>com.ettrema</groupId>
+					<artifactId>milton-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- BaseX API, includes basex-xqj dep -->
