@@ -87,10 +87,9 @@ public class PersonAttribute implements Serializable
 	@Column(name = "voided_by")
 	private int voidedBy;
 
-	// bi-directional many-to-one association to PersonAttributeType
-	@ManyToOne
-	@JoinColumn(name = "person_attribute_type_id")
-	private PersonAttributeType personAttributeType;
+	// do not join, just use id
+	@Column(name = "person_attribute_type_id")
+	private Long personAttributeType;
 
 	// bi-directional many-to-one association to Person
 	@ManyToOne
@@ -162,12 +161,12 @@ public class PersonAttribute implements Serializable
 		this.dateVoided = dateVoided;
 	}
 
-	public PersonAttributeType getPersonAttributeType()
+	public Long getPersonAttributeType()
 	{
 		return this.personAttributeType;
 	}
 
-	public void setPersonAttributeType(final PersonAttributeType personAttributeType)
+	public void setPersonAttributeType(final Long personAttributeType)
 	{
 		this.personAttributeType = personAttributeType;
 	}

@@ -15,21 +15,27 @@
  */
 package edu.utah.further.ds.openmrs.model.domain.v1_9;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
+import edu.utah.further.core.api.lang.CoreUtil;
 import edu.utah.further.core.api.xml.XmlService;
+import edu.utah.further.core.test.xml.IgnoreNamedElementsDifferenceListener;
+import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
-import edu.utah.further.ds.openmrs.model.domain.v1_9.Person;
-import edu.utah.further.ds.openmrs.model.domain.v1_9.PersonAttribute;
-import edu.utah.further.ds.openmrs.model.domain.v1_9.PersonAttributeType;
 
 /**
  * Test marshalling the output of a patient in OpenMRS
@@ -47,8 +53,17 @@ import edu.utah.further.ds.openmrs.model.domain.v1_9.PersonAttributeType;
  */
 public class UTestMarshalOpenMrsV1_9
 {
+
+	@Before
+	public void setup()
+	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+	}
+
 	@Test
-	public void marshalPatient() throws JAXBException
+	public void marshalPatient() throws JAXBException, SAXException, IOException
 	{
 		final Person person = new Person();
 		person.setBirthdate(new Date());
@@ -68,21 +83,9 @@ public class UTestMarshalOpenMrsV1_9
 		person.setVoidedBy(1);
 		person.setVoidReason("reason");
 
-		final PersonAttributeType personAttributeType = new PersonAttributeType();
-		personAttributeType.setName("Race");
-		personAttributeType
-				.setDescription("Group of persons related by common descent or heredity");
-		personAttributeType.setFormat("java.lang.String");
-		personAttributeType.setSearchable((byte) 0);
-		personAttributeType.setCreator(1);
-		personAttributeType.setDateCreated(new Date());
-		personAttributeType.setRetired((byte) 0);
-		personAttributeType.setUuid(UUID.randomUUID().toString());
-		personAttributeType.setSortWeight(6);
-
 		final PersonAttribute personAttribute = new PersonAttribute();
 		personAttribute.setCreator(1);
-		personAttribute.setPersonAttributeType(personAttributeType);
+		personAttribute.setPersonAttributeType(new Long(1));
 		personAttribute.setValue("Caucasian");
 		personAttribute.setPerson(person);
 		personAttribute.setVoided((byte) 0);
@@ -92,29 +95,12 @@ public class UTestMarshalOpenMrsV1_9
 
 		final XmlService service = new XmlServiceImpl();
 		final String result = service.marshal(person);
-
-		assertThat(result, containsString("<Person"));
-		assertThat(result, containsString("<personId>"));
-		assertThat(result, containsString("<birthdate>"));
-		assertThat(result, containsString("<birthdateEstimated>"));
-		assertThat(result, containsString("<causeOfDeath>"));
-		assertThat(result, containsString("<changedBy>"));
-		assertThat(result, containsString("<creator>"));
-		assertThat(result, containsString("<dateChanged>"));
-		assertThat(result, containsString("<dateCreated>"));
-		assertThat(result, containsString("<dateVoided>"));
-		assertThat(result, containsString("<dead>"));
-		assertThat(result, containsString("<deathDate>"));
-		assertThat(result, containsString("<gender>"));
-		assertThat(result, containsString("<uuid>"));
-		assertThat(result, containsString("<voidReason>"));
-		assertThat(result, containsString("<voided>"));
-		assertThat(result, containsString("<voidedBy>"));
-		assertThat(result, containsString("<voidedBy>"));
-		assertThat(result, containsString("<personAttributes>"));
-		assertThat(result, containsString("<personAttribute>"));
-		assertThat(result, containsString("<personAttributeId>"));
-		assertThat(result, containsString("<personAttributeType>"));
-
+		final String expected = IoUtil.getInputStreamAsString(CoreUtil
+				.getResourceAsStream("result/result-1.9.xml"));
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, result));
+		diff.overrideDifferenceListener(new IgnoreNamedElementsDifferenceListener(Arrays
+				.asList("birthdate", "dateChanged", "dateCreated", "dateVoided",
+						"deathDate", "uuid")));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 	}
 }
