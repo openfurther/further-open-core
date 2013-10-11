@@ -76,10 +76,11 @@
 		<!-- ########################## -->
 		<!-- Testing                    -->
 		<!-- ########################## -->
-
+		
+		<!-- Very useful for comparing XML -->
 		<dependency>
 			<groupId>edu.utah.further.core</groupId>
-			<artifactId>core-qunit</artifactId>
+			<artifactId>core-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 

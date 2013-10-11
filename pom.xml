@@ -878,11 +878,6 @@
 			</dependency>
 			<dependency>
 				<groupId>edu.utah.further.core</groupId>
-				<artifactId>core-qunit</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>edu.utah.further.core</groupId>
 				<artifactId>core-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
