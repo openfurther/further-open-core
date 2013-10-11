@@ -95,12 +95,6 @@
 			<artifactId>basex</artifactId>
 			<version>${basex.version}</version>
 			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>com.ettrema</groupId>
-					<artifactId>milton-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- BaseX API, includes basex-xqj dep -->
@@ -112,6 +106,10 @@
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.ettrema</groupId>
+					<artifactId>milton-api</artifactId>
 				</exclusion>
 			</exclusions>
 			<optional>true</optional>
