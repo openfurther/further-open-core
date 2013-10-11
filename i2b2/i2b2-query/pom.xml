@@ -104,12 +104,6 @@
 		<!-- Testing -->
 		<!-- ########################## -->
 
-		<dependency>
-			<groupId>edu.utah.further.core</groupId>
-			<artifactId>core-qunit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- MDR implementation; also OSGi-injected -->
 		<dependency>
 			<groupId>edu.utah.further.mdr</groupId>

@@ -115,13 +115,6 @@
 		<!-- Testing -->
 		<!-- ########################## -->
 
-		<!-- For XML comparisons -->
-		<dependency>
-			<groupId>edu.utah.further.core</groupId>
-			<artifactId>core-qunit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- ########################## -->
 		<!-- Container-provided -->
 		<!-- ########################## -->

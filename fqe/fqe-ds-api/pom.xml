@@ -62,11 +62,10 @@
 			<artifactId>core-util</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- XML utilities -->
+		
 		<dependency>
 			<groupId>edu.utah.further.core</groupId>
-			<artifactId>core-qunit</artifactId>
+			<artifactId>core-xml</artifactId>
 			<scope>test</scope>
 		</dependency>
 

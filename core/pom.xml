@@ -46,7 +46,6 @@
 		<module>core-math</module>
 		<module>core-chain</module>
 		<module>core-xml</module>
-		<module>core-qunit</module>
 		<module>core-ws</module>
 		<module>core-cxf</module>
 		<module>core-camel</module>

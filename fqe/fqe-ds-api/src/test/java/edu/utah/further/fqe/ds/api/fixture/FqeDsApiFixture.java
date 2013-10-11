@@ -15,23 +15,27 @@
  */
 package edu.utah.further.fqe.ds.api.fixture;
 
-import static edu.utah.further.core.qunit.runner.XmlAssertion.xmlAssertion;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.xml.XmlService;
-import edu.utah.further.core.qunit.runner.XmlAssertion;
 import edu.utah.further.core.test.annotation.UnitTest;
 import edu.utah.further.core.util.io.IoUtil;
 
@@ -45,7 +49,7 @@ import edu.utah.further.core.util.io.IoUtil;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Oct 17, 2008
  */
@@ -74,6 +78,14 @@ public abstract class FqeDsApiFixture
 
 	// ========================= SETUP METHODS =============================
 
+	@Before
+	public void fixtureSetup()
+	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+	}
+
 	// ========================= PRIVATE METHODS ===========================
 
 	/**
@@ -81,9 +93,10 @@ public abstract class FqeDsApiFixture
 	 * @param entity
 	 * @throws IOException
 	 * @throws JAXBException
+	 * @throws SAXException
 	 */
 	protected final void marshallingTest(final String fileName, final Object entity)
-			throws JAXBException, IOException
+			throws JAXBException, IOException, SAXException
 	{
 		final String marshalled = xmlService.marshal(entity, xmlService
 				.options()
@@ -94,10 +107,9 @@ public abstract class FqeDsApiFixture
 		}
 		assertNotNull("Marshalling failed", marshalled);
 		final String expected = IoUtil.getResourceAsString(fileName);
-		xmlAssertion(XmlAssertion.Type.EXACT_MATCH)
-				.actualResourceString(marshalled)
-				.expectedResourceString(expected)
-				.stripNewLinesAndTabs(true)
-				.doAssert();
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, marshalled));
+
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
+
 	}
 }

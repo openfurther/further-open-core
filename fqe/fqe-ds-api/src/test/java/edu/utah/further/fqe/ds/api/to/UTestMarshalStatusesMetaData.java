@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.time.TimeService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
@@ -97,9 +98,10 @@ public final class UTestMarshalStatusesMetaData extends FqeDsApiFixture
 	 *
 	 * @throws IOException
 	 * @throws JAXBException
+	 * @throws SAXException 
 	 */
 	@Test
-	public void marshalStatuses() throws JAXBException, IOException
+	public void marshalStatuses() throws JAXBException, IOException, SAXException
 	{
 		final StatusesMetaDataToImpl statuses = new StatusesMetaDataToImpl();
 		final List<StatusMetaDataToImpl> statusesList = Arrays.asList(

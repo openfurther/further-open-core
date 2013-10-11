@@ -67,11 +67,25 @@
 		<!-- ########################## -->
 		<!-- Testing -->
 		<!-- ########################## -->
-
-		<!-- XML Testing framework -->
+		
+		<!-- Core XML -->
 		<dependency>
 			<groupId>edu.utah.further.core</groupId>
-			<artifactId>core-qunit</artifactId>
+			<artifactId>core-xml</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Core test -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Core util -->
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
 			<scope>test</scope>
 		</dependency>
 

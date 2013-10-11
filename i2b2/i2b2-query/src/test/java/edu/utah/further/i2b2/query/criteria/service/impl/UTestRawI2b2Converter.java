@@ -19,22 +19,27 @@ import static edu.utah.further.i2b2.query.criteria.service.impl.RequestElementNa
 import static edu.utah.further.i2b2.query.criteria.service.impl.RequestElementNames.REQUEST_XML_NAMESPACE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.chain.RequestProcessor;
 import edu.utah.further.core.api.lang.CoreUtil;
 import edu.utah.further.core.api.xml.transform.XmlTransformUtil;
-import edu.utah.further.core.qunit.runner.XmlAssertion;
-import edu.utah.further.core.qunit.runner.XmlAssertion.Type;
 import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.xpath.XPathNamespaceContext;
 import edu.utah.further.core.xml.xpath.XPathParser;
@@ -50,7 +55,7 @@ import edu.utah.further.i2b2.query.fixture.I2b2QueryFixture;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Dec 5, 2008
  * @see http://www.ibm.com/developerworks/library/x-javaxpathapi.html#changed
@@ -77,6 +82,14 @@ public final class UTestRawI2b2Converter extends I2b2QueryFixture
 
 	// ========================= SETUP METHODS =============================
 
+	@Before
+	public void setup()
+	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+	}
+
 	// ========================= METHODS ===================================
 
 	/**
@@ -85,7 +98,8 @@ public final class UTestRawI2b2Converter extends I2b2QueryFixture
 	@Test
 	public void getRequestNodeSubTreeAsNewDocumentNamespaceAware() throws Exception
 	{
-		try (final InputStream inputStream = CoreUtil.getResourceAsStream(RAW_I2b2_XML_SIMPLE))
+		try (final InputStream inputStream = CoreUtil
+				.getResourceAsStream(RAW_I2b2_XML_SIMPLE))
 		{
 			final XPathNamespaceContext nsContext = new XPathNamespaceContext(
 					I2b2_HIVE_NAMESPACE);
@@ -126,18 +140,18 @@ public final class UTestRawI2b2Converter extends I2b2QueryFixture
 	/**
 	 * @param rawRequestResource
 	 * @param i2b2RequestResource
+	 * @throws IOException
+	 * @throws SAXException
 	 */
 	private void convertRawI2b2ToI2b2Query(final String rawRequestResource,
-			final String i2b2RequestResource)
+			final String i2b2RequestResource) throws SAXException, IOException
 	{
 		final String rawI2b2Xml = IoUtil.getInputStreamAsString(CoreUtil
 				.getResourceAsStream(rawRequestResource));
+		final String expected = IoUtil.getInputStreamAsString(CoreUtil
+				.getResourceAsStream(i2b2RequestResource));
 		final String i2b2QueryXml = rawToI2b2QueryConverter.toI2b2Query(rawI2b2Xml);
-		XmlAssertion
-				.xmlAssertion(Type.EXACT_MATCH)
-				.actualResourceString(i2b2QueryXml)
-				.expectedResourceName(i2b2RequestResource)
-				.stripNewLinesAndTabs(true)
-				.doAssert();
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, i2b2QueryXml));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 	}
 }

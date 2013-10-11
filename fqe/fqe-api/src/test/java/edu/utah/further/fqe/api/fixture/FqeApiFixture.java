@@ -15,8 +15,7 @@
  */
 package edu.utah.further.fqe.api.fixture;
 
-import static edu.utah.further.core.qunit.runner.XmlAssertion.xmlAssertion;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.IOException;
@@ -24,15 +23,19 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.xml.XmlService;
-import edu.utah.further.core.qunit.runner.XmlAssertion;
 import edu.utah.further.core.test.annotation.UnitTest;
 import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.JaxbConfigurationFactoryBean;
@@ -80,6 +83,13 @@ public abstract class FqeApiFixture
 	protected XmlService xmlService;
 
 	// ========================= SETUP METHODS =============================
+	
+	@Before
+	public void fixtureSetup() {
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+	}
 
 	// ========================= PRIVATE METHODS ===========================
 
@@ -88,9 +98,10 @@ public abstract class FqeApiFixture
 	 * @param entity
 	 * @throws IOException
 	 * @throws JAXBException
+	 * @throws SAXException 
 	 */
 	protected final void marshallingTest(final String fileName, final Object entity)
-			throws JAXBException, IOException
+			throws JAXBException, IOException, SAXException
 	{
 		final String marshalled = xmlService.marshal(entity, xmlService
 				.options()
@@ -100,11 +111,7 @@ public abstract class FqeApiFixture
 			log.debug("Marshalled:" + Strings.NEW_LINE_STRING + marshalled);
 		}
 		final String expected = IoUtil.getResourceAsString(fileName);
-		assertNotNull("Marshalling failed", marshalled);
-		xmlAssertion(XmlAssertion.Type.EXACT_MATCH)
-				.actualResourceString(marshalled)
-				.expectedResourceString(expected)
-				.stripNewLinesAndTabs(true)
-				.doAssert();
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, marshalled));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 	}
 }

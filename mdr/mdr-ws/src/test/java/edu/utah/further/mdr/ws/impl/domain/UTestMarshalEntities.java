@@ -15,20 +15,24 @@
  */
 package edu.utah.further.mdr.ws.impl.domain;
 
-import static edu.utah.further.core.api.text.StringUtil.stripNewLinesAndTabs;
-import static edu.utah.further.core.qunit.runner.XmlAssertion.xmlAssertion;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import edu.utah.further.core.qunit.runner.XmlAssertion;
+import edu.utah.further.core.api.lang.CoreUtil;
 import edu.utah.further.core.test.annotation.UnitTest;
+import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.mdr.api.domain.asset.Asset;
 import edu.utah.further.mdr.api.domain.asset.Resource;
 import edu.utah.further.mdr.api.to.asset.AssetTo;
@@ -78,6 +82,14 @@ public final class UTestMarshalEntities extends MdrWsFixture
 
 	// ========================= SETUP METHODS =============================
 
+	@Before
+	public void setup()
+	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+	}
+
 	// ========================= TESTING METHODS ===========================
 
 	/**
@@ -117,15 +129,13 @@ public final class UTestMarshalEntities extends MdrWsFixture
 	public void unmarshalMarshalAsset() throws Exception
 	{
 		final AssetTo entity = xmlService.unmarshalResource(ASSET_XML, AssetToImpl.class);
-		final String marshalled = stripNewLinesAndTabs(xmlService.marshal(entity));
+		final String marshalled = xmlService.marshal(entity);
+		
+		final String expected = IoUtil.getInputStreamAsString(CoreUtil
+				.getResourceAsStream(ASSET_XML));
 
-		// Different machine clock time zones may cause different values for
-		// the activation date field ==> ignore it
-		xmlAssertion(XmlAssertion.Type.STREAM_MATCH)
-				.actualResourceString(marshalled)
-				.expectedResourceName(ASSET_XML)
-				.ignoredElement("activationDate")
-				.doAssert();
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, marshalled));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 	}
 
 	/**

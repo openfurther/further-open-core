@@ -15,13 +15,7 @@
  */
 package edu.utah.further.i2b2.query.fixture;
 
-import static edu.utah.further.core.qunit.runner.XmlAssertion.xmlAssertion;
-import static org.junit.Assert.assertNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
-
-import java.io.IOException;
-
-import javax.xml.bind.JAXBException;
 
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -29,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.xml.XmlService;
-import edu.utah.further.core.qunit.runner.XmlAssertion;
-import edu.utah.further.core.util.io.IoUtil;
 
 /**
  * Test fixture for common data, objects, etc used in I2b2 Query tests.
@@ -58,6 +49,7 @@ public abstract class I2b2QueryFixture
 	/**
 	 * A logger that helps identify this class' printouts.
 	 */
+	@SuppressWarnings("unused")
 	private static final Logger log = getLogger(I2b2QueryFixture.class);
 
 	/**
@@ -91,32 +83,4 @@ public abstract class I2b2QueryFixture
 	 */
 	@Autowired
 	protected XmlService xmlService;
-
-	// ========================= PRIVATE METHODS ===========================
-
-	/**
-	 * @param fileName
-	 * @param entity
-	 * @throws IOException
-	 * @throws JAXBException
-	 */
-	protected final void marshallingTest(final String fileName, final Object entity)
-			throws JAXBException, IOException
-	{
-		final String marshalled = xmlService.marshal(entity, xmlService
-				.options()
-				.setFormat(true));
-		if (log.isDebugEnabled())
-		{
-			log.debug("Marshalled:" + Strings.NEW_LINE_STRING + marshalled);
-		}
-		assertNotNull("Marshalling failed", marshalled);
-		final String expected = IoUtil.getResourceAsString(fileName);
-		xmlAssertion(XmlAssertion.Type.EXACT_MATCH)
-				.actualResourceString(marshalled)
-				.expectedResourceString(expected)
-				.stripNewLinesAndTabs(true)
-				.doAssert();
-	}
-
 }

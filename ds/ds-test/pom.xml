@@ -64,11 +64,6 @@
 			<artifactId>core-test</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>edu.utah.further.core</groupId>
-			<artifactId>core-qunit</artifactId>
-		</dependency>
-
 		<!-- Override to compile-time -->
 		<dependency>
 			<!-- <groupId>org.junit</groupId> -->

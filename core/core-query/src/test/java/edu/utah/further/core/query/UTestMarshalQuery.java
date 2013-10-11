@@ -24,26 +24,31 @@ import static edu.utah.further.core.query.domain.SearchCriteria.simpleExpression
 import static edu.utah.further.core.query.domain.SearchCriteria.stringExpression;
 import static edu.utah.further.core.query.domain.SearchType.CONJUNCTION;
 import static edu.utah.further.core.query.domain.SearchType.DISJUNCTION;
-import static edu.utah.further.core.qunit.runner.XmlAssertion.xmlAssertion;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 import com.sun.xml.bind.api.JAXBRIContext;
 
+import edu.utah.further.core.api.lang.CoreUtil;
 import edu.utah.further.core.api.xml.XmlNamespace;
 import edu.utah.further.core.query.domain.MatchType;
 import edu.utah.further.core.query.domain.Relation;
@@ -53,8 +58,8 @@ import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.core.query.domain.SearchType;
 import edu.utah.further.core.query.domain.SortType;
 import edu.utah.further.core.query.fixture.CoreQueryFixture;
-import edu.utah.further.core.qunit.runner.XmlAssertion;
 import edu.utah.further.core.test.annotation.UnitTest;
+import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.JaxbConfigurationFactoryBean;
 
 /**
@@ -107,26 +112,16 @@ public final class UTestMarshalQuery extends CoreQueryFixture
 	@Before
 	public void setup()
 	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+		
 		/* Override the base */
 		CORE_QUERY_JAXB_CONFIG.put(JAXBRIContext.DEFAULT_NAMESPACE_REMAP,
 				XmlNamespace.CORE_QUERY);
 	}
 
 	// ========================= TESTING METHODS ===========================
-
-	// /**
-	// * Unmarshal a criterion.
-	// */
-	// @Test
-	// public void unmarshalCriterion() throws Exception
-	// {
-	// final InputStream is = CoreUtil.getResourceAsStream("criterion.xml");
-	// final SearchCriterion criteria = xmlService.
-	// .unmarshal(is, SearchCriterionToImpl.class);
-	// is.close();
-	// assertEquals(1l, criteria.getId().longValue());
-	// assertEquals(3l, criteria.getNamespaceId().longValue());
-	// }
 
 	/**
 	 * Marshal a simple criterion that is not wrapped by a {@link SearchQuery} object.
@@ -175,12 +170,12 @@ public final class UTestMarshalQuery extends CoreQueryFixture
 				.addSortCriterion(SearchCriteria.sort("age", SortType.ASCENDING))
 				.build();
 		final String marshalled = xmlService.marshal(query);
-
-		xmlAssertion(XmlAssertion.Type.STREAM_MATCH)
-				.actualResourceStream(new ByteArrayInputStream(marshalled.getBytes()))
-				.expectedResourceName(QUERY_DISJUNCTION_XML)
-				.doAssert();
-		// assertEquals("Unexpected marshalled query XML", expected, rawMarshalled);
+		
+		final String expected = IoUtil.getInputStreamAsString(CoreUtil
+				.getResourceAsStream(QUERY_DISJUNCTION_XML));
+		
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, marshalled));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 	}
 
 	/**
@@ -231,9 +226,11 @@ public final class UTestMarshalQuery extends CoreQueryFixture
 	 * Unmarshal an {@link SearchType#COUNT}-criterion query.
 	 * 
 	 * @throws JAXBException
+	 * @throws IOException 
+	 * @throws SAXException 
 	 */
 	@Test
-	public void marshalQueryCount() throws JAXBException
+	public void marshalQueryCount() throws JAXBException, SAXException, IOException
 	{
 		final SearchCriterion criterion = count(Relation.EQ, 1234,
 				queryBuilder(simpleExpression(Relation.GT, "property", "value"))
@@ -244,11 +241,12 @@ public final class UTestMarshalQuery extends CoreQueryFixture
 		final SearchQuery query = queryBuilder(criterion).setRootObject("Person").build();
 
 		final String marshalled = xmlService.marshal(query);
-
-		xmlAssertion(XmlAssertion.Type.STREAM_MATCH)
-				.actualResourceStream(new ByteArrayInputStream(marshalled.getBytes()))
-				.expectedResourceName(QUERY_COUNT_XML)
-				.doAssert(); // use .printToCompare() to debug-printout expected, actual
+		
+		final String expected = IoUtil.getInputStreamAsString(CoreUtil
+				.getResourceAsStream(QUERY_COUNT_XML));
+		
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, marshalled));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 	}
 
 	// ========================= PRIVATE METHODS ===========================
