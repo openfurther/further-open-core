@@ -46,7 +46,7 @@ import edu.utah.further.core.api.discrete.HasSettableIdentifier;
 @Implementation
 @Embeddable
 public class PersonId implements Serializable, Comparable<PersonId>,
-		HasSettableIdentifier<Long>, HasDatasetIdentifier<Long>
+		HasSettableIdentifier<Long>, HasDatasetIdentifier<String>
 {
 	// ========================= CONSTANTS ===================================
 
@@ -57,13 +57,13 @@ public class PersonId implements Serializable, Comparable<PersonId>,
 	protected Long id;
 
 	@Column(name = "dataset_id", nullable = false)
-	protected Long datasetId;
+	protected String datasetId;
 
 	public PersonId()
 	{
 	}
 
-	public PersonId(final Long id, final Long datasetId)
+	public PersonId(final Long id, final String datasetId)
 	{
 		this.id = id;
 		this.datasetId = datasetId;
@@ -101,7 +101,7 @@ public class PersonId implements Serializable, Comparable<PersonId>,
 	 * @see edu.utah.further.core.api.discrete.HasDatasetIdentifier#getDatasetId()
 	 */
 	@Override
-	public Long getDatasetId()
+	public String getDatasetId()
 	{
 		return datasetId;
 	}
@@ -114,7 +114,7 @@ public class PersonId implements Serializable, Comparable<PersonId>,
 	 * Comparable )
 	 */
 	@Override
-	public void setDatasetId(final Long datasetId)
+	public void setDatasetId(final String datasetId)
 	{
 		this.datasetId = datasetId;
 	}

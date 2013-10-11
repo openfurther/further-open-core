@@ -15,22 +15,27 @@
  */
 package edu.utah.further.ds.further.model.impl.domain;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.xml.XmlService;
-import edu.utah.further.ds.further.model.impl.domain.Person;
-import edu.utah.further.ds.further.model.impl.domain.PersonId;
+import edu.utah.further.core.test.xml.IgnoreNamedElementsDifferenceListener;
+import edu.utah.further.core.util.io.IoUtil;
 
 /**
  * Unit test for marshalling a person transfer object
@@ -46,7 +51,6 @@ import edu.utah.further.ds.further.model.impl.domain.PersonId;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Aug 5, 2013
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations =
 { "/fqe-model-test-annotation-context.xml" })
@@ -56,12 +60,24 @@ public class UTestMarshalPersonTo
 	private XmlService xmlService;
 
 	/**
+	 * Setup for tests
+	 */
+	@Before
+	public void setup()
+	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+	}
+
+	/**
 	 * Marshal a {@link PersonTo}
 	 * 
 	 * @throws JAXBException
+	 * @throws IOException
+	 * @throws SAXException
 	 */
 	@Test
-	public void marshalPersonTo() throws JAXBException
+	public void marshalPersonTo() throws JAXBException, SAXException, IOException
 	{
 		final Person person = new Person();
 		person.setAdministrativeGender("12345");
@@ -83,7 +99,7 @@ public class UTestMarshalPersonTo
 		person.setMultipleBirthIndicatorOrderNumber(new Integer(1));
 		person.setPedigreeQuality(new Long(1));
 		person.setCompositeId("12345");
-		person.setId(new PersonId(new Long(1), new Long(1)));
+		person.setId(new PersonId(new Long(1), "abcdefghijklmnopqrstuvwxyz"));
 		person.setPrimaryLanguage("12345");
 		person.setPrimaryLanguageNamespaceId(new Long(30));
 		person.setRace("12345");
@@ -92,31 +108,11 @@ public class UTestMarshalPersonTo
 		person.setReligionNamespaceId(new Long(30));
 
 		final String marshalled = xmlService.marshal(person);
-		assertThat(marshalled, containsString("administrativeGender"));
-		assertThat(marshalled, containsString("administrativeGenderNamespaceId"));
-		assertThat(marshalled, containsString("birthDay"));
-		assertThat(marshalled, containsString("birthYear"));
-		assertThat(marshalled, containsString("causeOfDeath"));
-		assertThat(marshalled, containsString("causeOfDeathNamespaceId"));
-		assertThat(marshalled, containsString("dateOfBirth"));
-		assertThat(marshalled, containsString("dateOfDeath"));
-		assertThat(marshalled, containsString("educationLevel"));
-		assertThat(marshalled, containsString("ethnicity"));
-		assertThat(marshalled, containsString("ethnicityNamespaceId"));
-		assertThat(marshalled, containsString("maritalStatus"));
-		assertThat(marshalled, containsString("maritalStatusNamespaceId"));
-		assertThat(marshalled, containsString("multipleBirthIndicator"));
-		assertThat(marshalled, containsString("multipleBirthIndicatorOrderNumber"));
-		assertThat(marshalled, containsString("pedigreeQuality"));
-		assertThat(marshalled, containsString("compositeId"));
-		assertThat(marshalled, containsString("id"));
-		assertThat(marshalled, containsString("datasetId"));
-		assertThat(marshalled, containsString("primaryLanguage"));
-		assertThat(marshalled, containsString("primaryLanguageNamespaceId"));
-		assertThat(marshalled, containsString("race"));
-		assertThat(marshalled, containsString("raceNamespaceId"));
-		assertThat(marshalled, containsString("religion"));
-		assertThat(marshalled, containsString("religionNamespaceId"));
+		final Diff diff = new Diff(
+				IoUtil.getResourceAsString("query/marshalled-example.xml"), marshalled);
+		diff.overrideDifferenceListener(new IgnoreNamedElementsDifferenceListener(Arrays
+				.asList("dateOfBirth", "dateOfDeath")));
+		assertTrue(diff.similar());
 
 	}
 }
