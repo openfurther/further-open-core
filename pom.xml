@@ -829,7 +829,6 @@
 		<module>i2b2</module>
 		<module>fqe</module>
 		<module>ds</module>
-		<module>osgi</module>
 	</modules>
 
 	<!-- Synchronize module versions with master project -->
