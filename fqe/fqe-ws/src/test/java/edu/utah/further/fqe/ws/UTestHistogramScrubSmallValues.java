@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -228,7 +227,6 @@ public final class UTestHistogramScrubSmallValues extends FqeWsFixture
 	{
 		// Compute a raw histogram
 		final ResultType type = ResultType.SUM;
-		final Integer intersectionIndex = NumberUtils.INTEGER_ZERO;
 		final Map<String, Long> histogram = resultDataService.join(
 				Arrays.asList("12345", "67890"), category, type, 0);
 		if (log.isDebugEnabled())
@@ -238,7 +236,7 @@ public final class UTestHistogramScrubSmallValues extends FqeWsFixture
 
 		// Create a place-holder for the raw histogram
 		final AggregatedResults results = new AggregatedResultsTo();
-		final AggregatedResult result = new AggregatedResultTo(type, intersectionIndex);
+		final AggregatedResult result = new AggregatedResultTo(type);
 		final Category categoryTo = new CategoryTo(category, histogram);
 		result.addCategory(categoryTo);
 		results.addResult(result);

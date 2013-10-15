@@ -78,17 +78,6 @@ public class ResultContextKeyEntity extends AbstractResultContextKey implements
 	private ResultType type = ResultType.SUM;
 
 	/**
-	 * For federated result sets: each record in this result set is in at least
-	 * <code>intersectionIndex</code> data source sets. For union,
-	 * <code>intersectionIndex=1</code> (records that exist within at least one set); for
-	 * intersection, <code>intersectionIndex=#data sources</code> (records that exist in
-	 * all data sets).
-	 */
-	@Column(name = "intersectionindex", nullable = true, length = 5)
-	@Final
-	private Integer intersectionIndex;
-
-	/**
 	 * Key's corresponding value in the result view map.
 	 */
 	@OneToOne(cascade = CascadeType.ALL)
@@ -110,11 +99,10 @@ public class ResultContextKeyEntity extends AbstractResultContextKey implements
 	 * @param type
 	 * @param intersectionIndex
 	 */
-	public ResultContextKeyEntity(final ResultType type, final Integer intersectionIndex)
+	public ResultContextKeyEntity(final ResultType type)
 	{
 		super();
 		this.type = type;
-		this.intersectionIndex = intersectionIndex;
 	}
 
 	/**
@@ -126,7 +114,7 @@ public class ResultContextKeyEntity extends AbstractResultContextKey implements
 	 */
 	public static ResultContextKeyEntity newCopy(final ResultContextKey other)
 	{
-		return new ResultContextKeyEntity(other.getType(), other.getIntersectionIndex());
+		return new ResultContextKeyEntity(other.getType());
 	}
 
 	// ========================= IMPLEMENTATION: Object ====================
@@ -154,17 +142,6 @@ public class ResultContextKeyEntity extends AbstractResultContextKey implements
 	public ResultType getType()
 	{
 		return type;
-	}
-
-	/**
-	 * Return the intersectionIndex property.
-	 *
-	 * @return the intersectionIndex
-	 */
-	@Override
-	public Integer getIntersectionIndex()
-	{
-		return intersectionIndex;
 	}
 
 	// ========================= IMPLEMENTATION: MutablePublicMapEntry =====

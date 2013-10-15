@@ -47,11 +47,9 @@ import edu.utah.further.fqe.api.ws.to.aggregate.Category;
 import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
-import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
-import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
 
 /**
@@ -248,13 +246,9 @@ public class AggregationServiceImpl implements AggregationService
 		{
 			case DATA_QUERY:
 			{
-				addResultViewTo(parent, queryIds, SUM, null);
-				addResultViewTo(parent, queryIds, INTERSECTION, new Integer(1));
-				// Could also be called with last arg = null but that might mess up view
-				// TO order
-				// in result TO
-				addResultViewTo(parent, queryIds, INTERSECTION,
-						new Integer(queryIds.size()));
+				addResultViewTo(parent, queryIds, SUM);
+				addResultViewTo(parent, queryIds, ResultType.UNION);
+				addResultViewTo(parent, queryIds, INTERSECTION);
 				break;
 			}
 			case COUNT_QUERY:
@@ -333,7 +327,7 @@ public class AggregationServiceImpl implements AggregationService
 	@Override
 	@SuppressWarnings("boxing")
 	public AggregatedResults addMissingDataEntries(final AggregatedResults results,
-			final Map<ResultContextKey, ResultContext> resultViews)
+			final Map<ResultType, ResultContext> resultViews)
 	{
 
 		for (final AggregatedResult result : results.getResults())
@@ -342,13 +336,12 @@ public class AggregationServiceImpl implements AggregationService
 			long numResults = 0;
 			if (result.getKey().getType().equals(ResultType.SUM))
 			{
-				final ResultContext resultView = resultViews
-						.get(new ResultContextKeyToImpl(ResultType.SUM, null));
+				final ResultContext resultView = resultViews.get(ResultType.SUM);
 				numResults = resultView.getNumRecords();
 			}
 			else
 			{
-				final ResultContext resultView = resultViews.get(result.getKey());
+				final ResultContext resultView = resultViews.get(result.getKey().getType());
 				numResults = resultView.getNumRecords();
 			}
 			for (final Category category : result.getCategories())
@@ -450,12 +443,12 @@ public class AggregationServiceImpl implements AggregationService
 	{
 		this.resultMaskOther = resultMaskOther;
 	}
-	
+
 	// ========================= GET/SET METHODS ===========================
 
 	/**
 	 * Return the qcService property.
-	 *
+	 * 
 	 * @return the qcService
 	 */
 	public QueryContextService getQcService()
@@ -465,8 +458,9 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Set a new value for the qcService property.
-	 *
-	 * @param qcService the qcService to set
+	 * 
+	 * @param qcService
+	 *            the qcService to set
 	 */
 	public void setQcService(final QueryContextService qcService)
 	{
@@ -475,7 +469,7 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Return the resultSummaryService property.
-	 *
+	 * 
 	 * @return the resultSummaryService
 	 */
 	public ResultSummaryService getResultSummaryService()
@@ -485,8 +479,9 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Set a new value for the resultSummaryService property.
-	 *
-	 * @param resultSummaryService the resultSummaryService to set
+	 * 
+	 * @param resultSummaryService
+	 *            the resultSummaryService to set
 	 */
 	public void setResultSummaryService(final ResultSummaryService resultSummaryService)
 	{
@@ -495,7 +490,7 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Return the resultDataService property.
-	 *
+	 * 
 	 * @return the resultDataService
 	 */
 	public ResultDataService getResultDataService()
@@ -505,8 +500,9 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Set a new value for the resultDataService property.
-	 *
-	 * @param resultDataService the resultDataService to set
+	 * 
+	 * @param resultDataService
+	 *            the resultDataService to set
 	 */
 	public void setResultDataService(final ResultDataService resultDataService)
 	{
@@ -515,7 +511,7 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Return the dao property.
-	 *
+	 * 
 	 * @return the dao
 	 */
 	public Dao getDao()
@@ -525,14 +521,15 @@ public class AggregationServiceImpl implements AggregationService
 
 	/**
 	 * Set a new value for the dao property.
-	 *
-	 * @param dao the dao to set
+	 * 
+	 * @param dao
+	 *            the dao to set
 	 */
 	public void setDao(final Dao dao)
 	{
 		this.dao = dao;
 	}
-	
+
 	// ========================= PRIVATE METHODS ===========================
 
 	/**
@@ -544,8 +541,7 @@ public class AggregationServiceImpl implements AggregationService
 	private AggregatedResult mockAggregatedResult(final ResultType resultType,
 			final int intersectionIndex, final List<String> queryIds)
 	{
-		final AggregatedResult result = new AggregatedResultTo(resultType, new Integer(
-				intersectionIndex));
+		final AggregatedResult result = new AggregatedResultTo(resultType);
 		for (final Map.Entry<String, AttributeMetadata> entry : ATTRIBUTE_METADATA
 				.entrySet())
 		{
@@ -581,10 +577,11 @@ public class AggregationServiceImpl implements AggregationService
 	 * @param intersectionIndex
 	 */
 	private void addResultViewTo(final QueryContext parent, final List<String> queryIds,
-			final ResultType resultType, final Integer intersectionIndex)
+			final ResultType resultType)
 	{
-		FqeDsQueryContextUtil.addResultViewTo(parent, resultType, intersectionIndex,
-				resultSummaryService.join(queryIds, resultType).longValue());
+		FqeDsQueryContextUtil.addResultViewTo(parent, resultType, resultSummaryService
+				.join(queryIds, resultType)
+				.longValue());
 	}
 
 	/**

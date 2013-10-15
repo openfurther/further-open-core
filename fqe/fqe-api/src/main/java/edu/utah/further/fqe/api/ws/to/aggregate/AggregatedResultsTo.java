@@ -51,7 +51,7 @@ import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Mar 23, 2011
  */
@@ -104,8 +104,7 @@ public final class AggregatedResultsTo implements AggregatedResults
 	 */
 	@XmlJavaTypeAdapter(ResultContextMapAdapter.class)
 	@XmlElement(name = "resultViews", required = false, namespace = XmlNamespace.FQE)
-	private final Map<ResultContextKey, ResultContext> resultViews = CollectionUtil
-			.newMap();
+	private final Map<ResultType, ResultContext> resultViews = CollectionUtil.newMap();
 
 	/**
 	 * Required of any FQE i2b2 message TO by the i2b2 communication standard.
@@ -116,14 +115,14 @@ public final class AggregatedResultsTo implements AggregatedResults
 	 * Required of any FQE i2b2 message TO by the i2b2 communication standard.
 	 */
 	@XmlElement(name = "result_status", required = true, namespace = XmlNamespace.FQE)
-	private I2b2ResultStatusTo resultStatus = new I2b2ResultStatusTo();
+	private final I2b2ResultStatusTo resultStatus = new I2b2ResultStatusTo();
 
 	// ========================= IMPLEMENTATION: PubliclyCloneable =========
 
 	/**
 	 * Create a copy of this instance (not a full deep-copy; behaves like
 	 * {@link #copyFrom(QueryContext)}).
-	 *
+	 * 
 	 * @return
 	 * @see edu.utah.further.core.api.lang.PubliclyCloneable#copy()
 	 */
@@ -137,7 +136,7 @@ public final class AggregatedResultsTo implements AggregatedResults
 
 	/**
 	 * Note: the <code>resultEntity</code> reference field is not copied.
-	 *
+	 * 
 	 * @param other
 	 * @see edu.utah.further.core.api.lang.CopyableFrom#copyFrom(java.lang.Object)
 	 */
@@ -169,13 +168,13 @@ public final class AggregatedResultsTo implements AggregatedResults
 
 	/**
 	 * Return the resultViews property.
-	 *
+	 * 
 	 * @return the resultViews
 	 */
 	@Override
-	public Map<ResultContextKey, ResultContext> getResultViews()
+	public Map<ResultType, ResultContext> getResultViews()
 	{
-		return CollectionUtil.<ResultContextKey, ResultContext> newMap(resultViews);
+		return CollectionUtil.<ResultType, ResultContext> newMap(resultViews);
 	}
 
 	/**
@@ -184,25 +183,9 @@ public final class AggregatedResultsTo implements AggregatedResults
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	public ResultContext getResultView(final ResultContextKey key)
+	public ResultContext getResultView(final ResultType key)
 	{
 		return resultViews.get(key);
-	}
-
-	/**
-	 * Return a resultContext by key parameters.
-	 *
-	 * @param type
-	 * @param intersectionIndex
-	 * @return a resultContext
-	 * @see java.util.Map#get(java.lang.Object)
-	 */
-	@Override
-	public final ResultContext getResultView(final ResultType type,
-			final Integer intersectionIndex)
-
-	{
-		return getResultView(newKey(type, intersectionIndex));
 	}
 
 	/**
@@ -213,12 +196,10 @@ public final class AggregatedResultsTo implements AggregatedResults
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public ResultContext addResultView(final ResultType type,
-			final Integer intersectionIndex, final ResultContext value)
+	public ResultContext addResultView(final ResultType type, final ResultContext value)
 
 	{
-		return resultViews.put(newKey(type, intersectionIndex),
-				ResultContextToImpl.newCopy(value));
+		return resultViews.put(type, ResultContextToImpl.newCopy(value));
 	}
 
 	/**
@@ -226,8 +207,7 @@ public final class AggregatedResultsTo implements AggregatedResults
 	 * @see edu.utah.further.fqe.ds.api.domain.HasResultViews#setResultViews(java.util.Map)
 	 */
 	@Override
-	public void setResultViews(
-			final Map<? extends ResultContextKey, ? extends ResultContext> other)
+	public void setResultViews(final Map<ResultType, ? extends ResultContext> other)
 	{
 		CollectionUtil.setMapElements(resultViews, other);
 	}
@@ -238,13 +218,13 @@ public final class AggregatedResultsTo implements AggregatedResults
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
 	@Override
-	public ResultContext removeResultView(final ResultContextKey key)
+	public ResultContext removeResultView(final ResultType key)
 	{
 		return resultViews.remove(key);
 	}
 
 	/**
-	 *
+	 * 
 	 * @see java.util.Map#clear()
 	 */
 	@Override
@@ -255,7 +235,7 @@ public final class AggregatedResultsTo implements AggregatedResults
 
 	/**
 	 * Return the results property.
-	 *
+	 * 
 	 * @return the results
 	 * @see edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults#getResults()
 	 */
@@ -290,7 +270,7 @@ public final class AggregatedResultsTo implements AggregatedResults
 
 	/**
 	 * Return the numDataSources property.
-	 *
+	 * 
 	 * @return the numDataSources
 	 */
 	@Override
@@ -301,7 +281,7 @@ public final class AggregatedResultsTo implements AggregatedResults
 
 	/**
 	 * Set a new value for the numDataSources property.
-	 *
+	 * 
 	 * @param numDataSources
 	 *            the numDataSources to set
 	 */
@@ -309,18 +289,5 @@ public final class AggregatedResultsTo implements AggregatedResults
 	public void setNumDataSources(final int numDataSources)
 	{
 		this.numDataSources = numDataSources;
-	}
-
-	// ========================= PRIVATE METHODS ===========================
-
-	/**
-	 * @param type
-	 * @param intersectionIndex
-	 * @return
-	 */
-	private ResultContextKeyToImpl newKey(final ResultType type,
-			final Integer intersectionIndex)
-	{
-		return new ResultContextKeyToImpl(type, intersectionIndex);
 	}
 }

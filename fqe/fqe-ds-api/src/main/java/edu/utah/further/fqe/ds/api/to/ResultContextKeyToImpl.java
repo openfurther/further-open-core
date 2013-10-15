@@ -46,7 +46,7 @@ import edu.utah.further.fqe.ds.api.service.results.ResultType;
 @Implementation
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder =
-{ "type", "intersectionIndex" })
+{ "type" })
 @XmlRootElement(namespace = XmlNamespace.FQE, name = ResultContextKeyToImpl.ENTITY_NAME)
 public final class ResultContextKeyToImpl extends AbstractResultContextKey
 {
@@ -65,15 +65,6 @@ public final class ResultContextKeyToImpl extends AbstractResultContextKey
 	@XmlAttribute(name = "type", required = true)
 	private ResultType type;
 
-	/**
-	 * Each record in this result set is in at least <code>intersectionIndex</code> data
-	 * source sets. For union, <code>intersectionIndex=1</code> (records that exist within
-	 * at least one set); for intersection, <code>intersectionIndex=#data sources</code>
-	 * (records that exist in all data sets).
-	 */
-	@XmlAttribute(name = "intersectionIndex", required = false)
-	private Integer intersectionIndex;
-
 	// ========================= CONSTRUCTORS ==============================
 
 	/**
@@ -89,18 +80,17 @@ public final class ResultContextKeyToImpl extends AbstractResultContextKey
 	 */
 	public ResultContextKeyToImpl(final ResultContextKey other)
 	{
-		this(other.getType(), other.getIntersectionIndex());
+		this(other.getType());
 	}
 
 	/**
 	 * @param type
 	 * @param intersectionIndex
 	 */
-	public ResultContextKeyToImpl(final ResultType type, final Integer intersectionIndex)
+	public ResultContextKeyToImpl(final ResultType type)
 	{
 		super();
 		this.type = type;
-		this.intersectionIndex = intersectionIndex;
 	}
 
 	// ========================= GETTERS & SETTERS =========================
@@ -114,16 +104,5 @@ public final class ResultContextKeyToImpl extends AbstractResultContextKey
 	public ResultType getType()
 	{
 		return type;
-	}
-
-	/**
-	 * Return the intersectionIndex property.
-	 *
-	 * @return the intersectionIndex
-	 */
-	@Override
-	public Integer getIntersectionIndex()
-	{
-		return intersectionIndex;
 	}
 }

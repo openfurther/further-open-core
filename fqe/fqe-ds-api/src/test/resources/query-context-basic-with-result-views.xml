@@ -24,13 +24,13 @@
 	</query:query>
 	<resultViews>
 		<entry>
-			<key type="SUM" />
+			<key>SUM</key>
 			<resultContext>
 				<numRecords>123</numRecords>
 			</resultContext>
 		</entry>
 		<entry>
-			<key intersectionIndex="1" type="INTERSECTION" />
+			<key>UNION</key>
 			<resultContext>
 				<numRecords>456</numRecords>
 			</resultContext>

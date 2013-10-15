@@ -272,7 +272,7 @@ public class QueryContextEntity extends AbstractQueryContext
 	 * Synchronized with {@link #resultViews}.
 	 */
 	@Transient
-	private Map<ResultContextKey, ResultContext> resultViewsMap; // Must be lazy-init'ed
+	private Map<ResultType, ResultContext> resultViewsMap; // Must be lazy-init'ed
 
 	/**
 	 * This instance might be a copy of an original QC TO during the query plan
@@ -824,10 +824,10 @@ public class QueryContextEntity extends AbstractQueryContext
 	 * @return the resultViews
 	 */
 	@Override
-	public Map<ResultContextKey, ResultContext> getResultViews()
+	public Map<ResultType, ResultContext> getResultViews()
 	{
 		synchronizeResultViewsMapWithSet();
-		return CollectionUtil.<ResultContextKey, ResultContext> newMap(resultViewsMap);
+		return CollectionUtil.<ResultType, ResultContext> newMap(resultViewsMap);
 	}
 
 	/**
@@ -836,7 +836,7 @@ public class QueryContextEntity extends AbstractQueryContext
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	public ResultContext getResultView(final ResultContextKey key)
+	public ResultContext getResultView(final ResultType key)
 	{
 		synchronizeResultViewsMapWithSet();
 		return resultViewsMap.get(key);
@@ -850,18 +850,17 @@ public class QueryContextEntity extends AbstractQueryContext
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public ResultContext addResultView(final ResultType type,
-			final Integer intersectionIndex, final ResultContext value)
+	public ResultContext addResultView(final ResultType type, final ResultContext value)
 	{
 		// Create a new entry of the view "value"
-		final ResultContextKeyEntity key = newKey(type, intersectionIndex);
+		final ResultContextKeyEntity key = newKey(type);
 		final ResultContextEntity valueCopy = ResultContextEntity.newCopy(value);
 		key.setValue(valueCopy);
 
 		// Update both the set and map
 		resultViews.add(key);
 		synchronizeResultViewsMapWithSet();
-		return resultViewsMap.put(key, valueCopy);
+		return resultViewsMap.put(type, valueCopy);
 	}
 
 	/**
@@ -870,7 +869,7 @@ public class QueryContextEntity extends AbstractQueryContext
 	 */
 	@Override
 	public void setResultViews(
-			final Map<? extends ResultContextKey, ? extends ResultContext> other)
+			final Map<ResultType, ? extends ResultContext> other)
 	{
 		throw new UnsupportedOperationException(
 				"use addResult() instead for the time being");
@@ -882,9 +881,13 @@ public class QueryContextEntity extends AbstractQueryContext
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
 	@Override
-	public ResultContext removeResultView(final ResultContextKey key)
+	public ResultContext removeResultView(final ResultType key)
 	{
-		resultViews.remove(key);
+		for (final ResultContextEntry entry : resultViews) {
+			if (entry.getKey().getType().equals(key)) {
+				resultViews.remove(entry);
+			}
+		}
 		synchronizeResultViewsMapWithSet();
 		return resultViewsMap.remove(key);
 	}
@@ -934,7 +937,6 @@ public class QueryContextEntity extends AbstractQueryContext
 	@Override
 	protected Object clone() throws CloneNotSupportedException
 	{
-		// TODO Auto-generated method stub
 		return super.clone();
 	}
 
@@ -1001,10 +1003,9 @@ public class QueryContextEntity extends AbstractQueryContext
 	 * @return
 	 */
 	@Override
-	protected ResultContextKeyEntity newKey(final ResultType type,
-			final Integer intersectionIndex)
+	protected ResultContextKeyEntity newKey(final ResultType type)
 	{
-		return new ResultContextKeyEntity(type, intersectionIndex);
+		return new ResultContextKeyEntity(type);
 	}
 
 	/**
@@ -1133,7 +1134,7 @@ public class QueryContextEntity extends AbstractQueryContext
 			resultViewsMap = CollectionUtil.newMap();
 			for (final PublicMapEntry<? extends ResultContextKey, ? extends ResultContext> key : resultViews)
 			{
-				resultViewsMap.put(key.getKey(), key.getValue());
+				resultViewsMap.put(key.getKey().getType(), key.getValue());
 			}
 		}
 	}

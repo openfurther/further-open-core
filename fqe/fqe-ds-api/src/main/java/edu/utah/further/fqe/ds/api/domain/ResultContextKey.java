@@ -15,7 +15,6 @@
  */
 package edu.utah.further.fqe.ds.api.domain;
 
-import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
@@ -36,19 +35,6 @@ import edu.utah.further.fqe.ds.api.service.results.ResultType;
 public interface ResultContextKey extends Comparable<ResultContextKey>
 {
 	// ========================= METHODS ===================================
-
-	/**
-	 * Return the intersection index. For federated result sets: each record in this
-	 * result set is in at least <code>intersectionIndex</code> data source sets. For
-	 * union, <code>intersectionIndex=1</code> (records that exist within at least one
-	 * set); for intersection, <code>intersectionIndex=#data sources</code> (records that
-	 * exist in all data sets).
-	 *
-	 * @return intersection index, or {@link Constants#INVALID_VALUE_INTEGER} if it is
-	 *         inapplicable to this result set (e.g. if this is not a federated result
-	 *         set)
-	 */
-	Integer getIntersectionIndex();
 
 	/**
 	 * For federated result sets: return the result type (sum/intersection/...).

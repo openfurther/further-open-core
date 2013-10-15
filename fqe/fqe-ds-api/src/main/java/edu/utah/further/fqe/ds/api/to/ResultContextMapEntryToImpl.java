@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 import edu.utah.further.core.api.collections.MutablePublicMapEntry;
 import edu.utah.further.core.api.xml.XmlNamespace;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 // ============================
 // JAXB annotations
@@ -51,7 +52,7 @@ import edu.utah.further.fqe.ds.api.domain.ResultContext;
 @XmlType(name = "", propOrder =
 { "key", "value" })
 @XmlRootElement(namespace = XmlNamespace.FQE, name = ResultContextMapEntryToImpl.ENTITY_NAME)
-public class ResultContextMapEntryToImpl implements MutablePublicMapEntry<ResultContextKeyToImpl, ResultContextToImpl>
+public class ResultContextMapEntryToImpl implements MutablePublicMapEntry<ResultType, ResultContextToImpl>
 {
 	// ========================= CONSTANTS =================================
 
@@ -73,7 +74,7 @@ public class ResultContextMapEntryToImpl implements MutablePublicMapEntry<Result
 	 * database table containing the result set rows.
 	 */
 	@XmlElement(name = "key", required = true, namespace = XmlNamespace.FQE)
-	private ResultContextKeyToImpl key;
+	private ResultType key;
 
 	/**
 	 * Result set's root entity class' fully qualified name. Uniquely identifies the
@@ -90,7 +91,7 @@ public class ResultContextMapEntryToImpl implements MutablePublicMapEntry<Result
 	 * @return the key
 	 */
 	@Override
-	public ResultContextKeyToImpl getKey()
+	public ResultType getKey()
 	{
 		return key;
 	}
@@ -101,7 +102,7 @@ public class ResultContextMapEntryToImpl implements MutablePublicMapEntry<Result
 	 * @param key the key to set
 	 */
 	@Override
-	public void setKey(final ResultContextKeyToImpl key)
+	public void setKey(final ResultType key)
 	{
 		this.key = key;
 	}

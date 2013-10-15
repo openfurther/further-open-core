@@ -45,25 +45,16 @@ final class ResultContextKeyImpl extends AbstractResultContextKey
 	 */
 	private final ResultType type;
 
-	/**
-	 * Each record in this result set is in at least <code>intersectionIndex</code> data
-	 * source sets. For union, <code>intersectionIndex=1</code> (records that exist within
-	 * at least one set); for intersection, <code>intersectionIndex=#data sources</code>
-	 * (records that exist in all data sets).
-	 */
-	private final Integer intersectionIndex;
-
 	// ========================= CONSTRUCTORS ==============================
 
 	/**
 	 * @param type
 	 * @param intersectionIndex
 	 */
-	public ResultContextKeyImpl(final ResultType type, final Integer intersectionIndex)
+	public ResultContextKeyImpl(final ResultType type)
 	{
 		super();
 		this.type = type;
-		this.intersectionIndex = intersectionIndex;
 	}
 
 	// ========================= GETTERS & SETTERS =========================
@@ -79,16 +70,5 @@ final class ResultContextKeyImpl extends AbstractResultContextKey
 	public ResultType getType()
 	{
 		return type;
-	}
-
-	/**
-	 * Return the intersectionIndex property.
-	 *
-	 * @return the intersectionIndex
-	 */
-	@Override
-	public Integer getIntersectionIndex()
-	{
-		return intersectionIndex;
 	}
 }

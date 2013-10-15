@@ -113,10 +113,9 @@ public final class FqeDsQueryContextUtil
 	 * @return
 	 */
 	public static void addResultViewTo(final QueryContext queryContext,
-			final ResultType type, final Integer intersectionIndex, final long numRecords)
+			final ResultType type, final long numRecords)
 	{
-		queryContext.addResultView(type, intersectionIndex,
-				newResultContextTo(numRecords));
+		queryContext.addResultView(type, newResultContextTo(numRecords));
 	}
 
 	/**

@@ -2,7 +2,7 @@
 <aggregatedResult xmlns="http://further.utah.edu/fqe"
 	xmlns:query="http://further.utah.edu/core/query" xmlns:fqe="http://further.utah.edu/fqe-dummy"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<resultContextKey intersectionIndex="1" type="INTERSECTION" />
+	<resultContextKey type="UNION" />
 	<category name="age">
 		<values>
 			<entry value="2" key="10-19" />

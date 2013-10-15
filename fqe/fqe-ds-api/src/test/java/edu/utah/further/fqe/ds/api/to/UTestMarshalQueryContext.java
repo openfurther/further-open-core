@@ -26,8 +26,8 @@ import static edu.utah.further.core.query.domain.SearchCriteria.stringExpression
 import static edu.utah.further.core.query.domain.SearchType.CONJUNCTION;
 import static edu.utah.further.core.query.domain.SearchType.DISJUNCTION;
 import static edu.utah.further.core.query.domain.SearchType.LIKE;
-import static edu.utah.further.fqe.ds.api.service.results.ResultType.INTERSECTION;
 import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.UNION;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -325,13 +325,12 @@ public class UTestMarshalQueryContext extends FqeDsApiFixture
 	 * @param query
 	 * @return
 	 */
-	@SuppressWarnings("boxing")
 	private QueryContextTo newQueryContextToBasicWithResultViews()
 	{
 		final QueryContextTo queryContextTo = newQueryContextToBasic(false);
 		queryContextTo.setQuery(newSimpleSearchQuery(123));
-		FqeDsQueryContextUtil.addResultViewTo(queryContextTo, SUM, null, 123l);
-		FqeDsQueryContextUtil.addResultViewTo(queryContextTo, INTERSECTION, 1, 456l);
+		FqeDsQueryContextUtil.addResultViewTo(queryContextTo, SUM, 123l);
+		FqeDsQueryContextUtil.addResultViewTo(queryContextTo, UNION, 456l);
 		queryContextTo.setStaleDateTime(staleDateTime);
 		return queryContextTo;
 	}

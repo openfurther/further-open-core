@@ -105,7 +105,7 @@ public final class UTestResultViewMap
 	public void addResultViewDirectlyToMap()
 	{
 		final ResultContext resultContext = FqeDsQueryContextUtil.newResultContextTo();
-		final ResultContextKeyEntity key = new ResultContextKeyEntity(SUM, null);
+		final ResultContextKeyEntity key = new ResultContextKeyEntity(SUM);
 		resultViews.put(key, resultContext);
 
 		final ResultContext reloadedRc = resultViews.get(key);
@@ -117,11 +117,10 @@ public final class UTestResultViewMap
 	 * A unit test of adding a result view to the map and retrieving it via
 	 * {@link QueryContextEntity} methods.
 	 */
-	@SuppressWarnings("boxing")
 	@Test
 	public void addViewToQcEntity()
 	{
-		addRetrieveAndRetrieveResultView(SUM, 1, queryContextEntity);
+		addRetrieveAndRetrieveResultView(SUM, queryContextEntity);
 	}
 
 	/**
@@ -131,7 +130,7 @@ public final class UTestResultViewMap
 	@Test
 	public void addViewToQcEntityNullIndex()
 	{
-		addRetrieveAndRetrieveResultView(SUM, null, queryContextEntity);
+		addRetrieveAndRetrieveResultView(SUM, queryContextEntity);
 	}
 
 
@@ -139,11 +138,10 @@ public final class UTestResultViewMap
 	 * A unit test of adding a result view to the map and retrieving it via
 	 * {@link QueryContextToImpl} methods.
 	 */
-	@SuppressWarnings("boxing")
 	@Test
 	public void addViewToQcTo()
 	{
-		addRetrieveAndRetrieveResultView(SUM, 1, queryContextTo);
+		addRetrieveAndRetrieveResultView(SUM, queryContextTo);
 	}
 
 	// ========================= PRIVATE METHODS ===========================
@@ -154,16 +152,15 @@ public final class UTestResultViewMap
 	 * @param queryContext
 	 */
 	@SuppressWarnings("boxing")
-	private static void addRetrieveAndRetrieveResultView(final ResultType type,
-			final Integer intersectionIndex, final QueryContext queryContext)
+	private static void addRetrieveAndRetrieveResultView(final ResultType type, final QueryContext queryContext)
 	{
 		final ResultContext resultContext = FqeDsQueryContextUtil.newResultContextTo();
-		queryContext.addResultView(type, intersectionIndex, resultContext);
+		queryContext.addResultView(type, resultContext);
 
-		final Map<ResultContextKey, ResultContext> qcViews = queryContext.getResultViews();
+		final Map<ResultType, ResultContext> qcViews = queryContext.getResultViews();
 		assertThat(qcViews.size(), is (1));
 
-		final ResultContext rc = queryContext.getResultView(type, intersectionIndex);
+		final ResultContext rc = queryContext.getResultView(type);
 		assertNotNull("Result view was not saved", rc);
 		assertThat(rc.getNumRecords(), is(NUM_RESULTS_IN_VIEW));
 	}

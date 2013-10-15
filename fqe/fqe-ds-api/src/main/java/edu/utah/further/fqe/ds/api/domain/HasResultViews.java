@@ -29,7 +29,7 @@ import edu.utah.further.fqe.ds.api.service.results.ResultType;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Mar 30, 2011
  */
@@ -46,7 +46,7 @@ public interface HasResultViews
 	 * @param key
 	 * @return
 	 */
-	ResultContext removeResultView(ResultContextKey key);
+	ResultContext removeResultView(ResultType key);
 
 	/**
 	 * @param type
@@ -54,29 +54,21 @@ public interface HasResultViews
 	 * @param resultContext
 	 * @return
 	 */
-	ResultContext addResultView(ResultType type, Integer intersectionIndex,
-			ResultContext resultContext);
+	ResultContext addResultView(ResultType type, ResultContext resultContext);
 
 	/**
 	 * @param other
 	 */
-	void setResultViews(Map<? extends ResultContextKey, ? extends ResultContext> other);
+	void setResultViews(Map<ResultType, ? extends ResultContext> other);
 
 	/**
 	 * @param key
 	 * @return
 	 */
-	ResultContext getResultView(ResultContextKey key);
-
-	/**
-	 * Return a resultContext by key.
-	 *
-	 * @return a resultContext
-	 */
-	ResultContext getResultView(ResultType type, Integer intersectionIndex);
+	ResultContext getResultView(ResultType key);
 
 	/**
 	 * @return
 	 */
-	Map<ResultContextKey, ResultContext> getResultViews();
+	Map<ResultType, ResultContext> getResultViews();
 }

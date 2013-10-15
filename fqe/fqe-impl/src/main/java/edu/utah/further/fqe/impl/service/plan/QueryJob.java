@@ -33,7 +33,6 @@ import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.QueryState;
 import edu.utah.further.fqe.ds.api.domain.QueryType;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
-import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.StatusMetaData;
 import edu.utah.further.fqe.ds.api.domain.plan.Plan;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
@@ -53,7 +52,7 @@ import edu.utah.further.fqe.ds.api.service.results.ResultType;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Dec 21, 2010
  */
@@ -132,7 +131,7 @@ public final class QueryJob implements QueryContext
 	// ========================= IMPL: QueryContext ========================
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.core.api.state.Switch#start()
 	 */
 	@Override
@@ -182,7 +181,7 @@ public final class QueryJob implements QueryContext
 	}
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryActor#queue()
 	 */
 	@Override
@@ -202,7 +201,7 @@ public final class QueryJob implements QueryContext
 	}
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.core.api.state.Switch#stop()
 	 */
 	@Override
@@ -252,7 +251,7 @@ public final class QueryJob implements QueryContext
 	}
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryActor#fail()
 	 */
 	@Override
@@ -262,7 +261,7 @@ public final class QueryJob implements QueryContext
 	}
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryActor#finish()
 	 */
 	@Override
@@ -371,11 +370,10 @@ public final class QueryJob implements QueryContext
 	{
 		delegate.setParent(parent);
 	}
-	
-	
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getAssociatedResult()
 	 */
 	@Override
@@ -386,7 +384,10 @@ public final class QueryJob implements QueryContext
 
 	/*
 	 * (non-Javadoc)
-	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#setAssociatedResult(edu.utah.further.fqe.ds.api.domain.QueryContext)
+	 * 
+	 * @see
+	 * edu.utah.further.fqe.ds.api.domain.QueryContext#setAssociatedResult(edu.utah.further
+	 * .fqe.ds.api.domain.QueryContext)
 	 */
 	@Override
 	public void setAssociatedResult(final QueryContext queryContext)
@@ -536,7 +537,7 @@ public final class QueryJob implements QueryContext
 	}
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#setStale()
 	 */
 	@Override
@@ -726,7 +727,7 @@ public final class QueryJob implements QueryContext
 	}
 
 	/**
-	 *
+	 * 
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#clearResultViews()
 	 */
 	@Override
@@ -741,7 +742,7 @@ public final class QueryJob implements QueryContext
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#removeResultView(edu.utah.further.fqe.ds.api.domain.ResultContextKey)
 	 */
 	@Override
-	public ResultContext removeResultView(final ResultContextKey key)
+	public ResultContext removeResultView(final ResultType key)
 	{
 		return delegate.removeResultView(key);
 	}
@@ -752,13 +753,13 @@ public final class QueryJob implements QueryContext
 	 * @param resultContext
 	 * @return
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#addResultView(edu.utah.further.fqe.ds.api.service.results.ResultType,
-	 *      java.lang.Integer, edu.utah.further.fqe.ds.api.domain.ResultContext)
+	 *      edu.utah.further.fqe.ds.api.domain.ResultContext)
 	 */
 	@Override
 	public ResultContext addResultView(final ResultType type,
-			final Integer intersectionIndex, final ResultContext resultContext)
+			final ResultContext resultContext)
 	{
-		return delegate.addResultView(type, intersectionIndex, resultContext);
+		return delegate.addResultView(type, resultContext);
 	}
 
 	/**
@@ -767,7 +768,7 @@ public final class QueryJob implements QueryContext
 	 */
 	@Override
 	public void setResultViews(
-			final Map<? extends ResultContextKey, ? extends ResultContext> other)
+			final Map<ResultType, ? extends ResultContext> other)
 	{
 		delegate.setResultViews(other);
 	}
@@ -778,23 +779,9 @@ public final class QueryJob implements QueryContext
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getResultView(edu.utah.further.fqe.ds.api.domain.ResultContextKey)
 	 */
 	@Override
-	public ResultContext getResultView(final ResultContextKey key)
+	public ResultContext getResultView(final ResultType key)
 	{
 		return delegate.getResultView(key);
-	}
-
-	/**
-	 * @param type
-	 * @param intersectionIndex
-	 * @return
-	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getResultView(edu.utah.further.fqe.ds.api.service.results.ResultType,
-	 *      java.lang.Integer)
-	 */
-	@Override
-	public ResultContext getResultView(final ResultType type,
-			final Integer intersectionIndex)
-	{
-		return delegate.getResultView(type, intersectionIndex);
 	}
 
 	/**
@@ -802,7 +789,7 @@ public final class QueryJob implements QueryContext
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getResultViews()
 	 */
 	@Override
-	public Map<ResultContextKey, ResultContext> getResultViews()
+	public Map<ResultType, ResultContext> getResultViews()
 	{
 		return delegate.getResultViews();
 	}
@@ -831,7 +818,7 @@ public final class QueryJob implements QueryContext
 
 	/**
 	 * Return the delegate property.
-	 *
+	 * 
 	 * @return the delegate
 	 */
 	public QueryContext getDelegate()

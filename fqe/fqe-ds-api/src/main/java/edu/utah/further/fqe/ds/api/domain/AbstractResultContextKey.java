@@ -57,7 +57,6 @@ public abstract class AbstractResultContextKey implements ResultContextKey
 		return new ToStringBuilder(this, SHORT_WITH_SPACES_STYLE)
 				.appendSuper(super.toString())
 				.append("type", getType())
-				.append("intersectionIndex", getIntersectionIndex())
 				.toString();
 	}
 
@@ -72,7 +71,6 @@ public abstract class AbstractResultContextKey implements ResultContextKey
 	{
 		return new HashCodeBuilder(17, 37)
 				.append(getType())
-				.append(getIntersectionIndex())
 				.toHashCode();
 	}
 
@@ -97,7 +95,6 @@ public abstract class AbstractResultContextKey implements ResultContextKey
 		final ResultContextKey that = (ResultContextKey) o;
 		return new EqualsBuilder()
 				.append(this.getType(), that.getType())
-				.append(this.getIntersectionIndex(), that.getIntersectionIndex())
 				.isEquals();
 	}
 
@@ -115,7 +112,6 @@ public abstract class AbstractResultContextKey implements ResultContextKey
 	{
 		return new CompareToBuilder()
 				.append(this.getType(), that.getType())
-				.append(this.getIntersectionIndex(), that.getIntersectionIndex())
 				.toComparison();
 	}
 

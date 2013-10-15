@@ -281,7 +281,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 */
 	@XmlJavaTypeAdapter(ResultContextMapAdapter.class)
 	@XmlElement(name = "resultViews", required = false, namespace = XmlNamespace.FQE)
-	private final Map<ResultContextKey, ResultContext> resultViews = CollectionUtil
+	private final Map<ResultType, ResultContext> resultViews = CollectionUtil
 			.newMap();
 
 	/**
@@ -1119,9 +1119,9 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 * @return the resultViews
 	 */
 	@Override
-	public Map<ResultContextKey, ResultContext> getResultViews()
+	public Map<ResultType, ResultContext> getResultViews()
 	{
-		return CollectionUtil.<ResultContextKey, ResultContext> newMap(resultViews);
+		return CollectionUtil.<ResultType, ResultContext> newMap(resultViews);
 	}
 
 	/**
@@ -1130,7 +1130,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	public ResultContext getResultView(final ResultContextKey key)
+	public ResultContext getResultView(final ResultType key)
 	{
 		return resultViews.get(key);
 	}
@@ -1143,10 +1143,9 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public ResultContext addResultView(final ResultType type,
-			final Integer intersectionIndex, final ResultContext value)
+	public ResultContext addResultView(final ResultType type, final ResultContext value)
 	{
-		return resultViews.put(newKey(type, intersectionIndex),
+		return resultViews.put(type,
 				ResultContextToImpl.newCopy(value));
 	}
 
@@ -1156,7 +1155,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 */
 	@Override
 	public void setResultViews(
-			final Map<? extends ResultContextKey, ? extends ResultContext> other)
+			final Map<ResultType, ? extends ResultContext> other)
 	{
 		CollectionUtil.setMapElements(resultViews, other);
 	}
@@ -1167,7 +1166,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
 	@Override
-	public ResultContext removeResultView(final ResultContextKey key)
+	public ResultContext removeResultView(final ResultType key)
 	{
 		return resultViews.remove(key);
 	}
@@ -1271,10 +1270,9 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 * @return
 	 */
 	@Override
-	protected ResultContextKeyToImpl newKey(final ResultType type,
-			final Integer intersectionIndex)
+	protected ResultContextKeyToImpl newKey(final ResultType type)
 	{
-		return new ResultContextKeyToImpl(type, intersectionIndex);
+		return new ResultContextKeyToImpl(type);
 	}
 
 	/**

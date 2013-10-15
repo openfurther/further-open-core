@@ -139,10 +139,9 @@ public class UTestMarshalAggregatedResult extends FqeApiFixture
 	 * @param query
 	 * @return
 	 */
-	@SuppressWarnings("boxing")
 	private AggregatedResult newAggregatedResultBasic()
 	{
-		return newAggregatedResultBasic(ResultType.INTERSECTION, 1);
+		return newAggregatedResultBasic(ResultType.UNION);
 	}
 
 	/**
@@ -151,10 +150,9 @@ public class UTestMarshalAggregatedResult extends FqeApiFixture
 	 * @return
 	 */
 	@SuppressWarnings("boxing")
-	private AggregatedResult newAggregatedResultBasic(final ResultType type,
-			final Integer intersectionIndex)
+	private AggregatedResult newAggregatedResultBasic(final ResultType type)
 	{
-		final AggregatedResult result = new AggregatedResultTo(type, intersectionIndex);
+		final AggregatedResult result = new AggregatedResultTo(type);
 
 		final CategoryTo ageCategory = new CategoryTo("age");
 		ageCategory.addEntry("10-19", 2l);
@@ -173,16 +171,15 @@ public class UTestMarshalAggregatedResult extends FqeApiFixture
 	 * @param query
 	 * @return
 	 */
-	@SuppressWarnings("boxing")
 	private AggregatedResults newAggregatedResultsBasic()
 	{
 		final AggregatedResults results = new AggregatedResultsTo();
 		results.setNumDataSources(2);
-		results.addResult(newAggregatedResultBasic(ResultType.INTERSECTION, 1));
-		results.addResult(newAggregatedResultBasic(ResultType.INTERSECTION, 2));
-		results.addResult(newAggregatedResultBasic(ResultType.SUM, null));
-		results.addResultView(ResultType.SUM, null, newResultContextTo(789l));
-		results.addResultView(ResultType.INTERSECTION, 1, newResultContextTo(1023l));
+		results.addResult(newAggregatedResultBasic(ResultType.UNION));
+		results.addResult(newAggregatedResultBasic(ResultType.INTERSECTION));
+		results.addResult(newAggregatedResultBasic(ResultType.SUM));
+		results.addResultView(ResultType.SUM, newResultContextTo(789l));
+		results.addResultView(ResultType.UNION, newResultContextTo(1023l));
 		return results;
 	}
 
@@ -194,7 +191,7 @@ public class UTestMarshalAggregatedResult extends FqeApiFixture
 	@SuppressWarnings("boxing")
 	private AggregatedResult newAggregatedResultWithOrderingImportance()
 	{
-		final AggregatedResult result = new AggregatedResultTo(ResultType.INTERSECTION, 1);
+		final AggregatedResult result = new AggregatedResultTo(ResultType.UNION);
 
 		final CategoryTo ageCategory = new CategoryTo("age");
 		ageCategory.addEntry("5-9", 2l);

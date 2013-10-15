@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import edu.utah.further.core.api.xml.IdentifiableMapAdapter;
 import edu.utah.further.core.api.xml.XmlNamespace;
-import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
+import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ResultContextMapEntryToImpl;
 import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
 
@@ -48,7 +48,7 @@ import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
  */
 public final class ResultContextMapAdapter
 		extends
-		IdentifiableMapAdapter<ResultContextKeyToImpl, ResultContextToImpl, ResultContextMapEntryToImpl, ResultContextMapAdapter.ValueType>
+		IdentifiableMapAdapter<ResultType, ResultContextToImpl, ResultContextMapEntryToImpl, ResultContextMapAdapter.ValueType>
 {
 	@XmlRootElement(namespace = XmlNamespace.FQE, name = "resultViewValueType")
 	@XmlAccessorType(XmlAccessType.FIELD)

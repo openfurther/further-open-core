@@ -21,7 +21,6 @@ import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResult;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
-import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
@@ -101,7 +100,7 @@ public interface AggregationService
 	 *@return results with missing data
 	 * 
 	 */
-	AggregatedResults addMissingDataEntries (AggregatedResults results, Map<ResultContextKey, ResultContext> resultViews );
+	AggregatedResults addMissingDataEntries (AggregatedResults results, Map<ResultType, ResultContext> resultViews );
 	
 	/**
 	 * Scrub positive counts that are smaller than the mask boundary value.

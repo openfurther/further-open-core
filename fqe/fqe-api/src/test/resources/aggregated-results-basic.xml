@@ -18,7 +18,7 @@
 		</category>
 	</aggregatedResult>
 	<aggregatedResult>
-		<resultContextKey intersectionIndex="1" type="INTERSECTION" />
+		<resultContextKey type="UNION" />
 		<category name="age">
 			<values>
 				<entry value="2" key="10-19" />
@@ -33,7 +33,7 @@
 		</category>
 	</aggregatedResult>
 	<aggregatedResult>
-		<resultContextKey intersectionIndex="2" type="INTERSECTION" />
+		<resultContextKey type="INTERSECTION" />
 		<category name="age">
 			<values>
 				<entry value="2" key="10-19" />
@@ -49,13 +49,13 @@
 	</aggregatedResult>
 	<resultViews>
 		<entry>
-			<key type="SUM" />
+			<key>SUM</key>
 			<resultContext>
 				<numRecords>789</numRecords>
 			</resultContext>
 		</entry>
 		<entry>
-			<key intersectionIndex="1" type="INTERSECTION" />
+			<key>UNION</key>
 			<resultContext>
 				<numRecords>1023</numRecords>
 			</resultContext>

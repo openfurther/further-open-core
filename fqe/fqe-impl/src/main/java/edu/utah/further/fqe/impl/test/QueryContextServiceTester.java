@@ -150,7 +150,7 @@ public class QueryContextServiceTester
 	{
 		final QueryContextTo entity = QueryContextToImpl.newInstanceWithExecutionId();
 		entity.setNumRecords(50L);
-		addResultViewTo(entity, SUM, null, FqeDsQueryContextUtil.NUM_RESULTS_IN_VIEW);
+		addResultViewTo(entity, SUM, FqeDsQueryContextUtil.NUM_RESULTS_IN_VIEW);
 		assertTransientContext(entity);
 		return entity;
 	}

@@ -63,7 +63,6 @@ import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.QueryState;
 import edu.utah.further.fqe.ds.api.domain.QueryType;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
-import edu.utah.further.fqe.ds.api.domain.ResultContextKey;
 import edu.utah.further.fqe.ds.api.domain.StatusMetaData;
 import edu.utah.further.fqe.ds.api.domain.plan.ExecutionRule;
 import edu.utah.further.fqe.ds.api.domain.plan.Plan;
@@ -72,7 +71,6 @@ import edu.utah.further.fqe.ds.api.to.ExportContextTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextIdentifierTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextStateTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextToImpl;
-import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.to.StatusMetaDataToImpl;
 import edu.utah.further.fqe.ds.api.to.StatusesMetaDataToImpl;
 import edu.utah.further.fqe.ds.api.to.plan.ExecutionRuleToImpl;
@@ -960,15 +958,13 @@ public class FqeServiceRestImpl implements FqeServiceRest
 
 		// Attach federated join total counts
 		final QueryContextToImpl qcTo = QueryContextToImpl.newCopy(federatedQueryContext);
-		final Map<ResultContextKey, ResultContext> resultViews = qcTo.getResultViews();
+		final Map<ResultType, ResultContext> resultViews = qcTo.getResultViews();
 		if (result.getNumDataSources() == 1)
 		{
 			// Single data source, retain only the SUM view
-			final ResultContextKey sumKey = new ResultContextKeyToImpl(ResultType.SUM,
-					null);
-			final ResultContext sumView = resultViews.get(sumKey);
+			final ResultContext sumView = resultViews.get(ResultType.SUM);
 			result.setResultViews(Collections
-					.<ResultContextKey, ResultContext> singletonMap(sumKey, sumView));
+					.<ResultType, ResultContext> singletonMap(ResultType.SUM, sumView));
 		}
 		else
 		{

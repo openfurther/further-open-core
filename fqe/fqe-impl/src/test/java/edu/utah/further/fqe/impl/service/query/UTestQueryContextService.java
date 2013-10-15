@@ -172,7 +172,7 @@ public final class UTestQueryContextService extends FqeImplUtestFixture
 	{
 		// Create a transient context
 		final QueryContext queryContext = newQueryContextEntity();
-		addResultViewTo(queryContext, SUM, null, NUM_RESULTS_IN_VIEW);
+		addResultViewTo(queryContext, SUM, NUM_RESULTS_IN_VIEW);
 
 		// Persist context to database
 		// No need to retrieve create()'s return value, because we passed in an entity
@@ -181,7 +181,7 @@ public final class UTestQueryContextService extends FqeImplUtestFixture
 
 		// See if we saved the result view along with the QC
 		final QueryContext qc = queryContextService.findAll().get(0);
-		final ResultContext rc = qc.getResultView(SUM, null);
+		final ResultContext rc = qc.getResultView(SUM);
 		assertNotNull("Result view was not saved", rc);
 		assertNotNull("Retrieved result view is not a persistent entity", rc.getId());
 		assertThat(rc.getNumRecords(), is(NUM_RESULTS_IN_VIEW));

@@ -80,8 +80,7 @@ public final class AggregatedResultTo implements AggregatedResult
 	/**
 	 * Useful instance to cache.
 	 */
-	public static final AggregatedResultTo EMPTY_INSTANCE = new AggregatedResultTo(null,
-			null);
+	public static final AggregatedResultTo EMPTY_INSTANCE = new AggregatedResultTo();
 
 	/**
 	 * XML name of this entity.
@@ -119,16 +118,16 @@ public final class AggregatedResultTo implements AggregatedResult
 	 */
 	public AggregatedResultTo(final ResultContextKey key)
 	{
-		this(key.getType(), key.getIntersectionIndex());
+		this(key.getType());
 	}
 
 	/**
 	 * @param type
 	 * @param intersectionIndex
 	 */
-	public AggregatedResultTo(final ResultType type, final Integer intersectionIndex)
+	public AggregatedResultTo(final ResultType type)
 	{
-		this.key = new ResultContextKeyToImpl(type, intersectionIndex);
+		this.key = new ResultContextKeyToImpl(type);
 	}
 
 	/**
@@ -140,7 +139,7 @@ public final class AggregatedResultTo implements AggregatedResult
 	 */
 	public static AggregatedResultTo newCopy(final AggregatedResult other)
 	{
-		return new AggregatedResultTo(null, null).copyFrom(other);
+		return new AggregatedResultTo().copyFrom(other);
 	}
 
 	// ========================= IMPLEMENTATION: PubliclyCloneable =========

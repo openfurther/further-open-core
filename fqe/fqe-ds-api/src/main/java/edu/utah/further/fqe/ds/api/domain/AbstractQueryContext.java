@@ -60,7 +60,7 @@ import edu.utah.further.fqe.ds.api.util.FqeDsApiResourceLocator;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Mar 19, 2009
  */
@@ -208,7 +208,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Return the first query.
-	 *
+	 * 
 	 * @return the query
 	 */
 	@Override
@@ -219,7 +219,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Return a search query with a specified QID (unique SQ identifier within this QC).
-	 *
+	 * 
 	 * @param qid
 	 *            search query ID within this QC
 	 * @return the query
@@ -246,7 +246,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	/**
 	 * Set a new single query on this object. This means that the list of queries will now
 	 * consist of one element.
-	 *
+	 * 
 	 * @param query
 	 *            the query to set
 	 */
@@ -259,7 +259,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Add a query to this object.
-	 *
+	 * 
 	 * @param query
 	 *            the searvh query to to add
 	 */
@@ -308,7 +308,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	 * <p>
 	 * Note: do not override this method! It is non-final to allow dynamic proxying of
 	 * persistent entities (e.g. in Hibernate).
-	 *
+	 * 
 	 * @return sorted set of permissible actions from the current state
 	 * @see edu.utah.further.core.api.state.StateMachine#getActions()
 	 */
@@ -470,24 +470,8 @@ public abstract class AbstractQueryContext implements QueryContext
 	}
 
 	/**
-	 * Return a resultContext by key parameters.
-	 *
-	 * @param type
-	 * @param intersectionIndex
-	 * @return a resultContext
-	 * @see java.util.Map#get(java.lang.Object)
-	 */
-	@Override
-	public final ResultContext getResultView(final ResultType type,
-			final Integer intersectionIndex)
-
-	{
-		return getResultView(newKey(type, intersectionIndex));
-	}
-
-	/**
 	 * Return the plan property.
-	 *
+	 * 
 	 * @return the plan
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getPlan()
 	 */
@@ -500,7 +484,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Set a new value for the plan property. No defensive copy is made at the moment.
-	 *
+	 * 
 	 * @param plan
 	 *            the plan to set
 	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#setPlan(PlanToImpl)
@@ -516,7 +500,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Set the query collection on this object.
-	 *
+	 * 
 	 * @param queries
 	 *            the search queries to set
 	 */
@@ -527,10 +511,9 @@ public abstract class AbstractQueryContext implements QueryContext
 	 * @param intersectionIndex
 	 * @return
 	 */
-	protected ResultContextKey newKey(final ResultType type,
-			final Integer intersectionIndex)
+	protected ResultContextKey newKey(final ResultType type)
 	{
-		return new ResultContextKeyImpl(type, intersectionIndex);
+		return new ResultContextKeyImpl(type);
 	}
 
 	/**
@@ -547,7 +530,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	 * Room 5775 HSEB, Salt Lake City, UT 84112<br>
 	 * Day Phone: 1-801-581-4080<br>
 	 * -----------------------------------------------------------------------------------
-	 *
+	 * 
 	 * @author Oren E. Livne {@code <oren.livne@utah.edu>}
 	 * @version May 28, 2009
 	 */
@@ -562,7 +545,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		{
 			/**
 			 * Persist query to query database and add it to the execution queue.
-			 *
+			 * 
 			 * @param target
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#queue(edu.utah.further.fqe.ds.api.domain.AbstractQueryContext)
 			 */
@@ -584,7 +567,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * <p>
 			 * Meant to be overridden by handler sub-classes determine specific state
 			 * behavior.
-			 *
+			 * 
 			 * @param target
 			 *            The target state machine that this handler executes actions for
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#getActions(edu.utah.further.fqe.ds.api.domain.QueryContext)
@@ -639,7 +622,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * <p>
 			 * Meant to be overridden by handler sub-classes determine specific state
 			 * behavior.
-			 *
+			 * 
 			 * @param target
 			 *            The target state machine that this handler executes actions for
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#getActions(edu.utah.further.fqe.ds.api.domain.QueryContext)
@@ -660,7 +643,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * Update parent state. TODO: replace by the observer pattern by having the
 			 * parent listen to child context changes. For the time being. the following
 			 * is simpler but a little less maintainable.
-			 *
+			 * 
 			 * @param target
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#enterState(edu.utah.further.fqe.ds.api.domain.QueryContext)
 			 */
@@ -710,7 +693,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * <p>
 			 * Meant to be overridden by handler sub-classes determine specific state
 			 * behavior.
-			 *
+			 * 
 			 * @param target
 			 *            The target state machine that this handler executes actions for
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#getActions(edu.utah.further.fqe.ds.api.domain.QueryContext)
@@ -784,7 +767,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * <p>
 			 * Meant to be overridden by handler sub-classes determine specific state
 			 * behavior.
-			 *
+			 * 
 			 * @param target
 			 *            The target state machine that this handler executes actions for
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#getActions(edu.utah.further.fqe.ds.api.domain.QueryContext)
@@ -817,7 +800,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * <p>
 			 * Meant to be overridden by handler sub-classes determine specific state
 			 * behavior.
-			 *
+			 * 
 			 * @param target
 			 *            The target state machine that this handler executes actions for
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#getActions(edu.utah.further.fqe.ds.api.domain.QueryContext)
@@ -850,7 +833,7 @@ public abstract class AbstractQueryContext implements QueryContext
 			 * <p>
 			 * Meant to be overridden by handler sub-classes determine specific state
 			 * behavior.
-			 *
+			 * 
 			 * @param target
 			 *            The target state machine that this handler executes actions for
 			 * @see edu.utah.further.fqe.ds.api.domain.AbstractQueryContext.DefaultQueryHandler#getActions(edu.utah.further.fqe.ds.api.domain.QueryContext)
@@ -928,7 +911,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @see edu.utah.further.core.api.state.StateHandler#enterState(edu.utah.further.core.api.state.StateMachine)
@@ -944,7 +927,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @see edu.utah.further.core.api.state.StateHandler#exitState(edu.utah.further.core.api.state.StateMachine)
@@ -960,7 +943,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @throws UnsupportedOperationException
@@ -981,7 +964,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 */
@@ -996,7 +979,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 */
@@ -1011,7 +994,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 */
@@ -1023,7 +1006,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Is query execution started.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @return
@@ -1037,7 +1020,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Is query execution stopped.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @return
@@ -1051,7 +1034,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Is query in a failed state.
-		 *
+		 * 
 		 * @param target
 		 *            The target query state machine that this handler executes actions
 		 *            for
@@ -1067,7 +1050,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @see edu.utah.further.core.api.state.ContextualSwitch#start(java.lang.Object)
@@ -1084,7 +1067,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * <p>
 		 * Meant to be overridden by handler sub-classes determine specific state
 		 * behavior.
-		 *
+		 * 
 		 * @param target
 		 *            The target state machine that this handler executes actions for
 		 * @see edu.utah.further.core.api.state.ContextualSwitch#stop(java.lang.Object)
@@ -1100,7 +1083,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Return the handler of a state.
-		 *
+		 * 
 		 * @param state
 		 *            query state
 		 * @return corresponding handler
@@ -1114,7 +1097,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Throw a {@link BusinessRuleException} on an unsupported acction.
-		 *
+		 * 
 		 * @param state
 		 *            current state
 		 * @param action
@@ -1133,7 +1116,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	 * Generate a random child ID.
 	 * <p>
 	 * TODO: could be replaced by a builder in the future.
-	 *
+	 * 
 	 * @param instance
 	 *            instance to set child ID on
 	 */
@@ -1145,7 +1128,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	/**
 	 * Return a deep copy of a search query suitable for insertion into the
 	 * {@link #getQueries()} collection.
-	 *
+	 * 
 	 * @param query
 	 *            original search query
 	 * @return search query copy
@@ -1155,14 +1138,14 @@ public abstract class AbstractQueryContext implements QueryContext
 	/**
 	 * Return an empty instance (using no-argument constructor) of the implementation type
 	 * of the result set field.
-	 *
+	 * 
 	 * @return
 	 */
 	abstract protected ResultContext newResultContext();
 
 	/**
 	 * Return the implementation of the private method section of this class.
-	 *
+	 * 
 	 * @return the implementation of the private method section of this class
 	 */
 	abstract protected PrivateSection getPrivateSectionExecutor();
@@ -1170,7 +1153,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	/**
 	 * Only to be used in constructors/copy instance methods. Set a new value for the
 	 * executionId property.
-	 *
+	 * 
 	 * @param executionId
 	 *            the executionId to set
 	 */
@@ -1179,7 +1162,7 @@ public abstract class AbstractQueryContext implements QueryContext
 	/**
 	 * Set a new value for the queueDate property. Should be invoked by state classes
 	 * only.
-	 *
+	 * 
 	 * @param queueDate
 	 *            the queueDate to set
 	 */
@@ -1191,16 +1174,14 @@ public abstract class AbstractQueryContext implements QueryContext
 	 */
 	protected final void copyResultViews(final QueryContext other)
 	{
-		final Map<ResultContextKey, ResultContext> otherResultViews = other
-				.getResultViews();
+		final Map<ResultType, ResultContext> otherResultViews = other.getResultViews();
 		clearResultViews();
 		if (otherResultViews != null)
 		{
-			for (final Map.Entry<ResultContextKey, ResultContext> entry : otherResultViews
+			for (final Map.Entry<ResultType, ResultContext> entry : otherResultViews
 					.entrySet())
 			{
-				final ResultContextKey key = entry.getKey();
-				addResultView(key.getType(), key.getIntersectionIndex(), entry.getValue());
+				addResultView(entry.getKey(), entry.getValue());
 			}
 		}
 	}
@@ -1225,7 +1206,7 @@ public abstract class AbstractQueryContext implements QueryContext
 		 * Set the state field of this object to a new value. It is used internally by
 		 * <code>updateState()</code>, which should only be called as a call-back by
 		 * {@link DefaultQueryHandler} instances.
-		 *
+		 * 
 		 * @param newState
 		 *            new state value
 		 * @param target
@@ -1235,7 +1216,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Set a new value for the queue date.
-		 *
+		 * 
 		 * @param queueDate
 		 *            the queueDate to set
 		 */
@@ -1243,7 +1224,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Set a new value for the start date.
-		 *
+		 * 
 		 * @param startDate
 		 *            the startDate to set
 		 */
@@ -1251,7 +1232,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 		/**
 		 * Set a new value for the end date.
-		 *
+		 * 
 		 * @param endDate
 		 *            the endDate to set
 		 */
@@ -1260,7 +1241,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Update the state of this object.
-	 *
+	 * 
 	 * @param newState
 	 *            new state value
 	 */
@@ -1286,7 +1267,7 @@ public abstract class AbstractQueryContext implements QueryContext
 
 	/**
 	 * Return the handler of the current state
-	 *
+	 * 
 	 * @return curren state's handler instance
 	 */
 	private DefaultQueryHandler getHandler()
@@ -1301,11 +1282,11 @@ public abstract class AbstractQueryContext implements QueryContext
 	{
 		return new Timestamp(TimeService.getMillis());
 	}
-	
+
 	/**
 	 * Compute the stale date of this query context upon its creation. Returns
 	 * <code>null</code> if no resource locator is set up in the current context.
-	 *
+	 * 
 	 * @return stale date of this query context
 	 */
 	protected static Date computeStaleDateTime()
