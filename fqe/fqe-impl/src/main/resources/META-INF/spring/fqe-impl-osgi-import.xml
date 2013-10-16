@@ -160,5 +160,8 @@
 	<!-- A CSV Data Exporter -->
 	<osgi:reference id="csvExporter"
 		interface="edu.utah.further.fqe.ds.api.domain.Exporter" />
+		
+	<osgi:reference id="namespaceService"
+		interface="edu.utah.further.core.api.scope.NamespaceService" />
 
 </beans>

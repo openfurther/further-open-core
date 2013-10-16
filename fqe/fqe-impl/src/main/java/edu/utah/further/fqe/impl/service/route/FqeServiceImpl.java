@@ -30,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import edu.utah.further.core.api.scope.NamespaceService;
+import edu.utah.further.core.api.scope.Namespaces;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.api.service.query.QueryValidationService;
 import edu.utah.further.fqe.api.service.route.FqeService;
@@ -108,6 +110,9 @@ public class FqeServiceImpl implements FqeService
 	 */
 	@Autowired
 	private PreAuthenticatedFederatedAuthenticationProvider<Integer> authenticationProvider;
+
+	@Autowired
+	private NamespaceService namespaceService;
 
 	// ========================= CONSTRUCTORS ===========================
 
@@ -188,12 +193,13 @@ public class FqeServiceImpl implements FqeService
 	public QueryContext triggerQuery(final QueryContext logicalQuery)
 	{
 		// Authenticate this user within the FURTHeR namespace
-		authenticationProvider.setContext(new Integer(32769));
+		authenticationProvider.setContext(new Integer(namespaceService
+				.getNamespaceId(Namespaces.FURTHER)));
 		final Authentication authentication = authenticationProvider
 				.authenticate(new FederatedAuthenticationToken<Integer>(logicalQuery
 						.getUserId()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		// Save query in database; also marks the query as queued.
 		final QueryContext queryContext = queryContextService.queue(logicalQuery);
 		if (log.isInfoEnabled())
@@ -331,9 +337,10 @@ public class FqeServiceImpl implements FqeService
 			log.info("Requesting cancelation of federated query id " + parentQueryId
 					+ " for data source " + dataSourceId);
 		}
-		
-		final QueryContext queryContext = queryContextService.findById(new Long(parentQueryId));
-	
+
+		final QueryContext queryContext = queryContextService.findById(new Long(
+				parentQueryId));
+
 		// Trigger a cancellation to a specific data source
 		new AsynchronousCommandRunner.Builder()
 				.commandType(queryContext.getQueryType().getCommandType())
