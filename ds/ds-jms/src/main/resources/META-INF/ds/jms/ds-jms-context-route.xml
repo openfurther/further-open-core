@@ -43,18 +43,7 @@
 		lifecycleMap property. Note that a life cycle must implement
 		LifeCycle<I>, which extends CommandTrigger<I, Object>. I is the input
 		argument to the life cycle, which must be matched by the message type
-		sent from the FQE to that life cycle. commandType key | Input type |
-		Default Life cycle
-		================+==============+========================= META_DATA |
-		DsMetaData | metaDataLifeCycle DATA_QUERY | QueryContext | -
-		REMOTE_CONTROL | DsMetaData | TBA Example of declaring a life cycle in
-		a data source implementation: <bean id="camelLifeCycleController"
-		parent="defaultCamelLifeCycleController"> <property
-		name="lifecycleMap"> <map merge="true"> <entry key="DATA_QUERY"
-		value-ref="mandatoryDataQueryLifeCycle" /> <entry key="REMOTE_CONTROL"
-		value-ref="mandatoryRemoteControlLifeCycle" /> <entry
-		key="myCustomCommandType" value-ref="myCustomLifeCycle" /> </map>
-		</property> </bean>
+		sent from the FQE to that life cycle.
 	-->
 	<!--
 		2. Data sources must define a "metaDataService". They can use the
@@ -90,7 +79,7 @@
 
 	<bean name="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration"
 		p:connectionFactory-ref="pooledConnectionFactory"
-		p:concurrentConsumers="1000" />
+		p:concurrentConsumers="100" />
 
 	<!-- =========================================== -->
 	<!-- Camel Routes -->
@@ -117,7 +106,7 @@
 			determines the number of commands that the data source is able to process
 			in parallel. -->
 		<!-- http://camel.apache.org/seda.html https://jira.chpc.utah.edu/browse/FUR-583 -->
-		<!-- Set to 1000 based on the default size the queue can hold in Camel 2.2 or older is 1000. -->
+		<!-- Set to 100 based on the default size the queue can hold in Camel 2.2 or older is 1000. -->
 		<route>
 			<from ref="request" />
 			<to uri="seda:commands?concurrentConsumers=100&amp;waitForTaskToComplete=Never" />
