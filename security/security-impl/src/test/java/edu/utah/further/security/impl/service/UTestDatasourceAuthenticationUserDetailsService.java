@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.data.Dao;
@@ -88,15 +89,16 @@ public class UTestDatasourceAuthenticationUserDetailsService
 	/**
 	 * Federated username
 	 */
-	private Long federatedUsername;
+	private User user;
 
 	/**
 	 * Setup a user to authentication against.
 	 */
 	@Before
+	@Transactional
 	public void setup()
 	{
-		final User user = new UserEntity();
+		user = new UserEntity();
 		user.setFirstname("Dustin");
 		user.setLastname("Schultz");
 		user.setCreatedBy(user);
@@ -142,16 +144,19 @@ public class UTestDatasourceAuthenticationUserDetailsService
 		final Collection<UserRole> roles = CollectionUtil.newList();
 		roles.add(userRole);
 		user.setRoles(roles);
-
-		federatedUsername = dao.save(user);
 	}
 
 	/**
 	 * Loads user details with the default namespace of FURTHeR
 	 */
 	@Test
+	@Transactional
 	public void loadUserDetailsDefault()
 	{
+		dao.deleteAll(UserEntity.class);
+		final Long federatedUsername = dao.save(user);
+		dao.flush();
+		
 		final EnhancedUserDetails userDetails = userDetailsService
 				.loadUserDetails(new FederatedAuthenticationToken<EnhancedUserDetails>(
 						String.valueOf(federatedUsername)));
@@ -166,8 +171,13 @@ public class UTestDatasourceAuthenticationUserDetailsService
 	 * Loads user details with the EDW APO namespace
 	 */
 	@Test
+	@Transactional
 	public void loadUserDetailsEdwApo()
 	{
+		dao.deleteAll(UserEntity.class);
+		final Long federatedUsername = dao.save(user);
+		dao.flush();
+		
 		userDetailsService.setContext(new Integer(2));
 		final EnhancedUserDetails userDetails = userDetailsService
 				.loadUserDetails(new FederatedAuthenticationToken<EnhancedUserDetails>(
