@@ -181,8 +181,7 @@ public final class UTestJaxbData extends FqeImplUtestFixture
 	@Test
 	public void unmarshalDataSetDsChildrenXsiType() throws Exception
 	{
-		// Doesn't work because we are using @XmlElementRef, not @XmlElement
-		testDataSet(RAW_XSI_FILE, 0);
+		testDataSet(RAW_XSI_FILE, 2);
 	}
 
 	/**
