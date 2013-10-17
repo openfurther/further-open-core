@@ -59,6 +59,12 @@
 			<artifactId>core-xml</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-util</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- ########################## -->
 		<!-- Container-provided -->

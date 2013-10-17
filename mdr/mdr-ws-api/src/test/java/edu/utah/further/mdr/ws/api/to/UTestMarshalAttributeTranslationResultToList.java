@@ -15,6 +15,9 @@
  */
 package edu.utah.further.mdr.ws.api.to;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +25,15 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.xml.XmlService;
+import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
 import edu.utah.further.mdr.api.to.asset.AttributeTranslationResultTo;
 
@@ -44,8 +53,18 @@ import edu.utah.further.mdr.api.to.asset.AttributeTranslationResultTo;
  */
 public class UTestMarshalAttributeTranslationResultToList
 {
+
+	@Before
+	public void setup()
+	{
+		XMLUnit.setIgnoreComments(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setNormalizeWhitespace(true);
+	}
+
 	@Test
-	public void marshalAttributeTranslationResultToList() throws JAXBException
+	public void marshalAttributeTranslationResultToList() throws JAXBException,
+			SAXException, IOException
 	{
 		final Map<String, String> properties = new HashMap<>();
 		properties.put("ATTR_JAVA_TYPE", "java.lang.Long");
@@ -66,17 +85,13 @@ public class UTestMarshalAttributeTranslationResultToList
 				attributeTranslations);
 
 		final XmlService xmlService = new XmlServiceImpl();
-		final String result = xmlService.marshal(translationResultList);
-		
-		System.out.println(result);
-		
-//		assertThat(result, containsString("attributeTranslationResultList>"));
-//		assertThat(result, containsString("<assetAssociation>"));
-//		assertThat(result, containsString("<leftType>"));
-//		assertThat(result, containsString("<rightType>"));
-//		assertThat(result, containsString("<properties>"));
-//		assertThat(result, containsString("<key "));
-//		assertThat(result, containsString("<value "));
+		final String marshalled = xmlService.marshal(translationResultList);
+
+		final String expected = IoUtil
+				.getResourceAsString("attribute-translation-result.xml");
+
+		final DetailedDiff diff = new DetailedDiff(new Diff(expected, marshalled));
+		assertTrue("XML is different" + diff.getAllDifferences(), diff.similar());
 
 	}
 }
