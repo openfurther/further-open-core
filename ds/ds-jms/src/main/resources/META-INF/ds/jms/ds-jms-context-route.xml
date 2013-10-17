@@ -120,7 +120,7 @@
 					groups in simple expressions, otherwise they won't yield the expected result.
 					Let's hope we never have to use complicated cases of operator precedence
 					with it; use EL instead. -->
-				<simple><![CDATA[${in.header.dataSourceId} == null or ${in.header.dataSourceId} == ${bean:metaDataService?method=getId}]]></simple>
+				<spel><![CDATA[#{(request.headers['dataSourceId'] == null) or (request.headers['dataSourceId'] == @metaDataService.getId())}]]></spel>
 
 				<!-- Now branch into different life cycles depending on the commandType
 					header -->
