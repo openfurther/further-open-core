@@ -24,7 +24,6 @@
 				<query:sortType>ASCENDING</query:sortType>
 			</query:sortCriterion>
 		</query:sortCriteria>
-		<query:aliases />
 		<query:firstResult>1</query:firstResult>
 		<query:maxResults>2</query:maxResults>
 	</query:query>
@@ -43,7 +42,6 @@
 				<query:sortType>ASCENDING</query:sortType>
 			</query:sortCriterion>
 		</query:sortCriteria>
-		<query:aliases />
 		<query:firstResult>1</query:firstResult>
 		<query:maxResults>2</query:maxResults>
 	</query:query>

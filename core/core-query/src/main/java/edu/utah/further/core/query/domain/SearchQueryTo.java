@@ -129,7 +129,7 @@ public final class SearchQueryTo implements SearchQuery,
 	/**
 	 * A map of alias definitions.
 	 */
-	@XmlElementWrapper(name="aliases")
+	@XmlElementWrapper(name = "aliases")
 	@XmlElement(name = "alias", required = false)
 	private List<SearchQueryAliasTo> aliases;
 
@@ -295,7 +295,7 @@ public final class SearchQueryTo implements SearchQuery,
 		this.setRootCriterion(SearchCriterionTo.newCopy(other.getRootCriterion()));
 
 		// Deep-copy collection fields
-		this.setAliases(newList(other.getAliases()));
+		this.setAliases(CollectionUtil.copyListOrNull(other.getAliases()));
 
 		this.sortCriteria = null;
 		final List<SortCriterion> otherCriteria = other.getSortCriteria();
@@ -465,10 +465,13 @@ public final class SearchQueryTo implements SearchQuery,
 	 */
 	private SearchQueryTo setSortCriteria(final List<? extends SortCriterion> sortCriteria)
 	{
-		this.sortCriteria = CollectionUtil.newList();
-		for (final SortCriterion sortCriterion : sortCriteria)
+		if (sortCriteria != null)
 		{
-			this.sortCriteria.add(SortCriterionTo.newCopy(sortCriterion));
+			this.sortCriteria = CollectionUtil.newList();
+			for (final SortCriterion sortCriterion : sortCriteria)
+			{
+				this.sortCriteria.add(SortCriterionTo.newCopy(sortCriterion));
+			}
 		}
 		return this;
 	}
@@ -481,10 +484,13 @@ public final class SearchQueryTo implements SearchQuery,
 	 */
 	private SearchQueryTo setAliases(final List<SearchQueryAlias> aliases)
 	{
-		this.aliases = CollectionUtil.newList();
-		for (final SearchQueryAlias alias : aliases)
+		if (aliases != null)
 		{
-			this.aliases.add(SearchQueryAliasTo.newCopy(alias));
+			this.aliases = CollectionUtil.newList();
+			for (final SearchQueryAlias alias : aliases)
+			{
+				this.aliases.add(SearchQueryAliasTo.newCopy(alias));
+			}
 		}
 		return this;
 	}

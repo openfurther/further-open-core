@@ -20,7 +20,6 @@
 				</query:parameters>
 			</query:criteria>
 		</query:rootCriterion>
-		<query:aliases />
 	</query:query>
 	<resultViews>
 		<entry>
