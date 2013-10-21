@@ -25,6 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -49,6 +50,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Sep 3, 2013
  */
+@Table(name="encounter")
 @Entity
 @XmlRootElement(name = "Encounter")
 @XmlAccessorType(XmlAccessType.FIELD)
