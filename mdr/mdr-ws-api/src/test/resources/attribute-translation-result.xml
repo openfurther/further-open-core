@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:attributeTranslationResultList xmlns:ns2="http://further.utah.edu/mdr" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<attributeTranslationResult>
+		<translatedAttribute>id.code</translatedAttribute>
+		<properties>
+			<entry>
+				<key xsi:type="xs:string">ATTR_JAVA_TYPE</key>
+				<value xsi:type="xs:string">java.lang.Long</value>
+			</entry>
+		</properties>
+	</attributeTranslationResult>
+	<attributeTranslationResult>
+		<translatedAttribute>id.obsvtnStudyCodeDwid</translatedAttribute>
+		<properties>
+			<entry>
+				<key xsi:type="xs:string">ATTR_JAVA_TYPE</key>
+				<value xsi:type="xs:string">java.lang.Long</value>
+			</entry>
+		</properties>
+	</attributeTranslationResult>
+</ns2:attributeTranslationResultList>
