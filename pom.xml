@@ -1067,7 +1067,7 @@
 			</dependency>
 			<dependency>
 				<groupId>edu.utah.further.ds</groupId>
-				<artifactId>ds-openemr</artifactId>
+				<artifactId>ds-openmrs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

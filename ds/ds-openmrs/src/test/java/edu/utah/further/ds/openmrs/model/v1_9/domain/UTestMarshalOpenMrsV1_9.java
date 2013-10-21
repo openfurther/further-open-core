@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain.v1_9;
+package edu.utah.further.ds.openmrs.model.v1_9.domain;
 
 import static org.junit.Assert.assertTrue;
 
@@ -36,6 +36,8 @@ import edu.utah.further.core.api.xml.XmlService;
 import edu.utah.further.core.test.xml.IgnoreNamedElementsDifferenceListener;
 import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
+import edu.utah.further.ds.openmrs.model.v1_9.domain.Person;
+import edu.utah.further.ds.openmrs.model.v1_9.domain.PersonAttribute;
 
 /**
  * Test marshalling the output of a patient in OpenMRS

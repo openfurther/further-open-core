@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain.v1_9;
+package edu.utah.further.ds.openmrs.model.v1_9.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

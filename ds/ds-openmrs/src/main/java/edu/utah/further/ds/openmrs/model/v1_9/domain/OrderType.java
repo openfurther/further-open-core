@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.ds.openmrs.model.domain.v1_9;
+package edu.utah.further.ds.openmrs.model.v1_9.domain;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import edu.utah.further.core.api.data.PersistentEntity;
 
 /**
- * The persistent class and data transfer object for the encounter_type database table.
+ * The persistent class for and data transfer object the order_type database table.
  * 
  * <p>
  * -----------------------------------------------------------------------------------<br>
@@ -49,16 +48,16 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @version Sep 3, 2013
  */
 @Entity
-@Table(name = "encounter_type")
-@XmlRootElement(name = "EncounterType")
+@Table(name = "order_type")
+@XmlRootElement(name = "OrderType")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EncounterType implements PersistentEntity<Integer>
+public class OrderType implements PersistentEntity<Integer>
 {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "encounter_type_id")
-	private Integer encounterTypeId;
+	@Column(name = "order_type_id")
+	private Integer orderTypeId;
 
 	private int creator;
 
@@ -70,7 +69,6 @@ public class EncounterType implements PersistentEntity<Integer>
 	@Column(name = "date_retired")
 	private Date dateRetired;
 
-	@Lob
 	private String description;
 
 	private String name;
@@ -85,29 +83,24 @@ public class EncounterType implements PersistentEntity<Integer>
 
 	private String uuid;
 
-	// bi-directional many-to-one association to Encounter
-	@OneToMany(mappedBy = "encounterType")
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "orderType")
 	@XmlTransient
-	private List<Encounter> encounters;
+	private List<Order> orders;
 
-	public EncounterType()
+	public OrderType()
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.utah.further.core.api.discrete.HasIdentifier#getId()
-	 */
 	@Override
 	public Integer getId()
 	{
-		return this.encounterTypeId;
+		return this.orderTypeId;
 	}
 
-	public void setId(final Integer encounterTypeId)
+	public void setId(final Integer orderTypeId)
 	{
-		this.encounterTypeId = encounterTypeId;
+		this.orderTypeId = orderTypeId;
 	}
 
 	public int getCreator()
@@ -200,30 +193,30 @@ public class EncounterType implements PersistentEntity<Integer>
 		this.uuid = uuid;
 	}
 
-	public List<Encounter> getEncounters()
+	public List<Order> getOrders()
 	{
-		return this.encounters;
+		return this.orders;
 	}
 
-	public void setEncounters(final List<Encounter> encounters)
+	public void setOrders(final List<Order> orders)
 	{
-		this.encounters = encounters;
+		this.orders = orders;
 	}
 
-	public Encounter addEncounter(final Encounter encounter)
+	public Order addOrder(final Order order)
 	{
-		getEncounters().add(encounter);
-		encounter.setEncounterTypeBean(this);
+		getOrders().add(order);
+		order.setOrderType(this);
 
-		return encounter;
+		return order;
 	}
 
-	public Encounter removeEncounter(final Encounter encounter)
+	public Order removeOrder(final Order order)
 	{
-		getEncounters().remove(encounter);
-		encounter.setEncounterTypeBean(null);
+		getOrders().remove(order);
+		order.setOrderType(null);
 
-		return encounter;
+		return order;
 	}
 
 }
