@@ -187,6 +187,8 @@ public abstract class AbstractQueryContext implements QueryContext
 		setOriginId(other.getOriginId());
 		setExecutionId(other.getExecutionId());
 		setDataSourceId(other.getDataSourceId());
+		setIdentityResolutionType(other.getIdentityResolutionType());
+		setTargetNamespaceId(other.getTargetNamespaceId());
 		setQueryType(other.getQueryType());
 		setMinRespondingDataSources(other.getMinRespondingDataSources());
 		setMaxRespondingDataSources(other.getMaxRespondingDataSources());

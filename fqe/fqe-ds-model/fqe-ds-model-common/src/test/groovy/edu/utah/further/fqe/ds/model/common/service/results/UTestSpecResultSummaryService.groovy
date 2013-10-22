@@ -56,7 +56,7 @@ class UTestSpecResultSummaryService extends Specification
 		when: 
 			def result = resultSummaryService.join(["1234","5678"], ResultType.SUM)
 		then:
-			result == 6
+			result == 8
 	}
 	
 	def "Retrieve INTERSECTION result"() {

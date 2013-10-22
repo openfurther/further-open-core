@@ -33,7 +33,7 @@ import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
-import edu.utah.further.fqe.mpi.api.IdentifierService;
+import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 
 /**
  * Test the implementation of the associated result service to ensure that parent qc's and

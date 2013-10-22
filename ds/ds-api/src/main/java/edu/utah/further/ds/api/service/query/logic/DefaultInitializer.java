@@ -32,6 +32,7 @@ import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.ds.api.service.query.AnswerableService;
 import edu.utah.further.ds.api.util.AttributeName;
 import edu.utah.further.fqe.ds.api.domain.DsMetaData;
+import edu.utah.further.fqe.ds.api.domain.IdentityResolutionType;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
@@ -105,6 +106,12 @@ public final class DefaultInitializer implements Initializer
 	{
 		// Provide hook to create result context
 		queryContext.setResultContext(getResultContext());
+
+		// Get how this adapter should resolve identities
+		final IdentityResolutionType idResolutionType = mainContainer
+				.getAttribute(AttributeName.ID_RESOLUTION_TYPE);
+
+		queryContext.setIdentityResolutionType(idResolutionType);
 
 		// Start processing immediately
 		queryContext.queue();

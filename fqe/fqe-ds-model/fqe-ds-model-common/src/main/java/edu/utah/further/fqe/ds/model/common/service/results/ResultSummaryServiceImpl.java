@@ -31,7 +31,7 @@ import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
- * ...
+ * Result service which operates on row level data to produce summary counts.
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -74,14 +74,10 @@ public class ResultSummaryServiceImpl implements ResultSummaryService
 		{
 			case SUM:
 			{
-				long sum = 0;
-
-				// each resultset must be unique before computing the sum
-				for (final String queryId : queryIds)
-				{
-					sum += jdbcTemplate.queryForLong("SELECT COUNT(distinct fed_obj_id) "
-							+ "FROM virtual_obj_id_map WHERE query_id = ?", queryId);
-				}
+				final long sum = jdbcTemplate
+						.queryForLong(
+								"SELECT COUNT(*) FROM virtual_obj_id_map WHERE query_id IN (:ids)",
+								Collections.singletonMap("ids", queryIds));
 
 				result = sum;
 
@@ -90,25 +86,40 @@ public class ResultSummaryServiceImpl implements ResultSummaryService
 
 			case UNION:
 			{
-				result = jdbcTemplate.queryForLong("SELECT COUNT(distinct fed_obj_id) "
-						+ "FROM virtual_obj_id_map WHERE query_id IN (:ids)",
-						Collections.singletonMap("ids", queryIds));
+				long uniqueSum = 0;
+
+				// each resultset must be unique before computing the sum
+				for (final String queryId : queryIds)
+				{
+					// Only count duplicates in one data source once
+					uniqueSum += jdbcTemplate
+							.queryForLong(
+									"SELECT COUNT(distinct fed_obj_id) FROM virtual_obj_id_map WHERE query_id = :id and fed_obj_id IS NOT NULL",
+									Collections.singletonMap("id", queryId));
+					
+					// Count everyone that doesn't have a federated id
+					uniqueSum += jdbcTemplate
+							.queryForLong(
+									"SELECT COUNT(*) FROM virtual_obj_id_map WHERE query_id = :id and fed_obj_id IS NULL",
+									Collections.singletonMap("id", queryId));
+				}
+
+				// union = n(A) + n(B) - INTERSECTION(A,B)
+				result = uniqueSum - join(queryIds, ResultType.INTERSECTION).longValue();
 				break;
 			}
 
 			case INTERSECTION:
 			{
-
 				Set<Long> intersection = new HashSet<>();
 
 				boolean first = true;
 
-				// each resultset must be unique before computing the sum
 				for (final String queryId : queryIds)
 				{
 					final List<Long> ids = jdbcTemplate
 							.query("SELECT fed_obj_id "
-									+ "FROM virtual_obj_id_map WHERE query_id = ?",
+									+ "FROM virtual_obj_id_map WHERE query_id = ? and fed_obj_id IS NOT NULL",
 									(RowMapper<Long>) new ParameterizedSingleColumnRowMapper<Long>(),
 									queryId);
 
@@ -124,7 +135,7 @@ public class ResultSummaryServiceImpl implements ResultSummaryService
 						intersection.retainAll(idSet);
 					}
 				}
-				
+
 				result = intersection.size();
 				break;
 

@@ -76,6 +76,6 @@
 	</osgix:cm-properties>
 
 	<osgi:reference id="identifierService"
-		interface="edu.utah.further.fqe.mpi.api.IdentifierService" />
+		interface="edu.utah.further.fqe.mpi.api.service.IdentifierService" />
 		
 </beans>

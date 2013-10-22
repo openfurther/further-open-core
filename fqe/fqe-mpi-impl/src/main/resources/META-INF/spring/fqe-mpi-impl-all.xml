@@ -40,7 +40,9 @@
 
 	<import resource="fqe-mpi-impl-osgi-import.xml" />
 	<import resource="fqe-mpi-impl-context-annotation.xml" />
-	<import resource="fqe-mpi-impl-context-datasource.xml" />
+	<import resource="fqe-mpi-impl-context-identifier-datasource.xml" />
+	<import resource="fqe-mpi-impl-context-lookup-datasource.xml" />
+	<import resource="fqe-mpi-impl-context-services.xml" />
 	<import resource="fqe-mpi-impl-osgi-export.xml" />
 
 </beans>

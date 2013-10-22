@@ -38,7 +38,7 @@
 	<bean id="identifierService" class="org.easymock.EasyMock"
 		factory-method="createMock">
 		<constructor-arg index="0"
-			value=" edu.utah.further.fqe.mpi.api.IdentifierService" />
+			value=" edu.utah.further.fqe.mpi.api.service.IdentifierService" />
 	</bean>
 
 	<!-- ResultSummaryService Mock -->

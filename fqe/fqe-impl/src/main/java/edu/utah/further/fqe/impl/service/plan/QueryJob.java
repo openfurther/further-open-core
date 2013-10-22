@@ -27,6 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.fqe.ds.api.domain.AbstractQueryContext;
+import edu.utah.further.fqe.ds.api.domain.IdentityResolutionType;
 import edu.utah.further.fqe.ds.api.domain.ImmutableTimeInterval;
 import edu.utah.further.fqe.ds.api.domain.QueryAction;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
@@ -349,6 +350,37 @@ public final class QueryJob implements QueryContext
 	public void setQueryType(final QueryType queryType)
 	{
 		delegate.setQueryType(queryType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#getIdentityResolutionType()
+	 */
+	@Override
+	public IdentityResolutionType getIdentityResolutionType()
+	{
+		return delegate.getIdentityResolutionType();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see edu.utah.further.fqe.ds.api.domain.QueryContext#setIdentityResolutionType(edu.utah.further.fqe.ds.api.domain.IdentityResolutionType)
+	 */
+	@Override
+	public void setIdentityResolutionType(final IdentityResolutionType identityResolutionType)
+	{
+		delegate.setIdentityResolutionType(identityResolutionType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		// TODO Auto-generated method stub
+		return super.clone();
 	}
 
 	/**

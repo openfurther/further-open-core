@@ -22,8 +22,8 @@
 <queryContext xmlns="http://further.utah.edu/fqe"
 	xmlns:query="http://further.utah.edu/core/query" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<user_id>3296</user_id>
-	<query xmlns="http://further.utah.edu/core/query">
+	<user_id>50000868</user_id>
+	<query xmlns="http://further.utah.edu/core/query" rootObject="Person">
 		<rootCriterion>
 			<searchType>CONJUNCTION</searchType>
 			<criteria>

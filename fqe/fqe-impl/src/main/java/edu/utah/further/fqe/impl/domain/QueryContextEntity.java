@@ -56,6 +56,7 @@ import edu.utah.further.core.api.collections.PublicMapEntry;
 import edu.utah.further.core.api.lang.Final;
 import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.fqe.ds.api.domain.AbstractQueryContext;
+import edu.utah.further.fqe.ds.api.domain.IdentityResolutionType;
 import edu.utah.further.fqe.ds.api.domain.ImmutableTimeInterval;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.QueryState;
@@ -146,7 +147,14 @@ public class QueryContextEntity extends AbstractQueryContext
 	 */
 	@Column(name = "query_type")
 	@Enumerated(EnumType.STRING)
-	public QueryType queryType = QueryType.DATA_QUERY;
+	private QueryType queryType = QueryType.DATA_QUERY;
+	
+	/**
+	 * An enumerated value specifying what type of identity resolution should be perform.
+	 */
+	@Column(name = "identity_res_type")
+	@Enumerated(EnumType.STRING)
+	private IdentityResolutionType identityResolutionType;
 
 	/**
 	 * Link to this asset's namespace entity's ID. TOs do not support deep copy of an
@@ -541,6 +549,28 @@ public class QueryContextEntity extends AbstractQueryContext
 	public void setQueryType(final QueryType queryType)
 	{
 		this.queryType = queryType;
+	}
+
+	/**
+	 * Return the identityResolutionType property.
+	 *
+	 * @return the identityResolutionType
+	 */
+	@Override
+	public IdentityResolutionType getIdentityResolutionType()
+	{
+		return identityResolutionType;
+	}
+
+	/**
+	 * Set a new value for the identityResolutionType property.
+	 *
+	 * @param identityResolutionType the identityResolutionType to set
+	 */
+	@Override
+	public void setIdentityResolutionType(final IdentityResolutionType identityResolutionType)
+	{
+		this.identityResolutionType = identityResolutionType;
 	}
 
 	/**

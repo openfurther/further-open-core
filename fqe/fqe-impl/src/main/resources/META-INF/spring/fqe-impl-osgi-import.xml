@@ -145,7 +145,7 @@
 		interface="edu.utah.further.core.api.xml.XmlService" />
 
 	<osgi:reference id="identifierService"
-		context-class-loader="service-provider" interface="edu.utah.further.fqe.mpi.api.IdentifierService" />
+		context-class-loader="service-provider" interface="edu.utah.further.fqe.mpi.api.service.IdentifierService" />
 
 	<osgi:reference id="authenticationProvider"
 		interface="edu.utah.further.security.api.authentication.PreAuthenticatedFederatedAuthenticationProvider" />
@@ -160,8 +160,11 @@
 	<!-- A CSV Data Exporter -->
 	<osgi:reference id="csvExporter"
 		interface="edu.utah.further.fqe.ds.api.domain.Exporter" />
-		
+
 	<osgi:reference id="namespaceService"
 		interface="edu.utah.further.core.api.scope.NamespaceService" />
+
+	<osgi:reference id="identityResolutionService"
+		interface="edu.utah.further.fqe.mpi.api.service.IdentityResolutionService" />
 
 </beans>

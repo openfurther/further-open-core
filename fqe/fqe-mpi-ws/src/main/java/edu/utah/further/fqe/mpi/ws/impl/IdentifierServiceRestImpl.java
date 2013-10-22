@@ -18,7 +18,7 @@ package edu.utah.further.fqe.mpi.ws.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.utah.further.fqe.mpi.api.IdentifierService;
+import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 import edu.utah.further.fqe.mpi.impl.service.IdentifierRequestImpl;
 import edu.utah.further.fqe.mpi.ws.api.IdentifierServiceRest;
 import edu.utah.further.fqe.mpi.ws.api.to.IdentifierTo;

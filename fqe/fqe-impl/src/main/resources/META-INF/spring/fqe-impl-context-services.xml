@@ -169,15 +169,20 @@
 			<from ref="statusResult" />
 			<unmarshal ref="jaxbFormat" />
 			<filter>
+			
 				<!-- Child updates. -->
+				
 				<!-- Child must have a persistent parent to send a valid status message. 
 					In that case, send the child status message followed by synchronizing the 
 					parent state, and sending the parent to the FQC route. -->
+					
 				<method bean="queryContextLogicService" method="parentExists" />
 				<to uri="bean:queryContextService?method=update" />
 				<to uri="bean:queryPlanService?method=updatePlan" />
+				<to uri="bean:identityResolutionService?method=resolveIdentities" />
 
 				<!-- Parent updates -->
+				
 				<filter>
 					<method bean="queryContextLogicService" method="isParentNotCompleted" />
 					<to uri="bean:aggregationService?method=updateParentState" />

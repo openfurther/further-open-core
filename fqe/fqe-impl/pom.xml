@@ -65,6 +65,7 @@
 			org.apache.camel.osgi,
 			org.apache.camel.component.jms,
 			javax.jms,
+			javax.xml.bind,
 			org.springframework.context,
 			org.apache.activemq,
 			org.apache.camel.converter,

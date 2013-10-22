@@ -43,7 +43,7 @@
 
 	<bean id="identifierService" class="org.easymock.EasyMock"
 		factory-method="createMock">
-		<constructor-arg value="edu.utah.further.fqe.mpi.api.IdentifierService" />
+		<constructor-arg value="edu.utah.further.fqe.mpi.api.service.IdentifierService" />
 	</bean>
 
 	<bean id="authenticationProvider" class="org.easymock.EasyMock"

@@ -19,4 +19,11 @@
 		<shortName>mpi.api</shortName>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-ds-api</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>

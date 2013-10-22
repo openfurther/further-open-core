@@ -44,6 +44,7 @@ import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.core.query.domain.SearchQueryTo;
 import edu.utah.further.fqe.ds.api.ResultContextMapAdapter;
 import edu.utah.further.fqe.ds.api.domain.AbstractQueryContext;
+import edu.utah.further.fqe.ds.api.domain.IdentityResolutionType;
 import edu.utah.further.fqe.ds.api.domain.ImmutableTimeInterval;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.QueryState;
@@ -79,10 +80,10 @@ import edu.utah.further.fqe.ds.api.util.FqeDsApiResourceLocator;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(namespace = XmlNamespace.FQE, name = QueryContextToImpl.ENTITY_NAME)
 @XmlType(name = "", propOrder =
-{ "id", "originId", "executionId", "userId", "dataSourceId", "queryType", "state",
-		"queueDate", "staleDateTime", "isStale", "minRespondingDataSources",
-		"maxRespondingDataSources", "startDate", "endDate", "parentId",
-		"associatedResultId", "targetNamespaceId", "queries", "children",
+{ "id", "originId", "executionId", "userId", "dataSourceId", "queryType",
+		"identityResolutionType", "state", "queueDate", "staleDateTime", "isStale",
+		"minRespondingDataSources", "maxRespondingDataSources", "startDate", "endDate",
+		"parentId", "associatedResultId", "targetNamespaceId", "queries", "children",
 		"resultContext", "currentStatus", "statuses", "resultViews", "plan" })
 public final class QueryContextToImpl extends AbstractQueryContext implements
 		QueryContextTo
@@ -151,6 +152,12 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	@XmlElement(name = "queryType", required = false, namespace = XmlNamespace.FQE)
 	@Final
 	private QueryType queryType = QueryType.DATA_QUERY;
+
+	/**
+	 * How identity resolution should be perform on the given query
+	 */
+	@XmlElement(name = "identityResolutionType", required = false, namespace = XmlNamespace.FQE)
+	private IdentityResolutionType identityResolutionType;
 
 	/**
 	 * Link to this asset's namespace entity's ID. TOs do not support deep copy of an
@@ -281,8 +288,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 */
 	@XmlJavaTypeAdapter(ResultContextMapAdapter.class)
 	@XmlElement(name = "resultViews", required = false, namespace = XmlNamespace.FQE)
-	private final Map<ResultType, ResultContext> resultViews = CollectionUtil
-			.newMap();
+	private final Map<ResultType, ResultContext> resultViews = CollectionUtil.newMap();
 
 	/**
 	 * Query execution plan (an instrumentation piece).
@@ -725,6 +731,29 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	}
 
 	/**
+	 * Return the identityResolutionType property.
+	 * 
+	 * @return the identityResolutionType
+	 */
+	@Override
+	public IdentityResolutionType getIdentityResolutionType()
+	{
+		return identityResolutionType;
+	}
+
+	/**
+	 * Set a new value for the identityResolutionType property.
+	 * 
+	 * @param identityResolutionType
+	 *            the identityResolutionType to set
+	 */
+	@Override
+	public void setIdentityResolutionType(final IdentityResolutionType identityResolutionType)
+	{
+		this.identityResolutionType = identityResolutionType;
+	}
+
+	/**
 	 * Return the parent context's ID property. Doesn't have a public setter because it is
 	 * managed by {@link #setParent(QueryContext)}.
 	 * 
@@ -1145,8 +1174,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	@Override
 	public ResultContext addResultView(final ResultType type, final ResultContext value)
 	{
-		return resultViews.put(type,
-				ResultContextToImpl.newCopy(value));
+		return resultViews.put(type, ResultContextToImpl.newCopy(value));
 	}
 
 	/**
@@ -1154,8 +1182,7 @@ public final class QueryContextToImpl extends AbstractQueryContext implements
 	 * @see edu.utah.further.fqe.ds.api.domain.HasResultViews#setResultViews(java.util.Map)
 	 */
 	@Override
-	public void setResultViews(
-			final Map<ResultType, ? extends ResultContext> other)
+	public void setResultViews(final Map<ResultType, ? extends ResultContext> other)
 	{
 		CollectionUtil.setMapElements(resultViews, other);
 	}

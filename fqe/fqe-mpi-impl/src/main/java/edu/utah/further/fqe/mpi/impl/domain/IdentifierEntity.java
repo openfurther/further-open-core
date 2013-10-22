@@ -423,4 +423,20 @@ public class IdentifierEntity implements Identifier, PersistentEntity<Long>,
 		this.queryId = queryId;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "IdentifierEntity [id=" + id + ", virtualId=" + virtualId + ", name="
+				+ name + ", attr=" + attr + ", sourceNamespaceId=" + sourceNamespaceId
+				+ ", sourceName=" + sourceName + ", sourceAttr=" + sourceAttr
+				+ ", sourceId=" + sourceId + ", commonId=" + commonId + ", createdBy="
+				+ createdBy + ", createDate=" + createDate + ", deactivatedDate="
+				+ deactivatedDate + ", queryId=" + queryId + "]";
+	}
+
 }

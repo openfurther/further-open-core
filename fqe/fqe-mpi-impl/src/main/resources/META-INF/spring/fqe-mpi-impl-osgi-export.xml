@@ -39,6 +39,9 @@
 	<!-- =========================================== -->
 
 	<osgi:service ref="identifierService"
-		interface="edu.utah.further.fqe.mpi.api.IdentifierService" />
+		interface="edu.utah.further.fqe.mpi.api.service.IdentifierService" />
+
+	<osgi:service ref="identityResolutionService"
+		interface="edu.utah.further.fqe.mpi.api.service.IdentityResolutionService" />
 
 </beans>

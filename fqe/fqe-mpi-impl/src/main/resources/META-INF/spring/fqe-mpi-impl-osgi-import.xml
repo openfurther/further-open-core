@@ -49,13 +49,13 @@
 		<!-- Hibernate options -->
 		<!-- ============================ -->
 
-		<prop key="hibernate.dialect"></prop>
+		<prop key="hibernate.identifier.dialect"></prop>
 
 		<!-- Turn on for SQL debugging -->
-		<prop key="hibernate.show_sql">false</prop>
+		<prop key="hibernate.identifier.show_sql">false</prop>
 
 		<!-- Generate schema? -->
-		<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+		<prop key="hibernate.identifier.hbm2ddl.auto">create-drop</prop>
 
 		<!-- ============================ -->
 		<!--C3P0 connection pool config -->
@@ -64,18 +64,50 @@
 		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
 		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
 		<!-- Times are in seconds. -->
-		<prop key="c3p0.initialPoolSize">5</prop>
-		<prop key="c3p0.minPoolSize">5</prop>
-		<prop key="c3p0.maxPoolSize">25</prop>
-		<prop key="c3p0.maxStatements">50</prop>
-		<prop key="c3p0.acquireRetryAttempts">30</prop>
-		<prop key="c3p0.acquireIncrement">5</prop>
-		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
-		<prop key="c3p0.maxIdleTime">1800</prop>
-		<prop key="c3p0.testConnectionOnCheckin">true</prop>
-		<prop key="c3p0.preferredTestQuery"></prop>
+		<prop key="c3p0.identifier.initialPoolSize">5</prop>
+		<prop key="c3p0.identifier.minPoolSize">5</prop>
+		<prop key="c3p0.identifier.maxPoolSize">25</prop>
+		<prop key="c3p0.identifier.maxStatements">50</prop>
+		<prop key="c3p0.identifier.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.identifier.acquireIncrement">5</prop>
+		<prop key="c3p0.identifier.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.identifier.maxIdleTime">1800</prop>
+		<prop key="c3p0.identifier.testConnectionOnCheckin">true</prop>
+		<prop key="c3p0.identifier.preferredTestQuery"></prop>
 		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
-		<prop key="c3p0.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.identifier.idleConnectionTestPeriod">150</prop>
+		
+		<!-- ============================ -->
+		<!-- Hibernate options -->
+		<!-- ============================ -->
+
+		<prop key="hibernate.lookup.dialect"></prop>
+
+		<!-- Turn on for SQL debugging -->
+		<prop key="hibernate.lookup.show_sql">false</prop>
+
+		<!-- Generate schema? -->
+		<prop key="hibernate.lookup.hbm2ddl.auto"></prop>
+
+		<!-- ============================ -->
+		<!--C3P0 connection pool config -->
+		<!-- ============================ -->
+
+		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
+		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
+		<!-- Times are in seconds. -->
+		<prop key="c3p0.lookup.initialPoolSize">5</prop>
+		<prop key="c3p0.lookup.minPoolSize">5</prop>
+		<prop key="c3p0.lookup.maxPoolSize">25</prop>
+		<prop key="c3p0.lookup.maxStatements">50</prop>
+		<prop key="c3p0.lookup.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.lookup.acquireIncrement">5</prop>
+		<prop key="c3p0.lookup.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.lookup.maxIdleTime">1800</prop>
+		<prop key="c3p0.lookup.testConnectionOnCheckin">true</prop>
+		<prop key="c3p0.lookup.preferredTestQuery"></prop>
+		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
+		<prop key="c3p0.lookup.idleConnectionTestPeriod">150</prop>
 
 	</osgix:cm-properties>
 

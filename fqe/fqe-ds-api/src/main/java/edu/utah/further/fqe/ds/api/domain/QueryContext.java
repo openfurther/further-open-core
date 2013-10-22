@@ -128,6 +128,14 @@ public interface QueryContext extends PersistentEntity<Long>,
 	QueryContext getAssociatedResult();
 	
 	/**
+	 * Sets the completed {@link QueryContext} with results that should be included as
+	 * additional criteria for queries in this {@link QueryContext}
+	 * 
+	 * @param queryContext the {@link QueryContext} of the associated result
+	 */
+	void setAssociatedResult(QueryContext queryContext);
+	
+	/**
 	 * Return a string which describes type of result this query will be requesting.
 	 */
 	QueryType getQueryType();
@@ -136,14 +144,21 @@ public interface QueryContext extends PersistentEntity<Long>,
 	 * Sets the string which describes type of result this query will be requesting.
 	 */
 	void setQueryType(QueryType queryType);
+	
+	/**
+	 * Return the type of identity resolution that will be used for this query.
+	 *
+	 * @return the identityResolutionType
+	 */
+	public IdentityResolutionType getIdentityResolutionType();
 
 	/**
-	 * Sets the completed {@link QueryContext} with results that should be included as
-	 * additional criteria for queries in this {@link QueryContext}
-	 * 
-	 * @param queryContext the {@link QueryContext} of the associated result
+	 * Set the type of identity resolution that will be used for this query.
+	 *
+	 * @param identityResolutionType the identityResolutionType to set
 	 */
-	void setAssociatedResult(QueryContext queryContext);
+	public void setIdentityResolutionType(IdentityResolutionType identityResolutionType);
+
 
 	/**
 	 * Returns the SearchQuery

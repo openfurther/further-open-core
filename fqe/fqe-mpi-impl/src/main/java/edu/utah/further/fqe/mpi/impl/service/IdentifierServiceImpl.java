@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.apache.commons.lang.Validate;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,10 +34,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.utah.further.core.api.data.Dao;
+import edu.utah.further.core.api.data.PersistentEntity;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.data.util.SqlUtil;
 import edu.utah.further.fqe.mpi.api.Identifier;
-import edu.utah.further.fqe.mpi.api.IdentifierService;
+import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 import edu.utah.further.fqe.mpi.impl.domain.IdentifierEntity;
 
 /**
@@ -80,13 +84,19 @@ public final class IdentifierServiceImpl implements IdentifierService
 	 * A data access object for querying for the federated ID
 	 */
 	@Autowired
-	private Dao daoFqeMpi;
+	private Dao identifierDao;
+
+	/**
+	 * SessionFactory to create HQL queries
+	 */
+	@Autowired
+	private SessionFactory identifierSessionFactory;
 
 	/**
 	 * Virtual repository jdbc template for querying
 	 */
 	@Autowired
-	private JdbcTemplate jdbcTemplateFqeMpi;
+	private JdbcTemplate identifierJdbcTemplate;
 
 	/**
 	 * A 'simpler' version of JdbcTemplate
@@ -112,12 +122,12 @@ public final class IdentifierServiceImpl implements IdentifierService
 	 * @see edu.utah.further.mpi.api.IdentifierService#generateId(java.lang.Object)
 	 */
 	@Override
-	@Transactional
+	@Transactional(value = "identifierTransactionManager")
 	public Long generateId(final Identifier id)
 	{
 		final IdentifierEntity idEntity = IdentifierEntity.newCopy(id);
 
-		final List<IdentifierEntity> existingId = daoFqeMpi.findByExample(idEntity,
+		final List<IdentifierEntity> existingId = identifierDao.findByExample(idEntity,
 				false, "createDate", "createdBy");
 
 		// We should only ever return 1 because the criteria for each identifier should be
@@ -166,7 +176,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 		}
 
 		// Persist all details and the generated virtual id
-		daoFqeMpi.save(idEntity);
+		identifierDao.save(idEntity);
 
 		return idEntity.getVirtualId();
 	}
@@ -190,7 +200,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 
 		// Our input is actually virtual federated ids and not federated ids - we have to
 		// translate to the actual federated id before we can do a lookup.
-		final List<Long> translatedVirtualIds = jdbcTemplateFqeMpi
+		final List<Long> translatedVirtualIds = identifierJdbcTemplate
 				.queryForList(
 						"SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
 								+ "src_obj_nmspc_id = ? AND "
@@ -209,7 +219,9 @@ public final class IdentifierServiceImpl implements IdentifierService
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see edu.utah.further.fqe.mpi.api.IdentifierService#getIdentifiers(java.util.List)
+	 * @see
+	 * edu.utah.further.fqe.mpi.api.service.IdentifierService#getIdentifiers(java.util
+	 * .List)
 	 */
 	@Override
 	public List<Long> getVirtualIdentifiers(final List<String> queryIds)
@@ -228,46 +240,88 @@ public final class IdentifierServiceImpl implements IdentifierService
 		return ids;
 	}
 
-	/**
-	 * Return the daoFqeMpi property.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the daoFqeMpi
+	 * @see
+	 * edu.utah.further.fqe.mpi.api.service.IdentifierService#getUnresolvedIdentifiers
+	 * (java.lang.String)
 	 */
-	public Dao getDaoFqeMpi()
+	@Override
+	@Transactional(value = "identifierTransactionManager")
+	public List<Identifier> getUnresolvedIdentifiers(final String queryId)
 	{
-		return daoFqeMpi;
+		Validate.notNull(queryId, "queryId is required for identity resolution");
+
+		// get all identifiers that have a null federated id so we can fill them in
+		final Query identifierQuery = identifierSessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from IdentifierEntity as identifier where "
+								+ "identifier.commonId is null "
+								+ "and identifier.queryId = :queryId");
+		identifierQuery.setParameter("queryId", queryId);
+
+		return identifierQuery.list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.fqe.mpi.api.service.IdentifierService#updateSavedIdentifiers(java
+	 * .util.List)
+	 */
+	@Override
+	public void updateSavedIdentifiers(
+			final List<? extends PersistentEntity<?>> identifiers)
+	{
+		for (final PersistentEntity<?> identifier : identifiers)
+		{
+			identifierDao.update(identifier);
+		}
 	}
 
 	/**
-	 * Set a new value for the daoFqeMpi property.
+	 * Return the identifierDao property.
 	 * 
-	 * @param daoFqeMpi
-	 *            the daoFqeMpi to set
+	 * @return the identifierDao
 	 */
-	public void setDaoFqeMpi(final Dao daoFqeMpi)
+	public Dao getIdentifierDao()
 	{
-		this.daoFqeMpi = daoFqeMpi;
+		return identifierDao;
 	}
 
 	/**
-	 * Return the jdbcTemplateFqeMpi property.
+	 * Set a new value for the identifierDao property.
 	 * 
-	 * @return the jdbcTemplateFqeMpi
+	 * @param identifierDao
+	 *            the identifierDao to set
 	 */
-	public JdbcTemplate getJdbcTemplateFqeMpi()
+	public void setIdentifierDao(final Dao identifierDao)
 	{
-		return jdbcTemplateFqeMpi;
+		this.identifierDao = identifierDao;
 	}
 
 	/**
-	 * Set a new value for the jdbcTemplateFqeMpi property.
+	 * Return the identifierJdbcTemplate property.
 	 * 
-	 * @param jdbcTemplateFqeMpi
-	 *            the jdbcTemplateFqeMpi to set
+	 * @return the identifierJdbcTemplate
 	 */
-	public void setJdbcTemplateFqeMpi(final JdbcTemplate jdbcTemplateFqeMpi)
+	public JdbcTemplate getIdentifierJdbcTemplate()
 	{
-		this.jdbcTemplateFqeMpi = jdbcTemplateFqeMpi;
+		return identifierJdbcTemplate;
+	}
+
+	/**
+	 * Set a new value for the identifierJdbcTemplate property.
+	 * 
+	 * @param identifierJdbcTemplate
+	 *            the identifierJdbcTemplate to set
+	 */
+	public void setIdentifierJdbcTemplate(final JdbcTemplate identifierJdbcTemplate)
+	{
+		this.identifierJdbcTemplate = identifierJdbcTemplate;
 	}
 
 	/**
@@ -279,7 +333,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 	{
 		if (simpleJdbcTemplate == null)
 		{
-			setSimpleJdbcTemplate(new SimpleJdbcTemplate(jdbcTemplateFqeMpi));
+			setSimpleJdbcTemplate(new SimpleJdbcTemplate(identifierJdbcTemplate));
 		}
 
 		return simpleJdbcTemplate;

@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.utah.further.fqe.mpi.api;
+package edu.utah.further.fqe.mpi.api.service;
 
 import java.util.List;
+
+import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.fqe.mpi.api.Identifier;
 
 /**
  * A service which provides and retrieves virtual identifiers for queries and results.
@@ -75,4 +78,20 @@ public interface IdentifierService
 	 * @return a list of identifiers
 	 */
 	List<Long> getVirtualIdentifiers(List<String> queryIds);
+
+	/**
+	 * Returns a list of {@link Identifier}s for which identity resolution needs to be
+	 * performed.
+	 * 
+	 * @param queryId
+	 * @return
+	 */
+	List<Identifier> getUnresolvedIdentifiers(String queryId);
+	
+	/**
+	 * Persists updates to already saved identifiers
+	 * 
+	 * @param identifiers
+	 */
+	void updateSavedIdentifiers(List<? extends PersistentEntity<?>> identifiers);
 }

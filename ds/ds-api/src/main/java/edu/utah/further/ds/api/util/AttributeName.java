@@ -167,6 +167,11 @@ public enum AttributeName implements Labeled
 	 * Attribute for the data source type (JDBC/web service/...).
 	 */
 	DS_TYPE,
+	
+	/**
+	 * Attribute for the type of identity resolution 
+	 */
+	ID_RESOLUTION_TYPE,
 
 	/**
 	 * Attribute for the value of the pager object controlling an on-going paging loop.

@@ -29,7 +29,7 @@ import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
-import edu.utah.further.fqe.mpi.api.IdentifierService;
+import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 
 /**
  * A default implementation of the {@link AssociatedResultServiceImpl}
