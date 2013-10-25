@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Person xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<personId>1</personId>
-	<birthdate>2013-10-11T13:36:16.252-06:00</birthdate>
-	<birthdateEstimated>127</birthdateEstimated>
-	<causeOfDeath>1</causeOfDeath>
-	<changedBy>1</changedBy>
-	<creator>1</creator>
-	<dateChanged>2013-10-11T13:36:16.252-06:00</dateChanged>
-	<dateCreated>2013-10-11T13:36:16.252-06:00</dateCreated>
-	<dateVoided>2013-10-11T13:36:16.252-06:00</dateVoided>
-	<dead>127</dead>
-	<deathDate>2013-10-11T13:36:16.252-06:00</deathDate>
+	<birthdate>2013-10-25T15:54:37.868-06:00</birthdate>
+	<birthdateEstimated>false</birthdateEstimated>
+	<causeOfDeath>0</causeOfDeath>
+	<changedBy>0</changedBy>
+	<creator>0</creator>
+	<dateChanged>2013-10-25T15:54:37.868-06:00</dateChanged>
+	<dateCreated>2013-10-25T15:54:37.868-06:00</dateCreated>
+	<dateVoided>2013-10-25T15:54:37.868-06:00</dateVoided>
+	<dead>false</dead>
+	<deathDate>2013-10-25T15:54:37.868-06:00</deathDate>
 	<gender>M</gender>
 	<uuid>uuid</uuid>
 	<voidReason>reason</voidReason>
-	<voided>127</voided>
-	<voidedBy>1</voidedBy>
-	<birthYear>0</birthYear>
+	<voided>false</voided>
+	<voidedBy>0</voidedBy>
 	<personAttributes>
 		<personAttribute>
-			<personAttributeId>0</personAttributeId>
-			<changedBy>0</changedBy>
-			<creator>1</creator>
-			<uuid>0c2e99c9-e82d-4b20-8972-08c3688532ba</uuid>
+			<creator>0</creator>
+			<uuid>49f6a927-aabb-42ff-a57e-f1f9cc976578</uuid>
 			<value>Caucasian</value>
-			<voided>0</voided>
-			<voidedBy>0</voidedBy>
+			<voided>false</voided>
 			<personAttributeType>1</personAttributeType>
 		</personAttribute>
 	</personAttributes>

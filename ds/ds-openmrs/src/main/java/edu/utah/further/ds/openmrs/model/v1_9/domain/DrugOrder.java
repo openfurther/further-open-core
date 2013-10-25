@@ -56,21 +56,21 @@ public class DrugOrder implements PersistentEntity<Integer>
 	@Column(name = "order_id")
 	private Integer orderId;
 
-	private byte complex;
+	private Boolean complex;
 
-	private double dose;
+	private Double dose;
 
 	@Column(name = "drug_inventory_id")
-	private int drugInventoryId;
+	private Long drugInventoryId;
 
 	@Column(name = "equivalent_daily_dose")
-	private double equivalentDailyDose;
+	private Double equivalentDailyDose;
 
 	private String frequency;
 
-	private byte prn;
+	private Boolean prn;
 
-	private int quantity;
+	private Long quantity;
 
 	private String units;
 
@@ -95,42 +95,42 @@ public class DrugOrder implements PersistentEntity<Integer>
 		this.orderId = orderId;
 	}
 
-	public byte getComplex()
+	public Boolean getComplex()
 	{
 		return this.complex;
 	}
 
-	public void setComplex(final byte complex)
+	public void setComplex(final Boolean complex)
 	{
 		this.complex = complex;
 	}
 
-	public double getDose()
+	public Double getDose()
 	{
 		return this.dose;
 	}
 
-	public void setDose(final double dose)
+	public void setDose(final Double dose)
 	{
 		this.dose = dose;
 	}
 
-	public int getDrugInventoryId()
+	public Long getDrugInventoryId()
 	{
 		return this.drugInventoryId;
 	}
 
-	public void setDrugInventoryId(final int drugInventoryId)
+	public void setDrugInventoryId(final Long drugInventoryId)
 	{
 		this.drugInventoryId = drugInventoryId;
 	}
 
-	public double getEquivalentDailyDose()
+	public Double getEquivalentDailyDose()
 	{
 		return this.equivalentDailyDose;
 	}
 
-	public void setEquivalentDailyDose(final double equivalentDailyDose)
+	public void setEquivalentDailyDose(final Double equivalentDailyDose)
 	{
 		this.equivalentDailyDose = equivalentDailyDose;
 	}
@@ -145,22 +145,22 @@ public class DrugOrder implements PersistentEntity<Integer>
 		this.frequency = frequency;
 	}
 
-	public byte getPrn()
+	public Boolean getPrn()
 	{
 		return this.prn;
 	}
 
-	public void setPrn(final byte prn)
+	public void setPrn(final Boolean prn)
 	{
 		this.prn = prn;
 	}
 
-	public int getQuantity()
+	public Long getQuantity()
 	{
 		return this.quantity;
 	}
 
-	public void setQuantity(final int quantity)
+	public void setQuantity(final Long quantity)
 	{
 		this.quantity = quantity;
 	}

@@ -67,9 +67,9 @@ public class Observation implements PersistentEntity<Integer>
 	private String comments;
 
 	@Column(name = "concept_id")
-	private int conceptId;
+	private Long conceptId;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created")
@@ -80,7 +80,7 @@ public class Observation implements PersistentEntity<Integer>
 	private Date dateVoided;
 
 	@Column(name = "location_id")
-	private int locationId;
+	private Long locationId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "obs_datetime")
@@ -89,13 +89,13 @@ public class Observation implements PersistentEntity<Integer>
 	private String uuid;
 
 	@Column(name = "value_boolean")
-	private byte valueBoolean;
+	private Boolean valueBoolean;
 
 	@Column(name = "value_coded")
-	private int valueCoded;
+	private Long valueCoded;
 
 	@Column(name = "value_coded_name_id")
-	private int valueCodedNameId;
+	private Long valueCodedNameId;
 
 	@Column(name = "value_complex")
 	private String valueComplex;
@@ -105,16 +105,16 @@ public class Observation implements PersistentEntity<Integer>
 	private Date valueDatetime;
 
 	@Column(name = "value_drug")
-	private int valueDrug;
+	private Long valueDrug;
 
 	@Column(name = "value_group_id")
-	private int valueGroupId;
+	private Long valueGroupId;
 
 	@Column(name = "value_modifier")
 	private String valueModifier;
 
 	@Column(name = "value_numeric")
-	private double valueNumeric;
+	private Double valueNumeric;
 
 	@Lob
 	@Column(name = "value_text")
@@ -123,10 +123,10 @@ public class Observation implements PersistentEntity<Integer>
 	@Column(name = "void_reason")
 	private String voidReason;
 
-	private byte voided;
+	private Boolean voided;
 
 	@Column(name = "voided_by")
-	private int voidedBy;
+	private Long voidedBy;
 
 	// bi-directional many-to-one association to Encounter
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -186,22 +186,22 @@ public class Observation implements PersistentEntity<Integer>
 		this.comments = comments;
 	}
 
-	public int getConceptId()
+	public Long getConceptId()
 	{
 		return this.conceptId;
 	}
 
-	public void setConceptId(final int conceptId)
+	public void setConceptId(final Long conceptId)
 	{
 		this.conceptId = conceptId;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -226,12 +226,12 @@ public class Observation implements PersistentEntity<Integer>
 		this.dateVoided = dateVoided;
 	}
 
-	public int getLocationId()
+	public Long getLocationId()
 	{
 		return this.locationId;
 	}
 
-	public void setLocationId(final int locationId)
+	public void setLocationId(final Long locationId)
 	{
 		this.locationId = locationId;
 	}
@@ -256,32 +256,32 @@ public class Observation implements PersistentEntity<Integer>
 		this.uuid = uuid;
 	}
 
-	public byte getValueBoolean()
+	public Boolean getValueBoolean()
 	{
 		return this.valueBoolean;
 	}
 
-	public void setValueBoolean(final byte valueBoolean)
+	public void setValueBoolean(final Boolean valueBoolean)
 	{
 		this.valueBoolean = valueBoolean;
 	}
 
-	public int getValueCoded()
+	public Long getValueCoded()
 	{
 		return this.valueCoded;
 	}
 
-	public void setValueCoded(final int valueCoded)
+	public void setValueCoded(final Long valueCoded)
 	{
 		this.valueCoded = valueCoded;
 	}
 
-	public int getValueCodedNameId()
+	public Long getValueCodedNameId()
 	{
 		return this.valueCodedNameId;
 	}
 
-	public void setValueCodedNameId(final int valueCodedNameId)
+	public void setValueCodedNameId(final Long valueCodedNameId)
 	{
 		this.valueCodedNameId = valueCodedNameId;
 	}
@@ -306,22 +306,22 @@ public class Observation implements PersistentEntity<Integer>
 		this.valueDatetime = valueDatetime;
 	}
 
-	public int getValueDrug()
+	public Long getValueDrug()
 	{
 		return this.valueDrug;
 	}
 
-	public void setValueDrug(final int valueDrug)
+	public void setValueDrug(final Long valueDrug)
 	{
 		this.valueDrug = valueDrug;
 	}
 
-	public int getValueGroupId()
+	public Long getValueGroupId()
 	{
 		return this.valueGroupId;
 	}
 
-	public void setValueGroupId(final int valueGroupId)
+	public void setValueGroupId(final Long valueGroupId)
 	{
 		this.valueGroupId = valueGroupId;
 	}
@@ -336,12 +336,12 @@ public class Observation implements PersistentEntity<Integer>
 		this.valueModifier = valueModifier;
 	}
 
-	public double getValueNumeric()
+	public Double getValueNumeric()
 	{
 		return this.valueNumeric;
 	}
 
-	public void setValueNumeric(final double valueNumeric)
+	public void setValueNumeric(final Double valueNumeric)
 	{
 		this.valueNumeric = valueNumeric;
 	}
@@ -366,22 +366,22 @@ public class Observation implements PersistentEntity<Integer>
 		this.voidReason = voidReason;
 	}
 
-	public byte getVoided()
+	public Boolean getVoided()
 	{
 		return this.voided;
 	}
 
-	public void setVoided(final byte voided)
+	public void setVoided(final Boolean voided)
 	{
 		this.voided = voided;
 	}
 
-	public int getVoidedBy()
+	public Long getVoidedBy()
 	{
 		return this.voidedBy;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setVoidedBy(final Long voidedBy)
 	{
 		this.voidedBy = voidedBy;
 	}

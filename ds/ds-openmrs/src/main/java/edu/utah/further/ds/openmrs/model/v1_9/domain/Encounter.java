@@ -63,9 +63,9 @@ public class Encounter implements PersistentEntity<Integer>
 	private Integer encounterId;
 
 	@Column(name = "changed_by")
-	private int changedBy;
+	private Long changedBy;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_changed")
@@ -84,23 +84,23 @@ public class Encounter implements PersistentEntity<Integer>
 	private Date encounterDatetime;
 
 	@Column(name = "form_id")
-	private int formId;
+	private Long formId;
 
 	@Column(name = "location_id")
-	private int locationId;
+	private Long locationId;
 
 	private String uuid;
 
 	@Column(name = "visit_id")
-	private int visitId;
+	private Long visitId;
 
 	@Column(name = "void_reason")
 	private String voidReason;
 
-	private byte voided;
+	private Boolean voided;
 
 	@Column(name = "voided_by")
-	private int voidedBy;
+	private Long voidedBy;
 
 	// bi-directional many-to-one association to Patient
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -144,22 +144,22 @@ public class Encounter implements PersistentEntity<Integer>
 		this.encounterId = encounterId;
 	}
 
-	public int getChangedBy()
+	public Long getChangedBy()
 	{
 		return this.changedBy;
 	}
 
-	public void setChangedBy(final int changedBy)
+	public void setChangedBy(final Long changedBy)
 	{
 		this.changedBy = changedBy;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -204,22 +204,22 @@ public class Encounter implements PersistentEntity<Integer>
 		this.encounterDatetime = encounterDatetime;
 	}
 
-	public int getFormId()
+	public Long getFormId()
 	{
 		return this.formId;
 	}
 
-	public void setFormId(final int formId)
+	public void setFormId(final Long formId)
 	{
 		this.formId = formId;
 	}
 
-	public int getLocationId()
+	public Long getLocationId()
 	{
 		return this.locationId;
 	}
 
-	public void setLocationId(final int locationId)
+	public void setLocationId(final Long locationId)
 	{
 		this.locationId = locationId;
 	}
@@ -234,12 +234,12 @@ public class Encounter implements PersistentEntity<Integer>
 		this.uuid = uuid;
 	}
 
-	public int getVisitId()
+	public Long getVisitId()
 	{
 		return this.visitId;
 	}
 
-	public void setVisitId(final int visitId)
+	public void setVisitId(final Long visitId)
 	{
 		this.visitId = visitId;
 	}
@@ -254,22 +254,22 @@ public class Encounter implements PersistentEntity<Integer>
 		this.voidReason = voidReason;
 	}
 
-	public byte getVoided()
+	public Boolean getVoided()
 	{
 		return this.voided;
 	}
 
-	public void setVoided(final byte voided)
+	public void setVoided(final Boolean voided)
 	{
 		this.voided = voided;
 	}
 
-	public int getVoidedBy()
+	public Long getVoidedBy()
 	{
 		return this.voidedBy;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setVoidedBy(final Long voidedBy)
 	{
 		this.voidedBy = voidedBy;
 	}

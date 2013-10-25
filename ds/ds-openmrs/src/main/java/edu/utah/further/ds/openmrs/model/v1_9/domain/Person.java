@@ -69,15 +69,15 @@ public class Person implements PersistentEntity<Integer>
 	private Date birthdate;
 
 	@Column(name = "birthdate_estimated")
-	private byte birthdateEstimated;
+	private Boolean birthdateEstimated;
 
 	@Column(name = "cause_of_death")
-	private int causeOfDeath;
+	private Long causeOfDeath;
 
 	@Column(name = "changed_by")
-	private int changedBy;
+	private Long changedBy;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_changed")
@@ -91,7 +91,7 @@ public class Person implements PersistentEntity<Integer>
 	@Column(name = "date_voided")
 	private Date dateVoided;
 
-	private byte dead;
+	private Boolean dead;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "death_date")
@@ -104,13 +104,13 @@ public class Person implements PersistentEntity<Integer>
 	@Column(name = "void_reason")
 	private String voidReason;
 
-	private byte voided;
+	private Boolean voided;
 
 	@Column(name = "voided_by")
-	private int voidedBy;
+	private Long voidedBy;
 	
 	@Formula("extract(year from birthdate)")
-	private int birthYear;
+	private Long birthYear;
 
 	// bi-directional many-to-one association to Observation
 	@OneToMany(mappedBy = "person")
@@ -158,42 +158,42 @@ public class Person implements PersistentEntity<Integer>
 		this.birthdate = birthdate;
 	}
 
-	public byte getBirthdateEstimated()
+	public Boolean getBirthdateEstimated()
 	{
 		return this.birthdateEstimated;
 	}
 
-	public void setBirthdateEstimated(final byte birthdateEstimated)
+	public void setBirthdateEstimated(final Boolean birthdateEstimated)
 	{
 		this.birthdateEstimated = birthdateEstimated;
 	}
 
-	public int getCauseOfDeath()
+	public Long getCauseOfDeath()
 	{
 		return this.causeOfDeath;
 	}
 
-	public void setCauseOfDeath(final int causeOfDeath)
+	public void setCauseOfDeath(final Long causeOfDeath)
 	{
 		this.causeOfDeath = causeOfDeath;
 	}
 
-	public int getChangedBy()
+	public Long getChangedBy()
 	{
 		return this.changedBy;
 	}
 
-	public void setChangedBy(final int changedBy)
+	public void setChangedBy(final Long changedBy)
 	{
 		this.changedBy = changedBy;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -228,12 +228,12 @@ public class Person implements PersistentEntity<Integer>
 		this.dateVoided = dateVoided;
 	}
 
-	public byte getDead()
+	public Boolean getDead()
 	{
 		return this.dead;
 	}
 
-	public void setDead(final byte dead)
+	public void setDead(final Boolean dead)
 	{
 		this.dead = dead;
 	}
@@ -278,22 +278,22 @@ public class Person implements PersistentEntity<Integer>
 		this.voidReason = voidReason;
 	}
 
-	public byte getVoided()
+	public Boolean getVoided()
 	{
 		return this.voided;
 	}
 
-	public void setVoided(final byte voided)
+	public void setVoided(final Boolean voided)
 	{
 		this.voided = voided;
 	}
 
-	public int getVoidedBy()
+	public Long getVoidedBy()
 	{
 		return this.voidedBy;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setVoidedBy(final Long voidedBy)
 	{
 		this.voidedBy = voidedBy;
 	}

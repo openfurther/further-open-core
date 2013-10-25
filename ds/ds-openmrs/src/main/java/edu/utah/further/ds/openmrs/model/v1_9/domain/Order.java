@@ -72,9 +72,9 @@ public class Order implements PersistentEntity<Integer>
 	private Date autoExpireDate;
 
 	@Column(name = "concept_id")
-	private int conceptId;
+	private Long conceptId;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created")
@@ -84,17 +84,17 @@ public class Order implements PersistentEntity<Integer>
 	@Column(name = "date_voided")
 	private Date dateVoided;
 
-	private byte discontinued;
+	private Boolean discontinued;
 
 	@Column(name = "discontinued_by")
-	private int discontinuedBy;
+	private Long discontinuedBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "discontinued_date")
 	private Date discontinuedDate;
 
 	@Column(name = "discontinued_reason")
-	private int discontinuedReason;
+	private Long discontinuedReason;
 
 	@Column(name = "discontinued_reason_non_coded")
 	private String discontinuedReasonNonCoded;
@@ -102,7 +102,7 @@ public class Order implements PersistentEntity<Integer>
 	@Lob
 	private String instructions;
 
-	private int orderer;
+	private Long orderer;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_date")
@@ -115,10 +115,10 @@ public class Order implements PersistentEntity<Integer>
 	@Column(name = "void_reason")
 	private String voidReason;
 
-	private byte voided;
+	private Boolean voided;
 
 	@Column(name = "voided_by")
-	private int voidedBy;
+	private Long voidedBy;
 
 	// bi-directional one-to-one association to DrugOrder
 	@OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
@@ -183,22 +183,22 @@ public class Order implements PersistentEntity<Integer>
 		this.autoExpireDate = autoExpireDate;
 	}
 
-	public int getConceptId()
+	public Long getConceptId()
 	{
 		return this.conceptId;
 	}
 
-	public void setConceptId(final int conceptId)
+	public void setConceptId(final Long conceptId)
 	{
 		this.conceptId = conceptId;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -223,22 +223,22 @@ public class Order implements PersistentEntity<Integer>
 		this.dateVoided = dateVoided;
 	}
 
-	public byte getDiscontinued()
+	public Boolean getDiscontinued()
 	{
 		return this.discontinued;
 	}
 
-	public void setDiscontinued(final byte discontinued)
+	public void setDiscontinued(final Boolean discontinued)
 	{
 		this.discontinued = discontinued;
 	}
 
-	public int getDiscontinuedBy()
+	public Long getDiscontinuedBy()
 	{
 		return this.discontinuedBy;
 	}
 
-	public void setDiscontinuedBy(final int discontinuedBy)
+	public void setDiscontinuedBy(final Long discontinuedBy)
 	{
 		this.discontinuedBy = discontinuedBy;
 	}
@@ -253,12 +253,12 @@ public class Order implements PersistentEntity<Integer>
 		this.discontinuedDate = discontinuedDate;
 	}
 
-	public int getDiscontinuedReason()
+	public Long getDiscontinuedReason()
 	{
 		return this.discontinuedReason;
 	}
 
-	public void setDiscontinuedReason(final int discontinuedReason)
+	public void setDiscontinuedReason(final Long discontinuedReason)
 	{
 		this.discontinuedReason = discontinuedReason;
 	}
@@ -283,12 +283,12 @@ public class Order implements PersistentEntity<Integer>
 		this.instructions = instructions;
 	}
 
-	public int getOrderer()
+	public Long getOrderer()
 	{
 		return this.orderer;
 	}
 
-	public void setOrderer(final int orderer)
+	public void setOrderer(final Long orderer)
 	{
 		this.orderer = orderer;
 	}
@@ -333,22 +333,22 @@ public class Order implements PersistentEntity<Integer>
 		this.voidReason = voidReason;
 	}
 
-	public byte getVoided()
+	public Boolean getVoided()
 	{
 		return this.voided;
 	}
 
-	public void setVoided(final byte voided)
+	public void setVoided(final Boolean voided)
 	{
 		this.voided = voided;
 	}
 
-	public int getVoidedBy()
+	public Long getVoidedBy()
 	{
 		return this.voidedBy;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setVoidedBy(final Long voidedBy)
 	{
 		this.voidedBy = voidedBy;
 	}

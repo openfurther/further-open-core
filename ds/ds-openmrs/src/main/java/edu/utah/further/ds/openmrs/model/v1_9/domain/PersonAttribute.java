@@ -56,12 +56,12 @@ public class PersonAttribute implements Serializable
 
 	@Id
 	@Column(name = "person_attribute_id")
-	private int personAttributeId;
+	private Long personAttributeId;
 
 	@Column(name = "changed_by")
-	private int changedBy;
+	private Long changedBy;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_changed")
@@ -82,10 +82,10 @@ public class PersonAttribute implements Serializable
 	@Column(name = "void_reason")
 	private String voidReason;
 
-	private byte voided;
+	private Boolean voided;
 
 	@Column(name = "voided_by")
-	private int voidedBy;
+	private Long voidedBy;
 
 	// do not join, just use id
 	@Column(name = "person_attribute_type_id")
@@ -101,32 +101,32 @@ public class PersonAttribute implements Serializable
 	{
 	}
 
-	public int getPersonAttributeId()
+	public Long getPersonAttributeId()
 	{
 		return this.personAttributeId;
 	}
 
-	public void setPersonAttributeId(final int personAttributeId)
+	public void setPersonAttributeId(final Long personAttributeId)
 	{
 		this.personAttributeId = personAttributeId;
 	}
 
-	public int getChangedBy()
+	public Long getChangedBy()
 	{
 		return this.changedBy;
 	}
 
-	public void setChangedBy(final int changedBy)
+	public void setChangedBy(final Long changedBy)
 	{
 		this.changedBy = changedBy;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -201,22 +201,22 @@ public class PersonAttribute implements Serializable
 		this.voidReason = voidReason;
 	}
 
-	public byte getVoided()
+	public Boolean getVoided()
 	{
 		return this.voided;
 	}
 
-	public void setVoided(final byte voided)
+	public void setVoided(final Boolean voided)
 	{
 		this.voided = voided;
 	}
 
-	public int getVoidedBy()
+	public Long getVoidedBy()
 	{
 		return this.voidedBy;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setVoidedBy(final Long voidedBy)
 	{
 		this.voidedBy = voidedBy;
 	}

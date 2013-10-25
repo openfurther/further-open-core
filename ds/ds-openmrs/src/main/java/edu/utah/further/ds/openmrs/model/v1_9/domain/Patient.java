@@ -63,9 +63,9 @@ public class Patient implements PersistentEntity<Integer>
 	private Integer patientId;
 
 	@Column(name = "changed_by")
-	private int changedBy;
+	private Long changedBy;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_changed")
@@ -79,15 +79,15 @@ public class Patient implements PersistentEntity<Integer>
 	@Column(name = "date_voided")
 	private Date dateVoided;
 
-	private int tribe;
+	private Long tribe;
 
 	@Column(name = "void_reason")
 	private String voidReason;
 
-	private byte voided;
+	private Boolean voided;
 
 	@Column(name = "voided_by")
-	private int voidedBy;
+	private Long voidedBy;
 
 	// bi-directional many-to-one association to Encounter
 	@OneToMany(mappedBy = "patient")
@@ -120,22 +120,22 @@ public class Patient implements PersistentEntity<Integer>
 		this.patientId = patientId;
 	}
 
-	public int getChangedBy()
+	public Long getChangedBy()
 	{
 		return this.changedBy;
 	}
 
-	public void setChangedBy(final int changedBy)
+	public void setChangedBy(final Long changedBy)
 	{
 		this.changedBy = changedBy;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -170,12 +170,12 @@ public class Patient implements PersistentEntity<Integer>
 		this.dateVoided = dateVoided;
 	}
 
-	public int getTribe()
+	public Long getTribe()
 	{
 		return this.tribe;
 	}
 
-	public void setTribe(final int tribe)
+	public void setTribe(final Long tribe)
 	{
 		this.tribe = tribe;
 	}
@@ -190,22 +190,22 @@ public class Patient implements PersistentEntity<Integer>
 		this.voidReason = voidReason;
 	}
 
-	public byte getVoided()
+	public Boolean getVoided()
 	{
 		return this.voided;
 	}
 
-	public void setVoided(final byte voided)
+	public void setVoided(final Boolean voided)
 	{
 		this.voided = voided;
 	}
 
-	public int getVoidedBy()
+	public Long getVoidedBy()
 	{
 		return this.voidedBy;
 	}
 
-	public void setVoidedBy(final int voidedBy)
+	public void setVoidedBy(final Long voidedBy)
 	{
 		this.voidedBy = voidedBy;
 	}

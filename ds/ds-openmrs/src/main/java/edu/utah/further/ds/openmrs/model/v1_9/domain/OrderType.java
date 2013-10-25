@@ -59,7 +59,7 @@ public class OrderType implements PersistentEntity<Integer>
 	@Column(name = "order_type_id")
 	private Integer orderTypeId;
 
-	private int creator;
+	private Long creator;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created")
@@ -76,10 +76,10 @@ public class OrderType implements PersistentEntity<Integer>
 	@Column(name = "retire_reason")
 	private String retireReason;
 
-	private byte retired;
+	private Boolean retired;
 
 	@Column(name = "retired_by")
-	private int retiredBy;
+	private Long retiredBy;
 
 	private String uuid;
 
@@ -103,12 +103,12 @@ public class OrderType implements PersistentEntity<Integer>
 		this.orderTypeId = orderTypeId;
 	}
 
-	public int getCreator()
+	public Long getCreator()
 	{
 		return this.creator;
 	}
 
-	public void setCreator(final int creator)
+	public void setCreator(final Long creator)
 	{
 		this.creator = creator;
 	}
@@ -163,22 +163,22 @@ public class OrderType implements PersistentEntity<Integer>
 		this.retireReason = retireReason;
 	}
 
-	public byte getRetired()
+	public Boolean getRetired()
 	{
 		return this.retired;
 	}
 
-	public void setRetired(final byte retired)
+	public void setRetired(final Boolean retired)
 	{
 		this.retired = retired;
 	}
 
-	public int getRetiredBy()
+	public Long getRetiredBy()
 	{
 		return this.retiredBy;
 	}
 
-	public void setRetiredBy(final int retiredBy)
+	public void setRetiredBy(final Long retiredBy)
 	{
 		this.retiredBy = retiredBy;
 	}

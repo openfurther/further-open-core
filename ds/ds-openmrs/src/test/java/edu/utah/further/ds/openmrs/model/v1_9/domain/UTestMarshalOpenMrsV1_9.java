@@ -69,28 +69,28 @@ public class UTestMarshalOpenMrsV1_9
 	{
 		final Person person = new Person();
 		person.setBirthdate(new Date());
-		person.setBirthdateEstimated(Byte.MAX_VALUE);
-		person.setCauseOfDeath(1);
-		person.setChangedBy(1);
-		person.setCreator(1);
+		person.setBirthdateEstimated(Boolean.FALSE);
+		person.setCauseOfDeath(new Long(0));
+		person.setChangedBy(new Long(0));
+		person.setCreator(new Long(0));
 		person.setDateChanged(new Date());
 		person.setDateCreated(new Date());
 		person.setDateVoided(new Date());
-		person.setDead(Byte.MAX_VALUE);
+		person.setDead(Boolean.FALSE);
 		person.setDeathDate(new Date());
 		person.setGender("M");
 		person.setId(new Integer(1));
 		person.setUuid("uuid");
-		person.setVoided(Byte.MAX_VALUE);
-		person.setVoidedBy(1);
+		person.setVoided(Boolean.FALSE);
+		person.setVoidedBy(new Long(0));
 		person.setVoidReason("reason");
 
 		final PersonAttribute personAttribute = new PersonAttribute();
-		personAttribute.setCreator(1);
+		personAttribute.setCreator(new Long(0));
 		personAttribute.setPersonAttributeType(new Long(1));
 		personAttribute.setValue("Caucasian");
 		personAttribute.setPerson(person);
-		personAttribute.setVoided((byte) 0);
+		personAttribute.setVoided(Boolean.FALSE);
 		personAttribute.setUuid(UUID.randomUUID().toString());
 
 		person.addPersonAttribute(personAttribute);
