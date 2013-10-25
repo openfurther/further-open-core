@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 
 import edu.utah.further.core.api.lang.CopyableFrom;
@@ -47,7 +49,6 @@ import edu.utah.further.core.api.xml.XmlNamespace;
 @XmlType(name = "", propOrder =
 { "key", "value" })
 @XmlRootElement(namespace = XmlNamespace.CORE_QUERY, name = SearchQueryAliasTo.ENTITY_NAME)
-
 public class SearchQueryAliasTo implements SearchQueryAlias,
 		CopyableFrom<SearchQueryAlias, SearchQueryAliasTo>
 {
@@ -63,7 +64,7 @@ public class SearchQueryAliasTo implements SearchQueryAlias,
 	 * XML name of this entity.
 	 */
 	static final String ENTITY_NAME = "alias";
-	
+
 	// ========================= FIELDS ====================================
 
 	/**
@@ -203,6 +204,44 @@ public class SearchQueryAliasTo implements SearchQueryAlias,
 	public void setValue(final String value)
 	{
 		this.value = value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+				.append(associationObject)
+				.append(key)
+				.append(value)
+				.toHashCode();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object obj)
+	{
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+
+		final SearchQueryAliasTo that = (SearchQueryAliasTo) obj;
+		return new EqualsBuilder()
+				.append(this.getAssociationObject(), that.getAssociationObject())
+				.append(this.getKey(), that.getKey())
+				.append(this.getValue(), that.getValue())
+				.isEquals();
 	}
 
 }
