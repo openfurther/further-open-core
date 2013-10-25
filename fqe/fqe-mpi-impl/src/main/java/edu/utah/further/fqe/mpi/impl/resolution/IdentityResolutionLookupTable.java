@@ -15,6 +15,7 @@
  */
 package edu.utah.further.fqe.mpi.impl.resolution;
 
+import static edu.utah.further.core.query.domain.SearchCriteria.simpleExpression;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.lang.invoke.MethodHandles;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
+import edu.utah.further.core.data.hibernate.adapter.CriteriaType;
+import edu.utah.further.core.data.hibernate.query.QueryBuilderHibernateImpl;
+import edu.utah.further.core.query.domain.Relation;
+import edu.utah.further.core.query.domain.SearchCriteria;
+import edu.utah.further.core.query.domain.SearchCriterion;
+import edu.utah.further.core.query.domain.SearchQuery;
+import edu.utah.further.core.query.domain.SearchType;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.mpi.api.Identifier;
 import edu.utah.further.fqe.mpi.api.IdentityResolutionStrategy;
@@ -110,14 +117,15 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 		final Long namespaceId = queryContext.getTargetNamespaceId();
 		Validate.notNull(namespaceId, "namespaceId required for identity resolution");
 
-		// Lookup all sourceIds in the lookup table to get a federated id
-		final Query lookupQuery = lookupSessionFactory.getCurrentSession().createQuery(
-				"from LookupEntity lookup where lookup.namespaceId = :namespaceId "
-						+ "and lookup.sourceId in (:sourceIds)");
-		lookupQuery.setParameter("namespaceId", namespaceId);
-		lookupQuery.setParameterList("sourceIds", identifiersMap.keySet());
+		final SearchCriterion rootAnd = SearchCriteria.junction(SearchType.CONJUNCTION);
+		rootAnd.addCriterion(simpleExpression(Relation.EQ, "namespaceId", namespaceId));
+		rootAnd.addCriterion(SearchCriteria.collection(SearchType.IN, "sourceId",
+				identifiersMap.keySet().toArray()));
 
-		final List<LookupEntity> lookups = lookupQuery.list();
+		final SearchQuery query = SearchCriteria.query(rootAnd, "LookupEntity");
+		final List<LookupEntity> lookups = QueryBuilderHibernateImpl.convert(
+				CriteriaType.CRITERIA, "edu.utah.further.fqe.mpi.impl.domain",
+				lookupSessionFactory, query).list();
 
 		// Set the federated id for the identifier and save
 		for (final LookupEntity lookup : lookups)
@@ -126,8 +134,9 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 					.getSourceId());
 			identifierEntity.setCommonId(lookup.getCommonId());
 		}
-		
-		identifierService.updateSavedIdentifiers(CollectionUtil.newList(identifiersMap.values()));
+
+		identifierService.updateSavedIdentifiers(CollectionUtil.newList(identifiersMap
+				.values()));
 	}
 
 	/**
