@@ -16,6 +16,7 @@
 package edu.utah.further.i2b2.query.criteria.service.impl;
 
 import static edu.utah.further.core.api.collections.CollectionUtil.newList;
+import static edu.utah.further.core.api.collections.CollectionUtil.newSet;
 import static edu.utah.further.core.query.domain.Relation.EQ;
 import static edu.utah.further.core.query.domain.Relation.GE;
 import static edu.utah.further.core.query.domain.Relation.GT;
@@ -31,12 +32,14 @@ import java.text.ParseException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
 
+import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.lang.Builder;
@@ -154,7 +157,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 	/**
 	 * A map of alias definitions.
 	 */
-	private List<SearchQueryAlias> aliases = newList();
+	private final Set<SearchQueryAlias> aliases = newSet();
 
 	/**
 	 * The alias to use for Observations
@@ -387,7 +390,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				break;
 		}
 
-		return aliases;
+		return CollectionUtil.newList(aliases);
 	}
 
 	// ========================= METHODS ===================================
@@ -489,7 +492,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 	 */
 	public I2b2SearchCriterionBuilder setAliases(final List<SearchQueryAlias> aliases)
 	{
-		this.aliases = aliases;
+		this.aliases.addAll(aliases);
 		return this;
 	}
 
@@ -618,8 +621,8 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 						throw new ApplicationException(
 								"Expected value constraint for type FLAG but was null");
 					}
-					
-					String constraint = valueConstraint
+
+					final String constraint = valueConstraint
 							.getValueConstraint()
 							.toLowerCase();
 
@@ -645,10 +648,9 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 						throw new ApplicationException(
 								"Unexpected value constraint. Only H, L, N, A are supported");
 					}
-					
+
 					subCriterion.addCriterion(valueOperator.createExpression(
-							observationAlias + DOT + "observationFlag",value
-							));
+							observationAlias + DOT + "observationFlag", value));
 					subCriterion.addCriterion(simpleExpression(Relation.EQ,
 							"observationFlagNamespaceId",
 							getNamespaceId(Namespaces.SNOMED_CT)));
