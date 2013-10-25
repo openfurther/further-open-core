@@ -179,7 +179,15 @@
 				<method bean="queryContextLogicService" method="parentExists" />
 				<to uri="bean:queryContextService?method=update" />
 				<to uri="bean:queryPlanService?method=updatePlan" />
-				<to uri="bean:identityResolutionService?method=resolveIdentities" />
+				
+				<!-- Identity Resolution -->
+				<filter>
+					<spel>
+						<![CDATA[#{(request.body.queryType == T(edu.utah.further.fqe.ds.api.domain.QueryType).DATA_QUERY) 
+							and request.body.resultContext.numRecords > 0}]]>
+					</spel>
+					<to uri="bean:identityResolutionService?method=resolveIdentities" />
+				</filter>
 
 				<!-- Parent updates -->
 				
