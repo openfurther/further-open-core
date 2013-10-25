@@ -16,6 +16,7 @@
 package edu.utah.further.i2b2.query.criteria.service.impl;
 
 import static edu.utah.further.core.api.collections.CollectionUtil.newList;
+import static edu.utah.further.core.api.collections.CollectionUtil.newSet;
 import static edu.utah.further.core.query.domain.SearchCriteria.collectionSubQuery;
 import static edu.utah.further.core.query.domain.SearchCriteria.junction;
 import static edu.utah.further.core.query.domain.SearchCriteria.queryBuilder;
@@ -24,10 +25,12 @@ import static org.apache.commons.lang.Validate.notNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 
+import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.lang.Builder;
 import edu.utah.further.core.query.domain.SearchCriteria;
@@ -83,7 +86,7 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 	/**
 	 * A running list of aliases that need to be generated
 	 */
-	private final List<SearchQueryAlias> aliases = newList();
+	private final Set<SearchQueryAlias> aliases = newSet();
 
 	/**
 	 * A running list of {@link I2b2KeyType}'s seen
@@ -152,7 +155,7 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 			SearchCriterion currGrpCrit = junction(SearchType.DISJUNCTION);
 			final List<I2b2KeyType> currKeys = getI2b2QueryService().getNonDemKeysInGrp(
 					i2b2QueryGroup);
-			final List<SearchQueryAlias> currAliases = newList();
+			final Set<SearchQueryAlias> currAliases = CollectionUtil.newSet();
 			final boolean subQryReq = isSubQueryRequired(currKeys);
 
 			final String observationAlias = obsAliasGenerator.getAlias(subQryReq);
@@ -224,7 +227,7 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 		// The root object is hardcoded for now, eventually, when the interface permits,
 		// have it send in what the root should be.
 		return queryBuilder(andCriterion)
-				.addAliases(aliases)
+				.addAliases(CollectionUtil.newList(aliases))
 				.setRootObject("Person")
 				.build();
 	}
@@ -242,7 +245,7 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 	 */
 	private SearchCriterion handleCriteriaGroup(final I2b2QueryGroup i2b2QueryGroup,
 			final SearchCriterion currGrpCrit, final I2b2KeyType keyType,
-			final List<SearchQueryAlias> currAliases, final String observationAlias,
+			final Set<SearchQueryAlias> currAliases, final String observationAlias,
 			final String orderAlias, final String locationAlias,
 			final String encounterAlias, final List<String> domain,
 			final I2b2QueryValueConstraint valueConstraint)
@@ -279,12 +282,12 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 	 * @param currAliases
 	 * @return
 	 */
-	private SearchCriterion handleSubQuery(final List<SearchQueryAlias> currAliases,
+	private SearchCriterion handleSubQuery(final Set<SearchQueryAlias> currAliases,
 			final SearchCriterion currGrpCrit)
 	{
 		return collectionSubQuery(SearchType.IN, "compositeId", SearchCriteria
 				.queryBuilder(currGrpCrit)
-				.addAliases(currAliases)
+				.addAliases(CollectionUtil.newList(currAliases))
 				.build());
 	}
 

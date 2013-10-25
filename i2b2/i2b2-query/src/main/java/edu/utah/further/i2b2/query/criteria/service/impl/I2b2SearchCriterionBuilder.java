@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
 
-import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.lang.Builder;
@@ -325,7 +324,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 		}
 	}
 
-	public List<SearchQueryAlias> buildAliases()
+	public Set<SearchQueryAlias> buildAliases()
 	{
 		switch (keyType)
 		{
@@ -390,7 +389,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				break;
 		}
 
-		return CollectionUtil.newList(aliases);
+		return aliases;
 	}
 
 	// ========================= METHODS ===================================
