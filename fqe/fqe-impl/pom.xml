@@ -91,6 +91,7 @@
 			edu.utah.further.fqe.ds.api.util,
 			edu.utah.further.fqe.ds.api.util*,
 			edu.utah.further.fqe.api.service.query,
+			edu.utah.further.fqe.mpi.impl.domain,
 			edu.utah.further.security.api.services,
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
