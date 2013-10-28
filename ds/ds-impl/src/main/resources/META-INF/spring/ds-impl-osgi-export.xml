@@ -144,6 +144,6 @@
 	<!-- ============================================= -->
 
 	<osgi:service id="hibernateRefresher" ref="hibernateResultListRefresher"
-		interface="edu.utah.further.core.api.chain.RequestProcessor">
+		interface="edu.utah.further.core.api.chain.RequestProcessor" />
 
 </beans>
