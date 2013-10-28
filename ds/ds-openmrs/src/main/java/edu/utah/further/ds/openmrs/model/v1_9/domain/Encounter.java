@@ -32,8 +32,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
  * The persistent class and data transfer object for the encounter database table.
@@ -97,6 +99,7 @@ public class Encounter implements PersistentEntity<Integer>
 	@Column(name = "void_reason")
 	private String voidReason;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean voided;
 
 	@Column(name = "voided_by")

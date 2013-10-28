@@ -30,8 +30,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
  * The persistent class and data transfer object for the encounter_type database table.
@@ -78,6 +80,7 @@ public class EncounterType implements PersistentEntity<Integer>
 	@Column(name = "retire_reason")
 	private String retireReason;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean retired;
 
 	@Column(name = "retired_by")

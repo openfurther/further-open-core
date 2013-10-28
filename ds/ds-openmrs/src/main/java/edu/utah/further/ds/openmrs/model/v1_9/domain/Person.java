@@ -34,10 +34,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.Formula;
 
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
  * The persistent class and data transfer object for the person database table.
@@ -53,7 +55,7 @@ import edu.utah.further.core.api.data.PersistentEntity;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Sep 3, 2013
  */
-@Table(name="person")
+@Table(name = "person")
 @Entity
 @XmlRootElement(name = "Person")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -69,6 +71,7 @@ public class Person implements PersistentEntity<Integer>
 	private Date birthdate;
 
 	@Column(name = "birthdate_estimated")
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean birthdateEstimated;
 
 	@Column(name = "cause_of_death")
@@ -91,6 +94,7 @@ public class Person implements PersistentEntity<Integer>
 	@Column(name = "date_voided")
 	private Date dateVoided;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean dead;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -104,11 +108,12 @@ public class Person implements PersistentEntity<Integer>
 	@Column(name = "void_reason")
 	private String voidReason;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean voided;
 
 	@Column(name = "voided_by")
 	private Long voidedBy;
-	
+
 	@Formula("extract(year from birthdate)")
 	private Long birthYear;
 
@@ -124,8 +129,8 @@ public class Person implements PersistentEntity<Integer>
 
 	// bi-directional many-to-one association to PersonAttribute
 	@OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
-	@XmlElementWrapper(name="personAttributes")
-	@XmlElement(name="personAttribute")
+	@XmlElementWrapper(name = "personAttributes")
+	@XmlElement(name = "personAttribute")
 	private List<PersonAttribute> personAttributes = new ArrayList<>();
 
 	public Person()

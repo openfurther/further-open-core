@@ -26,8 +26,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
  * The persistent class and data transfer object for the drug_order database table.
@@ -56,6 +58,7 @@ public class DrugOrder implements PersistentEntity<Integer>
 	@Column(name = "order_id")
 	private Integer orderId;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean complex;
 
 	private Double dose;
@@ -68,6 +71,7 @@ public class DrugOrder implements PersistentEntity<Integer>
 
 	private String frequency;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean prn;
 
 	private Long quantity;

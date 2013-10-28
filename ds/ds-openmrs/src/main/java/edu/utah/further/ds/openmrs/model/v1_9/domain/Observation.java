@@ -31,8 +31,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
  * The persistent class and data transfer object for the obs database table.
@@ -89,6 +91,7 @@ public class Observation implements PersistentEntity<Integer>
 	private String uuid;
 
 	@Column(name = "value_boolean")
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean valueBoolean;
 
 	@Column(name = "value_coded")
@@ -123,6 +126,7 @@ public class Observation implements PersistentEntity<Integer>
 	@Column(name = "void_reason")
 	private String voidReason;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean voided;
 
 	@Column(name = "voided_by")

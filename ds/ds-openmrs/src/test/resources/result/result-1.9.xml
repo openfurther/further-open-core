@@ -2,19 +2,19 @@
 <Person xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<personId>1</personId>
 	<birthdate>2013-10-25T15:54:37.868-06:00</birthdate>
-	<birthdateEstimated>false</birthdateEstimated>
+	<birthdateEstimated>0</birthdateEstimated>
 	<causeOfDeath>0</causeOfDeath>
 	<changedBy>0</changedBy>
 	<creator>0</creator>
 	<dateChanged>2013-10-25T15:54:37.868-06:00</dateChanged>
 	<dateCreated>2013-10-25T15:54:37.868-06:00</dateCreated>
 	<dateVoided>2013-10-25T15:54:37.868-06:00</dateVoided>
-	<dead>false</dead>
+	<dead>0</dead>
 	<deathDate>2013-10-25T15:54:37.868-06:00</deathDate>
 	<gender>M</gender>
 	<uuid>uuid</uuid>
 	<voidReason>reason</voidReason>
-	<voided>false</voided>
+	<voided>0</voided>
 	<voidedBy>0</voidedBy>
 	<personAttributes>
 		<personAttribute>
