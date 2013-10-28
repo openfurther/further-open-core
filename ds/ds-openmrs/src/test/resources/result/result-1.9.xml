@@ -21,7 +21,7 @@
 			<creator>0</creator>
 			<uuid>49f6a927-aabb-42ff-a57e-f1f9cc976578</uuid>
 			<value>Caucasian</value>
-			<voided>false</voided>
+			<voided>0</voided>
 			<personAttributeType>1</personAttributeType>
 		</personAttribute>
 	</personAttributes>
