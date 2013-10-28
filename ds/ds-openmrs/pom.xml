@@ -58,15 +58,11 @@
 			<artifactId>com.springsource.com.mysql.jdbc</artifactId>
 			<version>${mysql.connector.java.version}</version>
 		</dependency>
-
-		<!-- ########################## -->
-		<!-- Testing -->
-		<!-- ########################## -->
-
+		
+		<!-- XML Support -->
 		<dependency>
 			<groupId>edu.utah.further.core</groupId>
 			<artifactId>core-xml</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
