@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
  * The persistent class for the person_attribute database table.
@@ -82,6 +85,7 @@ public class PersonAttribute implements Serializable
 	@Column(name = "void_reason")
 	private String voidReason;
 
+	@XmlJavaTypeAdapter(BooleanIntegerAdapter.class)
 	private Boolean voided;
 
 	@Column(name = "voided_by")
