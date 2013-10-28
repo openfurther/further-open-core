@@ -104,7 +104,7 @@ public final class HibernateDistinctEntityExecutor extends
 		for (final String property : properties)
 		{
 			final Type type = classMetadata.getPropertyType(property);
-			if (!type.isCollectionType())
+			if (!(type.isCollectionType() || type.isAssociationType()))
 			{
 				projectionList.add(Projections.property(property), property);
 			}
