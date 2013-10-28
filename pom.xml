@@ -139,8 +139,8 @@
 		<xerces.impl.version>2.11.0</xerces.impl.version>
 		<httpclient.version>3.1</httpclient.version>
 		<jsr311.version>1.0</jsr311.version>
-		<jaxb.api.version>2.1</jaxb.api.version>
-		<jaxb.impl.version>2.1.12</jaxb.impl.version>
+		<jaxb.api.version>2.2.6</jaxb.api.version>
+		<jaxb.impl.version>2.2.6</jaxb.impl.version>
 		<jaxb.schemagen.version>2.2</jaxb.schemagen.version>
 		<jaxb.libs.version>1.0.5</jaxb.libs.version>
 		<jax.qname.version>1.1</jax.qname.version>
