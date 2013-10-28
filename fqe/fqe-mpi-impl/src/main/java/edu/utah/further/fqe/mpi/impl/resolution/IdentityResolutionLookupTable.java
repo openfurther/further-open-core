@@ -105,6 +105,11 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 
 		final List<Identifier> identifiers = identifierService
 				.getUnresolvedIdentifiers(queryContext.getExecutionId());
+		
+		if (identifiers.size() == 0) {
+			log.info("No unresolved identifiers to process, returning.");
+			return;
+		}
 
 		// Maintain a map of sourceId to identifier so we can easily set the federated id
 		final Map<Long, IdentifierEntity> identifiersMap = new HashMap<>();
