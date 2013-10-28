@@ -52,8 +52,8 @@
 		
 	<!-- manually configure for correct dependencies -->
 	<bean id="identifierService" class="edu.utah.further.fqe.mpi.impl.service.IdentifierServiceImpl">
-		<property name="daoFqeMpi" ref="daoFqeMpi"/>
-		<property name="jdbcTemplateFqeMpi" ref="jdbcTemplateFqeMpi"/>
+		<property name="identifierDao" ref="identifierDao"/>
+		<property name="identifierJdbcTemplate" ref="identifierJdbcTemplate"/>
 	</bean>
 
 	<!-- =========================================== -->
@@ -67,7 +67,7 @@
 	<!-- =========================================== -->
 	<!-- Data Source configuration -->
 	<!-- =========================================== -->
-	<jdbc:embedded-database id="dataSourceFqeMpi"
+	<jdbc:embedded-database id="identifierDataSource"
 		type="HSQL" />
 
 	<!-- =========================================== -->
@@ -75,9 +75,9 @@
 	<!-- =========================================== -->
 
 	<!-- Session factory -->
-	<bean id="sessionFactoryFqeMpi"
+	<bean id="identifierSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSourceFqeMpi" />
+		<property name="dataSource" ref="identifierDataSource" />
 		<property name="hibernateProperties">
 			<props>
 				<!-- ################################## -->
@@ -104,8 +104,8 @@
 	</bean>
 
 	<!-- jdbctemplate -->
-	<bean id="jdbcTemplateFqeMpi" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg ref="dataSourceFqeMpi" />
+	<bean id="identifierJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="identifierDataSource" />
 	</bean>
 
 	<!-- =========================================== -->
@@ -116,13 +116,13 @@
 	<tx:annotation-driven />
 
 	<!-- a PlatformTransactionManager is still required -->
-	<bean id="transactionManagerFqeMpi"
+	<bean id="identifierTransactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactoryFqeMpi" />
+		<property name="sessionFactory" ref="identifierSessionFactory" />
 	</bean>
 
-	<bean id="daoFqeMpi" class="edu.utah.further.core.data.service.DaoHibernateImpl">
-		<constructor-arg index="0" ref="sessionFactoryFqeMpi" />
+	<bean id="identifierDao" class="edu.utah.further.core.data.service.DaoHibernateImpl">
+		<constructor-arg index="0" ref="identifierSessionFactory" />
 	</bean>
 
 	<!-- =========================================== -->
