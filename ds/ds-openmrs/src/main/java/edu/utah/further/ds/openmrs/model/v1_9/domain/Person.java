@@ -123,7 +123,7 @@ public class Person implements PersistentEntity<Integer>
 	private Patient patient;
 
 	// bi-directional many-to-one association to PersonAttribute
-	@OneToMany(mappedBy = "person")
+	@OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
 	@XmlElementWrapper(name="personAttributes")
 	@XmlElement(name="personAttribute")
 	private List<PersonAttribute> personAttributes = new ArrayList<>();
