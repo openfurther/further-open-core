@@ -84,7 +84,7 @@
 	<!-- Export the MOCK Finalizer Query Processor for data sources still mocked -->
 	<osgi:service id="mockFinalizer"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="mockFinalizerQp" />
-		
+
 	<!-- Export the Count Finalizer Query Processor for count query life cycle -->
 	<osgi:service id="countFinalizer"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="countFinalizerQp" />
@@ -138,5 +138,12 @@
 
 	<osgi:service id="unmarshallingProcessor"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="unmarshallRequestProcessor" />
+
+	<!-- ============================================= -->
+	<!-- Hibernate Processors -->
+	<!-- ============================================= -->
+
+	<osgi:service id="hibernateRefresher" ref="hibernateResultListRefresher"
+		interface="edu.utah.further.core.api.chain.RequestProcessor">
 
 </beans>
