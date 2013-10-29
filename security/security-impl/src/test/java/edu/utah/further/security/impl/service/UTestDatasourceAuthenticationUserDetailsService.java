@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,7 @@ import edu.utah.further.security.impl.domain.UserRoleEntity;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version May 6, 2012
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations =
 { "/security-impl-test-context-annotation.xml",
