@@ -41,7 +41,7 @@
 			<parameters>
 				<parameter xsi:type="RelationType">EQ</parameter>
 				<parameter xsi:type="xs:string">administrativeGender</parameter>
-				<parameter xsi:type="xs:long">248153007</parameter>
+				<parameter xsi:type="xs:string">248153007</parameter>
 			</parameters>
 		</criteria>
 		<criteria>
