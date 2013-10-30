@@ -132,7 +132,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<!-- =========================================== -->
-	<!-- I2b2 Logical Model data layer -->
+	<!-- Logical Model data layer -->
 	<!-- =========================================== -->
 	<!-- Must come AFTER sessionFactory is declared for some strange reason 
 		when deployed to the ESB. -->
