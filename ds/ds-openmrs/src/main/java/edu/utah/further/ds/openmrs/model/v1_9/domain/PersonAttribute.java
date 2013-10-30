@@ -15,7 +15,6 @@
  */
 package edu.utah.further.ds.openmrs.model.v1_9.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -32,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import edu.utah.further.core.api.data.PersistentEntity;
 import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 
 /**
@@ -53,7 +53,7 @@ import edu.utah.further.core.xml.jaxb.adapter.BooleanIntegerAdapter;
 @Table(name = "person_attribute")
 @XmlRootElement(name = "PersonAttribute")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PersonAttribute implements Serializable
+public class PersonAttribute implements PersistentEntity<Long>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -105,14 +105,20 @@ public class PersonAttribute implements Serializable
 	{
 	}
 
-	public Long getPersonAttributeId()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.core.api.discrete.HasIdentifier#getId()
+	 */
+	@Override
+	public Long getId()
 	{
 		return this.personAttributeId;
 	}
 
-	public void setPersonAttributeId(final Long personAttributeId)
+	public void setId(final Long id)
 	{
-		this.personAttributeId = personAttributeId;
+		this.personAttributeId = id;
 	}
 
 	public Long getChangedBy()
