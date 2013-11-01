@@ -44,6 +44,7 @@ import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.exception.WsException;
 import edu.utah.further.core.api.lang.ReflectionUtil;
+import edu.utah.further.core.api.text.StringUtil;
 import edu.utah.further.core.api.xml.XmlService;
 import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.fqe.api.service.export.ExportService;
@@ -821,8 +822,8 @@ public class FqeServiceRestImpl implements FqeServiceRest
 		{
 			final I2b2FurtherConfigTo furtherConfig = xmlService.unmarshal(rawI2b2Xml,
 					I2b2FurtherConfigTo.class);
-			final I2b2QueryTo i2b2Query = xmlService.unmarshal(i2b2QueryXml,
-					I2b2QueryTo.class);
+			final I2b2QueryTo i2b2Query = xmlService.unmarshal(
+					StringUtil.stripNewLinesAndTabs(i2b2QueryXml), I2b2QueryTo.class);
 			return triggerQueryFromI2b2(i2b2Query, furtherConfig, i2b2QueryId);
 		}
 		catch (final JAXBException e)
@@ -963,8 +964,8 @@ public class FqeServiceRestImpl implements FqeServiceRest
 		{
 			// Single data source, retain only the SUM view
 			final ResultContext sumView = resultViews.get(ResultType.SUM);
-			result.setResultViews(Collections
-					.<ResultType, ResultContext> singletonMap(ResultType.SUM, sumView));
+			result.setResultViews(Collections.<ResultType, ResultContext> singletonMap(
+					ResultType.SUM, sumView));
 		}
 		else
 		{
