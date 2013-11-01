@@ -365,8 +365,12 @@ public class AggregationServiceImpl implements AggregationService
 
 			for (final Map<String, Object> result : results)
 			{
-				categoryTo.addEntry((String) result.get("fieldName"),
-						(Long) result.get("fieldCount"));
+				Object name = result.get("fieldName");
+				if (name == null)
+				{
+					name = "Missing data";
+				}
+				categoryTo.addEntry((String) name, (Long) result.get("fieldCount"));
 			}
 
 			aggregatedResultTo.addCategory(categoryTo);
