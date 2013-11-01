@@ -19,7 +19,10 @@ import static org.easymock.EasyMock.anyBoolean;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,12 +33,16 @@ import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.SAXException;
 
 import edu.utah.further.core.api.data.Dao;
 import edu.utah.further.core.api.xml.XmlService;
+import edu.utah.further.core.util.io.IoUtil;
 import edu.utah.further.core.xml.jaxb.XmlServiceImpl;
 import edu.utah.further.ds.further.model.impl.domain.Person;
 import edu.utah.further.fqe.api.service.query.AggregationService;
@@ -50,7 +57,7 @@ import edu.utah.further.fqe.impl.fixture.FqeImplUtestFixture;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 
 /**
- * ...
+ * Test aggregating results and aggregating results with scrubbing.
  * <p>
  * -----------------------------------------------------------------------------------<br>
  * (c) 2008-2012 FURTHeR Project, Health Sciences IT, University of Utah<br>
@@ -102,6 +109,12 @@ public class UTestAggregationService extends FqeImplUtestFixture
 	@Before
 	public void setup()
 	{
+		reset(identifierService);
+		reset(resultDataService);
+
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setIgnoreComments(true);
+
 		final ResultContextTo resultContext = new ResultContextToImpl();
 		resultContext.setRootEntityClass(Person.class.getCanonicalName());
 
@@ -153,8 +166,19 @@ public class UTestAggregationService extends FqeImplUtestFixture
 		rowTwo.put("fieldName", "MockTwo");
 		rowTwo.put("fieldCount", new Long(2222));
 
+		// Small counts
+		final Map<String, Object> rowThree = new HashMap<>();
+		rowThree.put("fieldName", "MockThree");
+		rowThree.put("fieldCount", new Long(3));
+
+		final Map<String, Object> rowFour = new HashMap<>();
+		rowFour.put("fieldName", "MockFour");
+		rowFour.put("fieldCount", new Long(1));
+
 		results.add(rowOne);
 		results.add(rowTwo);
+		results.add(rowThree);
+		results.add(rowFour);
 
 		expect(
 				resultDataService.getQueryResults(anyObject(String.class),
@@ -168,14 +192,40 @@ public class UTestAggregationService extends FqeImplUtestFixture
 	 * Stub several dependencies and generate an expected aggregated result / histogram
 	 * 
 	 * @throws JAXBException
+	 * @throws IOException
+	 * @throws SAXException
 	 */
 	@Test
-	public void generate() throws JAXBException
+	public void aggregateResults() throws JAXBException, SAXException, IOException
 	{
 		final AggregatedResults aggregatedResults = aggregationService
 				.generatedAggregatedResults(parent);
 		final XmlService xmlService = new XmlServiceImpl();
 		final String result = xmlService.marshal(aggregatedResults);
-		System.out.println(result);
+		final Diff diff = new Diff(
+				IoUtil.getResourceAsString("test-aggregated-results.xml"), result);
+		assertTrue(diff.similar());
+	}
+
+	/**
+	 * Stub several dependencies and generate an expected aggregated result / histogram
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 * @throws SAXException
+	 */
+	@Test
+	public void aggregateResultsWithScrubbing() throws JAXBException, SAXException,
+			IOException
+	{
+		AggregatedResults aggregatedResults = aggregationService
+				.generatedAggregatedResults(parent);
+		aggregatedResults = aggregationService.scrubResults(aggregatedResults);
+		final XmlService xmlService = new XmlServiceImpl();
+		final String result = xmlService.marshal(aggregatedResults);
+		final Diff diff = new Diff(
+				IoUtil.getResourceAsString("test-scrubbed-aggregated-results.xml"),
+				result);
+		assertTrue(diff.similar());
 	}
 }

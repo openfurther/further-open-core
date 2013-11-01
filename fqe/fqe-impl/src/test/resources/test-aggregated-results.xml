@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fqe:aggregatedResults xmlns="http://further.utah.edu/fqe"
+	xmlns:query="http://further.utah.edu/core/query" xmlns:fqe="http://further.utah.edu/fqe-dummy"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<aggregatedResult>
+		<resultContextKey type="SUM" />
+		<category name="Age†">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Language">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Marital Status">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Race">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Religion">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Sex">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Vital Status/Deceased">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+	</aggregatedResult>
+	<aggregatedResult>
+		<resultContextKey type="UNION" />
+		<category name="Age†">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Language">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Marital Status">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Race">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Religion">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Sex">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Vital Status/Deceased">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+	</aggregatedResult>
+	<aggregatedResult>
+		<resultContextKey type="INTERSECTION" />
+		<category name="Age†">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Language">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Marital Status">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Race">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Religion">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Sex">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+		<category name="Vital Status/Deceased">
+			<values>
+				<entry key="MockFour" value="1" />
+				<entry key="MockOne" value="1111" />
+				<entry key="MockThree" value="3" />
+				<entry key="MockTwo" value="2222" />
+			</values>
+		</category>
+	</aggregatedResult>
+	<numDataSources>2</numDataSources>
+	<result_status>
+		<status type="DONE">DONE</status>
+		<polling_url interval_ms="100" />
+	</result_status>
+</fqe:aggregatedResults>

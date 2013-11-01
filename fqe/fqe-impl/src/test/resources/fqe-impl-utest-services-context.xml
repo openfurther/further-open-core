@@ -39,26 +39,23 @@
 
 	<!-- A list of allowed data source ids that allow exporting of results -->
 	<util:list id="exportWhitelist">
-		<value>UUEDW</value>
+		<value></value>
 	</util:list>
 
 	<!-- Aggregation service with a custom result mask boundary -->
 	<bean id="aggregationService"
 		class="edu.utah.further.fqe.impl.service.query.AggregationServiceImpl">
-		<property name="aggregationIncludedFields">
-			<list>
-				<value>administrativeGender</value>
-				<value>race</value>
-				<value>ethnicity</value>
-				<value>birthYear</value>
-				<value>primaryLanguage</value>
-				<value>maritalStatus</value>
-				<value>religion</value>
-				<value>age</value>
-			</list>
+		<property name="categories">
+			<map>
+				<entry key="age" value="Age†" />
+				<entry key="primaryLanguage" value="Language" />
+				<entry key="maritalStatus" value="Marital Status" />
+				<entry key="race" value="Race" />
+				<entry key="religion" value="Religion" />
+				<entry key="administrativeGender" value="Sex" />
+				<entry key="vitalStatus" value="Vital Status/Deceased" />
+			</map>
 		</property>
-		<property name="resultMaskBoundary" value="5" />
-		<property name="resultMaskOther" value="5" />
 	</bean>
 
 

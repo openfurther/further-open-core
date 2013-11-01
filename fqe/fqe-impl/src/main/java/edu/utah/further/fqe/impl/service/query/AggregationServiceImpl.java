@@ -23,6 +23,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -133,10 +134,9 @@ public class AggregationServiceImpl implements AggregationService
 	private final String missingData = "Missing Data";
 
 	/**
-	 * A list of field names which should not be part of aggregation (histogram)
-	 * generation.
+	 * Categories to include keyed by field name
 	 */
-	private List<String> aggregationIncludedFields = new ArrayList<>();
+	private Map<String, String> categories = new HashMap<>();
 
 	// ========================= IMPLEMENTATION: DataService ===============
 
@@ -285,6 +285,7 @@ public class AggregationServiceImpl implements AggregationService
 		Validate.isTrue(PersistentEntity.class.isAssignableFrom(clazz));
 
 		final List<String> fields = new ArrayList<>();
+		final Set<String> aggregationIncludedFields = categories.keySet();
 		for (final Field field : clazz.getDeclaredFields())
 		{
 			// Only consider private and non-excluded fields
@@ -329,54 +330,6 @@ public class AggregationServiceImpl implements AggregationService
 		aggregatedResults.setNumDataSources(queryIds.size());
 
 		return aggregatedResults;
-	}
-
-	/**
-	 * @param queryIds
-	 * @param fqRootClass
-	 * @param fields
-	 * @param includedIds
-	 */
-	private AggregatedResult generateAggregatedResult(final List<String> fields,
-			final String fqRootClass, final List<String> queryIds,
-			final List<Long> includedIds, final ResultType resultType)
-	{
-		final AggregatedResultTo aggregatedResultTo = new AggregatedResultTo(
-				new ResultContextKeyToImpl(resultType));
-
-		// for each set of ids, do an aggregate count on each field
-		for (final String field : fields)
-		{
-			// We really don't need unlimited IN functionality for query ids but this make
-			// the parameter binding easier
-			final String hql = "SELECT DISTINCT new map(" + field
-					+ "as fieldName, COUNT(" + field + ") as fieldCount) FROM "
-					+ fqRootClass + " WHERE "
-					+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId") + " and "
-					+ SqlUtil.unlimitedInValues(includedIds, "id.id");
-
-			final List<Object> parameters = new ArrayList<>();
-			parameters.addAll(queryIds);
-			parameters.addAll(includedIds);
-			final List<Map<String, Object>> results = resultDataService.getQueryResults(
-					hql, parameters);
-
-			final CategoryTo categoryTo = new CategoryTo(field);
-
-			for (final Map<String, Object> result : results)
-			{
-				Object name = result.get("fieldName");
-				if (name == null)
-				{
-					name = "Missing data";
-				}
-				categoryTo.addEntry((String) name, (Long) result.get("fieldCount"));
-			}
-
-			aggregatedResultTo.addCategory(categoryTo);
-		}
-
-		return aggregatedResultTo;
 	}
 
 	/**
@@ -597,27 +550,78 @@ public class AggregationServiceImpl implements AggregationService
 	}
 
 	/**
-	 * Return the aggregationIncludedFields property.
+	 * Return the categories property.
 	 * 
-	 * @return the aggregationIncludedFields
+	 * @return the categories
 	 */
-	public List<String> getAggregationIncludedFields()
+	public Map<String, String> getCategories()
 	{
-		return aggregationIncludedFields;
+		return categories;
 	}
 
 	/**
-	 * Set a new value for the aggregationIncludedFields property.
+	 * Set a new value for the categories property.
 	 * 
-	 * @param aggregationIncludedFields
-	 *            the aggregationIncludedFields to set
+	 * @param categories
+	 *            the categories to set
 	 */
-	public void setAggregationIncludedFields(final List<String> aggregationIncludedFields)
+	public void setCategories(final Map<String, String> categories)
 	{
-		this.aggregationIncludedFields = aggregationIncludedFields;
+		this.categories = categories;
 	}
 
 	// ========================= PRIVATE METHODS ===========================
+
+	/**
+	 * Generates an aggregated result for a given {@link ResultType} based on the records
+	 * included.
+	 * 
+	 * @param queryIds
+	 * @param fqRootClass
+	 * @param fields
+	 * @param includedIds
+	 */
+	private AggregatedResult generateAggregatedResult(final List<String> fields,
+			final String fqRootClass, final List<String> queryIds,
+			final List<Long> includedIds, final ResultType resultType)
+	{
+		final AggregatedResultTo aggregatedResultTo = new AggregatedResultTo(
+				new ResultContextKeyToImpl(resultType));
+
+		// for each set of ids, do an aggregate count on each field
+		for (final String field : fields)
+		{
+			// We really don't need unlimited IN functionality for query ids but this make
+			// the parameter binding easier
+			final String hql = "SELECT DISTINCT new map(" + field
+					+ "as fieldName, COUNT(" + field + ") as fieldCount) FROM "
+					+ fqRootClass + " WHERE "
+					+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId") + " and "
+					+ SqlUtil.unlimitedInValues(includedIds, "id.id");
+
+			final List<Object> parameters = new ArrayList<>();
+			parameters.addAll(queryIds);
+			parameters.addAll(includedIds);
+			final List<Map<String, Object>> results = resultDataService.getQueryResults(
+					hql, parameters);
+
+			final CategoryTo categoryTo = new CategoryTo(categories.get(field));
+
+			for (final Map<String, Object> result : results)
+			{
+				Object name = result.get("fieldName");
+				if (name == null)
+				{
+					name = "Missing data";
+				}
+				categoryTo.addEntry((String) name, (Long) result.get("fieldCount"));
+			}
+
+			aggregatedResultTo.addCategory(categoryTo);
+		}
+
+		return aggregatedResultTo;
+	}
 
 	/**
 	 * @param parent
