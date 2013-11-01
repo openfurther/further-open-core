@@ -16,13 +16,14 @@
 package edu.utah.further.fqe.ds.model.further.service.results;
 
 import java.util.List;
-import java.util.Map;
 
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
-import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * Result services which can retrieve or access row level data.
@@ -41,34 +42,29 @@ import edu.utah.further.fqe.ds.api.service.results.ResultType;
 @Service("resultDataService")
 public class ResultDataServiceImpl implements ResultDataService
 {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.utah.further.fqe.ds.api.service.results.ResultDataService#join(java.util.List,
-	 * java.lang.String, edu.utah.further.fqe.ds.api.service.results.ResultType, int)
+	/**
+	 * Data sessionfactory
 	 */
-	@Override
-	public Map<String, Long> join(final List<String> queryIds, final String attributeName,
-			final ResultType resultType, final int intersectionIndex)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * edu.utah.further.fqe.ds.api.service.results.ResultDataService#getQueryResults(java
-	 * .util.List)
+	 * .lang.String, java.util.List)
 	 */
 	@Override
-	public <T> List<T> getQueryResults(final List<String> queryIds)
+	public <T> T getQueryResults(final String hql,
+			final List<Object> orderedParameterValues)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		final Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		for (int i = 0; i < orderedParameterValues.size(); i++)
+		{
+			query.setParameter(i, orderedParameterValues.get(i));
+		}
+		return (T) query.list();
 	}
 
 	/*

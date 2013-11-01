@@ -81,4 +81,11 @@ public interface Identifier
 	 * @return the queryId
 	 */
 	String getQueryId();
+	
+	/**
+	 * Return the virtualId property.
+	 * 
+	 * @return the virtualId
+	 */
+	Long getVirtualId();
 }

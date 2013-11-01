@@ -52,8 +52,6 @@ import edu.utah.further.fqe.api.service.query.AggregationService;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.api.service.route.FqeService;
 import edu.utah.further.fqe.api.ws.FqeServiceRest;
-import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResult;
-import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultTo;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultsTo;
 import edu.utah.further.fqe.ds.api.domain.Data;
@@ -568,39 +566,6 @@ public class FqeServiceRestImpl implements FqeServiceRest
 		final QueryContext queryContext = queryContextService
 				.findQueryContextWithOriginId(new Long(originId));
 		return aggregatedResults(queryContext);
-	}
-
-	/**
-	 * Return a result set of aggregated counts (broken down by demographic categories)
-	 * for a query with a specified origin ID (e.g. i2b2 ID).
-	 * 
-	 * @param originId
-	 *            query origin ID (e.g. i2b2 query ID)
-	 * @param resultType
-	 *            federated join type (<code>SUM/INTERSECTION/...</code>)
-	 * @param intersectionIndex
-	 *            intersection index (required for <code>INTERSECTION</code>)
-	 * @return an object holding histograms of aggregated counts for each of several
-	 *         demographic category
-	 * @see edu.utah.further.fqe.api.ws.FqeServiceRest#aggregatedResultByOriginId(long,
-	 *      edu.utah.further.fqe.ds.api.service.results.ResultType, int)
-	 */
-	@Override
-	public AggregatedResultTo aggregatedResultByOriginId(final long originId,
-			final ResultType resultType, final int intersectionIndex)
-	{
-		final QueryContext federatedQueryContext = queryContextService
-				.findQueryContextWithOriginId(new Long(originId));
-		if (federatedQueryContext == null)
-		{
-			// Query not found, return empty object
-			return AggregatedResultTo.EMPTY_INSTANCE;
-		}
-		final AggregatedResult result = aggregationService.generatedAggregatedResult(
-				federatedQueryContext, resultType, intersectionIndex);
-		// More generally, one would deep-copy the domain object implementation of
-		// AggregationResult into the TO. Here we know they're the same.
-		return (AggregatedResultTo) result;
 	}
 
 	/*

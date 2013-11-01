@@ -15,15 +15,20 @@
  */
 package edu.utah.further.fqe.impl.service.query;
 
-import static edu.utah.further.core.api.constant.Constants.INVALID_VALUE_INTEGER;
 import static edu.utah.further.fqe.ds.api.service.results.ResultType.INTERSECTION;
 import static edu.utah.further.fqe.ds.api.service.results.ResultType.SUM;
+import static edu.utah.further.fqe.ds.api.service.results.ResultType.UNION;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,11 +36,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
-import edu.utah.further.core.api.collections.CollectionUtil.MapType;
 import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.data.Dao;
+import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.text.StringUtil;
+import edu.utah.further.core.data.util.SqlUtil;
 import edu.utah.further.fqe.api.service.query.AggregationService;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.api.util.FqeQueryContextUtil;
@@ -50,7 +57,9 @@ import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
+import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
+import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 
 /**
  * A data source result set aggregation service implementation. Relies on a Hibernate
@@ -78,40 +87,6 @@ public class AggregationServiceImpl implements AggregationService
 	 */
 	private static final Logger log = getLogger(AggregationServiceImpl.class);
 
-	/**
-	 * Demographic category metadata. TODO: replace this with logical model attributes
-	 * read from the MDR (FUR-1554). Note: in principle, this module should be unaware of
-	 * VR column names, which is the responsibility of the data layer. Since this is a
-	 * mock implementation, however, we store it here for easier access by all involved
-	 * classes. This map acts like the logical model and VR data model MDR XMIs.
-	 */
-	private static final Map<String, AttributeMetadata> ATTRIBUTE_METADATA = CollectionUtil
-			.newMap(MapType.CONCURRENT_HASH_MAP);
-
-	static
-	{
-		addAttributeMetadata("age", "Age†", "AGE_IN_YEARS_NUM");
-		addAttributeMetadata("religion", "Religion", "RELIGION_CD");
-		addAttributeMetadata("race", "Race", "RACE_CD");
-		addAttributeMetadata("sex", "Sex", "SEX_CD");
-		addAttributeMetadata("language", "Language", "LANGUAGE_CD");
-		addAttributeMetadata("maritalstatus", "Marital Status", "MARITAL_STATUS_CD");
-		addAttributeMetadata("vitalStatus", "Vital Status/Deceased", "VITAL_STATUS_CD");
-		addAttributeMetadata("pedigreeQuality", "Pedigree Quality", "PEDIGREE_QUALITY");
-	}
-
-	/**
-	 * @param name
-	 * @param displayName
-	 * @param columnName
-	 */
-	private static void addAttributeMetadata(final String name, final String displayName,
-			final String columnName)
-	{
-		ATTRIBUTE_METADATA
-				.put(name, new AttributeMetadata(name, displayName, columnName));
-	}
-
 	// ========================= DEPENDENCIES ==============================
 
 	/**
@@ -131,6 +106,9 @@ public class AggregationServiceImpl implements AggregationService
 	 */
 	@Autowired
 	private ResultDataService resultDataService;
+
+	@Autowired
+	private IdentifierService identifierService;
 
 	/**
 	 * Handles generic DAO operations and searches.
@@ -153,6 +131,12 @@ public class AggregationServiceImpl implements AggregationService
 	 * Name of histogram category for missing data.
 	 */
 	private final String missingData = "Missing Data";
+
+	/**
+	 * A list of field names which should not be part of aggregation (histogram)
+	 * generation.
+	 */
+	private List<String> aggregationIncludedFields = new ArrayList<>();
 
 	// ========================= IMPLEMENTATION: DataService ===============
 
@@ -247,7 +231,7 @@ public class AggregationServiceImpl implements AggregationService
 			case DATA_QUERY:
 			{
 				addResultViewTo(parent, queryIds, SUM);
-				addResultViewTo(parent, queryIds, ResultType.UNION);
+				addResultViewTo(parent, queryIds, UNION);
 				addResultViewTo(parent, queryIds, INTERSECTION);
 				break;
 			}
@@ -271,48 +255,124 @@ public class AggregationServiceImpl implements AggregationService
 			final QueryContext federatedQueryContext)
 	{
 		final QueryContext parent = qcService.findById(federatedQueryContext.getId());
-		if (log.isDebugEnabled())
+		final List<QueryContext> children = qcService.findChildren(parent);
+
+		final List<String> queryIds = new ArrayList<>();
+		final Set<String> rootClass = new HashSet<>();
+
+		for (final QueryContext childContext : children)
 		{
-			log.debug("generateResultViews() " + parent);
+			queryIds.add(childContext.getExecutionId());
+			rootClass.add(childContext.getResultContext().getRootEntityClass());
 		}
-		final List<String> queryIds = qcService.findChildrenQueryIdsByParent(parent);
-		final AggregatedResults results = new AggregatedResultsTo();
-		final int numDataSources = queryIds.size();
-		results.setNumDataSources(numDataSources);
-		results.addResult(mockAggregatedResult(SUM, INVALID_VALUE_INTEGER, queryIds));
-		if (numDataSources > 1)
+
+		Validate.isTrue(rootClass.size() == 1,
+				"Expected only 1 root entity class but received " + rootClass);
+
+		final String fqRootClass = rootClass.iterator().next();
+
+		Class<?> clazz = null;
+		try
 		{
-			// Add intersections only if there are at least two data sources
-			for (int i = 1; i <= numDataSources; i++)
+			clazz = Thread.currentThread().getContextClassLoader().loadClass(fqRootClass);
+		}
+		catch (final ClassNotFoundException e)
+		{
+			throw new ApplicationException("Unable to aggregate results", e);
+		}
+
+		// Sanity check
+		Validate.isTrue(PersistentEntity.class.isAssignableFrom(clazz));
+
+		final List<String> fields = new ArrayList<>();
+		for (final Field field : clazz.getDeclaredFields())
+		{
+			// Only consider private and non-excluded fields
+			if (Modifier.isPrivate(field.getModifiers())
+					&& aggregationIncludedFields.contains(field.getName()))
 			{
-				results.addResult(mockAggregatedResult(INTERSECTION, i, queryIds));
+				fields.add(field.getName());
 			}
 		}
-		return results;
+
+		// get all virtual ids for sum
+		final List<Long> idsInSum = identifierService.getVirtualIdentifiers(queryIds);
+
+		// get all virtual ids for intersection
+		final Map<Long, Set<Long>> commonToVirtualMap = identifierService
+				.getCommonIdToVirtualIdMap(queryIds, true);
+		final List<Long> idsInIntersection = CollectionUtil.newList();
+		for (final Set<Long> virtuals : commonToVirtualMap.values())
+		{
+			// Add the first virtual id, ignore all the others and make very big assuming
+			// that because they're the same person, they'll also have the same record
+			// information
+			idsInIntersection.add(virtuals.iterator().next());
+		}
+
+		// get all virtual ids for union
+		final List<Long> idsInUnion = new ArrayList<>();
+		idsInUnion.addAll(identifierService.getUnresolvedVirtualIdentifiers(queryIds));
+		idsInUnion.addAll(idsInIntersection);
+
+		final AggregatedResult aggregatedSum = generateAggregatedResult(fields,
+				fqRootClass, queryIds, idsInSum, ResultType.SUM);
+		final AggregatedResult aggregatedUnion = generateAggregatedResult(fields,
+				fqRootClass, queryIds, idsInUnion, ResultType.UNION);
+		final AggregatedResult aggregatedIntersection = generateAggregatedResult(fields,
+				fqRootClass, queryIds, idsInIntersection, ResultType.INTERSECTION);
+
+		final AggregatedResults aggregatedResults = new AggregatedResultsTo();
+		aggregatedResults.addResult(aggregatedSum);
+		aggregatedResults.addResult(aggregatedUnion);
+		aggregatedResults.addResult(aggregatedIntersection);
+		aggregatedResults.setNumDataSources(queryIds.size());
+
+		return aggregatedResults;
 	}
 
 	/**
-	 * @param federatedQueryContext
-	 * @param resultType
-	 * @param intersectionIndex
-	 * @return
-	 * @see edu.utah.further.fqe.api.service.query.AggregationService#generatedAggregatedResult(QueryContext,
-	 *      ResultType, int)
+	 * @param queryIds
+	 * @param fqRootClass
+	 * @param fields
+	 * @param includedIds
 	 */
-	@Override
-	public synchronized AggregatedResult generatedAggregatedResult(
-			final QueryContext federatedQueryContext, final ResultType resultType,
-			final int intersectionIndex)
+	private AggregatedResult generateAggregatedResult(final List<String> fields,
+			final String fqRootClass, final List<String> queryIds,
+			final List<Long> includedIds, final ResultType resultType)
 	{
-		final QueryContext parent = qcService.findById(federatedQueryContext.getId());
-		if (log.isDebugEnabled())
+		final AggregatedResultTo aggregatedResultTo = new AggregatedResultTo(
+				new ResultContextKeyToImpl(resultType));
+
+		// for each set of ids, do an aggregate count on each field
+		for (final String field : fields)
 		{
-			log.debug("generateResultViews() " + parent);
+			// We really don't need unlimited IN functionality for query ids but this make
+			// the parameter binding easier
+			final String hql = "SELECT DISTINCT new map(" + field
+					+ "as fieldName, COUNT(" + field + ") as fieldCount) FROM "
+					+ fqRootClass + " WHERE "
+					+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId") + " and "
+					+ SqlUtil.unlimitedInValues(includedIds, "id.id");
+
+			final List<Object> parameters = new ArrayList<>();
+			parameters.addAll(queryIds);
+			parameters.addAll(includedIds);
+			final List<Map<String, Object>> results = resultDataService.getQueryResults(
+					hql, parameters);
+
+			final CategoryTo categoryTo = new CategoryTo(field);
+
+			for (final Map<String, Object> result : results)
+			{
+				categoryTo.addEntry((String) result.get("fieldName"),
+						(Long) result.get("fieldCount"));
+			}
+
+			aggregatedResultTo.addCategory(categoryTo);
 		}
-		final List<String> queryIds = qcService.findChildrenQueryIdsByParent(parent);
-		final AggregatedResult result = mockAggregatedResult(resultType,
-				intersectionIndex, queryIds);
-		return result;
+
+		return aggregatedResultTo;
 	}
 
 	/**
@@ -341,7 +401,9 @@ public class AggregationServiceImpl implements AggregationService
 			}
 			else
 			{
-				final ResultContext resultView = resultViews.get(result.getKey().getType());
+				final ResultContext resultView = resultViews.get(result
+						.getKey()
+						.getType());
 				numResults = resultView.getNumRecords();
 			}
 			for (final Category category : result.getCategories())
@@ -530,45 +592,28 @@ public class AggregationServiceImpl implements AggregationService
 		this.dao = dao;
 	}
 
-	// ========================= PRIVATE METHODS ===========================
-
 	/**
-	 * @param resultType
-	 * @param intersectionIndex
-	 * @param queryIds
-	 * @return
-	 */
-	private AggregatedResult mockAggregatedResult(final ResultType resultType,
-			final int intersectionIndex, final List<String> queryIds)
-	{
-		final AggregatedResult result = new AggregatedResultTo(resultType);
-		for (final Map.Entry<String, AttributeMetadata> entry : ATTRIBUTE_METADATA
-				.entrySet())
-		{
-			result.addCategory(generateCategory(queryIds, entry.getValue(), resultType,
-					intersectionIndex));
-		}
-		return result;
-	}
-
-	/**
-	 * Compute a single demographic category histogram.
+	 * Return the aggregationIncludedFields property.
 	 * 
-	 * @param result
-	 * @param queryIds
-	 * @param attributeName
-	 * @param resultType
-	 * @param intersectionIndex
-	 * @return
+	 * @return the aggregationIncludedFields
 	 */
-	private Category generateCategory(final List<String> queryIds,
-			final AttributeMetadata attributeMetadata, final ResultType resultType,
-			final int intersectionIndex)
+	public List<String> getAggregationIncludedFields()
 	{
-		final Map<String, Long> join = resultDataService.join(queryIds,
-				attributeMetadata.getColumnName(), resultType, intersectionIndex);
-		return new CategoryTo(attributeMetadata.getDisplayName(), join);
+		return aggregationIncludedFields;
 	}
+
+	/**
+	 * Set a new value for the aggregationIncludedFields property.
+	 * 
+	 * @param aggregationIncludedFields
+	 *            the aggregationIncludedFields to set
+	 */
+	public void setAggregationIncludedFields(final List<String> aggregationIncludedFields)
+	{
+		this.aggregationIncludedFields = aggregationIncludedFields;
+	}
+
+	// ========================= PRIVATE METHODS ===========================
 
 	/**
 	 * @param parent

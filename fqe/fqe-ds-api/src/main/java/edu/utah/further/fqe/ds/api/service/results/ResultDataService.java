@@ -16,7 +16,6 @@
 package edu.utah.further.fqe.ds.api.service.results;
 
 import java.util.List;
-import java.util.Map;
 
 import edu.utah.further.core.query.domain.SearchQuery;
 
@@ -38,35 +37,6 @@ import edu.utah.further.core.query.domain.SearchQuery;
 public interface ResultDataService
 {
 	/**
-	 * Generate a union result from the list of query identifiers by attribute name. This
-	 * is used to display results per attribute depending on the {@link ResultType}
-	 * 
-	 * @param queryIds
-	 *            list of DQC IDs to join
-	 * @param attributeName
-	 *            logical model demographics category attribute name (under the
-	 *            <code>Person</code> class)
-	 * @param resultType
-	 *            join result type
-	 * @param intersectionIndex
-	 *            if <code>resultType = INTERESECTION</code>, the intersection index of
-	 *            the join
-	 * @return union result, broken down by category value
-	 */
-	Map<String, Long> join(List<String> queryIds, String attributeName,
-			ResultType resultType, int intersectionIndex);
-
-	/**
-	 * Return all the results of a query. A typical implementation of this method returns
-	 * a list of root entity objects (e.g. a List of Person objects)
-	 * 
-	 * @param ids
-	 *            a list of query ids
-	 * @return a list of results
-	 */
-	<T> List<T> getQueryResults(final List<String> queryIds);
-
-	/**
 	 * Fetch the results of a query by using another query
 	 * 
 	 * @param query
@@ -74,4 +44,14 @@ public interface ResultDataService
 	 * @return a list of results
 	 */
 	<T> List<T> getQueryResults(final SearchQuery query);
+
+	/**
+	 * Execute a query against results using an object query language like HQL binding any
+	 * values in the order they are passed.
+	 * 
+	 * @param hql
+	 * @param orderedParameterValues
+	 * @return
+	 */
+	<T> T getQueryResults(final String hql, final List<Object> orderedParameterValues);
 }

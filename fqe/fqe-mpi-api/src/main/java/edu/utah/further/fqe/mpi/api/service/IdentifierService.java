@@ -16,6 +16,8 @@
 package edu.utah.further.fqe.mpi.api.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import edu.utah.further.core.api.data.PersistentEntity;
 import edu.utah.further.fqe.mpi.api.Identifier;
@@ -78,20 +80,51 @@ public interface IdentifierService
 	 * @return a list of identifiers
 	 */
 	List<Long> getVirtualIdentifiers(List<String> queryIds);
+	
+	/**
+	 * Returns a list of {@link Identifier}s that have not been resolved to a common
+	 * identifier.
+	 * 
+	 * @param queryId
+	 * @return
+	 */
+	List<Long> getUnresolvedVirtualIdentifiers(List<String> queryIds);
 
 	/**
-	 * Returns a list of {@link Identifier}s for which identity resolution needs to be
-	 * performed.
+	 * Returns a list of {@link Identifier}s that have not been resolved to a common
+	 * identifier.
+	 * 
+	 * @param queryId
+	 * @return
+	 */
+	List<Identifier> getUnresolvedIdentifiers(List<String> queryIds);
+
+	/**
+	 * Returns a list of {@link Identifier}s that have not been resolved to a common
+	 * identifier.
 	 * 
 	 * @param queryId
 	 * @return
 	 */
 	List<Identifier> getUnresolvedIdentifiers(String queryId);
-	
+
 	/**
 	 * Persists updates to already saved identifiers
 	 * 
 	 * @param identifiers
 	 */
 	void updateSavedIdentifiers(List<? extends PersistentEntity<?>> identifiers);
+
+	/**
+	 * For the given queryIds, return a map with a key to the common identifier and a set
+	 * of virtual identifiers linked to that common identifier.
+	 * 
+	 * @param queryIds
+	 *            the query ids to search
+	 * @param orderedVirtualIds
+	 *            whether or not to order the virtual identifiers
+	 * @return
+	 */
+	Map<Long, Set<Long>> getCommonIdToVirtualIdMap(List<String> queryIds,
+			boolean orderedVirtualIds);
 }

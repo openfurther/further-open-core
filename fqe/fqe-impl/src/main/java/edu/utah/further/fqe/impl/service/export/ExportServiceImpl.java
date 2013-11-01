@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.exception.ApplicationException;
+import edu.utah.further.core.data.util.SqlUtil;
 import edu.utah.further.fqe.api.service.export.ExportService;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.ExportContext;
@@ -169,7 +170,7 @@ public class ExportServiceImpl implements ExportService
 				.findCompletedChildren(queryContext);
 
 		// A list of query ids to get results for
-		final List<String> queryIds = CollectionUtil.newList();
+		final List<Object> queryIds = CollectionUtil.newList();
 
 		// Only add query ids that are have a whitelisted data source id
 		for (final QueryContext context : queries)
@@ -183,7 +184,10 @@ public class ExportServiceImpl implements ExportService
 		// This is the root object which by default is always fetched and not filtered
 		// E.g. you don't want to filter the number of patients you have but you may want
 		// to filter which diagnosis they have
-		final List<Object> results = resultService.getQueryResults(queryIds);
+		final List<Object> results = resultService.getQueryResults(
+				"from " + queryContext.getResultContext().getRootEntityClass()
+						+ " where id.datasetId "
+						+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId"), queryIds);
 
 		// for (final SearchQuery query : context.getFilters())
 		// {

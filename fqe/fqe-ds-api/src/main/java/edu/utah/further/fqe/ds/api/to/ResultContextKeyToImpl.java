@@ -85,7 +85,6 @@ public final class ResultContextKeyToImpl extends AbstractResultContextKey
 
 	/**
 	 * @param type
-	 * @param intersectionIndex
 	 */
 	public ResultContextKeyToImpl(final ResultType type)
 	{

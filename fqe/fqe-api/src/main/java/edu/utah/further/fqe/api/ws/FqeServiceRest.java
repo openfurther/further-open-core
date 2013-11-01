@@ -30,14 +30,12 @@ import edu.utah.further.core.api.exception.WsException;
 import edu.utah.further.core.api.ws.Documentation;
 import edu.utah.further.core.api.ws.ExamplePath;
 import edu.utah.further.core.query.domain.SearchQuery;
-import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultTo;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultsTo;
 import edu.utah.further.fqe.ds.api.domain.Data;
 import edu.utah.further.fqe.ds.api.domain.DsMetaData;
 import edu.utah.further.fqe.ds.api.domain.DsState;
 import edu.utah.further.fqe.ds.api.domain.ExportContext;
 import edu.utah.further.fqe.ds.api.domain.ExportFormat;
-import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ExportContextTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextIdentifierTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextStateTo;
@@ -380,29 +378,6 @@ public interface FqeServiceRest
 	@Documentation(name = "Update data source activation state", description = "Demographic histograms for an i2b2 query or another remote query.")
 	AggregatedResultsTo aggregatedResultsByOriginId(
 			@PathParam("originId") @Documentation(description = "Query origin ID") long originId);
-
-	/**
-	 * Return a result set of aggregated counts (broken down by demographic categories)
-	 * for a query with a specified origin ID (e.g. i2b2 ID).
-	 * 
-	 * @param originId
-	 *            query origin ID (e.g. i2b2 query ID)
-	 * @param resultType
-	 *            federated join type (<code>SUM/INTERSECTION/...</code>)
-	 * @param intersectionIndex
-	 *            intersection index (required for <code>INTERSECTION</code>)
-	 * @return an object holding histograms of aggregated counts for each of several
-	 *         demographic category
-	 */
-	@GET
-	@Produces("application/xml")
-	@Path("/query/count/origin/{resultType}/{intersectionIndex}/{originId}")
-	@ExamplePath("query/count/origin/INTERSECTION/1/2416")
-	@Documentation(name = "Update data source activation state", description = "A single demographic histogram for an i2b2 query or another remote query.")
-	AggregatedResultTo aggregatedResultByOriginId(
-			@PathParam("originId") @Documentation(description = "Query origin ID") long originId,
-			@PathParam("resultType") @Documentation(description = "Federated join type") ResultType resultType,
-			@PathParam("intersectionIndex") @Documentation(description = "Federated intersection index") int intersectionIndex);
 
 	// ========================= METHODS: export methods ======
 

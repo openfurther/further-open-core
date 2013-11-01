@@ -229,4 +229,16 @@ public final class IdentifierRequestImpl implements Identifier
 		this.queryId = queryId;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.fqe.mpi.api.Identifier#getVirtualId()
+	 */
+	@Override
+	public Long getVirtualId()
+	{
+		throw new UnsupportedOperationException(
+				"Identifier requests do not contain virtual identifiers");
+	}
+
 }

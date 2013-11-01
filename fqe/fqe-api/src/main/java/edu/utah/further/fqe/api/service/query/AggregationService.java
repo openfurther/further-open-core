@@ -17,7 +17,6 @@ package edu.utah.further.fqe.api.service.query;
 
 import java.util.Map;
 
-import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResult;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.ResultContext;
@@ -80,28 +79,16 @@ public interface AggregationService
 	AggregatedResults generatedAggregatedResults(QueryContext federatedQueryContext);
 
 	/**
-	 * Generate aggregated count histograms, broken down by different demographic
-	 * categories.
+	 * Add missing data Category to aggregated demographic results
 	 * 
-	 * @param federatedQueryContext
-	 * @param resultType
-	 * @param intersectionIndex
-	 * @return aggregated result object, holds multiple histograms (once per demographic
-	 *         category)
+	 * @param results
+	 * 
+	 * @return results with missing data
+	 * 
 	 */
-	AggregatedResult generatedAggregatedResult(QueryContext federatedQueryContext,
-			ResultType resultType, int intersectionIndex);
+	AggregatedResults addMissingDataEntries(AggregatedResults results,
+			Map<ResultType, ResultContext> resultViews);
 
-	/**
-	 * Add missing data Category to aggregated demographic results 
-	 *
-	 *@param results
-	 *
-	 *@return results with missing data
-	 * 
-	 */
-	AggregatedResults addMissingDataEntries (AggregatedResults results, Map<ResultType, ResultContext> resultViews );
-	
 	/**
 	 * Scrub positive counts that are smaller than the mask boundary value.
 	 * 
