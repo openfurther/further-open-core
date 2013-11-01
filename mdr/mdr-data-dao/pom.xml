@@ -28,6 +28,7 @@
 			javax.sql,
 			javax.persistence,
 			org.hibernate.cfg,
+			org.hibernate.engine.jdbc,
 			org.springframework.orm,
 			org.springframework.orm.hibernate3.support,
 			org.springframework.orm.hibernate3.annotation,
