@@ -65,6 +65,17 @@
 		class="edu.utah.further.fqe.impl.service.query.AggregationServiceImpl">
 		<property name="resultMaskBoundary" value="${result.mask.boundary}" />
 		<property name="resultMaskOther" value="${result.mask.other}" />
+		<property name="categories">
+			<map>
+				<entry key="age" value="Age†" />
+				<entry key="primaryLanguage" value="Language" />
+				<entry key="maritalStatus" value="Marital Status" />
+				<entry key="race" value="Race" />
+				<entry key="religion" value="Religion" />
+				<entry key="administrativeGender" value="Sex" />
+				<entry key="vitalStatus" value="Vital Status/Deceased" />
+			</map>
+		</property>
 	</bean>
 
 	<!-- Data source exchange grouping strategy -->
