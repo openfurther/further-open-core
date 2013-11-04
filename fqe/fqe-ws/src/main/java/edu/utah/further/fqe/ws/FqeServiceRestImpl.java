@@ -920,7 +920,7 @@ public class FqeServiceRestImpl implements FqeServiceRest
 		}
 		// Build histograms (counts broken down by demographic categories)
 		final AggregatedResults result = aggregationService
-				.generatedAggregatedResults(federatedQueryContext);
+				.generateAggregatedResults(federatedQueryContext);
 
 		// Attach federated join total counts
 		final QueryContextToImpl qcTo = QueryContextToImpl.newCopy(federatedQueryContext);
@@ -936,12 +936,10 @@ public class FqeServiceRestImpl implements FqeServiceRest
 		{
 			result.setResultViews(resultViews);
 		}
-		final AggregatedResults resultsWithMissingDataEntries = aggregationService
-				.addMissingDataEntries(result, resultViews);
 
 		// Scrub small counts
 		final AggregatedResults scrubbedResult = aggregationService
-				.scrubResults(resultsWithMissingDataEntries);
+				.scrubResults(result);
 
 		// More generally, one would deep-copy the domain object implementation of
 		// AggregationResult into the TO. Here we know they're the same.

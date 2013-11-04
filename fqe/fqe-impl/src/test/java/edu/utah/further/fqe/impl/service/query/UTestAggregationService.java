@@ -49,9 +49,8 @@ import edu.utah.further.fqe.api.service.query.AggregationService;
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
+import edu.utah.further.fqe.ds.api.to.QueryContextTo;
 import edu.utah.further.fqe.ds.api.to.QueryContextToImpl;
-import edu.utah.further.fqe.ds.api.to.ResultContextTo;
-import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
 import edu.utah.further.fqe.impl.domain.QueryContextEntity;
 import edu.utah.further.fqe.impl.fixture.FqeImplUtestFixture;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
@@ -105,7 +104,8 @@ public class UTestAggregationService extends FqeImplUtestFixture
 	/**
 	 * Setup all the mocks
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
 	@Before
 	public void setup()
 	{
@@ -115,20 +115,21 @@ public class UTestAggregationService extends FqeImplUtestFixture
 		XMLUnit.setIgnoreWhitespace(true);
 		XMLUnit.setIgnoreComments(true);
 
-		final ResultContextTo resultContext = new ResultContextToImpl();
-		resultContext.setRootEntityClass(Person.class.getCanonicalName());
+		expect((Class) resultDataService.getRootResultClass(anyObject(List.class)))
+				.andStubReturn((Person.class));
 
 		parent = QueryContextToImpl.newInstanceWithExecutionId();
 
 		final Long id = dao.save(QueryContextEntity.newCopy(parent));
 		parent = dao.getById(QueryContextEntity.class, id);
 
-		final QueryContext childOne = QueryContextToImpl
-				.newChildInstance(QueryContextToImpl.newCopy(parent));
-		childOne.setResultContext(resultContext);
+		final QueryContextTo parentTo = QueryContextToImpl.newCopy(parent);
+
+		final QueryContext childOne = QueryContextToImpl.newChildInstance(parentTo);
+		childOne.setParent(parentTo);
 		final QueryContext childTwo = QueryContextToImpl
-				.newChildInstance(QueryContextToImpl.newCopy(parent));
-		childTwo.setResultContext(resultContext);
+				.newChildInstance(QueryContextToImpl.newCopy(parentTo));
+		childTwo.setParent(parentTo);
 
 		dao.save(QueryContextEntity.newCopy(childOne));
 		dao.save(QueryContextEntity.newCopy(childTwo));
@@ -199,7 +200,7 @@ public class UTestAggregationService extends FqeImplUtestFixture
 	public void aggregateResults() throws JAXBException, SAXException, IOException
 	{
 		final AggregatedResults aggregatedResults = aggregationService
-				.generatedAggregatedResults(parent);
+				.generateAggregatedResults(parent);
 		final XmlService xmlService = new XmlServiceImpl();
 		final String result = xmlService.marshal(aggregatedResults);
 		final Diff diff = new Diff(
@@ -219,7 +220,7 @@ public class UTestAggregationService extends FqeImplUtestFixture
 			IOException
 	{
 		AggregatedResults aggregatedResults = aggregationService
-				.generatedAggregatedResults(parent);
+				.generateAggregatedResults(parent);
 		aggregatedResults = aggregationService.scrubResults(aggregatedResults);
 		final XmlService xmlService = new XmlServiceImpl();
 		final String result = xmlService.marshal(aggregatedResults);

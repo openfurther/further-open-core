@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.utah.further.core.query.domain.SearchQuery;
+import edu.utah.further.ds.further.model.impl.domain.Person;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 
 /**
@@ -47,6 +48,21 @@ public class ResultDataServiceImpl implements ResultDataService
 	 */
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.fqe.ds.api.service.results.ResultDataService#getRootResultClass
+	 * (java.util.List)
+	 */
+	@Override
+	public Class<?> getRootResultClass(final List<String> queryIds)
+	{
+		// in future versions, we'll query the database to figure out the root class based
+		// on the query identifiers but for now, we only support root results as Persons.
+		return Person.class;
+	}
 
 	/*
 	 * (non-Javadoc)

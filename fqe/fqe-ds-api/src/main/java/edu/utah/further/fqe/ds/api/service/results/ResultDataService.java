@@ -37,6 +37,15 @@ import edu.utah.further.core.query.domain.SearchQuery;
 public interface ResultDataService
 {
 	/**
+	 * Return the root class which represents the results based on the query identifiers;
+	 * this will largely depend on the root object that was chosen.
+	 * 
+	 * @param queryIds
+	 * @return
+	 */
+	Class<?> getRootResultClass(final List<String> queryIds);
+
+	/**
 	 * Fetch the results of a query by using another query
 	 * 
 	 * @param query

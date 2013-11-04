@@ -24,7 +24,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,7 +40,6 @@ import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.data.Dao;
 import edu.utah.further.core.api.data.PersistentEntity;
-import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.text.StringUtil;
 import edu.utah.further.core.data.util.SqlUtil;
 import edu.utah.further.fqe.api.service.query.AggregationService;
@@ -54,7 +52,6 @@ import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultsTo;
 import edu.utah.further.fqe.api.ws.to.aggregate.Category;
 import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
-import edu.utah.further.fqe.ds.api.domain.ResultContext;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
@@ -108,6 +105,10 @@ public class AggregationServiceImpl implements AggregationService
 	@Autowired
 	private ResultDataService resultDataService;
 
+	/**
+	 * Identifier related operations, particularly around retrieving identifiers related
+	 * to particularly queries
+	 */
 	@Autowired
 	private IdentifierService identifierService;
 
@@ -134,7 +135,7 @@ public class AggregationServiceImpl implements AggregationService
 	private final String missingData = "Missing Data";
 
 	/**
-	 * Categories to include keyed by field name
+	 * Categories to include in the histogram, keyed by field name
 	 */
 	private Map<String, String> categories = new HashMap<>();
 
@@ -251,42 +252,27 @@ public class AggregationServiceImpl implements AggregationService
 	 * @see edu.utah.further.fqe.api.service.query.AggregationService#generatedAggregatedResults(edu.utah.further.fqe.ds.api.domain.QueryContext)
 	 */
 	@Override
-	public synchronized AggregatedResults generatedAggregatedResults(
+	public synchronized AggregatedResults generateAggregatedResults(
 			final QueryContext federatedQueryContext)
 	{
 		final QueryContext parent = qcService.findById(federatedQueryContext.getId());
 		final List<QueryContext> children = qcService.findChildren(parent);
 
 		final List<String> queryIds = new ArrayList<>();
-		final Set<String> rootClass = new HashSet<>();
 
 		for (final QueryContext childContext : children)
 		{
 			queryIds.add(childContext.getExecutionId());
-			rootClass.add(childContext.getResultContext().getRootEntityClass());
 		}
 
-		Validate.isTrue(rootClass.size() == 1,
-				"Expected only 1 root entity class but received " + rootClass);
-
-		final String fqRootClass = rootClass.iterator().next();
-
-		Class<?> clazz = null;
-		try
-		{
-			clazz = Thread.currentThread().getContextClassLoader().loadClass(fqRootClass);
-		}
-		catch (final ClassNotFoundException e)
-		{
-			throw new ApplicationException("Unable to aggregate results", e);
-		}
+		final Class<?> rootResultClass = resultDataService.getRootResultClass(queryIds);
 
 		// Sanity check
-		Validate.isTrue(PersistentEntity.class.isAssignableFrom(clazz));
+		Validate.isTrue(PersistentEntity.class.isAssignableFrom(rootResultClass));
 
 		final List<String> fields = new ArrayList<>();
 		final Set<String> aggregationIncludedFields = categories.keySet();
-		for (final Field field : clazz.getDeclaredFields())
+		for (final Field field : rootResultClass.getDeclaredFields())
 		{
 			// Only consider private and non-excluded fields
 			if (Modifier.isPrivate(field.getModifiers())
@@ -317,11 +303,13 @@ public class AggregationServiceImpl implements AggregationService
 		idsInUnion.addAll(idsInIntersection);
 
 		final AggregatedResult aggregatedSum = generateAggregatedResult(fields,
-				fqRootClass, queryIds, idsInSum, ResultType.SUM);
+				rootResultClass.getCanonicalName(), queryIds, idsInSum, ResultType.SUM);
 		final AggregatedResult aggregatedUnion = generateAggregatedResult(fields,
-				fqRootClass, queryIds, idsInUnion, ResultType.UNION);
+				rootResultClass.getCanonicalName(), queryIds, idsInUnion,
+				ResultType.UNION);
 		final AggregatedResult aggregatedIntersection = generateAggregatedResult(fields,
-				fqRootClass, queryIds, idsInIntersection, ResultType.INTERSECTION);
+				rootResultClass.getCanonicalName(), queryIds, idsInIntersection,
+				ResultType.INTERSECTION);
 
 		final AggregatedResults aggregatedResults = new AggregatedResultsTo();
 		aggregatedResults.addResult(aggregatedSum);
@@ -330,57 +318,6 @@ public class AggregationServiceImpl implements AggregationService
 		aggregatedResults.setNumDataSources(queryIds.size());
 
 		return aggregatedResults;
-	}
-
-	/**
-	 * Add missing data Category to aggregated demographic results
-	 * 
-	 * @param results
-	 * 
-	 * @return results with missing data
-	 * 
-	 */
-
-	@Override
-	@SuppressWarnings("boxing")
-	public AggregatedResults addMissingDataEntries(final AggregatedResults results,
-			final Map<ResultType, ResultContext> resultViews)
-	{
-
-		for (final AggregatedResult result : results.getResults())
-		{
-			// Get total records
-			long numResults = 0;
-			if (result.getKey().getType().equals(ResultType.SUM))
-			{
-				final ResultContext resultView = resultViews.get(ResultType.SUM);
-				numResults = resultView.getNumRecords();
-			}
-			else
-			{
-				final ResultContext resultView = resultViews.get(result
-						.getKey()
-						.getType());
-				numResults = resultView.getNumRecords();
-			}
-			for (final Category category : result.getCategories())
-			{
-				// check if total records is greater than number of demographic category
-				// records
-				long numRecords = 0;
-				for (final Map.Entry<String, Long> entry : category
-						.getEntries()
-						.entrySet())
-				{
-					numRecords += entry.getValue();
-				}
-				if (numResults > numRecords)
-				{
-					category.addEntry(missingData, numResults - numRecords);
-				}
-			}
-		}
-		return results;
 	}
 
 	/**
@@ -612,7 +549,7 @@ public class AggregationServiceImpl implements AggregationService
 				Object name = result.get("fieldName");
 				if (name == null)
 				{
-					name = "Missing data";
+					name = missingData;
 				}
 				categoryTo.addEntry((String) name, (Long) result.get("fieldCount"));
 			}

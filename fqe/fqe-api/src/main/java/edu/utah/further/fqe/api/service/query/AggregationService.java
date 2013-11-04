@@ -15,12 +15,8 @@
  */
 package edu.utah.further.fqe.api.service.query;
 
-import java.util.Map;
-
 import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResults;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
-import edu.utah.further.fqe.ds.api.domain.ResultContext;
-import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
 /**
  * A data source result set aggregation service implementation. Relies on a Hibernate
@@ -76,18 +72,7 @@ public interface AggregationService
 	 * @return aggregated result object, holds multiple histograms (once per demographic
 	 *         category)
 	 */
-	AggregatedResults generatedAggregatedResults(QueryContext federatedQueryContext);
-
-	/**
-	 * Add missing data Category to aggregated demographic results
-	 * 
-	 * @param results
-	 * 
-	 * @return results with missing data
-	 * 
-	 */
-	AggregatedResults addMissingDataEntries(AggregatedResults results,
-			Map<ResultType, ResultContext> resultViews);
+	AggregatedResults generateAggregatedResults(QueryContext federatedQueryContext);
 
 	/**
 	 * Scrub positive counts that are smaller than the mask boundary value.
