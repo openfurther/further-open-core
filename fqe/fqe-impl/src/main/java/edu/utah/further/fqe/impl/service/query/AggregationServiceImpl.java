@@ -534,7 +534,8 @@ public class AggregationServiceImpl implements AggregationService
 					+ " as fieldName, COUNT(" + field + ") as fieldCount) FROM "
 					+ fqRootClass + " WHERE "
 					+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId") + " and "
-					+ SqlUtil.unlimitedInValues(includedIds, "id.id");
+					+ SqlUtil.unlimitedInValues(includedIds, "id.id")
+					+ " GROUP BY " + field;
 
 			final List<Object> parameters = new ArrayList<>();
 			parameters.addAll(queryIds);
