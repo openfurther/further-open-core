@@ -552,7 +552,7 @@ public class AggregationServiceImpl implements AggregationService
 				{
 					name = missingData;
 				}
-				categoryTo.addEntry((String) name,
+				categoryTo.addEntry(String.valueOf(name),
 						Long.valueOf(String.valueOf(result.get("fieldCount"))));
 			}
 
