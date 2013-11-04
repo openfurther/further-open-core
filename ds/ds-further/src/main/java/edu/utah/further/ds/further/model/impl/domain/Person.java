@@ -152,8 +152,8 @@ public class Person implements PersistentEntity<PersonId>
 	@Column(name = "pedigree_quality")
 	private Long pedigreeQuality;
 
-	/* This IS Oracle specific */
-	@Formula(value = "floor(months_between(current_date, birth_dt)/12)")
+	/* Courtesy http://www.tek-tips.com/viewthread.cfm?qid=407618 */
+	@Formula(value = "( YEAR(CURRENT_DATE) - YEAR(birth_dt) ) - ( CASE WHEN month(CURRENT_DATE) < month(birth_dt) THEN 1 WHEN month(CURRENT_DATE) = month(birth_dt) AND day(CURRENT_DATE) < day(birth_dt) THEN 1 ELSE 0 END )")
 	private Integer age;
 
 	@OneToMany(targetEntity = Observation.class, fetch = FetchType.LAZY)
@@ -198,6 +198,7 @@ public class Person implements PersistentEntity<PersonId>
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see edu.utah.further.core.api.discrete.HasIdentifier#getId()
 	 */
 	@Override
@@ -205,14 +206,14 @@ public class Person implements PersistentEntity<PersonId>
 	{
 		return id;
 	}
-	
+
 	/**
 	 * Set a new value for the id property.
 	 * 
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(PersonId id)
+	public void setId(final PersonId id)
 	{
 		this.id = id;
 	}
@@ -233,7 +234,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param compositeId
 	 *            the compositeId to set
 	 */
-	public void setCompositeId(String compositeId)
+	public void setCompositeId(final String compositeId)
 	{
 		this.compositeId = compositeId;
 	}
@@ -254,7 +255,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param administrativeGenderNamespaceId
 	 *            the administrativeGenderNamespaceId to set
 	 */
-	public void setAdministrativeGenderNamespaceId(Long administrativeGenderNamespaceId)
+	public void setAdministrativeGenderNamespaceId(final Long administrativeGenderNamespaceId)
 	{
 		this.administrativeGenderNamespaceId = administrativeGenderNamespaceId;
 	}
@@ -275,7 +276,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param administrativeGender
 	 *            the administrativeGender to set
 	 */
-	public void setAdministrativeGender(String administrativeGender)
+	public void setAdministrativeGender(final String administrativeGender)
 	{
 		this.administrativeGender = administrativeGender;
 	}
@@ -296,7 +297,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param raceNamespaceId
 	 *            the raceNamespaceId to set
 	 */
-	public void setRaceNamespaceId(Long raceNamespaceId)
+	public void setRaceNamespaceId(final Long raceNamespaceId)
 	{
 		this.raceNamespaceId = raceNamespaceId;
 	}
@@ -317,7 +318,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param race
 	 *            the race to set
 	 */
-	public void setRace(String race)
+	public void setRace(final String race)
 	{
 		this.race = race;
 	}
@@ -338,7 +339,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param ethnicityNamespaceId
 	 *            the ethnicityNamespaceId to set
 	 */
-	public void setEthnicityNamespaceId(Long ethnicityNamespaceId)
+	public void setEthnicityNamespaceId(final Long ethnicityNamespaceId)
 	{
 		this.ethnicityNamespaceId = ethnicityNamespaceId;
 	}
@@ -359,7 +360,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param ethnicity
 	 *            the ethnicity to set
 	 */
-	public void setEthnicity(String ethnicity)
+	public void setEthnicity(final String ethnicity)
 	{
 		this.ethnicity = ethnicity;
 	}
@@ -380,7 +381,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param dateOfBirth
 	 *            the dateOfBirth to set
 	 */
-	public void setDateOfBirth(Date dateOfBirth)
+	public void setDateOfBirth(final Date dateOfBirth)
 	{
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -401,7 +402,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param birthYear
 	 *            the birthYear to set
 	 */
-	public void setBirthYear(Long birthYear)
+	public void setBirthYear(final Long birthYear)
 	{
 		this.birthYear = birthYear;
 	}
@@ -422,7 +423,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param birthMonth
 	 *            the birthMonth to set
 	 */
-	public void setBirthMonth(Long birthMonth)
+	public void setBirthMonth(final Long birthMonth)
 	{
 		this.birthMonth = birthMonth;
 	}
@@ -443,7 +444,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param birthDay
 	 *            the birthDay to set
 	 */
-	public void setBirthDay(Long birthDay)
+	public void setBirthDay(final Long birthDay)
 	{
 		this.birthDay = birthDay;
 	}
@@ -464,7 +465,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param educationLevel
 	 *            the educationLevel to set
 	 */
-	public void setEducationLevel(String educationLevel)
+	public void setEducationLevel(final String educationLevel)
 	{
 		this.educationLevel = educationLevel;
 	}
@@ -485,7 +486,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param primaryLanguageNamespaceId
 	 *            the primaryLanguageNamespaceId to set
 	 */
-	public void setPrimaryLanguageNamespaceId(Long primaryLanguageNamespaceId)
+	public void setPrimaryLanguageNamespaceId(final Long primaryLanguageNamespaceId)
 	{
 		this.primaryLanguageNamespaceId = primaryLanguageNamespaceId;
 	}
@@ -506,7 +507,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param primaryLanguage
 	 *            the primaryLanguage to set
 	 */
-	public void setPrimaryLanguage(String primaryLanguage)
+	public void setPrimaryLanguage(final String primaryLanguage)
 	{
 		this.primaryLanguage = primaryLanguage;
 	}
@@ -527,7 +528,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param maritalStatusNamespaceId
 	 *            the maritalStatusNamespaceId to set
 	 */
-	public void setMaritalStatusNamespaceId(Long maritalStatusNamespaceId)
+	public void setMaritalStatusNamespaceId(final Long maritalStatusNamespaceId)
 	{
 		this.maritalStatusNamespaceId = maritalStatusNamespaceId;
 	}
@@ -548,7 +549,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param maritalStatus
 	 *            the maritalStatus to set
 	 */
-	public void setMaritalStatus(String maritalStatus)
+	public void setMaritalStatus(final String maritalStatus)
 	{
 		this.maritalStatus = maritalStatus;
 	}
@@ -569,7 +570,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param religionNamespaceId
 	 *            the religionNamespaceId to set
 	 */
-	public void setReligionNamespaceId(Long religionNamespaceId)
+	public void setReligionNamespaceId(final Long religionNamespaceId)
 	{
 		this.religionNamespaceId = religionNamespaceId;
 	}
@@ -590,7 +591,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param religion
 	 *            the religion to set
 	 */
-	public void setReligion(String religion)
+	public void setReligion(final String religion)
 	{
 		this.religion = religion;
 	}
@@ -611,7 +612,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param multipleBirthIndicator
 	 *            the multipleBirthIndicator to set
 	 */
-	public void setMultipleBirthIndicator(Boolean multipleBirthIndicator)
+	public void setMultipleBirthIndicator(final Boolean multipleBirthIndicator)
 	{
 		this.multipleBirthIndicator = multipleBirthIndicator;
 	}
@@ -633,7 +634,7 @@ public class Person implements PersistentEntity<PersonId>
 	 *            the multipleBirthIndicatorOrderNumber to set
 	 */
 	public void setMultipleBirthIndicatorOrderNumber(
-			Integer multipleBirthIndicatorOrderNumber)
+			final Integer multipleBirthIndicatorOrderNumber)
 	{
 		this.multipleBirthIndicatorOrderNumber = multipleBirthIndicatorOrderNumber;
 	}
@@ -654,7 +655,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param vitalStatusNamespaceId
 	 *            the vitalStatusNamespaceId to set
 	 */
-	public void setVitalStatusNamespaceId(Long vitalStatusNamespaceId)
+	public void setVitalStatusNamespaceId(final Long vitalStatusNamespaceId)
 	{
 		this.vitalStatusNamespaceId = vitalStatusNamespaceId;
 	}
@@ -675,7 +676,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param vitalStatus
 	 *            the vitalStatus to set
 	 */
-	public void setVitalStatus(String vitalStatus)
+	public void setVitalStatus(final String vitalStatus)
 	{
 		this.vitalStatus = vitalStatus;
 	}
@@ -696,7 +697,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param causeOfDeathNamespaceId
 	 *            the causeOfDeathNamespaceId to set
 	 */
-	public void setCauseOfDeathNamespaceId(Long causeOfDeathNamespaceId)
+	public void setCauseOfDeathNamespaceId(final Long causeOfDeathNamespaceId)
 	{
 		this.causeOfDeathNamespaceId = causeOfDeathNamespaceId;
 	}
@@ -717,7 +718,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param causeOfDeath
 	 *            the causeOfDeath to set
 	 */
-	public void setCauseOfDeath(String causeOfDeath)
+	public void setCauseOfDeath(final String causeOfDeath)
 	{
 		this.causeOfDeath = causeOfDeath;
 	}
@@ -738,7 +739,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param dateOfDeath
 	 *            the dateOfDeath to set
 	 */
-	public void setDateOfDeath(Date dateOfDeath)
+	public void setDateOfDeath(final Date dateOfDeath)
 	{
 		this.dateOfDeath = dateOfDeath;
 	}
@@ -759,7 +760,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param deathYear
 	 *            the deathYear to set
 	 */
-	public void setDeathYear(Long deathYear)
+	public void setDeathYear(final Long deathYear)
 	{
 		this.deathYear = deathYear;
 	}
@@ -780,7 +781,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param pedigreeQuality
 	 *            the pedigreeQuality to set
 	 */
-	public void setPedigreeQuality(Long pedigreeQuality)
+	public void setPedigreeQuality(final Long pedigreeQuality)
 	{
 		this.pedigreeQuality = pedigreeQuality;
 	}
@@ -801,7 +802,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param age
 	 *            the age to set
 	 */
-	public void setAge(Integer age)
+	public void setAge(final Integer age)
 	{
 		this.age = age;
 	}
@@ -822,7 +823,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param observations
 	 *            the observations to set
 	 */
-	public void setObservations(Collection<Observation> observations)
+	public void setObservations(final Collection<Observation> observations)
 	{
 		this.observations = observations;
 	}
@@ -843,7 +844,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param providers
 	 *            the providers to set
 	 */
-	public void setProviders(Collection<Provider> providers)
+	public void setProviders(final Collection<Provider> providers)
 	{
 		this.providers = providers;
 	}
@@ -864,7 +865,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param orders
 	 *            the orders to set
 	 */
-	public void setOrders(Collection<Order> orders)
+	public void setOrders(final Collection<Order> orders)
 	{
 		this.orders = orders;
 	}
@@ -885,7 +886,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param encounters
 	 *            the encounters to set
 	 */
-	public void setEncounters(Collection<Encounter> encounters)
+	public void setEncounters(final Collection<Encounter> encounters)
 	{
 		this.encounters = encounters;
 	}
@@ -906,11 +907,11 @@ public class Person implements PersistentEntity<PersonId>
 	 * @param locations
 	 *            the locations to set
 	 */
-	public void setLocations(Collection<Location> locations)
+	public void setLocations(final Collection<Location> locations)
 	{
 		this.locations = locations;
 	}
-	
+
 	// ====================== IMPLEMENTATION: Object =====================
 
 	/*
@@ -918,6 +919,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(final Object obj)
 	{
 		if (obj == null)
@@ -936,6 +938,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode()
 	{
 		return new HashCodeBuilder().append(getId()).toHashCode();
@@ -946,6 +949,7 @@ public class Person implements PersistentEntity<PersonId>
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return ReflectionToStringBuilder.toStringExclude(this, new String[]
