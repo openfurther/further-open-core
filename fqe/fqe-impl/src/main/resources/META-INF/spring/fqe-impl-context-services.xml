@@ -68,6 +68,7 @@
 		<property name="categories">
 			<map>
 				<entry key="age" value="Age†" />
+				<entry key="birthYear" value="Birth Year"
 				<entry key="primaryLanguage" value="Language" />
 				<entry key="maritalStatus" value="Marital Status" />
 				<entry key="race" value="Race" />
@@ -75,6 +76,12 @@
 				<entry key="administrativeGender" value="Sex" />
 				<entry key="vitalStatus" value="Vital Status/Deceased" />
 			</map>
+		</property>
+		<property name="excludedCategoryTranslations">
+			<list>
+				<value>age</value>
+				<value>birthYear</value>
+			</list>
 		</property>
 	</bean>
 

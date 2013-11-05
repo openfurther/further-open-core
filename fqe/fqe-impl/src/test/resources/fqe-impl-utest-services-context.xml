@@ -56,6 +56,17 @@
 				<entry key="vitalStatus" value="Vital Status/Deceased" />
 			</map>
 		</property>
+		<property name="excludedCategoryTranslations">
+			<list>
+				<value>age</value>
+				<value>primaryLanguage</value>
+				<value>maritalStatus</value>
+				<value>race</value>
+				<value>religion</value>
+				<value>administrativeGender</value>
+				<value>vitalStatus</value>
+			</list>
+		</property>
 	</bean>
 
 

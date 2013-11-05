@@ -40,8 +40,13 @@ import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.data.Dao;
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.api.scope.NamespaceService;
+import edu.utah.further.core.api.scope.Namespaces;
 import edu.utah.further.core.api.text.StringUtil;
 import edu.utah.further.core.data.util.SqlUtil;
+import edu.utah.further.dts.api.domain.concept.DtsConcept;
+import edu.utah.further.dts.api.domain.namespace.DtsNamespace;
+import edu.utah.further.dts.api.service.DtsOperationService;
 import edu.utah.further.fqe.api.service.query.AggregationService;
 import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.api.util.FqeQueryContextUtil;
@@ -80,6 +85,7 @@ public class AggregationServiceImpl implements AggregationService
 {
 	// ========================= CONSTANTS =================================
 
+	// TODO: Refactor this class, it has way too many dependencies
 	/**
 	 * A logger that helps identify this class' printouts.
 	 */
@@ -113,6 +119,18 @@ public class AggregationServiceImpl implements AggregationService
 	private IdentifierService identifierService;
 
 	/**
+	 * Terminology services
+	 */
+	@Autowired
+	private DtsOperationService dtsOperationService;
+
+	/**
+	 * To retrieve namespace identifiers and names
+	 */
+	@Autowired
+	private NamespaceService namespaceService;
+
+	/**
 	 * Handles generic DAO operations and searches.
 	 */
 	@Autowired
@@ -138,6 +156,11 @@ public class AggregationServiceImpl implements AggregationService
 	 * Categories to include in the histogram, keyed by field name
 	 */
 	private Map<String, String> categories = new HashMap<>();
+
+	/**
+	 * A list of categories to exclude from value translation
+	 */
+	private List<String> excludedCategoryTranslations = new ArrayList<>();
 
 	// ========================= IMPLEMENTATION: DataService ===============
 
@@ -291,7 +314,8 @@ public class AggregationServiceImpl implements AggregationService
 		final List<Long> idsInIntersection = CollectionUtil.newList();
 		for (final Set<Long> virtuals : commonToVirtualMap.values())
 		{
-			// Add the first virtual id, ignore all the others and make very big assuming
+			// Add the first virtual id, ignore all the others and make very big
+			// assumption
 			// that because they're the same person, they'll also have the same record
 			// information
 			idsInIntersection.add(virtuals.iterator().next());
@@ -507,6 +531,49 @@ public class AggregationServiceImpl implements AggregationService
 		this.categories = categories;
 	}
 
+	/**
+	 * Return the dtsOperationService property.
+	 * 
+	 * @return the dtsOperationService
+	 */
+	public DtsOperationService getDtsOperationService()
+	{
+		return dtsOperationService;
+	}
+
+	/**
+	 * Set a new value for the dtsOperationService property.
+	 * 
+	 * @param dtsOperationService
+	 *            the dtsOperationService to set
+	 */
+	public void setDtsOperationService(final DtsOperationService dtsOperationService)
+	{
+		this.dtsOperationService = dtsOperationService;
+	}
+
+	/**
+	 * Return the excludedCategoryTranslations property.
+	 * 
+	 * @return the excludedCategoryTranslations
+	 */
+	public List<String> getExcludedCategoryTranslations()
+	{
+		return excludedCategoryTranslations;
+	}
+
+	/**
+	 * Set a new value for the excludedCategoryTranslations property.
+	 * 
+	 * @param excludedCategoryTranslations
+	 *            the excludedCategoryTranslations to set
+	 */
+	public void setExcludedCategoryTranslations(
+			final List<String> excludedCategoryTranslations)
+	{
+		this.excludedCategoryTranslations = excludedCategoryTranslations;
+	}
+
 	// ========================= PRIVATE METHODS ===========================
 
 	/**
@@ -551,6 +618,25 @@ public class AggregationServiceImpl implements AggregationService
 				if (name == null)
 				{
 					name = missingData;
+				}
+				else
+				{
+					if (!excludedCategoryTranslations.contains(field))
+					{
+						// Assume SNOMED but lookup later - should be driven data, e.g.
+						// namespaceId fields
+						final int namespaceId = namespaceService
+								.getNamespaceId(Namespaces.SNOMED_CT);
+
+						final DtsNamespace namespace = dtsOperationService
+								.findNamespaceById(namespaceId);
+
+						final DtsConcept concept = dtsOperationService
+								.findConceptByCodeInSource(namespace,
+										String.valueOf(name));
+						
+						name = concept.getName();
+					}
 				}
 				categoryTo.addEntry(String.valueOf(name),
 						Long.valueOf(String.valueOf(result.get("fieldCount"))));

@@ -166,5 +166,8 @@
 
 	<osgi:reference id="identityResolutionService"
 		interface="edu.utah.further.fqe.mpi.api.service.IdentityResolutionService" />
+		
+	<osgi:reference id="dtsOperationService"
+		interface="edu.utah.further.dts.api.service.DtsOperationService" />
 
 </beans>
