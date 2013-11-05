@@ -73,20 +73,20 @@ public final class ApplicationError implements HasErrorCode, HasErrorMessage
 	/**
 	 * Error code.
 	 */
-	@XmlElement(name = "code", required = true)
+	@XmlElement(name = "code", required = true, namespace = XmlNamespace.CORE_WS)
 	private ErrorCode code;
 
 	/**
 	 * Error message.
 	 */
-	@XmlElement(name = "message", required = false)
+	@XmlElement(name = "message", required = false, namespace = XmlNamespace.CORE_WS)
 	private String message;
 
 	/**
 	 * Error message arguments.
 	 */
 	@XmlElementWrapper(name = "arguments")
-	@XmlElement(name = "argument", required = false)
+	@XmlElement(name = "argument", required = false, namespace = XmlNamespace.CORE_WS)
 	private List<String> arguments;
 
 	// ========================= CONSTRUCTORS ==============================
