@@ -314,14 +314,6 @@ public class QueryContextServiceMockImpl implements QueryContextService
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	@Override
-	public List<String> findChildrenQueryIdsByParent(final QueryContext parent)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 	// ========================= FIELDS ====================================
 

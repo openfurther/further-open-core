@@ -15,7 +15,6 @@
  */
 package edu.utah.further.fqe.impl.service.query;
 
-import static edu.utah.further.core.api.collections.CollectionUtil.newList;
 import static edu.utah.further.core.query.domain.Relation.EQ;
 import static edu.utah.further.core.query.domain.Relation.GT;
 import static edu.utah.further.core.query.domain.Relation.LT;
@@ -398,25 +397,6 @@ public class QueryContextServiceImpl implements QueryContextService
 	public QueryContext findQueryContextWithOriginId(final Long originId)
 	{
 		return queryContextDao.findQueryContextWithOriginId(originId);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.utah.further.fqe.api.service.query.QueryContextService#findChildrenQueryIdsByParent
-	 * (edu.utah.further.fqe.ds.api.domain.QueryContext)
-	 */
-	@Override
-	public List<String> findChildrenQueryIdsByParent(final QueryContext parent)
-	{
-		final List<QueryContext> children = findCompletedChildren(parent);
-		final List<String> queryIds = newList();
-		for (final QueryContext queryContext : children)
-		{
-			queryIds.add(queryContext.getExecutionId());
-		}
-		return queryIds;
 	}
 
 	/**

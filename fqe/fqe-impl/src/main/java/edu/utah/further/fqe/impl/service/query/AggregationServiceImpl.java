@@ -57,6 +57,7 @@ import edu.utah.further.fqe.api.ws.to.aggregate.AggregatedResultsTo;
 import edu.utah.further.fqe.api.ws.to.aggregate.Category;
 import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
+import edu.utah.further.fqe.ds.api.domain.QueryState;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
@@ -249,7 +250,29 @@ public class AggregationServiceImpl implements AggregationService
 		{
 			log.debug("generateResultViews() " + parent);
 		}
-		final List<String> queryIds = qcService.findChildrenQueryIdsByParent(parent);
+		final List<QueryContext> children = qcService.findChildren(parent);
+
+		boolean failed = false;
+
+		final List<String> queryIds = new ArrayList<>();
+
+		for (final QueryContext child : children)
+		{
+			queryIds.add(child.getExecutionId());
+
+			if (child.getState() == QueryState.FAILED)
+			{
+				failed = true;
+			}
+		}
+
+		if (failed)
+		{
+			log.info("generateResultViews was called but no result "
+					+ "views will be generated because 1 or more queries failed");
+			return;
+		}
+
 		switch (parent.getQueryType())
 		{
 			case DATA_QUERY:
@@ -598,11 +621,10 @@ public class AggregationServiceImpl implements AggregationService
 			// We really don't need unlimited IN functionality for query ids but this make
 			// the parameter binding easier
 			final String hql = "SELECT DISTINCT new map(" + field
-					+ " as fieldName, COUNT(*) as fieldCount) FROM "
-					+ fqRootClass + " WHERE "
-					+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId") + " and "
-					+ SqlUtil.unlimitedInValues(includedIds, "id.id") + " GROUP BY "
-					+ field;
+					+ " as fieldName, COUNT(*) as fieldCount) FROM " + fqRootClass
+					+ " WHERE " + SqlUtil.unlimitedInValues(queryIds, "id.datasetId")
+					+ " and " + SqlUtil.unlimitedInValues(includedIds, "id.id")
+					+ " GROUP BY " + field;
 
 			final List<Object> parameters = new ArrayList<>();
 			parameters.addAll(queryIds);
@@ -634,7 +656,7 @@ public class AggregationServiceImpl implements AggregationService
 						final DtsConcept concept = dtsOperationService
 								.findConceptByCodeInSource(namespace,
 										String.valueOf(name));
-						
+
 						name = concept.getName();
 					}
 				}

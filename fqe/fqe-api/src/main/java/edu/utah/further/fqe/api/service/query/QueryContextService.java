@@ -115,15 +115,6 @@ public interface QueryContextService
 	QueryContext findQueryContextWithOriginId(Long originId);
 
 	/**
-	 * Returns the list of children query identifiers associated to the parent.
-	 * 
-	 * @param parent
-	 *            the parent query context
-	 * @return the children query identifiers
-	 */
-	List<String> findChildrenQueryIdsByParent(final QueryContext parent);
-
-	/**
 	 * Load a DQC's parent QC.
 	 * 
 	 * @param childQueryContext

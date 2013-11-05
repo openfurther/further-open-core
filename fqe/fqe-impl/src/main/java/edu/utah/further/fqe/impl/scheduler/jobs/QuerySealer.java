@@ -381,7 +381,10 @@ public class QuerySealer implements Runnable
 	private void finishAndPostProcess(final QueryContext queryContext)
 	{
 		queryContext.finish();
-		aggregationService.generateResultViews(queryContext);
+		if (queryContext.getState() != QueryState.FAILED)
+		{
+			aggregationService.generateResultViews(queryContext);
+		}
 	}
 
 	/**
