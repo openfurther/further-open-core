@@ -598,7 +598,7 @@ public class AggregationServiceImpl implements AggregationService
 			// We really don't need unlimited IN functionality for query ids but this make
 			// the parameter binding easier
 			final String hql = "SELECT DISTINCT new map(" + field
-					+ " as fieldName, COUNT(" + field + ") as fieldCount) FROM "
+					+ " as fieldName, COUNT(*) as fieldCount) FROM "
 					+ fqRootClass + " WHERE "
 					+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId") + " and "
 					+ SqlUtil.unlimitedInValues(includedIds, "id.id") + " GROUP BY "
