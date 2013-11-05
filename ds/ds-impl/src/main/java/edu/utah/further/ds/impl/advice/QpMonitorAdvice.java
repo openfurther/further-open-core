@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.basex.query.QueryProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -258,10 +259,16 @@ public final class QpMonitorAdvice extends AbstractQpMonitorAdvice
 		String exceptionString = throwable.toString();
 		if (ReflectionUtil.instanceOf(throwable, ApplicationException.class))
 		{
-			if (((ApplicationException) throwable).getCode().isRecoverable())
+			final ApplicationException error = (ApplicationException) throwable;
+			if (error.getCode() != null)
 			{
-				exceptionString = throwable.getClass() + ": " + throwable.getMessage();
+				if (error.getCode().isRecoverable())
+				{
+					exceptionString = throwable.getClass() + ": "
+							+ throwable.getMessage();
+				}
 			}
+
 		}
 		return exceptionString;
 	}
