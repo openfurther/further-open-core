@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.basex.query.QueryProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -51,7 +50,7 @@ import edu.utah.further.fqe.ds.api.domain.StatusMetaData;
  * <p>
  * Currently the FURTHeR project uses Spring-AOP for its AOP implementation which is a
  * purley java based AOP implementation using dynamic proxies. In order for the following
- * aspect to advise a {@link QueryProcessor}, the processor <i>must</i> be wired as a
+ * aspect to advise a QueryProcessor, the processor <i>must</i> be wired as a
  * Spring bean and be available in the {@link ApplicationContext}.
  * <p>
  * Also note that due to Spring's nature of implementation, one can not advise a self
