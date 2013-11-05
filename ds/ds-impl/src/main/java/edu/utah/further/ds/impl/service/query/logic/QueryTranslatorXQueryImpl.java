@@ -25,6 +25,9 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,10 +36,14 @@ import org.springframework.stereotype.Service;
 
 import edu.utah.further.core.api.chain.AttributeContainerImpl;
 import edu.utah.further.core.api.chain.ChainRequest;
+import edu.utah.further.core.api.collections.CollectionUtil;
+import edu.utah.further.core.api.exception.ApplicationError;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.exception.WsException;
+import edu.utah.further.core.api.lang.ReflectionUtil;
 import edu.utah.further.core.api.xml.XmlService;
 import edu.utah.further.core.chain.ChainRequestImpl;
+import edu.utah.further.core.query.domain.SearchQueryTo;
 import edu.utah.further.core.xml.xquery.XQueryService;
 import edu.utah.further.ds.api.service.query.logic.QueryTranslator;
 import edu.utah.further.ds.api.util.AttributeName;
@@ -104,6 +111,7 @@ public class QueryTranslatorXQueryImpl implements QueryTranslator
 
 	// ================== IMPL: QueryTranslatorXQueryImpl ===================
 
+	@SuppressWarnings("unchecked")
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -166,7 +174,34 @@ public class QueryTranslatorXQueryImpl implements QueryTranslator
 			log.trace("XQuery Translation result: " + result);
 		}
 
-		return (T) FqeDsQueryContextUtil.unmarshalSearchQuery(xmlService, result);
+		final Object unmarshalResult;
+		try
+		{
+			unmarshalResult = xmlService.unmarshal(
+					new ByteArrayInputStream(result.getBytes()), xmlService
+							.options()
+							.addClass(SearchQueryTo.class)
+							.addClass(ApplicationError.class)
+							.buildContext()
+							.setRootNamespaceUris(CollectionUtil.<String> newSet()));
+		}
+		catch (final JAXBException e)
+		{
+			throw new ApplicationException(
+					"Unable to unmarshal SearchQuery after query translation", e);
+		}
+
+		if (ReflectionUtil.instanceOf(unmarshalResult, ApplicationError.class))
+		{
+			final ApplicationError error = (ApplicationError) unmarshalResult;
+			log.error("Query translation returned error, translation failed");
+			throw new ApplicationException(error.getCode(), error.getMessage());
+		}
+
+		// Sanity check
+		Validate.isTrue(ReflectionUtil.instanceOf(unmarshalResult, SearchQueryTo.class));
+
+		return (T) unmarshalResult;
 	}
 
 	// ========================= GET/SET ===========================
