@@ -16,9 +16,7 @@
     limitations under the License.
 
 -->
-<wsException xmlns="http://further.utah.edu/core/ws">
-	<error>
-		<code>INTERNAL_ERROR</code>
-		<message>Error 100: myValue</message>
-	</error>
-</wsException>
+<error xmlns="http://further.utah.edu/core/ws">
+	<code>INTERNAL_ERROR</code>
+	<message>Error 100: myValue</message>
+</error>

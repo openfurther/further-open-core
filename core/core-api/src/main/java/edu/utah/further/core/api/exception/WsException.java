@@ -76,7 +76,7 @@ public final class WsException extends Exception implements HasErrorCode
 	 * Error representation.
 	 */
 	@Final
-	@XmlElement(name = "error", required = true)
+	@XmlElement(name = "error", required = true, namespace = XmlNamespace.CORE_WS)
 	private ApplicationError error;
 
 	// ========================= CONSTRUCTORS ==============================

@@ -17,13 +17,20 @@ package edu.utah.further.core.api.exception;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
+
+import java.io.InputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 
 import edu.utah.further.core.api.CoreApiFixture;
 import edu.utah.further.core.api.constant.ErrorCode;
+import edu.utah.further.core.api.lang.CoreUtil;
 
 /**
  * Tests marshalling {@link ApplicationError}
@@ -67,6 +74,21 @@ public final class UTestJaxbApplicationError extends CoreApiFixture
 		assertThat(s, containsString(":error"));
 		assertThat(s, containsString(":error>"));
 		assertThat(s, containsString("INTERNAL_ERROR"));
+	}
+
+	@Test
+	public void unmarshallApplicationError() throws Exception
+	{
+		final JAXBContext jaxbContext = JAXBContext.newInstance(PACKAGE);
+		final Unmarshaller u = jaxbContext.createUnmarshaller();
+		ApplicationError entity;
+		try (final InputStream is = CoreUtil.getResourceAsStream("application-error.xml"))
+		{
+			entity = (ApplicationError) u.unmarshal(is);
+		}
+
+		assertTrue(ErrorCode.INTERNAL_ERROR.equals(entity.getCode()));
+		assertThat(entity.getMessage(), containsString("myValue"));
 	}
 
 	// ========================= PRIVATE METHODS ===========================
