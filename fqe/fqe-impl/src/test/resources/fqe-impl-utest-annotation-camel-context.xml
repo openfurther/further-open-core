@@ -83,6 +83,13 @@
 		<constructor-arg value="edu.utah.further.security.api.services.AuditService" />
 	</bean>
 
+	<!-- Dts Operation Service -->
+	<bean id="dtsOperationService" class="org.easymock.EasyMock"
+		factory-method="createMock">
+		<constructor-arg
+			value="edu.utah.further.dts.api.service.DtsOperationService" />
+	</bean>
+
 	<!-- =========================================== -->
 	<!-- Annotation configuration -->
 	<!-- =========================================== -->
