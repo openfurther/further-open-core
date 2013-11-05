@@ -246,6 +246,14 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 						"observationNamespaceId", "observationType", "416342005",
 						"observation");
 			}
+			case SNOMED_PROC:
+			{
+				Validate.notNull(observationAlias,
+						"Observation Alias Required to build CPT");
+				return createPhrase(Namespaces.SNOMED_CT, observationAlias,
+						"observationNamespaceId", "observationType", "416342005",
+						"observation");
+			}
 			case LOINC:
 			{
 				Validate.notNull(observationAlias,
@@ -332,6 +340,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 			case ICD9:
 			case ICDO:
 			case CPT:
+			case SNOMED_PROC:
 			case LOINC:
 			case BIO_SPECIMEN:
 			case ONCOLOGY_INSITU:

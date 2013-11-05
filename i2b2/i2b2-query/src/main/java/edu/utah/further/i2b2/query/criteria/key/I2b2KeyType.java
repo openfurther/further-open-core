@@ -61,35 +61,43 @@ public enum I2b2KeyType
 	ICD9("ICD-9", ANY + SEPARATOR + "ICD-9" + SEPARATOR
 			+ "(Diseases|Procedures|Supplementary)" + ANY, false, "CPT", "LOINC",
 			"ICD-10", "ICD-9", "NEONATAL", "APO ICD9", "APO ICD10", "OBS VAL",
-			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O"),
+			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
 
 	/**
 	 * Represents a query who's key contains ICD10.
 	 */
 	ICD10("ICD-10", ANY + SEPARATOR + "ICD-10" + SEPARATOR + ANY, false, "CPT", "LOINC",
 			"ICD-9", "ICD-10", "NEONATAL", "APO ICD9", "APO ICD10", "OBS VAL",
-			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O"),
+			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
 
 	/**
 	 * Represents a query who's key contains ICD10.
 	 */
 	ICDO("ICD-O", ANY + SEPARATOR + "Oncology \\[ICD-O\\]" + SEPARATOR + ANY, false,
 			"CPT", "LOINC", "ICD-9", "ICD-10", "NEONATAL", "APO ICD9", "APO ICD10",
-			"OBS VAL", "NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O"),
+			"OBS VAL", "NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
 
 	/**
 	 * Represents a query who's key contains CPT
 	 */
 	CPT("CPT", ANY + SEPARATOR + "CPT" + SEPARATOR + ANY, false, "ICD-9", "ICD-10",
 			"LOINC", "CPT", "NEONATAL", "APO ICD9", "APO ICD10", "OBS VAL",
-			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O"),
+			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
+
+	/**
+	 * Represents a query who's key contains SNOMED procedures
+	 */
+	SNOMED_PROC("SNOMED_PROC", ANY + SEPARATOR + "SNOMED_Procedure" + SEPARATOR + ANY,
+			false, "ICD-9", "ICD-10", "LOINC", "CPT", "NEONATAL", "APO ICD9",
+			"APO ICD10", "OBS VAL", "NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O",
+			"SNOMED_PROC"),
 
 	/**
 	 * Represents a query who's key contains LOINC
 	 */
 	LOINC("LOINC", ANY + SEPARATOR + "Labtests" + SEPARATOR + ANY, false, "ICD-9",
 			"ICD-10", "CPT", "LOINC", "NEONATAL", "APO ICD9", "APO ICD10", "OBS VAL",
-			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O"),
+			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
 
 	/**
 	 * Represents a query who's key contains Medication Order
@@ -215,7 +223,7 @@ public enum I2b2KeyType
 	 */
 	BIO_SPECIMEN("BIOSPEC", ANY + BIOSPEC + ANY, false, "ICD-9", "ICD-10", "CPT",
 			"LOINC", "NEONATAL", "APO ICD9", "APO ICD10", "OBS VAL", "NEO OBS VAL",
-			"COMPLICATING", "BIOSPEC", "ICD-O"),
+			"COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
 
 	/**
 	 * Default value when a key type cannot be determined.

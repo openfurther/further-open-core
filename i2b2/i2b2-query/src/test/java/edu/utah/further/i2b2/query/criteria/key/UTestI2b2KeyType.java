@@ -58,6 +58,10 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 			+ "any site, for total body surface area (TBSA) treated during anesthesia and surgery; between 4% and 9% "
 			+ "of total body surface area (01952)\\";
 
+	private static final String SNOMED_PROC = "\\\\FURTHER\\FURTHER\\SNOMED_Procedure\\Procedure (procedure)\\"
+			+ "Procedure by site (procedure)\\Procedure on body part (procedure)\\Procedure on trunk (procedure)\\"
+			+ "Procedure on abdomen (procedure)\\Abdomen excision (procedure)\\Prostatectomy (procedure)\\";
+
 	private static final String RXNORM = "\\\\FURTHER\\FURTHER\\Medication Order\\"
 			+ "alternative medicines  [drug category]\\herbal products  [drug category]\\";
 
@@ -67,7 +71,7 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 	private static final String AGE = "\\\\FURTHER\\FURTHER\\Demographics\\Age\\0-9 years old\\";
 
 	private static final String BIRTH_YEAR = "\\\\FURTHER\\FURTHER\\Demographics\\Birth Year\\1980-1989\\";
-	
+
 	private static final String GENDER = "\\\\FURTHER\\FURTHER\\Demographics\\Gender\\Female\\";
 
 	private static final String LANGUAGE = "\\\\FURTHER\\FURTHER\\Demographics\\Language\\Arabic\\";
@@ -77,10 +81,10 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 	private static final String RACE = "\\\\FURTHER\\FURTHER\\Demographics\\Race\\Hispanic\\";
 
 	private static final String RELIGION = "\\\\FURTHER\\FURTHER\\Demographics\\Religion\\Atheist\\";
-	
+
 	private static final String VITAL_STATUS = "\\\\FURTHER\\FURTHER\\Demographics\\Vital Status\\Deceased\\";
-	
-	private static final String PEDIGREE_QUALITY="\\\\FURTHER\\FURTHER\\Demographics\\Pedigree Quality\\Pedigree Quality 1\\";
+
+	private static final String PEDIGREE_QUALITY = "\\\\FURTHER\\FURTHER\\Demographics\\Pedigree Quality\\Pedigree Quality 1\\";
 
 	private static final String STATE = "\\\\FURTHER_DEV\\FURTHER-DEV\\Demographics\\"
 			+ "Geographic Location\\Current Location\\United States\\Alabama\\";
@@ -92,7 +96,7 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 	private static final String COUNTY = "\\\\FURTHER_DEV\\FURTHER-DEV\\Demographics\\"
 			+ "Geographic Location\\Current Location\\United States\\Utah\\Health District Group\\"
 			+ "Central Utah Health District Group\\Juab County\\";
-	
+
 	@Test
 	public void keyTypeFromPattern()
 	{
@@ -100,6 +104,7 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 		assertThat(fromPattern(ICD9), is(I2b2KeyType.ICD9));
 		assertThat(fromPattern(ICD10), is(I2b2KeyType.ICD10));
 		assertThat(fromPattern(CPT), is(I2b2KeyType.CPT));
+		assertThat(fromPattern(SNOMED_PROC), is(I2b2KeyType.SNOMED_PROC));
 		assertThat(fromPattern(LOINC), is(I2b2KeyType.LOINC));
 		assertThat(fromPattern(RXNORM), is(I2b2KeyType.RXNORM));
 		assertThat(fromPattern(AGE), is(I2b2KeyType.DEM_AGE));
