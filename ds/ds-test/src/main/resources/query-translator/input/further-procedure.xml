@@ -25,7 +25,7 @@
 			<parameters>
 				<parameter xsi:type="RelationType">EQ</parameter>
 				<parameter xsi:type="xs:string">obs1.observationType</parameter>
-				<parameter xsi:type="xs:string">416342005</parameter>
+				<parameter xsi:type="xs:string">71388002</parameter>
 			</parameters>
 		</criteria>
 		<criteria>
