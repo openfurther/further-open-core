@@ -243,7 +243,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				Validate.notNull(observationAlias,
 						"Observation Alias Required to build CPT");
 				return createPhrase(Namespaces.CPT_4, observationAlias,
-						"observationNamespaceId", "observationType", "416342005",
+						"observationNamespaceId", "observationType", "71388002",
 						"observation");
 			}
 			case SNOMED_PROC:
@@ -251,7 +251,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				Validate.notNull(observationAlias,
 						"Observation Alias Required to build CPT");
 				return createPhrase(Namespaces.SNOMED_CT, observationAlias,
-						"observationNamespaceId", "observationType", "416342005",
+						"observationNamespaceId", "observationType", "71388002",
 						"observation");
 			}
 			case LOINC:
