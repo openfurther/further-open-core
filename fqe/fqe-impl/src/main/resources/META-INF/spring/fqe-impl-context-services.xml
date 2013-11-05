@@ -68,7 +68,7 @@
 		<property name="categories">
 			<map>
 				<entry key="age" value="Age†" />
-				<entry key="birthYear" value="Birth Year"
+				<entry key="birthYear" value="Birth Year" />
 				<entry key="primaryLanguage" value="Language" />
 				<entry key="maritalStatus" value="Marital Status" />
 				<entry key="race" value="Race" />
