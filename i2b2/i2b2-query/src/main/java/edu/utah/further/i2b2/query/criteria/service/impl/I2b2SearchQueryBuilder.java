@@ -288,6 +288,7 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 		return collectionSubQuery(SearchType.IN, "compositeId", SearchCriteria
 				.queryBuilder(currGrpCrit)
 				.addAliases(CollectionUtil.newList(currAliases))
+				.setRootObject("Person")
 				.build());
 	}
 
