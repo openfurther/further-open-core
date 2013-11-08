@@ -304,11 +304,13 @@ public class AggregationServiceImpl implements AggregationService
 			final QueryContext federatedQueryContext)
 	{
 		final QueryContext parent = qcService.findById(federatedQueryContext.getId());
-		
-		if (parent.getQueryType() == QueryType.COUNT_QUERY) {
-			throw new ApplicationException("Data cannot be aggregated for count-only queries");
+
+		if (parent.getQueryType() == QueryType.COUNT_QUERY)
+		{
+			throw new ApplicationException(
+					"Data cannot be aggregated for count-only queries");
 		}
-		
+
 		final List<QueryContext> children = qcService.findChildren(parent);
 
 		final List<String> queryIds = new ArrayList<>();
@@ -335,8 +337,7 @@ public class AggregationServiceImpl implements AggregationService
 			}
 		}
 
-		// get all virtual ids for sum
-		final List<Long> idsInSum = identifierService.getVirtualIdentifiers(queryIds);
+		final AggregatedResults aggregatedResults = new AggregatedResultsTo();
 
 		// get all virtual ids for intersection
 		final Map<Long, Set<Long>> commonToVirtualMap = identifierService
@@ -351,24 +352,31 @@ public class AggregationServiceImpl implements AggregationService
 			idsInIntersection.add(virtuals.iterator().next());
 		}
 
+		if (queryIds.size() > 1)
+		{
+			// get all virtual ids for sum
+			final List<Long> idsInSum = identifierService.getVirtualIdentifiers(queryIds);
+			final AggregatedResult aggregatedSum = generateAggregatedResult(fields,
+					rootResultClass.getCanonicalName(), queryIds, idsInSum,
+					ResultType.SUM);
+			aggregatedResults.addResult(aggregatedSum);
+
+			final AggregatedResult aggregatedIntersection = generateAggregatedResult(
+					fields, rootResultClass.getCanonicalName(), queryIds,
+					idsInIntersection, ResultType.INTERSECTION);
+			aggregatedResults.addResult(aggregatedIntersection);
+		}
+
 		// get all virtual ids for union
 		final List<Long> idsInUnion = new ArrayList<>();
 		idsInUnion.addAll(identifierService.getUnresolvedVirtualIdentifiers(queryIds));
 		idsInUnion.addAll(idsInIntersection);
 
-		final AggregatedResult aggregatedSum = generateAggregatedResult(fields,
-				rootResultClass.getCanonicalName(), queryIds, idsInSum, ResultType.SUM);
 		final AggregatedResult aggregatedUnion = generateAggregatedResult(fields,
 				rootResultClass.getCanonicalName(), queryIds, idsInUnion,
 				ResultType.UNION);
-		final AggregatedResult aggregatedIntersection = generateAggregatedResult(fields,
-				rootResultClass.getCanonicalName(), queryIds, idsInIntersection,
-				ResultType.INTERSECTION);
-
-		final AggregatedResults aggregatedResults = new AggregatedResultsTo();
-		aggregatedResults.addResult(aggregatedSum);
 		aggregatedResults.addResult(aggregatedUnion);
-		aggregatedResults.addResult(aggregatedIntersection);
+
 		aggregatedResults.setNumDataSources(queryIds.size());
 
 		return aggregatedResults;
