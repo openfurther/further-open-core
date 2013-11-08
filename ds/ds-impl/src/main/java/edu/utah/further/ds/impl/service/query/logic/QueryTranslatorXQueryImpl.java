@@ -195,8 +195,7 @@ public class QueryTranslatorXQueryImpl implements QueryTranslator
 		{
 			final ApplicationError error = (ApplicationError) unmarshalResult;
 			queryContext.fail();
-			log.error("****Query translation returned error!****, translation failed: "
-					+ error.getCode() + " " + error.getMessage());
+			throw new ApplicationException(error.getMessage());
 		}
 
 		// Sanity check

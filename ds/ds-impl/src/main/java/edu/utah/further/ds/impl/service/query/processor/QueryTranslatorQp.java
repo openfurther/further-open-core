@@ -22,6 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 
 import edu.utah.further.core.api.chain.ChainRequest;
+import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.chain.AbstractDelegatingUtilityProcessor;
 import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.ds.api.service.query.logic.QueryTranslator;
@@ -38,18 +39,18 @@ import edu.utah.further.fqe.ds.api.to.QueryContextToImpl;
  * Room 5775 HSEB, Salt Lake City, UT 84112<br>
  * Day Phone: 1-801-581-4080<br>
  * -----------------------------------------------------------------------------------
- *
+ * 
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Apr 12, 2010
  */
-public class QueryTranslatorQp extends AbstractDelegatingUtilityProcessor<QueryTranslator>
+public class QueryTranslatorQp extends
+		AbstractDelegatingUtilityProcessor<QueryTranslator>
 {
 	// ========================= CONSTANTS =================================
 
 	/**
 	 * A logger that helps identify this class' printouts.
 	 */
-	@SuppressWarnings("unused")
 	private static final Logger log = getLogger(QueryTranslatorQp.class);
 
 	// ========================= FIELDS ====================================
@@ -66,17 +67,25 @@ public class QueryTranslatorQp extends AbstractDelegatingUtilityProcessor<QueryT
 		Validate.notNull(queryContext.getTargetNamespaceId(),
 				"Target namespace id required for translation");
 
-		// Translate search query
-		final SearchQuery translatedQuery = getDelegate().translate(queryContext,
-				request.getAttributes());
+		try
+		{
+			// Translate search query
+			final SearchQuery translatedQuery = getDelegate().translate(queryContext,
+					request.getAttributes());
+			// Prepare new query context
+			final QueryContext newQueryContext = QueryContextToImpl.newCopy(queryContext);
+			newQueryContext.setQuery(translatedQuery);
 
-		// Prepare new query context
-		final QueryContext newQueryContext = QueryContextToImpl.newCopy(queryContext);
-		newQueryContext.setQuery(translatedQuery);
-
-		// Save results in the chain request
-		request.setAttribute(QUERY_CONTEXT, newQueryContext);
-		return false;
+			// Save results in the chain request
+			request.setAttribute(QUERY_CONTEXT, newQueryContext);
+			return false;
+		}
+		catch (final ApplicationException e)
+		{
+			log.error("****Query translation returned error!****, translation failed: "
+					+ e.getMessage());
+			return true;
+		}
 	}
 
 }
