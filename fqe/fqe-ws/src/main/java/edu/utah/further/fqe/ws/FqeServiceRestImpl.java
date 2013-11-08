@@ -918,6 +918,12 @@ public class FqeServiceRestImpl implements FqeServiceRest
 			// Query not found, return empty object
 			return AggregatedResultsTo.EMPTY_INSTANCE;
 		}
+		
+		if (federatedQueryContext.getQueryType() == QueryType.COUNT_QUERY) {
+			throw new ApplicationException("Data cannot be aggregated for count-only queries");
+		}
+		
+		
 		// Build histograms (counts broken down by demographic categories)
 		final AggregatedResults result = aggregationService
 				.generateAggregatedResults(federatedQueryContext);

@@ -40,6 +40,7 @@ import edu.utah.further.core.api.constant.Constants;
 import edu.utah.further.core.api.constant.Strings;
 import edu.utah.further.core.api.data.Dao;
 import edu.utah.further.core.api.data.PersistentEntity;
+import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.scope.NamespaceService;
 import edu.utah.further.core.api.scope.Namespaces;
 import edu.utah.further.core.api.text.StringUtil;
@@ -58,6 +59,7 @@ import edu.utah.further.fqe.api.ws.to.aggregate.Category;
 import edu.utah.further.fqe.api.ws.to.aggregate.CategoryTo;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.domain.QueryState;
+import edu.utah.further.fqe.ds.api.domain.QueryType;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
@@ -302,6 +304,11 @@ public class AggregationServiceImpl implements AggregationService
 			final QueryContext federatedQueryContext)
 	{
 		final QueryContext parent = qcService.findById(federatedQueryContext.getId());
+		
+		if (parent.getQueryType() == QueryType.COUNT_QUERY) {
+			throw new ApplicationException("Data cannot be aggregated for count-only queries");
+		}
+		
 		final List<QueryContext> children = qcService.findChildren(parent);
 
 		final List<String> queryIds = new ArrayList<>();
