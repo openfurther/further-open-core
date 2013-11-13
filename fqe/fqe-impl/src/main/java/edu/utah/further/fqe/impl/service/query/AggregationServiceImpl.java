@@ -313,10 +313,22 @@ public class AggregationServiceImpl implements AggregationService
 
 		final List<QueryContext> children = qcService.findChildren(parent);
 
+		if (children.size() < 1)
+		{
+			throw new ApplicationException(
+					"Federated QueryContext does not have any children");
+		}
+
 		final List<String> queryIds = new ArrayList<>();
 
 		for (final QueryContext childContext : children)
 		{
+			if (childContext.isFailed())
+			{
+				throw new ApplicationException(
+						"One or more queries failed, aggregated results cannot be generated");
+			}
+
 			queryIds.add(childContext.getExecutionId());
 		}
 
