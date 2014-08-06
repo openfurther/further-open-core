@@ -34,9 +34,39 @@
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd
 	">
 
+	<!-- =========================================== -->
+	<!-- Annotation configuration                    -->
+	<!-- =========================================== -->
+
+	<context:annotation-config />
+	<!-- <context:spring-configured /> -->
+	<!-- <context:load-time-weaver /> -->
+
+	<!--
+		Activate production implementations in the core utility module
+	-->
+	<context:component-scan base-package="edu.utah.further.core.xml">
+		<context:exclude-filter type="regex"
+			expression=".*\.XQuery.*" />
+	</context:component-scan>
+
+	<!-- Resource locator & StaleDateTimeFactory -->
+	<context:component-scan base-package="edu.utah.further.fqe.ds.api" />
+
+	<!-- ResultSummaryService -->
+	<context:component-scan base-package="edu.utah.further.fqe.ds.api.service.results" />
+
+	<context:component-scan base-package="edu.utah.further.dts" />
+
+	<context:component-scan base-package="edu.utah.further.core.xml" />
+
+	<context:component-scan base-package="edu.utah.further.fqe.ds" />
+	
 	<context:component-scan base-package="edu.utah.further.fqe.ds.model.further.export" />
+
 	<context:component-scan
 		base-package="edu.utah.further.fqe.ds.model.further.service.results" />
+
 
 </beans>
 

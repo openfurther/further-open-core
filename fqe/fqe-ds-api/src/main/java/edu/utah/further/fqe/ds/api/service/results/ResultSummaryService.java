@@ -16,6 +16,9 @@
 package edu.utah.further.fqe.ds.api.service.results;
 
 import java.util.List;
+import java.util.Map;
+
+import edu.utah.further.core.query.domain.SearchQuery;
 
 /**
  * Result service for displaying summary or aggregated results.
@@ -34,6 +37,13 @@ import java.util.List;
  */
 public interface ResultSummaryService
 {
+	// ========================= CONSTANT ===================================
+
+	/**
+	 * A special attribute name (age) - a continuous, not discrete variable.
+	 */
+	public static final String ATTRIBUTE_NAME_AGE = "AGE_IN_YEARS_NUM";
+
 	// ========================= METHODS ===================================
 
 	/**
@@ -47,4 +57,67 @@ public interface ResultSummaryService
 	 * @return union result
 	 */
 	Long join(List<String> queryIds, ResultType resultType);
+	/**
+	 * Generate a union result from the list of query identifiers. This is used to display
+	 * the overall results depending on the {@link ResultType}
+	 * 
+	 * @param queryIds
+	 *            list of DQC IDs to join
+	 * @param resultType
+	 *            join result type
+	 * @param intersectionIndex
+	 *            if <code>resultType = INTERESECTION</code>, the intersection index of
+	 *            the join, or <code>null</code>, if inapplicable to this join type. Use
+	 *            <code>null</code> for a classical intersection (n-intersection of
+	 *            n-sets)
+	 * @return union result
+	 */
+	Long join(List<String> queryIds, ResultType resultType, Integer intersectionIndex);
+
+	/**
+	 * Generate a union result from the list of query identifiers by attribute name. This
+	 * is used to display results per attribute depending on the {@link ResultType}
+	 * 
+	 * @param queryIds
+	 *            list of DQC IDs to join
+	 * @param attributeName
+	 *            logical model demographics category attribute name (under the
+	 *            <code>Person</code> class)
+	 * @param resultType
+	 *            join result type
+	 * @param intersectionIndex
+	 *            if <code>resultType = INTERESECTION</code>, the intersection index of
+	 *            the join
+	 * @return union result, broken down by category value
+	 */
+	Map<String, Long> join(List<String> queryIds, String attributeName,
+			ResultType resultType, int intersectionIndex);
+
+	/**
+	 * Returns the result of a previous query as a list of identifiers. Typically patient
+	 * identifiers but they could be other identifiers as long as they could be related in
+	 * some fashion.
+	 * 
+	 * @param a
+	 *            list of query ids
+	 * @return a list of identifiers
+	 */
+	List<Long> getQueryResultIdentifiers(List<String> queryIds);
+
+	/**
+	 * Return all the results of a query. A typical implementation of this method returns
+	 * a list of root entity objects (e.g. a List of Person objects)
+	 * 
+	 * @param ids a list of query ids
+	 * @return a list of results
+	 */
+	<T> List<T> getQueryResults(final List<String> queryIds);
+	
+	/**
+	 * Fetch the results of a query by using another query
+	 * 
+	 * @param query the query to execute
+	 * @return a list of results
+	 */
+	<T> List<T> getQueryResults(final SearchQuery query);
 }

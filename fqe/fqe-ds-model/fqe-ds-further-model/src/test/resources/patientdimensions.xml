@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PatientDimensions>
+	<PatientDimension>
+		<patientDimensionPK>
+			<patientNum>14173714</patientNum>
+			<queryId>12345</queryId>
+		</patientDimensionPK>
+		<ageInYearsNum>111</ageInYearsNum>
+		<sexCd>SNOMED:248152002</sexCd>
+		<raceCd />
+		<maritalStatusCd>SNOMED:33553000</maritalStatusCd>
+		<languageCd />
+		<religionCd />
+		<VisitDimensions>
+			<VisitDimension>
+				<visitDimensionPK>
+					<encounterNum>0</encounterNum>
+					<patientNum>14173714</patientNum>
+				</visitDimensionPK>
+				<startDate>2010-04-19T16:16:32.578-06:00</startDate>
+				<endDate>2010-04-19T16:16:32.578-06:00</endDate>
+			</VisitDimension>
+		</VisitDimensions>
+		<ObservationFacts>
+			<ObservationFact>
+				<observationFactPK>
+					<encounterNum>0</encounterNum>
+					<conceptCd>DEM|AGE:111</conceptCd>
+					<providerId>@</providerId>
+					<startDate>2010-04-19T16:16:32.578-06:00</startDate>
+					<modifierCd>@</modifierCd>
+				</observationFactPK>
+				<patientNum>14173714</patientNum>
+				<valtypeCd>@</valtypeCd>
+				<tvalChar>@</tvalChar>
+				<nvalNum />
+				<valueflagCd>@</valueflagCd>
+				<quantityNum />
+				<unitsCd>@</unitsCd>
+				<endDate>2010-04-19T16:16:32.578-06:00</endDate>
+				<locationCd>@</locationCd>
+				<confidenceNum />
+				<observationBlob>@</observationBlob>
+				<updateDate>2010-04-19T16:16:32.578-06:00</updateDate>
+				<downloadDate>2010-04-19T16:16:32.578-06:00</downloadDate>
+				<importDate>2010-04-19T16:16:32.578-06:00</importDate>
+				<sourcesystemCd>UUEDW.FURTHER.Patient.age</sourcesystemCd>
+				<uploadId />
+			</ObservationFact>
+			<ObservationFact>
+				<observationFactPK>
+					<encounterNum>0</encounterNum>
+					<conceptCd>SNOMED:248152002</conceptCd>
+					<providerId>@</providerId>
+					<startDate>2010-04-19T16:16:32.578-06:00</startDate>
+					<modifierCd>@</modifierCd>
+				</observationFactPK>
+				<patientNum>14173714</patientNum>
+				<valtypeCd>@</valtypeCd>
+				<tvalChar>@</tvalChar>
+				<nvalNum />
+				<valueflagCd>@</valueflagCd>
+				<quantityNum />
+				<unitsCd>@</unitsCd>
+				<endDate>2010-04-19T16:16:32.578-06:00</endDate>
+				<locationCd>@</locationCd>
+				<confidenceNum />
+				<observationBlob>@</observationBlob>
+				<updateDate>2010-04-19T16:16:32.578-06:00</updateDate>
+				<downloadDate>2010-04-19T16:16:32.578-06:00</downloadDate>
+				<importDate>2010-04-19T16:16:32.578-06:00</importDate>
+				<sourcesystemCd>UUEDW.FURTHER.Patient.genderDwid</sourcesystemCd>
+				<uploadId />
+			</ObservationFact>
+			<ObservationFact>
+				<observationFactPK>
+					<encounterNum>0</encounterNum>
+					<conceptCd>SNOMED:33553000</conceptCd>
+					<providerId>@</providerId>
+					<startDate>2010-04-19T16:16:32.578-06:00</startDate>
+					<modifierCd>@</modifierCd>
+				</observationFactPK>
+				<patientNum>14173714</patientNum>
+				<valtypeCd>@</valtypeCd>
+				<tvalChar>@</tvalChar>
+				<nvalNum />
+				<valueflagCd>@</valueflagCd>
+				<quantityNum />
+				<unitsCd>@</unitsCd>
+				<endDate>2010-04-19T16:16:32.578-06:00</endDate>
+				<locationCd>@</locationCd>
+				<confidenceNum />
+				<observationBlob>@</observationBlob>
+				<updateDate>2010-04-19T16:16:32.578-06:00</updateDate>
+				<downloadDate>2010-04-19T16:16:32.578-06:00</downloadDate>
+				<importDate>2010-04-19T16:16:32.578-06:00</importDate>
+				<sourcesystemCd>UUEDW.FURTHER.Patient.maritalStatusDwid</sourcesystemCd>
+				<uploadId />
+			</ObservationFact>
+		</ObservationFacts>
+	</PatientDimension>
+</PatientDimensions>

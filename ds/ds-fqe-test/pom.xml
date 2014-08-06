@@ -42,7 +42,6 @@
 		<dependency>
 			<groupId>edu.utah.further.ds</groupId>
 			<artifactId>ds-further</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

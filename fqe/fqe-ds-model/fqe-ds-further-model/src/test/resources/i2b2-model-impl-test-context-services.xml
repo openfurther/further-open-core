@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p=" http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    ">
+
+	<!-- =========================================== -->
+	<!-- Mocks -->
+	<!-- =========================================== -->
+
+	<!-- DtsOperationService Mock -->
+	<bean id="dtsOperationService" class="org.easymock.EasyMock"
+		factory-method="createMock">
+		<constructor-arg
+			value="edu.utah.further.dts.api.service.DtsOperationService" />
+	</bean>
+
+	<!-- Exporter -->
+	<bean id="csvExporter" class="edu.utah.further.fqe.ds.model.further.export.CsvExporterImpl">
+	</bean>
+
+	<!-- =========================================== -->
+	<!-- Services -->
+	<!-- =========================================== -->
+
+	<!-- I2b2 concept_cd prefix to Dts Namespace mapping -->
+	<util:map id="prefixMapper" value-type="java.lang.Integer">
+		<entry key="HL7" value="1017" />
+		<entry key="ICD10" value="1518" />
+		<entry key="CPT" value="20" />
+		<entry key="LOINC" value="5102" />
+		<entry key="MULTUMDRUG" value="60" />
+		<entry key="UPDBL" value="32774" />
+		<entry key="SNOMED" value="30" />
+		<entry key="DEM|AGE" value="-1" />
+		<entry key="UPDB" value="32774" />
+		<entry key="LENGTHOFSTAY" value="-1" />
+		<entry key="ICD9" value="10" />
+		<entry key="UUEDW" value="32776" />
+		<entry key="DEM|BYR" value="-1" />
+	</util:map>
+
+</beans>

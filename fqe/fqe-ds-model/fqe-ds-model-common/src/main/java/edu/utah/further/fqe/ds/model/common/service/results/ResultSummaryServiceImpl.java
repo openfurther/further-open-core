@@ -18,6 +18,7 @@ package edu.utah.further.fqe.ds.model.common.service.results;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import edu.utah.further.core.api.exception.ApplicationException;
+import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.fqe.ds.api.service.results.ResultSummaryService;
 import edu.utah.further.fqe.ds.api.service.results.ResultType;
 
@@ -146,6 +148,71 @@ public class ResultSummaryServiceImpl implements ResultSummaryService
 		}
 
 		return new Long(result);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.core.api.math.ResultService#join(java.util.List,
+	 * edu.utah.further.core.api.math.ResultType, java.lang.Integer)
+	 */
+	@Override
+	public Long join(final List<String> queryIds, final ResultType resultType,
+			final Integer intersectionIndex)
+	{
+		throw new ApplicationException("This result service does not support joining.");
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.core.api.math.ResultService#join(java.util.List,
+	 * java.lang.String, edu.utah.further.core.api.math.ResultType, int)
+	 */
+	@Override
+	public Map<String, Long> join(final List<String> queryIds,
+			final String attributeName, final ResultType resultType,
+			final int intersectionIndex)
+	{
+		throw new ApplicationException(
+				"This result service does not support joining by an attributeName.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.utah.further.core.api.math.ResultService#getQueryResults(java.util.List)
+	 */
+	@Override
+	public List<Long> getQueryResultIdentifiers(final List<String> queryIds)
+	{
+		throw new ApplicationException(
+				"This result service does not retrieving query identifier results.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.utah.further.fqe.ds.api.results.ResultService#getQueryResults(java.util.List)
+	 */
+	@Override
+	public <T> List<T> getQueryResults(final List<String> queryIds)
+	{
+		throw new ApplicationException(
+				"This result service does not retrieving query results using query ids.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see edu.utah.further.fqe.ds.api.results.ResultService#getQueryResults(edu.utah.further.core.query.domain.SearchQuery)
+	 */
+	@Override
+	public <T> List<T> getQueryResults(final SearchQuery query)
+	{
+		throw new ApplicationException(
+				"This result service does not retrieving query results using a query.");
 	}
 
 	/**
