@@ -217,16 +217,18 @@ public final class IdentifierServiceImpl implements IdentifierService
 		final Long dataSourceNumericId = tempDsMap.get(dataSourceId); // TODO convert this from OpenMRS-V1_9, etc
 
 		final List<Long> args = virtualFederatedIds;
+		
+		final String stmt = "SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
+				+ "src_obj_nmspc_id = ? AND "
+				+ SqlUtil.unlimitedInValues(virtualFederatedIds,
+						"virtual_obj_id");
+		
 		args.add(0, dataSourceNumericId);
 
 		// Our input is actually virtual federated ids and not federated ids - we have to
 		// translate to the actual federated id before we can do a lookup.
 		final List<Long> translatedVirtualIds = identifierJdbcTemplate
-				.queryForList(
-						"SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
-								+ "src_obj_nmspc_id = ? AND "
-								+ SqlUtil.unlimitedInValues(virtualFederatedIds,
-										"virtual_obj_id"), args.toArray(), Long.class);
+				.queryForList(stmt, args.toArray(), Long.class);
 
 		if (translatedVirtualIds.size() == 0)
 		{

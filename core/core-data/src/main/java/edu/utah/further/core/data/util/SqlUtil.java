@@ -68,7 +68,7 @@ public final class SqlUtil
 		final StringBuilder inString = StringUtil.newStringBuilder();
 
 		// values -- in ( ?, ?, ?...)
-		inString.append(propertyName + " in ").append('(');
+		inString.append("( " + propertyName + " in ").append('(');
 		for (int i = 0; i < values.size(); i++)
 		{
 			if ((i != 0) && (i % MAX_IN == 0))
@@ -85,7 +85,7 @@ public final class SqlUtil
 				inString.append(", ");
 			}
 		}
-		inString.append(')');
+		inString.append(") )");
 
 		return inString.toString();
 	}
