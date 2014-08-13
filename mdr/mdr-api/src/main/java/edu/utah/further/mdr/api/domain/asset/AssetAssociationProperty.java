@@ -35,7 +35,7 @@ import edu.utah.further.core.api.lang.CopyableFrom;
 public interface AssetAssociationProperty extends PersistentEntity<Long>,
 		CopyableFrom<AssetAssociationProperty, AssetAssociationProperty>
 {
-	public static final String JAVA_DATA_TYPE = "ATTR_VALUE_TRANS_TO_DATA_TYPE";
+	public static final String JAVA_DATA_TYPE = "ATTR_VALUE_TRANS_TO_JAVA_DATA_TYPE";
 
 	/**
 	 * Return the name property.
