@@ -109,6 +109,20 @@ public final class IdentifierServiceImpl implements IdentifierService
 	 * A 'simpler' version of JdbcTemplate
 	 */
 	private SimpleJdbcTemplate simpleJdbcTemplate;
+	
+	private static HashMap<String, Long> tempDsMap;
+	
+	static {
+		tempDsMap = new HashMap<String, Long>();
+		tempDsMap.put("UCUM", 32870L);
+		tempDsMap.put("LOINC", 5102L);
+		tempDsMap.put("SNOMED CT", 30L);
+		tempDsMap.put("OMOP-V2", 32868L);
+		tempDsMap.put("RxNorm R", 1552L);
+		tempDsMap.put("ICD-9-CM", 10L);
+		tempDsMap.put("Further", 32769L);
+		tempDsMap.put("OpenMRS-V1_9", 32812L);
+	}
 
 	// =================== IMPL:IdentifierService =================================
 
@@ -200,7 +214,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 	{
 		// TODO: Lookup dataSourceId numeric identifier - dataSourceId is currently string
 		// like "UUEDW"
-		final Long dataSourceNumericId = Long.valueOf(dataSourceId);
+		final Long dataSourceNumericId = tempDsMap.get(dataSourceId); // TODO convert this from OpenMRS-V1_9, etc
 
 		final List<Long> args = virtualFederatedIds;
 		args.add(0, dataSourceNumericId);
