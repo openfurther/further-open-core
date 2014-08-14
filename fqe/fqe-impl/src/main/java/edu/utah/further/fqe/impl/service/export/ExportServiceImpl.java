@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.exception.ApplicationException;
@@ -122,6 +123,7 @@ public class ExportServiceImpl implements ExportService
 	 * .api.export.ExportFormat, edu.utah.further.fqe.api.export.ExportContext)
 	 */
 	@Override
+	@Transactional
 	public <F> F export(final ExportFormat format, final ExportContext exportContext)
 	{
 		// Update the username from a unid to a federated username

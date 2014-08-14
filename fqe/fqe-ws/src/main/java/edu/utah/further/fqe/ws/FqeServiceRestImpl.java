@@ -645,7 +645,7 @@ public class FqeServiceRestImpl implements FqeServiceRest
 			throw new ApplicationException("Invalid ExportContext XML");
 		}
 
-		if (exportContext == null)
+		if (exportContextTo == null)
 		{
 			// Shouldn't get here but just in case
 			throw new ApplicationException("Problem resolving ExportContext");
