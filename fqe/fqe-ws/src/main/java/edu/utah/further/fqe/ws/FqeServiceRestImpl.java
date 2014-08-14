@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.utah.further.core.api.constant.ErrorCode;
 import edu.utah.further.core.api.constant.Strings;
@@ -96,6 +97,7 @@ import edu.utah.further.security.api.services.SecurityService;
  * @version May 29, 2009
  */
 @Service("fqeServiceRest")
+@Transactional
 public class FqeServiceRestImpl implements FqeServiceRest
 {
 	// ========================= CONSTANTS =================================

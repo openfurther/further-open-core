@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Joiner;
 
@@ -55,6 +56,7 @@ import edu.utah.further.ds.i2b2.model.impl.domain.PatientDimensionEntity;
  * @version Jul 31, 2014
  */
 @Service("csvExporter")
+@Transactional
 public final class CsvExporterImpl implements Exporter
 {
 	
