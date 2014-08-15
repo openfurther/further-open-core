@@ -95,7 +95,7 @@ public class ResultDataServiceImpl implements ResultDataService
 			final List<Object> orderedParameterValues)
 	{
 		final Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.setParameter(parameterName, orderedParameterValues);
+		query.setParameterList(parameterName, orderedParameterValues);
 		return (T) query.list();
 	}
 
