@@ -22,6 +22,18 @@
 
 	<properties>
 		<shortName>ds.api</shortName>
+
+		<further.osgi.import.pkg>
+			edu.utah.further.ds.i2b2.model.api.domain,
+			edu.utah.further.ds.i2b2.model.api.to,
+			edu.utah.further.ds.i2b2.model.impl.domain,
+			edu.utah.further.ds.i2b2.model.impl.to,
+			edu.utah.further.ds.omop.model.v2.domain,
+			edu.utah.further.ds.omop.model.v4.domain,
+			edu.utah.further.ds.openmrs.model.v1_9.domain,
+			'=META-INF.core.util',
+			*
+		</further.osgi.import.pkg>
 	</properties>
 
 	<dependencies>
