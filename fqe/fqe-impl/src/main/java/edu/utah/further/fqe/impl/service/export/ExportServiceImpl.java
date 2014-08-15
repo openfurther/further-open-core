@@ -188,7 +188,7 @@ public class ExportServiceImpl implements ExportService
 		// to filter which diagnosis they have
 		final List<Object> results = resultService.getQueryResults(
 				"from " + queryContext.getResultContext().getRootEntityClass()
-						+ " where id.datasetId "
+						+ " where "
 						+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId"), queryIds);
 
 		// for (final SearchQuery query : context.getFilters())
