@@ -94,7 +94,7 @@ public class ResultDataServiceImpl implements ResultDataService
 	public <T> T getQueryResultsInList(final String hql, final String parameterName,
 			final List<Object> orderedParameterValues)
 	{
-		final Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		final Query query = sessionFactory.getCurrentSession().getNamedQuery(hql);
 		query.setParameterList(parameterName, orderedParameterValues);
 		return (T) query.list();
 	}
