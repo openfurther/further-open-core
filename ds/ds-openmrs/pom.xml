@@ -28,6 +28,9 @@
 			javax.persistence.spi;resolution:=optional,
 			*
 		</further.osgi.import.pkg>
+		<further.osgi.export.pkg>
+			edu.utah.further.ds.openmrs.model.v1_9.domain
+		</further.osgi.export.pkg>
 	</properties>
 
 	<!-- =========================================== -->

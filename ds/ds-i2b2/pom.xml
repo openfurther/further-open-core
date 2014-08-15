@@ -30,6 +30,12 @@
 			javax.persistence.spi;resolution:=optional,
 			*
 		</further.osgi.import.pkg>
+		<further.osgi.export.pkg>
+			edu.utah.further.ds.i2b2.model.api.domain,
+			edu.utah.further.ds.i2b2.model.api.to,
+			edu.utah.further.ds.i2b2.model.impl.domain,
+			edu.utah.further.ds.i2b2.model.impl.to
+		</further.osgi.export.pkg>
 	</properties>
 
 	<!-- =========================================== -->

@@ -28,6 +28,10 @@
 			javax.persistence.spi;resolution:=optional,
 			*
 		</further.osgi.import.pkg>
+		<further.osgi.export.pkg>
+			edu.utah.further.ds.omop.model.v2.domain,
+			edu.utah.further.ds.omop.model.v4.domain
+		</further.osgi.export.pkg>
 	</properties>
 
 	<!-- =========================================== -->
