@@ -90,4 +90,54 @@ public final class SqlUtil
 		return inString.toString();
 	}
 
+	/**
+	 * Returns an a string that can be used with an unlimited number of inline values. 
+	 * This is used to circumvent limitations on the number of values that can be within an IN
+	 * statement.  After calling this, call getQueryResults with empty List.
+	 * 
+	 * NOTE: This is a workaround for 'could not locate named parameter' error that I can't
+	 *       currently track root cause down on.  See 
+	 *       
+	 *       http://stackoverflow.com/questions/22101116/hibernate-cant-detect-named-parameter
+	 *       
+	 *       for possible reason. We need to get past it, so we will do this for now.  
+	 * 
+	 * @param values
+	 *            the values for use in the IN
+	 * @return a string for use within an SQL statement
+	 */
+	public static final String unlimitedInValuesInline(final List<?> values, final String propertyName)
+	{
+		final StringBuilder inString = StringUtil.newStringBuilder();
+
+		// values -- in ( ?, ?, ?...)
+		boolean isStringValue = 
+				(values != null && values.size() > 0 
+					&& values.get(0) != null && values.get(0) instanceof String);
+		inString.append("( " + propertyName + " in ").append('(');
+		for (int i = 0; i < values.size(); i++)
+		{
+			if ((i != 0) && (i % MAX_IN == 0))
+			{
+				inString.append(')');
+				inString.append(" or " + propertyName + " in ");
+				inString.append('(');
+			}
+
+			// append the value itself
+			inString.append(
+					(isStringValue ? "'" : "") 
+					+ (values.get(i) != null ? values.get(i).toString() : "") 
+					+ (isStringValue ? "'" : ""));
+
+			if ((i + 1 <= (values.size() - 1)) && ((i + 1) % MAX_IN != 0))
+			{
+				inString.append(", ");
+			}
+		}
+		inString.append(") )");
+
+		return inString.toString();
+	}
+
 }

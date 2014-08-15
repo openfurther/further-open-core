@@ -20,6 +20,7 @@ import static edu.utah.further.core.api.constant.ErrorCode.INVALID_RESULTS;
 import static edu.utah.further.core.api.constant.ErrorCode.QUERY_NOT_EXIST;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -182,13 +183,16 @@ public class ExportServiceImpl implements ExportService
 				queryIds.add(context.getExecutionId());
 			}
 		}
+		
+		// essentially dummy parameter list, values inlined, 
+		final List<Object> queryIdStub = new ArrayList<Object>(); 
 
 		// This is the root object which by default is always fetched and not filtered
 		// E.g. you don't want to filter the number of patients you have but you may want
 		// to filter which diagnosis they have
-		final List<Object> results = resultService.getQueryResultsInList(
+		final List<Object> results = resultService.getQueryResults(
 				"from " + queryContext.getResultContext().getRootEntityClass()
-						+ " where id.datasetId in ( :queryIds )", "queryIds", queryIds);
+						+ SqlUtil.unlimitedInValuesInline(queryIds, "id.datasetId"), queryIdStub);
 
 		// for (final SearchQuery query : context.getFilters())
 		// {
