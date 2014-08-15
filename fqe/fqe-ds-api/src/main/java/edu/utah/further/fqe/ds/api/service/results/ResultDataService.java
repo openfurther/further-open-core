@@ -63,4 +63,15 @@ public interface ResultDataService
 	 * @return
 	 */
 	<T> T getQueryResults(final String hql, final List<Object> orderedParameterValues);
+
+	/**
+	 * Execute a query against results using an object query language like HQL binding any
+	 * values from a List to a parameter name.
+	 * 
+	 * @param hql
+	 * @param parameterName
+	 * @param orderedParameterValues
+	 * @return
+	 */
+	<T> T getQueryResultsInList(final String hql, final String parameterName, final List<Object> orderedParameterValues);
 }

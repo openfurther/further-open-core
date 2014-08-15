@@ -87,6 +87,22 @@ public class ResultDataServiceImpl implements ResultDataService
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * edu.utah.further.fqe.ds.api.service.results.ResultDataService#getQueryResults(java
+	 * .lang.String, java.util.List)
+	 */
+	@Override
+	public <T> T getQueryResultsInList(final String hql, final String parameterName,
+			final List<Object> orderedParameterValues)
+	{
+		final Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(parameterName, orderedParameterValues);
+		return (T) query.list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * edu.utah.further.fqe.ds.api.service.results.ResultDataService#getQueryResults(edu
 	 * .utah.further.core.query.domain.SearchQuery)
 	 */

@@ -186,10 +186,9 @@ public class ExportServiceImpl implements ExportService
 		// This is the root object which by default is always fetched and not filtered
 		// E.g. you don't want to filter the number of patients you have but you may want
 		// to filter which diagnosis they have
-		final List<Object> results = resultService.getQueryResults(
+		final List<Object> results = resultService.getQueryResultsInList(
 				"from " + queryContext.getResultContext().getRootEntityClass()
-						+ " where "
-						+ SqlUtil.unlimitedInValues(queryIds, "id.datasetId"), queryIds);
+						+ " where id.datasetId in ( :queryIds )", "queryIds", queryIds);
 
 		// for (final SearchQuery query : context.getFilters())
 		// {
