@@ -21,7 +21,9 @@ import static edu.utah.further.core.api.constant.ErrorCode.QUERY_NOT_EXIST;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -172,28 +174,55 @@ public class ExportServiceImpl implements ExportService
 		final List<QueryContext> queries = queryContextService
 				.findCompletedChildren(queryContext);
 
-		// A list of query ids to get results for
-		final List<Object> queryIds = CollectionUtil.newList();
+		// A list of child queries (filtered below) to get results for
+		final List<QueryContext> queryContexts = CollectionUtil.newList();
 
-		// Only add query ids that are have a whitelisted data source id
-		for (final QueryContext context : queries)
-		{
-			if (exportWhitelist.contains(context.getDataSourceId()))
-			{
-				queryIds.add(context.getExecutionId());
-			}
-		}
-		
+		// A list of child query exec ids (filtered below) to get results for
+		final List<Object> queryExecIds = CollectionUtil.newList();
+
 		// essentially dummy parameter list, values inlined, 
 		final List<Object> queryIdStub = new ArrayList<Object>(); 
 
-		// This is the root object which by default is always fetched and not filtered
-		// E.g. you don't want to filter the number of patients you have but you may want
-		// to filter which diagnosis they have
-		final List<Object> results = resultService.getQueryResults(
-				"from " + queryContext.getResultContext().getRootEntityClass()
-						+ SqlUtil.unlimitedInValuesInline(queryIds, "id.datasetId"), queryIdStub);
+		// final results
+		final List<Object> aggregateResults = CollectionUtil.newList();
 
+  		for (final QueryContext context : queries )
+		{
+			if (exportWhitelist.contains(context.getDataSourceId()))
+			{
+				queryContexts.add(context);
+				queryExecIds.add(context.getExecutionId());
+			}
+		}
+
+  		// Only add query ids that are have a whitelisted data source id
+		final Iterator<QueryContext> qcIterator = queryContexts.iterator();  
+		final Iterator<Object> execIterator = queryExecIds.iterator(); 
+		
+		while (qcIterator.hasNext() && execIterator.hasNext())  
+		{	
+			final QueryContext childContext = qcIterator.next();
+			final Object execId = execIterator.next();
+			
+			// This is the root object which by default is always fetched and not filtered
+			// E.g. you don't want to filter the number of patients you have but you may want
+			// to filter which diagnosis they have
+			final List<Object> results = resultService.getQueryResults(
+				"from " + childContext.getResultContext().getRootEntityClass()
+						+ " where id.datasetId = '" + execId + "'", queryIdStub);
+			
+			aggregateResults.addAll(results);
+
+		// This method uses the string QUERY_IDS_RESULT_IDS instead
+		// of calling the method to avoid IN statement limitations (typically 1000 in
+		// Oracle)
+//		final Query query = sessionFactory.getCurrentSession().createQuery(
+//				"from PatientDimensionEntity pe WHERE pe.patientNum IN ( "
+//						+ QUERY_IDS_RESULT_IDS + ")");
+//		query.setParameterList("queryIds", queryIds);
+//		return query.list();
+		}
+		
 		// for (final SearchQuery query : context.getFilters())
 		// {
 		// // Filter each "root" into a string and then zip all the files together.
@@ -201,7 +230,7 @@ public class ExportServiceImpl implements ExportService
 		// formatters.get(format).format(filteredResults, context);
 		// }
 
-		return (F) exporters.get(format).format(results, exportContext);
+		return (F) exporters.get(format).format(aggregateResults, exportContext);
 	}
 
 	// ========================= GET/SET METHODS ===========================
