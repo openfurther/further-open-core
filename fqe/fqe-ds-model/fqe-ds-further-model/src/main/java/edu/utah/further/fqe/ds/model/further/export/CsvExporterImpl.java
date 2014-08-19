@@ -38,8 +38,8 @@ import edu.utah.further.dts.api.service.DtsOperationService;
 import edu.utah.further.fqe.ds.api.domain.AbstractQueryContext;
 import edu.utah.further.fqe.ds.api.domain.ExportContext;
 import edu.utah.further.fqe.ds.api.domain.Exporter;
-import edu.utah.further.ds.i2b2.model.api.domain.ObservationFact;
-import edu.utah.further.ds.i2b2.model.impl.domain.PatientDimensionEntity;
+import edu.utah.further.ds.further.model.impl.domain.Observation;
+import edu.utah.further.ds.further.model.impl.domain.Person;
 
 /**
  * A comma separated value implementation of an {@link Exporter}
@@ -105,11 +105,11 @@ public final class CsvExporterImpl implements Exporter
 		}
 		final Class<?> resultClazz = results.get(0).getClass();
 
-		// Handle PatientDimensionEntity results
-		if (resultClazz.equals(PatientDimensionEntity.class))
+		// Handle Person results
+		if (resultClazz.equals(Person.class))
 		{
 			// We've already checked the type
-			final List<PatientDimensionEntity> patients = (List<PatientDimensionEntity>) results;
+			final List<Person> patients = (List<Person>) results;
 			final Map<String, String> nameMapper = getCodeToNameMap(patients);
 
 			// Build the CSV header
@@ -118,9 +118,9 @@ public final class CsvExporterImpl implements Exporter
 					+ System.getProperty("line.separator"));
 
 			// Build the CSV data
-			for (final PatientDimensionEntity patient : patients)
+			for (final Person person : patients)
 			{
-				sb.append(new PersonStringAdapter(patient, nameMapper)
+				sb.append(new PersonStringAdapter(person, nameMapper)
 						+ System.getProperty("line.separator"));
 			}
 
@@ -191,21 +191,25 @@ public final class CsvExporterImpl implements Exporter
 	 * @return
 	 */
 	private Map<String, String> getCodeToNameMap(
-			final List<PatientDimensionEntity> patients)
+			final List<Person> patients)
 	{
 		final Map<String, String> terminologyNameMap = CollectionUtil.newMap();
 		Map<DtsNamespace, Set<String>> translationErrors = null;
 
-		for (final PatientDimensionEntity patient : patients)
+		for (final Person person : patients)
 		{
-			log.debug("Processing patient: " + patient.getId());
+			log.debug("Processing person: " + person.getId());
 
-			for (final ObservationFact observation : patient.getObservations())
+			for (final Observation observation : person.getObservations())
 			{
 				log.debug("Processing observation: " + observation.getId());
 
-				// Concepts come in the form of namespace:code
-				final String concept = observation.getId().getConceptCd();
+				// Concepts came in the form of namespace:code for PatientDimensionEntity -
+				// continue this with Person, and use nmspc id as proxy for nmspc to start:
+				final String concept = 
+						(observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
+						+ ":" 
+						+ (observation.getValue() == null ? "" : observation.getValue());
 				final String[] conceptCode = concept.split(":");
 				// This is the namespace
 				final String prefix = conceptCode[0];
@@ -217,12 +221,12 @@ public final class CsvExporterImpl implements Exporter
 					code = code.substring(code.indexOf('|') + 1);
 				}
 
-				// Find the namespace to use based on the prefix
-				final Integer namespace = prefixMapper.get(prefix);
+				// Find the namespace
+				final Long namespace = observation.getObservationNamespaceId(); // prefixMapper.get(prefix);
 				
-				log.debug("namespace is: " + namespace);
+				log.debug("namespace ID is: " + namespace);
 
-				if (namespace.intValue() == -1)
+				if (namespace == -1)
 				{
 					// The name is the code in these cases. e.g. LENGTHOFSTAY:1 or
 					// DEM|AGE:2
@@ -318,9 +322,9 @@ public final class CsvExporterImpl implements Exporter
 	private static final class PersonStringAdapter
 	{
 		/**
-		 * The patient to adapt
+		 * The person to adapt
 		 */
-		private final PatientDimensionEntity patient;
+		private final Person person;
 
 		/**
 		 * Holds the mapping between the code of the value and the attribute
@@ -331,20 +335,22 @@ public final class CsvExporterImpl implements Exporter
 		/**
 		 * Constructor
 		 * 
-		 * @param patient
+		 * @param person
 		 */
-		public PersonStringAdapter(final PatientDimensionEntity patient,
+		public PersonStringAdapter(final Person person,
 				final Map<String, String> nameMapper)
 		{
-			this.patient = patient;
+			this.person = person;
 
-			for (final ObservationFact observation : patient.getObservations())
+			for (final Observation observation : person.getObservations())
 			{
-				final String source = observation.getSourcesystemCd();
+				final String source = observation.getMethod();  // TODO: what is this really?
 				final DemographicExportAttribute attribute = DemographicExportAttribute
 						.getAttributeBySourceCode(source);
 
-				final String concept = observation.getId().getConceptCd();
+				final String concept = (observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
+						+ ":" 
+						+ (observation.getValue() == null ? "" : observation.getValue());
 				attributeValueMapper.put(attribute, new AttributeValue(concept,
 						nameMapper.get(concept)));
 			}
@@ -359,8 +365,8 @@ public final class CsvExporterImpl implements Exporter
 		public String toString()
 		{
 			final List<String> values = CollectionUtil.newList();
-			// Always add the patient id as the first value
-			values.add(patient.getId().toString());
+			// Always add the person id as the first value
+			values.add(person.getId().toString());
 			for (final DemographicExportAttribute exportAttribute : DemographicExportAttribute
 					.values())
 			{
