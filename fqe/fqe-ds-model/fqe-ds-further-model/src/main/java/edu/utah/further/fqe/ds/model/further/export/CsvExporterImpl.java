@@ -208,46 +208,67 @@ public final class CsvExporterImpl implements Exporter
 			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
 
 			// Lookup the Ethnicity name
-			dtsNamespace = dos.findNamespaceById(person.getEthnicityNamespaceId().intValue());
-			code = person.getEthnicity();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getEthnicityNamespaceId().intValue());
+				code = person.getEthnicity();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
-
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
+			
 			// Lookup the Race name
-			dtsNamespace = dos.findNamespaceById(person.getRaceNamespaceId().intValue());
-			code = person.getRace();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getRaceNamespaceId().intValue());
+				code = person.getRace();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 
 			// Lookup the Religion name
-			dtsNamespace = dos.findNamespaceById(person.getReligionNamespaceId().intValue());
-			code = person.getReligion();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getReligionNamespaceId().intValue());
+				code = person.getReligion();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 
 			// Lookup the PrimaryLanguage name
-			dtsNamespace = dos.findNamespaceById(person.getPrimaryLanguageNamespaceId().intValue());
-			code = person.getPrimaryLanguage();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getPrimaryLanguageNamespaceId().intValue());
+				code = person.getPrimaryLanguage();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 
 			// Lookup the MaritalStatus name
-			dtsNamespace = dos.findNamespaceById(person.getMaritalStatusNamespaceId().intValue());
-			code = person.getMaritalStatus();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getMaritalStatusNamespaceId().intValue());
+				code = person.getMaritalStatus();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 
 			// Lookup the CauseOfDeath name
-			dtsNamespace = dos.findNamespaceById(person.getCauseOfDeathNamespaceId().intValue());
-			code = person.getCauseOfDeath();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getCauseOfDeathNamespaceId().intValue());
+				code = person.getCauseOfDeath();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 
 			// Lookup the VitalStatus name
-			dtsNamespace = dos.findNamespaceById(person.getVitalStatusNamespaceId().intValue());
-			code = person.getVitalStatus();
+			if(person.getEthnicityNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getVitalStatusNamespaceId().intValue());
+				code = person.getVitalStatus();
 
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 		}
 
 		return terminologyNameMap;
