@@ -490,14 +490,6 @@ public final class CsvExporterImpl implements Exporter
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
 
-//			AGE("AGE", false, true, "age"),
-//
-//			BIRTH_YEAR("BIRTH YEAR", false, "birthyear"),
-//
-//			STATE("STATE", "state"),
-//
-//			COUNTY("COUNTY", "county");
-
 		}
 
 		/*
@@ -510,7 +502,7 @@ public final class CsvExporterImpl implements Exporter
 		{
 			final List<String> values = CollectionUtil.newList();
 			// Always add the person id as the first value
-			values.add(person.getId().toString());
+			values.add(person.getId().getId().toString());
 			for (final DemographicExportAttribute exportAttribute : DemographicExportAttribute
 					.values())
 			{

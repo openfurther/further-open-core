@@ -25,27 +25,41 @@ public enum DemographicExportAttribute
 {
 	// ========================= ENUMERATED CONSTANTS ======================
 
-	AGE("AGE", false, true, "age"),
+	SEX("SEX", "sex", "gender"),
+
+	RACE("RACE", "race"),
+
+	ETHNICITY("ETHNICITY", "ethnicity"),
+
+	BIRTH_DATE("BIRTH DATE", false, "birthdate"),
 
 	BIRTH_YEAR("BIRTH YEAR", false, "birthyear"),
 
-	RELIGION("RELIGION", "religion"),
+	BIRTH_MONTH("BIRTH MONTH", false, "birthmonth"),
 
-	RACE("RACE", "race", "ethnicity"),
+	BIRTH_DAY("BIRTH DAY", false, "birthday"),
 
-	SEX("SEX", "sex", "gender"),
+	EDUCATION("EDUCATION", false, "education"),
 
 	LANG("LANGUAGE", "language", "primarylanguage"),
 
 	MARITAL("MARITAL STATUS", "marital"),
 
-	CAUSEOFDEATH("CAUSE OF DEATH", "causeofdeath"),
+	MULTI_BIRTH_IND("MULTI_BIRTH_IND", false, "multibirthind"),
+
+	MULTI_BIRTH_NUM("MULTI_BIRTH_NUM", false, "multibirthnum"),
+
+	RELIGION("RELIGION", "religion"),
 
 	VITALSTATUS("VITAL STATUS", "vitalstatus"),
 
-	STATE("STATE", "state"),
+	CAUSEOFDEATH("CAUSE OF DEATH", "causeofdeath"),
 
-	COUNTY("COUNTY", "county");
+	DEATH_DATE("DEATH DATE", false, "deathdate"),
+
+	DEATH_YEAR("DEATH YEAR", false, "deathyear"),
+
+	PEDIGREE("PEDIGREE", false, "pedigree");
 
 	// ========================= FIELDS ======================
 
