@@ -209,7 +209,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getAdministrativeGenderNamespaceId().intValue());
 				code = person.getAdministrativeGender();
 	
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getAdministrativeGenderNamespaceId().toString(), code);
 			}
 
 			// Lookup the Ethnicity name
@@ -218,7 +218,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getEthnicityNamespaceId().intValue());
 				code = person.getEthnicity();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getEthnicityNamespaceId().toString(), code);
 			}
 			
 			// Lookup the Race name
@@ -227,7 +227,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getRaceNamespaceId().intValue());
 				code = person.getRace();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getRaceNamespaceId().toString(), code);
 			}
 
 			// Lookup the Religion name
@@ -236,7 +236,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getReligionNamespaceId().intValue());
 				code = person.getReligion();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getReligionNamespaceId().toString(), code);
 			}
 
 			// Lookup the PrimaryLanguage name
@@ -245,7 +245,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getPrimaryLanguageNamespaceId().intValue());
 				code = person.getPrimaryLanguage();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getPrimaryLanguageNamespaceId().toString(), code);
 			}
 
 			// Lookup the MaritalStatus name
@@ -254,7 +254,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getMaritalStatusNamespaceId().intValue());
 				code = person.getMaritalStatus();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getMaritalStatusNamespaceId().toString(), code);
 			}
 
 			// Lookup the CauseOfDeath name
@@ -263,7 +263,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getCauseOfDeathNamespaceId().intValue());
 				code = person.getCauseOfDeath();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getCauseOfDeathNamespaceId().toString(), code);
 			}
 
 			// Lookup the VitalStatus name
@@ -272,7 +272,7 @@ public final class CsvExporterImpl implements Exporter
 				dtsNamespace = dos.findNamespaceById(person.getVitalStatusNamespaceId().intValue());
 				code = person.getVitalStatus();
 
-				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, person.getVitalStatusNamespaceId().toString(), code);
 			}
 		}
 
@@ -292,7 +292,7 @@ public final class CsvExporterImpl implements Exporter
 	private void codeToNameLookup(
 			final Map<String, String> terminologyNameMap,
 			Map<DtsNamespace, Set<String>> translationErrors,
-			final DtsNamespace dtsNamespace, final String code) {
+			final DtsNamespace dtsNamespace, final String namespaceId, final String code) {
 		final DtsConcept dtsConcept = dtsNamespace.isLocal() ? dos
 				.findConceptByLocalCode(dtsNamespace, code) : dos
 				.findConceptByCodeInSource(dtsNamespace, code);
@@ -321,8 +321,8 @@ public final class CsvExporterImpl implements Exporter
 			translationErrors.put(dtsNamespace, untranslatedCodes);
 		}
 
-		// Put the <concept_cd,name> into the terminologyNameMap
-		terminologyNameMap.put(code, name);
+		// Put the <namespace id + concept_cd,name> into the terminologyNameMap
+		terminologyNameMap.put(namespaceId + ":" + code, name);
 	}
 
 	/**
