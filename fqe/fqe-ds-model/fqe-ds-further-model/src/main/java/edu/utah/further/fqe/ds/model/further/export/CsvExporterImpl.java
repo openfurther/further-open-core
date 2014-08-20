@@ -530,7 +530,12 @@ public final class CsvExporterImpl implements Exporter
 				}
 				else
 				{
-					if(value.getName() != null) values.add(value.getName());
+					if(value.getName() != null)
+					{
+						values.add(value.getName());
+					} else {
+						values.add("");
+					}
 
 					if (exportAttribute.isValueCoded())
 					{
@@ -543,6 +548,8 @@ public final class CsvExporterImpl implements Exporter
 							{
 								String newValue = value.getCode().replace(":", "_");
 								values.add(newValue);
+							} else {
+								values.add("");
 							}
 						}
 					}
