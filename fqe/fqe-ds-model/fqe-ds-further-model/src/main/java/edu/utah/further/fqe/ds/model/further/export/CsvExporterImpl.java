@@ -196,16 +196,21 @@ public final class CsvExporterImpl implements Exporter
 	{
 		final Map<String, String> terminologyNameMap = CollectionUtil.newMap();
 		Map<DtsNamespace, Set<String>> translationErrors = null;
-
+		DtsNamespace dtsNamespace = null;
+		String code = null;
+		
 		for (final Person person : persons)
 		{
 			log.debug("Processing person: " + person.getId());
 
 			// Lookup the Gender name
-			DtsNamespace dtsNamespace = dos.findNamespaceById(person.getAdministrativeGenderNamespaceId().intValue());
-			String code = person.getAdministrativeGender();
-
-			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			if(person.getAdministrativeGenderNamespaceId() != null) 
+			{
+				dtsNamespace = dos.findNamespaceById(person.getAdministrativeGenderNamespaceId().intValue());
+				code = person.getAdministrativeGender();
+	
+				codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+			}
 
 			// Lookup the Ethnicity name
 			if(person.getEthnicityNamespaceId() != null) 
@@ -217,7 +222,7 @@ public final class CsvExporterImpl implements Exporter
 			}
 			
 			// Lookup the Race name
-			if(person.getEthnicityNamespaceId() != null) 
+			if(person.getRaceNamespaceId() != null) 
 			{
 				dtsNamespace = dos.findNamespaceById(person.getRaceNamespaceId().intValue());
 				code = person.getRace();
@@ -226,7 +231,7 @@ public final class CsvExporterImpl implements Exporter
 			}
 
 			// Lookup the Religion name
-			if(person.getEthnicityNamespaceId() != null) 
+			if(person.getReligionNamespaceId() != null) 
 			{
 				dtsNamespace = dos.findNamespaceById(person.getReligionNamespaceId().intValue());
 				code = person.getReligion();
@@ -235,7 +240,7 @@ public final class CsvExporterImpl implements Exporter
 			}
 
 			// Lookup the PrimaryLanguage name
-			if(person.getEthnicityNamespaceId() != null) 
+			if(person.getPrimaryLanguageNamespaceId() != null) 
 			{
 				dtsNamespace = dos.findNamespaceById(person.getPrimaryLanguageNamespaceId().intValue());
 				code = person.getPrimaryLanguage();
@@ -244,7 +249,7 @@ public final class CsvExporterImpl implements Exporter
 			}
 
 			// Lookup the MaritalStatus name
-			if(person.getEthnicityNamespaceId() != null) 
+			if(person.getMaritalStatusNamespaceId() != null) 
 			{
 				dtsNamespace = dos.findNamespaceById(person.getMaritalStatusNamespaceId().intValue());
 				code = person.getMaritalStatus();
@@ -253,7 +258,7 @@ public final class CsvExporterImpl implements Exporter
 			}
 
 			// Lookup the CauseOfDeath name
-			if(person.getEthnicityNamespaceId() != null) 
+			if(person.getCauseOfDeathNamespaceId() != null) 
 			{
 				dtsNamespace = dos.findNamespaceById(person.getCauseOfDeathNamespaceId().intValue());
 				code = person.getCauseOfDeath();
@@ -262,7 +267,7 @@ public final class CsvExporterImpl implements Exporter
 			}
 
 			// Lookup the VitalStatus name
-			if(person.getEthnicityNamespaceId() != null) 
+			if(person.getVitalStatusNamespaceId() != null) 
 			{
 				dtsNamespace = dos.findNamespaceById(person.getVitalStatusNamespaceId().intValue());
 				code = person.getVitalStatus();
@@ -390,7 +395,7 @@ public final class CsvExporterImpl implements Exporter
 			log.debug("Adapting person: " + person.getId());
 
 			// Adapt the Gender 
-			String source = ""; 
+			String source = "gender"; 
 			DemographicExportAttribute attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
