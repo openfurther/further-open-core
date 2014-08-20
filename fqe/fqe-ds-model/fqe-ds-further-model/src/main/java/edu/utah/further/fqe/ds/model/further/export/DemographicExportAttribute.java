@@ -177,7 +177,7 @@ public enum DemographicExportAttribute
 			for (final String sourceCode : attribute.sourceCodes)
 			{
 				// include the dot so that E.g. 'age' in Language is not detected wrongly.
-				if (codeLower.contains("." + sourceCode))
+				if (("." + codeLower).contains("." + sourceCode))
 				{
 					return attribute;
 				}
