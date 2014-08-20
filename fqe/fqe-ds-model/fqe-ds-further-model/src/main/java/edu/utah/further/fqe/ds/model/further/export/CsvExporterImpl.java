@@ -539,7 +539,8 @@ public final class CsvExporterImpl implements Exporter
 							values.add(NOT_FOUND);
 						} else {
 							// FUR-2481 - replace colons with underscore
-							values.add(value.getCode().replace(":", "_"));
+							String newValue = value.getCode().replace(":", "_");
+							values.add(newValue);
 						}
 					}
 				}
