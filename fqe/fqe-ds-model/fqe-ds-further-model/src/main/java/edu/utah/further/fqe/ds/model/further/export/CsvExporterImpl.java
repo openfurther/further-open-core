@@ -17,6 +17,7 @@ package edu.utah.further.fqe.ds.model.further.export;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -200,76 +201,84 @@ public final class CsvExporterImpl implements Exporter
 		{
 			log.debug("Processing person: " + person.getId());
 
-			for (final Observation observation : person.getObservations())
+			Observation[] oa = new Observation[person.getObservations().size()]; 
+			oa = person.getObservations().toArray(oa);
+			
+			for (int i = 0; i < person.getObservations().size(); i++) 
 			{
-				log.debug("Processing observation: " + observation.getId());
-
-				// Concepts came in the form of namespace:code for PatientDimensionEntity -
-				// continue this with Person, and use nmspc id as proxy for nmspc to start:
-				final String concept = 
-						(observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
-						+ ":" 
-						+ (observation.getValue() == null ? "" : observation.getValue());
-				final String[] conceptCode = concept.split(":");
-				// This is the namespace
-				final String prefix = conceptCode[0];
-				String code = conceptCode[1];
-
-				// Handle codes like CR|XC368
-				if (code.indexOf('|') != -1)
-				{
-					code = code.substring(code.indexOf('|') + 1);
-				}
-
-				// Find the namespace
-				final Long namespace = observation.getObservationNamespaceId(); // prefixMapper.get(prefix);
-				
-				log.debug("namespace ID is: " + namespace);
-
-				if (namespace == -1)
-				{
-					// The name is the code in these cases. e.g. LENGTHOFSTAY:1 or
-					// DEM|AGE:2
-					terminologyNameMap.put(concept, code);
-				}
-				else
-				{
-					// Lookup the name based on the namespace and code
-					final DtsNamespace dtsNamespace = dos.findNamespaceById(namespace
-							.intValue());
-
-					final DtsConcept dtsConcept = dtsNamespace.isLocal() ? dos
-							.findConceptByLocalCode(dtsNamespace, code) : dos
-							.findConceptByCodeInSource(dtsNamespace, code);
-
-					String name = (dtsConcept == null) ? "" : dtsConcept.getName();
-
-					// Replace all commas in names.
-					name = name.replace(",", ";");
-
-					// Keep track of all untranslated codes
-					if (dtsConcept == null)
-					{
-						if (translationErrors == null)
-						{
-							translationErrors = CollectionUtil.newMap();
-						}
-						Set<String> untranslatedCodes = translationErrors
-								.get(dtsNamespace);
-
-						if (untranslatedCodes == null)
-						{
-							untranslatedCodes = CollectionUtil.newSet();
-						}
-
-						untranslatedCodes.add(code);
-						translationErrors.put(dtsNamespace, untranslatedCodes);
-					}
-
-					// Put the <concept_cd,name> into the terminologyNameMap
-					terminologyNameMap.put(concept, name);
-				}
+				log.debug("Got Observation " + i + ": " + oa[i]);
 			}
+
+//			for (final Observation observation : person.getObservations())
+//			{
+//				log.debug("Processing observation: " + observation.getId());
+//
+//				// Concepts came in the form of namespace:code for PatientDimensionEntity -
+//				// continue this with Person, and use nmspc id as proxy for nmspc to start:
+//				final String concept = 
+//						(observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
+//						+ ":" 
+//						+ (observation.getValue() == null ? "" : observation.getValue());
+//				final String[] conceptCode = concept.split(":");
+//				// This is the namespace
+//				final String prefix = conceptCode[0];
+//				String code = conceptCode[1];
+//
+//				// Handle codes like CR|XC368
+//				if (code.indexOf('|') != -1)
+//				{
+//					code = code.substring(code.indexOf('|') + 1);
+//				}
+//
+//				// Find the namespace
+//				final Long namespace = observation.getObservationNamespaceId(); // prefixMapper.get(prefix);
+//				
+//				log.debug("namespace ID is: " + namespace);
+//
+//				if (namespace == -1)
+//				{
+//					// The name is the code in these cases. e.g. LENGTHOFSTAY:1 or
+//					// DEM|AGE:2
+//					terminologyNameMap.put(concept, code);
+//				}
+//				else
+//				{
+//					// Lookup the name based on the namespace and code
+//					final DtsNamespace dtsNamespace = dos.findNamespaceById(namespace
+//							.intValue());
+//
+//					final DtsConcept dtsConcept = dtsNamespace.isLocal() ? dos
+//							.findConceptByLocalCode(dtsNamespace, code) : dos
+//							.findConceptByCodeInSource(dtsNamespace, code);
+//
+//					String name = (dtsConcept == null) ? "" : dtsConcept.getName();
+//
+//					// Replace all commas in names.
+//					name = name.replace(",", ";");
+//
+//					// Keep track of all untranslated codes
+//					if (dtsConcept == null)
+//					{
+//						if (translationErrors == null)
+//						{
+//							translationErrors = CollectionUtil.newMap();
+//						}
+//						Set<String> untranslatedCodes = translationErrors
+//								.get(dtsNamespace);
+//
+//						if (untranslatedCodes == null)
+//						{
+//							untranslatedCodes = CollectionUtil.newSet();
+//						}
+//
+//						untranslatedCodes.add(code);
+//						translationErrors.put(dtsNamespace, untranslatedCodes);
+//					}
+//
+//					// Put the <concept_cd,name> into the terminologyNameMap
+//					terminologyNameMap.put(concept, name);
+//				}
+//			}
 		}
 
 		return terminologyNameMap;
