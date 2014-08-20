@@ -530,7 +530,7 @@ public final class CsvExporterImpl implements Exporter
 				}
 				else
 				{
-					values.add(value.getName());
+					if(value.getName() != null) values.add(value.getName());
 
 					if (exportAttribute.isValueCoded())
 					{
@@ -539,8 +539,11 @@ public final class CsvExporterImpl implements Exporter
 							values.add(NOT_FOUND);
 						} else {
 							// FUR-2481 - replace colons with underscore
-							String newValue = value.getCode().replace(":", "_");
-							values.add(newValue);
+							if(value.getCode() != null) 
+							{
+								String newValue = value.getCode().replace(":", "_");
+								values.add(newValue);
+							}
 						}
 					}
 				}
