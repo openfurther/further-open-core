@@ -351,18 +351,26 @@ public final class CsvExporterImpl implements Exporter
 		{
 			this.person = person;
 
-			for (final Observation observation : person.getObservations())
+			Observation[] oa = new Observation[person.getObservations().size()]; 
+			oa = person.getObservations().toArray(oa);
+			
+			for (int i = 0; i < person.getObservations().size(); i++) 
 			{
-				final String source = observation.getMethod();  // TODO: what is this really?
-				final DemographicExportAttribute attribute = DemographicExportAttribute
-						.getAttributeBySourceCode(source);
-
-				final String concept = (observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
-						+ ":" 
-						+ (observation.getValue() == null ? "" : observation.getValue());
-				attributeValueMapper.put(attribute, new AttributeValue(concept,
-						nameMapper.get(concept)));
+				log.debug("Got Observation " + i + ": " + oa[i]);
 			}
+
+//			for (final Observation observation : person.getObservations())
+//			{
+//				final String source = observation.getMethod();  // TODO: what is this really?
+//				final DemographicExportAttribute attribute = DemographicExportAttribute
+//						.getAttributeBySourceCode(source);
+//
+//				final String concept = (observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
+//						+ ":" 
+//						+ (observation.getValue() == null ? "" : observation.getValue());
+//				attributeValueMapper.put(attribute, new AttributeValue(concept,
+//						nameMapper.get(concept)));
+//			}
 		}
 
 		/*
