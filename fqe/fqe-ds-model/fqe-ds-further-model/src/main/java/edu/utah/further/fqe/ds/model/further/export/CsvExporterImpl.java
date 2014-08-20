@@ -322,7 +322,7 @@ public final class CsvExporterImpl implements Exporter
 		}
 
 		// Put the <concept_cd,name> into the terminologyNameMap
-		terminologyNameMap.put(dtsNamespace.getName(), name);
+		terminologyNameMap.put(code, name);
 	}
 
 	/**
