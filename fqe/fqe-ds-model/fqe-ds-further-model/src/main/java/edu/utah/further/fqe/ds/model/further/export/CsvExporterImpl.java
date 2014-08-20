@@ -110,8 +110,8 @@ public final class CsvExporterImpl implements Exporter
 		if (resultClazz.equals(Person.class))
 		{
 			// We've already checked the type
-			final List<Person> patients = (List<Person>) results;
-			final Map<String, String> nameMapper = getCodeToNameMap(patients);
+			final List<Person> persons = (List<Person>) results;
+			final Map<String, String> nameMapper = getCodeToNameMap(persons);
 
 			// Build the CSV header
 			final StringBuilder sb = new StringBuilder();
@@ -119,7 +119,7 @@ public final class CsvExporterImpl implements Exporter
 					+ System.getProperty("line.separator"));
 
 			// Build the CSV data
-			for (final Person person : patients)
+			for (final Person person : persons)
 			{
 				sb.append(new PersonStringAdapter(person, nameMapper)
 						+ System.getProperty("line.separator"));
@@ -188,100 +188,115 @@ public final class CsvExporterImpl implements Exporter
 	 * 
 	 * E.g. SNOMED:248152002 -> Female
 	 * 
-	 * @param patients
+	 * @param persons
 	 * @return
 	 */
 	private Map<String, String> getCodeToNameMap(
-			final List<Person> patients)
+			final List<Person> persons)
 	{
 		final Map<String, String> terminologyNameMap = CollectionUtil.newMap();
 		Map<DtsNamespace, Set<String>> translationErrors = null;
 
-		for (final Person person : patients)
+		for (final Person person : persons)
 		{
 			log.debug("Processing person: " + person.getId());
 
-			Observation[] oa = new Observation[person.getObservations().size()]; 
-			oa = person.getObservations().toArray(oa);
-			
-			for (int i = 0; i < person.getObservations().size(); i++) 
-			{
-				log.debug("Got Observation " + i + ": " + oa[i]);
-			}
+			// Lookup the Gender name
+			DtsNamespace dtsNamespace = dos.findNamespaceById(person.getAdministrativeGenderNamespaceId().intValue());
+			String code = person.getAdministrativeGender();
 
-//			for (final Observation observation : person.getObservations())
-//			{
-//				log.debug("Processing observation: " + observation.getId());
-//
-//				// Concepts came in the form of namespace:code for PatientDimensionEntity -
-//				// continue this with Person, and use nmspc id as proxy for nmspc to start:
-//				final String concept = 
-//						(observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
-//						+ ":" 
-//						+ (observation.getValue() == null ? "" : observation.getValue());
-//				final String[] conceptCode = concept.split(":");
-//				// This is the namespace
-//				final String prefix = conceptCode[0];
-//				String code = conceptCode[1];
-//
-//				// Handle codes like CR|XC368
-//				if (code.indexOf('|') != -1)
-//				{
-//					code = code.substring(code.indexOf('|') + 1);
-//				}
-//
-//				// Find the namespace
-//				final Long namespace = observation.getObservationNamespaceId(); // prefixMapper.get(prefix);
-//				
-//				log.debug("namespace ID is: " + namespace);
-//
-//				if (namespace == -1)
-//				{
-//					// The name is the code in these cases. e.g. LENGTHOFSTAY:1 or
-//					// DEM|AGE:2
-//					terminologyNameMap.put(concept, code);
-//				}
-//				else
-//				{
-//					// Lookup the name based on the namespace and code
-//					final DtsNamespace dtsNamespace = dos.findNamespaceById(namespace
-//							.intValue());
-//
-//					final DtsConcept dtsConcept = dtsNamespace.isLocal() ? dos
-//							.findConceptByLocalCode(dtsNamespace, code) : dos
-//							.findConceptByCodeInSource(dtsNamespace, code);
-//
-//					String name = (dtsConcept == null) ? "" : dtsConcept.getName();
-//
-//					// Replace all commas in names.
-//					name = name.replace(",", ";");
-//
-//					// Keep track of all untranslated codes
-//					if (dtsConcept == null)
-//					{
-//						if (translationErrors == null)
-//						{
-//							translationErrors = CollectionUtil.newMap();
-//						}
-//						Set<String> untranslatedCodes = translationErrors
-//								.get(dtsNamespace);
-//
-//						if (untranslatedCodes == null)
-//						{
-//							untranslatedCodes = CollectionUtil.newSet();
-//						}
-//
-//						untranslatedCodes.add(code);
-//						translationErrors.put(dtsNamespace, untranslatedCodes);
-//					}
-//
-//					// Put the <concept_cd,name> into the terminologyNameMap
-//					terminologyNameMap.put(concept, name);
-//				}
-//			}
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the Ethnicity name
+			dtsNamespace = dos.findNamespaceById(person.getEthnicityNamespaceId().intValue());
+			code = person.getEthnicity();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the Race name
+			dtsNamespace = dos.findNamespaceById(person.getRaceNamespaceId().intValue());
+			code = person.getRace();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the Religion name
+			dtsNamespace = dos.findNamespaceById(person.getReligionNamespaceId().intValue());
+			code = person.getReligion();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the PrimaryLanguage name
+			dtsNamespace = dos.findNamespaceById(person.getPrimaryLanguageNamespaceId().intValue());
+			code = person.getPrimaryLanguage();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the MaritalStatus name
+			dtsNamespace = dos.findNamespaceById(person.getMaritalStatusNamespaceId().intValue());
+			code = person.getMaritalStatus();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the CauseOfDeath name
+			dtsNamespace = dos.findNamespaceById(person.getCauseOfDeathNamespaceId().intValue());
+			code = person.getCauseOfDeath();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
+
+			// Lookup the VitalStatus name
+			dtsNamespace = dos.findNamespaceById(person.getVitalStatusNamespaceId().intValue());
+			code = person.getVitalStatus();
+
+			codeToNameLookup(terminologyNameMap, translationErrors, dtsNamespace, code);
 		}
 
 		return terminologyNameMap;
+	}
+
+	/**
+	 * Lookup logic supporting creation of map of the concept_cd to it's named value.
+	 * 
+	 * 
+	 * @param terminologyNameMap
+	 * @param translationErrors
+	 * @param dtsNamespace
+	 * @param code
+	 * @return
+	 */
+	private void codeToNameLookup(
+			final Map<String, String> terminologyNameMap,
+			Map<DtsNamespace, Set<String>> translationErrors,
+			final DtsNamespace dtsNamespace, final String code) {
+		final DtsConcept dtsConcept = dtsNamespace.isLocal() ? dos
+				.findConceptByLocalCode(dtsNamespace, code) : dos
+				.findConceptByCodeInSource(dtsNamespace, code);
+
+		String name = (dtsConcept == null) ? "" : dtsConcept.getName();
+
+		// Replace all commas in names.
+		name = name.replace(",", ";");
+
+		// Keep track of all untranslated codes
+		if (dtsConcept == null)
+		{
+			if (translationErrors == null)
+			{
+				translationErrors = CollectionUtil.newMap();
+			}
+			Set<String> untranslatedCodes = translationErrors
+					.get(dtsNamespace);
+
+			if (untranslatedCodes == null)
+			{
+				untranslatedCodes = CollectionUtil.newSet();
+			}
+
+			untranslatedCodes.add(code);
+			translationErrors.put(dtsNamespace, untranslatedCodes);
+		}
+
+		// Put the <concept_cd,name> into the terminologyNameMap
+		terminologyNameMap.put(dtsNamespace.getName(), name);
 	}
 
 	/**
@@ -351,26 +366,112 @@ public final class CsvExporterImpl implements Exporter
 		{
 			this.person = person;
 
-			Observation[] oa = new Observation[person.getObservations().size()]; 
-			oa = person.getObservations().toArray(oa);
-			
-			for (int i = 0; i < person.getObservations().size(); i++) 
-			{
-				log.debug("Got Observation " + i + ": " + oa[i]);
-			}
+			log.debug("Adapting person: " + person.getId());
 
-//			for (final Observation observation : person.getObservations())
-//			{
-//				final String source = observation.getMethod();  // TODO: what is this really?
-//				final DemographicExportAttribute attribute = DemographicExportAttribute
-//						.getAttributeBySourceCode(source);
+			// Adapt the Gender 
+			String source = ""; 
+			DemographicExportAttribute attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			String concept = 
+					(person.getAdministrativeGenderNamespaceId() == null ? "" : person.getAdministrativeGenderNamespaceId())
+					+ ":" 
+					+ (person.getAdministrativeGender() == null ? "" : person.getAdministrativeGender());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the Ethnicity 
+			 source = "ethnicity"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getEthnicityNamespaceId() == null ? "" : person.getEthnicityNamespaceId())
+					+ ":" 
+					+ (person.getEthnicity() == null ? "" : person.getEthnicity());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the Race 
+			 source = "race"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getRaceNamespaceId() == null ? "" : person.getRaceNamespaceId())
+					+ ":" 
+					+ (person.getRace() == null ? "" : person.getRace());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the Religion 
+			 source = "religion"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getReligionNamespaceId() == null ? "" : person.getReligionNamespaceId())
+					+ ":" 
+					+ (person.getReligion() == null ? "" : person.getReligion());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the PrimaryLanguage 
+			 source = "primarylanguage"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getPrimaryLanguageNamespaceId() == null ? "" : person.getPrimaryLanguageNamespaceId())
+					+ ":" 
+					+ (person.getPrimaryLanguage() == null ? "" : person.getPrimaryLanguage());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the MaritalStatus 
+			 source = "marital"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getMaritalStatusNamespaceId() == null ? "" : person.getMaritalStatusNamespaceId())
+					+ ":" 
+					+ (person.getMaritalStatus() == null ? "" : person.getMaritalStatus());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the CauseOfDeath 
+			 source = "causeofdeath"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getCauseOfDeathNamespaceId() == null ? "" : person.getCauseOfDeathNamespaceId())
+					+ ":" 
+					+ (person.getCauseOfDeath() == null ? "" : person.getCauseOfDeath());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the VitalStatus 
+			 source = "vitalstatus"; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					(person.getVitalStatusNamespaceId() == null ? "" : person.getVitalStatusNamespaceId())
+					+ ":" 
+					+ (person.getVitalStatus() == null ? "" : person.getVitalStatus());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+//			AGE("AGE", false, true, "age"),
 //
-//				final String concept = (observation.getValueNamespaceId() == null ? "" : observation.getValueNamespaceId())
-//						+ ":" 
-//						+ (observation.getValue() == null ? "" : observation.getValue());
-//				attributeValueMapper.put(attribute, new AttributeValue(concept,
-//						nameMapper.get(concept)));
-//			}
+//			BIRTH_YEAR("BIRTH YEAR", false, "birthyear"),
+//
+//			STATE("STATE", "state"),
+//
+//			COUNTY("COUNTY", "county");
+
 		}
 
 		/*

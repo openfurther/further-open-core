@@ -31,13 +31,17 @@ public enum DemographicExportAttribute
 
 	RELIGION("RELIGION", "religion"),
 
-	RACE("RACE", "race"),
+	RACE("RACE", "race", "ethnicity"),
 
 	SEX("SEX", "sex", "gender"),
 
-	LANG("LANGUAGE", "language"),
+	LANG("LANGUAGE", "language", "primarylanguage"),
 
 	MARITAL("MARITAL STATUS", "marital"),
+
+	CAUSEOFDEATH("CAUSE OF DEATH", "causeofdeath"),
+
+	VITALSTATUS("VITAL STATUS", "vitalstatus"),
 
 	STATE("STATE", "state"),
 
