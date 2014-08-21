@@ -71,6 +71,28 @@ public final class CsvExporterImpl implements Exporter
 	 */
 	private static final String NOT_FOUND = "NOT_FOUND";
 
+	/**
+	 * Strings used to find Demographic map entries 
+	 */
+	public static final String GENDER_PERSON_SOURCE_CD = "gender"; 
+	public static final String BIRTH_DATE_PERSON_SOURCE_CD = "birthdate"; 
+	public static final String BIRTH_YEAR_PERSON_SOURCE_CD = "birthyear"; 
+	public static final String BIRTH_MONTH_PERSON_SOURCE_CD = "birthmonth"; 
+	public static final String BIRTH_DAY_PERSON_SOURCE_CD = "birthday"; 
+	public static final String EDUCATION_PERSON_SOURCE_CD = "education"; 
+	public static final String MULTI_BIRTH_IND_PERSON_SOURCE_CD = "multibirthind"; 
+	public static final String MULTI_BIRTH_NUM_PERSON_SOURCE_CD = "multibirthnum"; 
+	public static final String DEATH_DATE_PERSON_SOURCE_CD = "deathdate"; 
+	public static final String DEATH_YEAR_PERSON_SOURCE_CD = "deathyear"; 
+	public static final String PEDIGREE_PERSON_SOURCE_CD = "pedigree"; 
+	public static final String ETHNICITY_PERSON_SOURCE_CD = "ethnicity"; 
+	public static final String RACE_PERSON_SOURCE_CD = "race"; 
+	public static final String RELIGION_PERSON_SOURCE_CD = "religion"; 
+	public static final String PRIMARYLANGUAGE_PERSON_SOURCE_CD = "primarylanguage"; 
+	public static final String MARITAL_PERSON_SOURCE_CD = "marital"; 
+	public static final String CAUSEOFDEATH_PERSON_SOURCE_CD = "causeofdeath"; 
+	public static final String VITALSTATUS_PERSON_SOURCE_CD = "vitalstatus"; 
+	
 	// ========================= DEPENDENCIES ==============================
 
 	/**
@@ -395,7 +417,7 @@ public final class CsvExporterImpl implements Exporter
 			log.debug("Adapting person: " + person.getId());
 
 			// Adapt the Gender 
-			String source = "gender"; 
+			String source = GENDER_PERSON_SOURCE_CD; 
 			DemographicExportAttribute attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -407,7 +429,7 @@ public final class CsvExporterImpl implements Exporter
 					nameMapper.get(concept)));
 
 			// Adapt the Ethnicity 
-			 source = "ethnicity"; 
+			 source = ETHNICITY_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -418,8 +440,128 @@ public final class CsvExporterImpl implements Exporter
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
 
+			// Adapt the DateOfBirth 
+			 source = BIRTH_DATE_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getDateOfBirth() == null ? "" : person.getDateOfBirth());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the BirthYear 
+			 source = BIRTH_YEAR_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getBirthYear() == null ? "" : person.getBirthYear());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the BirthMonth 
+			 source = BIRTH_MONTH_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getBirthMonth() == null ? "" : person.getBirthMonth());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the BirthDay 
+			 source = BIRTH_DAY_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getBirthDay() == null ? "" : person.getBirthDay());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the EducationLevel 
+			 source = EDUCATION_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getEducationLevel() == null ? "" : person.getEducationLevel());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the MultipleBirthIndicator 
+			 source = MULTI_BIRTH_IND_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getMultipleBirthIndicator() == null ? "" : person.getMultipleBirthIndicator());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the MultipleBirthIndicatorOrderNumber 
+			 source = MULTI_BIRTH_NUM_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getMultipleBirthIndicatorOrderNumber() == null ? "" : person.getMultipleBirthIndicatorOrderNumber());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the DateOfDeath 
+			 source = DEATH_DATE_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getDateOfDeath() == null ? "" : person.getDateOfDeath());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the DeathYear 
+			 source = DEATH_YEAR_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getDeathYear() == null ? "" : person.getDeathYear());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
+			// Adapt the PedigreeQuality 
+			 source = PEDIGREE_PERSON_SOURCE_CD; 
+			 attribute = DemographicExportAttribute
+					.getAttributeBySourceCode(source);
+
+			 concept = 
+					source
+					+ ":" 
+					+ (person.getPedigreeQuality() == null ? "" : person.getPedigreeQuality());
+			attributeValueMapper.put(attribute, new AttributeValue(concept,
+					nameMapper.get(concept)));
+
 			// Adapt the Race 
-			 source = "race"; 
+			 source = RACE_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -431,7 +573,7 @@ public final class CsvExporterImpl implements Exporter
 					nameMapper.get(concept)));
 
 			// Adapt the Religion 
-			 source = "religion"; 
+			 source = RELIGION_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -443,7 +585,7 @@ public final class CsvExporterImpl implements Exporter
 					nameMapper.get(concept)));
 
 			// Adapt the PrimaryLanguage 
-			 source = "primarylanguage"; 
+			 source = PRIMARYLANGUAGE_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -455,7 +597,7 @@ public final class CsvExporterImpl implements Exporter
 					nameMapper.get(concept)));
 
 			// Adapt the MaritalStatus 
-			 source = "marital"; 
+			 source = MARITAL_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -467,7 +609,7 @@ public final class CsvExporterImpl implements Exporter
 					nameMapper.get(concept)));
 
 			// Adapt the CauseOfDeath 
-			 source = "causeofdeath"; 
+			 source = CAUSEOFDEATH_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
@@ -479,7 +621,7 @@ public final class CsvExporterImpl implements Exporter
 					nameMapper.get(concept)));
 
 			// Adapt the VitalStatus 
-			 source = "vitalstatus"; 
+			 source = VITALSTATUS_PERSON_SOURCE_CD; 
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
