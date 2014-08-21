@@ -72,6 +72,11 @@ public final class CsvExporterImpl implements Exporter
 	private static final String NOT_FOUND = "NOT_FOUND";
 
 	/**
+	 * String used to designate that a no-code attr is to be written anyway 
+	 */
+	private static final String OUT_NO_CODE = "OUT_NO_CODE";
+
+	/**
 	 * Strings used to find Demographic map entries 
 	 */
 	public static final String GENDER_PERSON_SOURCE_CD = "gender"; 
@@ -449,8 +454,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getDateOfBirth() == null ? "" : person.getDateOfBirth());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getDateOfBirth() != null ? person.getDateOfBirth().toString() : "")));
 
 			// Adapt the BirthYear 
 			 source = BIRTH_YEAR_PERSON_SOURCE_CD; 
@@ -461,8 +466,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getBirthYear() == null ? "" : person.getBirthYear());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getBirthYear() != null ? person.getBirthYear().toString() : "")));
 
 			// Adapt the BirthMonth 
 			 source = BIRTH_MONTH_PERSON_SOURCE_CD; 
@@ -473,8 +478,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getBirthMonth() == null ? "" : person.getBirthMonth());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getBirthMonth() != null ? person.getBirthMonth().toString() : "")));
 
 			// Adapt the BirthDay 
 			 source = BIRTH_DAY_PERSON_SOURCE_CD; 
@@ -485,8 +490,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getBirthDay() == null ? "" : person.getBirthDay());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getBirthDay() != null ? person.getBirthDay().toString() : "")));
 
 			// Adapt the EducationLevel 
 			 source = EDUCATION_PERSON_SOURCE_CD; 
@@ -497,8 +502,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getEducationLevel() == null ? "" : person.getEducationLevel());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(null,
+					(person.getEducationLevel() != null ? person.getEducationLevel().toString() : "")));
 
 			// Adapt the MultipleBirthIndicator 
 			 source = MULTI_BIRTH_IND_PERSON_SOURCE_CD; 
@@ -509,8 +514,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getMultipleBirthIndicator() == null ? "" : person.getMultipleBirthIndicator());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getMultipleBirthIndicator() != null ? person.getMultipleBirthIndicator().toString() : "")));
 
 			// Adapt the MultipleBirthIndicatorOrderNumber 
 			 source = MULTI_BIRTH_NUM_PERSON_SOURCE_CD; 
@@ -521,8 +526,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getMultipleBirthIndicatorOrderNumber() == null ? "" : person.getMultipleBirthIndicatorOrderNumber());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getMultipleBirthIndicatorOrderNumber() != null ? person.getMultipleBirthIndicatorOrderNumber().toString() : "")));
 
 			// Adapt the DateOfDeath 
 			 source = DEATH_DATE_PERSON_SOURCE_CD; 
@@ -533,8 +538,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getDateOfDeath() == null ? "" : person.getDateOfDeath());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getDateOfDeath() != null ? person.getDateOfDeath().toString() : "")));
 
 			// Adapt the DeathYear 
 			 source = DEATH_YEAR_PERSON_SOURCE_CD; 
@@ -545,8 +550,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getDeathYear() == null ? "" : person.getDeathYear());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getDeathYear() != null ? person.getDeathYear().toString() : "")));
 
 			// Adapt the PedigreeQuality 
 			 source = PEDIGREE_PERSON_SOURCE_CD; 
@@ -557,8 +562,8 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getPedigreeQuality() == null ? "" : person.getPedigreeQuality());
-			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
+					(person.getPedigreeQuality() != null ? person.getPedigreeQuality().toString() : "")));
 
 			// Adapt the Race 
 			 source = RACE_PERSON_SOURCE_CD; 
@@ -670,18 +675,13 @@ public final class CsvExporterImpl implements Exporter
 						{
 							values.add(value.getName());
 						} else {
-							// FUR-2481 - replace colons with underscore
-							if(value.getCode() != null) 
+							// write code out anyway if indicated
+							if(value.getName().equalsIgnoreCase(OUT_NO_CODE))
 							{
-								String newValue = value.getCode().replace(":", "_");
-								values.add(newValue);
-							} else {
-								values.add("");
+								values.add(value.getCode());
 							}
 						}
-					} else {
-						values.add("");
-					}
+					} 
 
 					if (exportAttribute.isValueCoded())
 					{
