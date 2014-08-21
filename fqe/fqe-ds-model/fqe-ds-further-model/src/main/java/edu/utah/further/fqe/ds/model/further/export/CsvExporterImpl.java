@@ -506,8 +506,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getEducationLevel() == null ? "" : person.getEducationLevel());
-			attributeValueMapper.put(attribute, new AttributeValue(null,
-					(person.getEducationLevel() != null ? person.getEducationLevel().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getEducationLevel() != null ? person.getEducationLevel().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the MultipleBirthIndicator 
 			 source = MULTI_BIRTH_IND_PERSON_SOURCE_CD; 
