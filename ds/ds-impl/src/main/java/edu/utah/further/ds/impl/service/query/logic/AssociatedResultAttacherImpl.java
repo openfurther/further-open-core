@@ -144,7 +144,7 @@ public class AssociatedResultAttacherImpl implements AssociatedResultAttacher
 			}
 			else if (propertyType == Integer.class)
 			{
-				results.add(new Integer(results.toString()));
+				results.add(new Integer(result.toString()));
 			}
 			else
 			{
