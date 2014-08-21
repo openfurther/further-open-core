@@ -445,10 +445,8 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
-					+ (person.getDateOfBirth() == null ? "" : person.getDateOfBirth());
+			 concept = "" +
+					(person.getDateOfBirth() == null ? "" : person.getDateOfBirth());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
 
@@ -457,9 +455,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getBirthYear() == null ? "" : person.getBirthYear());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -469,9 +465,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getBirthMonth() == null ? "" : person.getBirthMonth());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -481,9 +475,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getBirthDay() == null ? "" : person.getBirthDay());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -493,9 +485,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getEducationLevel() == null ? "" : person.getEducationLevel());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -505,9 +495,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getMultipleBirthIndicator() == null ? "" : person.getMultipleBirthIndicator());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -517,9 +505,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getMultipleBirthIndicatorOrderNumber() == null ? "" : person.getMultipleBirthIndicatorOrderNumber());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -529,9 +515,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getDateOfDeath() == null ? "" : person.getDateOfDeath());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -541,9 +525,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getDeathYear() == null ? "" : person.getDeathYear());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -553,9 +535,7 @@ public final class CsvExporterImpl implements Exporter
 			 attribute = DemographicExportAttribute
 					.getAttributeBySourceCode(source);
 
-			 concept = 
-					source
-					+ ":" 
+			 concept = "" 
 					+ (person.getPedigreeQuality() == null ? "" : person.getPedigreeQuality());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
 					nameMapper.get(concept)));
@@ -685,6 +665,15 @@ public final class CsvExporterImpl implements Exporter
 							} else {
 								values.add("");
 							}
+						}
+					} else {
+						// FUR-2481 - replace colons with underscore
+						if(value.getCode() != null) 
+						{
+							String newValue = value.getCode().replace(":", "_");
+							values.add(newValue);
+						} else {
+							values.add("");
 						}
 					}
 				}
