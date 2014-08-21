@@ -431,7 +431,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getAdministrativeGender() == null ? "" : person.getAdministrativeGender());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the Ethnicity 
 			 source = ETHNICITY_PERSON_SOURCE_CD; 
@@ -443,7 +443,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getEthnicity() == null ? "" : person.getEthnicity());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the DateOfBirth 
 			 source = BIRTH_DATE_PERSON_SOURCE_CD; 
@@ -454,8 +454,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getDateOfBirth() == null ? "" : person.getDateOfBirth());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getDateOfBirth() != null ? person.getDateOfBirth().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getDateOfBirth() != null ? person.getDateOfBirth().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the BirthYear 
 			 source = BIRTH_YEAR_PERSON_SOURCE_CD; 
@@ -466,8 +467,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getBirthYear() == null ? "" : person.getBirthYear());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getBirthYear() != null ? person.getBirthYear().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getBirthYear() != null ? person.getBirthYear().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the BirthMonth 
 			 source = BIRTH_MONTH_PERSON_SOURCE_CD; 
@@ -478,8 +480,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getBirthMonth() == null ? "" : person.getBirthMonth());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getBirthMonth() != null ? person.getBirthMonth().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getBirthMonth() != null ? person.getBirthMonth().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the BirthDay 
 			 source = BIRTH_DAY_PERSON_SOURCE_CD; 
@@ -490,8 +493,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getBirthDay() == null ? "" : person.getBirthDay());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getBirthDay() != null ? person.getBirthDay().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getBirthDay() != null ? person.getBirthDay().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the EducationLevel 
 			 source = EDUCATION_PERSON_SOURCE_CD; 
@@ -514,8 +518,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getMultipleBirthIndicator() == null ? "" : person.getMultipleBirthIndicator());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getMultipleBirthIndicator() != null ? person.getMultipleBirthIndicator().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getMultipleBirthIndicator() != null ? person.getMultipleBirthIndicator().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the MultipleBirthIndicatorOrderNumber 
 			 source = MULTI_BIRTH_NUM_PERSON_SOURCE_CD; 
@@ -526,8 +531,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getMultipleBirthIndicatorOrderNumber() == null ? "" : person.getMultipleBirthIndicatorOrderNumber());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getMultipleBirthIndicatorOrderNumber() != null ? person.getMultipleBirthIndicatorOrderNumber().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getMultipleBirthIndicatorOrderNumber() != null ? person.getMultipleBirthIndicatorOrderNumber().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the DateOfDeath 
 			 source = DEATH_DATE_PERSON_SOURCE_CD; 
@@ -538,8 +544,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getDateOfDeath() == null ? "" : person.getDateOfDeath());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getDateOfDeath() != null ? person.getDateOfDeath().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getDateOfDeath() != null ? person.getDateOfDeath().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the DeathYear 
 			 source = DEATH_YEAR_PERSON_SOURCE_CD; 
@@ -550,8 +557,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getDeathYear() == null ? "" : person.getDeathYear());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getDeathYear() != null ? person.getDeathYear().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getDeathYear() != null ? person.getDeathYear().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the PedigreeQuality 
 			 source = PEDIGREE_PERSON_SOURCE_CD; 
@@ -562,8 +570,9 @@ public final class CsvExporterImpl implements Exporter
 					source
 					+ ":" 
 					+ (person.getPedigreeQuality() == null ? "" : person.getPedigreeQuality());
-			attributeValueMapper.put(attribute, new AttributeValue(OUT_NO_CODE,
-					(person.getPedigreeQuality() != null ? person.getPedigreeQuality().toString() : "")));
+			attributeValueMapper.put(attribute, new AttributeValue(
+					(person.getPedigreeQuality() != null ? person.getPedigreeQuality().toString() : ""),
+					OUT_NO_CODE));
 
 			// Adapt the Race 
 			 source = RACE_PERSON_SOURCE_CD; 
@@ -575,7 +584,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getRace() == null ? "" : person.getRace());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the Religion 
 			 source = RELIGION_PERSON_SOURCE_CD; 
@@ -587,7 +596,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getReligion() == null ? "" : person.getReligion());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the PrimaryLanguage 
 			 source = PRIMARYLANGUAGE_PERSON_SOURCE_CD; 
@@ -599,7 +608,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getPrimaryLanguage() == null ? "" : person.getPrimaryLanguage());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the MaritalStatus 
 			 source = MARITAL_PERSON_SOURCE_CD; 
@@ -611,7 +620,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getMaritalStatus() == null ? "" : person.getMaritalStatus());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the CauseOfDeath 
 			 source = CAUSEOFDEATH_PERSON_SOURCE_CD; 
@@ -623,7 +632,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getCauseOfDeath() == null ? "" : person.getCauseOfDeath());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 			// Adapt the VitalStatus 
 			 source = VITALSTATUS_PERSON_SOURCE_CD; 
@@ -635,7 +644,7 @@ public final class CsvExporterImpl implements Exporter
 					+ ":" 
 					+ (person.getVitalStatus() == null ? "" : person.getVitalStatus());
 			attributeValueMapper.put(attribute, new AttributeValue(concept,
-					nameMapper.get(concept)));
+					nameMapper.get(concept) == null ? "" :  nameMapper.get(concept)));
 
 		}
 
@@ -681,11 +690,16 @@ public final class CsvExporterImpl implements Exporter
 								values.add(value.getCode());
 							}
 						}
-					} 
+					} else {
+						if (exportAttribute.isValueCoded())
+						{
+							values.add("");
+						}
+					}
 
 					if (exportAttribute.isValueCoded())
 					{
-						if ("".equals(value.getName())) {
+						if (value.getName() == null || "".equals(value.getName())) {
 							// FUR-2482 - replace codes that aren't in DTS with NOT_FOUND
 							values.add(NOT_FOUND);
 						} else {
