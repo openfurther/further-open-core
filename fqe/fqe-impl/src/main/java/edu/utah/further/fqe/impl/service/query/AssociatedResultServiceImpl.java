@@ -19,7 +19,10 @@ import static edu.utah.further.core.api.collections.CollectionUtil.newList;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +32,9 @@ import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
+import edu.utah.further.fqe.mpi.api.IdentityResolutionStrategy;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
+import edu.utah.further.fqe.mpi.impl.domain.IdentifierEntity;
 
 /**
  * A default implementation of the {@link AssociatedResultServiceImpl}
@@ -69,6 +74,12 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 	@Autowired
 	private IdentifierService identifierService;
 
+	/**
+	 * The resolution strategy we're testing.
+	 */
+	@Autowired
+	private IdentityResolutionStrategy identityResolutionLookupTable;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -99,8 +110,8 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 			queryIds.add(queryContext.getExecutionId());
 		}
 
-		return identifierService.translateIds(
-				identifierService.getVirtualIdentifiers(queryIds), datasourceId);
+		// get all source ids for these queryIds, return the list
+		return identifierService.getSourceIdentifiers(queryIds);
 	}
 
 	/**

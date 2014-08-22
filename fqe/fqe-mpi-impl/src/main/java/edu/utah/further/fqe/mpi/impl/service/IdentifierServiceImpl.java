@@ -259,6 +259,22 @@ public final class IdentifierServiceImpl implements IdentifierService
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * edu.utah.further.fqe.mpi.api.service.IdentifierService#getIdentifiers(java.util
+	 * .List)
+	 */
+	@Override
+	public List<Long> getSourceIdentifiers(final List<String> queryIds)
+	{
+		return getSimpleJdbcTemplate()
+				.query("SELECT src_obj_id FROM virtual_obj_id_map WHERE query_id IN (:queryIds)",
+						(RowMapper<Long>) new ParameterizedSingleColumnRowMapper<Long>(),
+						Collections.singletonMap("queryIds", queryIds));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * edu.utah.further.fqe.mpi.api.service.IdentifierService#getUnresolvedVirtualIdentifiers
 	 * (java.util.List)
 	 */

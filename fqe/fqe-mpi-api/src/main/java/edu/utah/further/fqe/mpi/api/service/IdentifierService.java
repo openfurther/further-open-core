@@ -82,6 +82,15 @@ public interface IdentifierService
 	List<Long> getVirtualIdentifiers(List<String> queryIds);
 	
 	/**
+	 * Returns a list of source identifiers based on the query ids.
+	 * 
+	 * @param a
+	 *            list of query ids
+	 * @return a list of identifiers
+	 */
+	List<Long> getSourceIdentifiers(List<String> queryIds);
+	
+	/**
 	 * Returns a list of {@link Identifier}s that have not been resolved to a common
 	 * identifier.
 	 * 
