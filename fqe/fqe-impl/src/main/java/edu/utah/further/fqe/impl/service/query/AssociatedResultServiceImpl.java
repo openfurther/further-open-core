@@ -29,7 +29,6 @@ import edu.utah.further.fqe.api.service.query.QueryContextService;
 import edu.utah.further.fqe.ds.api.domain.QueryContext;
 import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
-import edu.utah.further.fqe.mpi.api.IdentityResolutionStrategy;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 
 /**
@@ -69,12 +68,6 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 	 */
 	@Autowired
 	private IdentifierService identifierService;
-
-	/**
-	 * The resolution strategy we're testing.
-	 */
-	@Autowired
-	private IdentityResolutionStrategy identityResolutionLookupTable;
 
 	/*
 	 * (non-Javadoc)
