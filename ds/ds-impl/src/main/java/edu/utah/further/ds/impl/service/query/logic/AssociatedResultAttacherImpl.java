@@ -182,6 +182,7 @@ public class AssociatedResultAttacherImpl implements AssociatedResultAttacher
 			builder.setMaxResults(searchQuery.getMaxResults().intValue());
 		}
 		builder.setId(searchQuery.getId());
+		builder.setRootObject(searchQuery.getRootObjectName());
 		return builder.build();
 	}
 
