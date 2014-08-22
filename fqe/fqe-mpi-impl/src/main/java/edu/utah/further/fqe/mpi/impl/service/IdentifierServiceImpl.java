@@ -266,7 +266,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 	public List<Long> getSourceIdentifiers(final List<String> queryIds)
 	{
 		return getSimpleJdbcTemplate()
-				.query("SELECT CAST(TRIM(src_obj_id) AS INTEGER) FROM virtual_obj_id_map WHERE query_id IN (:queryIds) AND LENGTH(TRIM(src_obj_id)) > 0",
+				.query("SELECT CAST(TRIM(src_obj_id) AS BIGINT) FROM virtual_obj_id_map WHERE query_id IN (:queryIds) AND LENGTH(TRIM(src_obj_id)) > 0",
 						(RowMapper<Long>) new ParameterizedSingleColumnRowMapper<Long>(),
 						Collections.singletonMap("queryIds", queryIds));
 	}
