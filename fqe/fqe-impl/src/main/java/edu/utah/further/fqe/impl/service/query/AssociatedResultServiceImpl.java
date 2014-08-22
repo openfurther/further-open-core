@@ -19,10 +19,7 @@ import static edu.utah.further.core.api.collections.CollectionUtil.newList;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +31,6 @@ import edu.utah.further.fqe.ds.api.service.query.AssociatedResultService;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 import edu.utah.further.fqe.mpi.api.IdentityResolutionStrategy;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
-import edu.utah.further.fqe.mpi.impl.domain.IdentifierEntity;
 
 /**
  * A default implementation of the {@link AssociatedResultServiceImpl}
