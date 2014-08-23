@@ -92,15 +92,22 @@ public class UTestAssociatedResultService
 		final List<QueryContext> children = newList();
 		children.add(newQueryContextEntity());
 		children.add(newQueryContextEntity());
+		final List<Long> lQueryIds = newList();
+		lQueryIds.add(1L);
+		final List<String> queryIds = newList();
+		queryIds.add("1");
 		expect(mockQueryContextService.findChildren(parent)).andReturn(children);
 		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
 				.andReturn(CollectionUtil.<Long> newList());
 		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList());
 		expect(mockIdentifierService.getSourceIdentifiers(isA(List.class))).andReturn(
-				CollectionUtil.<Long> newList());
+				CollectionUtil.<Long> newList()).anyTimes();
 		replay(mockQueryContextService, mockIdentifierService);
 		associatedResultService.getAssociatedResult(new Long(1L), "UUEDW");
+		mockIdentifierService.translateIds(lQueryIds, "UUEDW");
+		mockIdentifierService.getVirtualIdentifiers(queryIds);
+		mockIdentifierService.getSourceIdentifiers(queryIds);
 		verify(mockQueryContextService, mockIdentifierService);
 	}
 
@@ -112,15 +119,23 @@ public class UTestAssociatedResultService
 	{
 		final QueryContext child = newQueryContextEntity();
 		child.setParent(newQueryContextEntity());
-		expect(mockQueryContextService.findById(new Long(1L))).andReturn(child);
+		final List<Long> lQueryIds = newList();
+		lQueryIds.add(1L);
+		final List<String> queryIds = newList();
+		queryIds.add("1");
+		expect(mockQueryContextService.findById(new Long(1L))).andReturn(child).anyTimes();
 		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
 				.andReturn(CollectionUtil.<Long> newList());
 		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList());
 		expect(mockIdentifierService.getSourceIdentifiers(isA(List.class))).andReturn(
-				CollectionUtil.<Long> newList());
+				CollectionUtil.<Long> newList()).anyTimes();
 		replay(mockQueryContextService, mockIdentifierService);
 		associatedResultService.getAssociatedResult(new Long(1L), "UUEDW");
+		mockQueryContextService.findById(new Long(1L));
+		mockIdentifierService.translateIds(lQueryIds, "UUEDW");
+		mockIdentifierService.getVirtualIdentifiers(queryIds);
+		mockIdentifierService.getSourceIdentifiers(queryIds);
 		verify(mockQueryContextService, mockIdentifierService);
 	}
 }
