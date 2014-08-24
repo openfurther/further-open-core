@@ -99,8 +99,8 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 			queryIds.add(queryContext.getExecutionId());
 		}
 
-		// get all source ids for these queryIds, return the list
-		return identifierService.getSourceIdentifiers(queryIds);
+		return identifierService.translateIds(
+				identifierService.getVirtualIdentifiers(queryIds), datasourceId);
 	}
 
 	/**
