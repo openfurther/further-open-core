@@ -117,7 +117,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 		tempDsMap.put("UCUM", 32870L);
 		tempDsMap.put("LOINC", 5102L);
 		tempDsMap.put("SNOMED CT", 30L);
-		tempDsMap.put("OMOP-V2", 32868L);
+		tempDsMap.put("OMOP-v2", 32868L);
 		tempDsMap.put("RxNorm R", 1552L);
 		tempDsMap.put("ICD-9-CM", 10L);
 		tempDsMap.put("Further", 32769L);
