@@ -100,7 +100,7 @@ public class UTestAssociatedResultService
 		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
 				.andReturn(CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
-				CollectionUtil.<Long> newList());
+				CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getSourceIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList()).anyTimes();
 		replay(mockQueryContextService, mockIdentifierService);
@@ -127,7 +127,7 @@ public class UTestAssociatedResultService
 		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
 				.andReturn(CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
-				CollectionUtil.<Long> newList());
+				CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getSourceIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList()).anyTimes();
 		replay(mockQueryContextService, mockIdentifierService);
