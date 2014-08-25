@@ -218,8 +218,8 @@ public final class IdentifierServiceImpl implements IdentifierService
 
 		final List<Long> args = virtualFederatedIds;
 		
-		final String stmt = "SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
-				+ "src_obj_nmspc_id = ? AND "
+			final String stmt = "SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
+					+ "src_obj_nmspc_id = ? AND fed_obj_id IS NOT NULL AND "
 				+ SqlUtil.unlimitedInValues(virtualFederatedIds,
 						"virtual_obj_id");
 		
