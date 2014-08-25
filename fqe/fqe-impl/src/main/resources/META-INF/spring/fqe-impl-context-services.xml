@@ -362,6 +362,6 @@
 	<util:list id="exportWhitelist">
 		<value>UUEDW</value>
 		<value>OpenMRS-V1_9</value>
-		<value>OMOPv2</value>
+		<value>OMOP-v2</value>
 	</util:list>
 </beans>
