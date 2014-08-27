@@ -36,6 +36,11 @@
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd
 	">
 
+	<util:map id="translationProviders">
+		<entry key="OMOP-v2" value-ref="omopIdTranslator" />
+		<entry key="OpenMRS-V1_9" value-ref="omrslIdTranslator" />
+	</util:map>
+
 	<bean id="identityResolutionService"
 		class="edu.utah.further.fqe.mpi.impl.service.IdentityResolutionServiceImpl">
 		<property name="identityResolversMap">

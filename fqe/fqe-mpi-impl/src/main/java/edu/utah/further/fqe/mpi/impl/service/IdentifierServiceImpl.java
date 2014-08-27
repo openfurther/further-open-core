@@ -123,20 +123,6 @@ public final class IdentifierServiceImpl implements IdentifierService
 	@Resource(name = "translationProviders")
 	private Map<String, IdTranslationProvider> translatorProviders;
 
-	private static HashMap<String, Long> tempDsMap;
-	
-	static {
-		tempDsMap = new HashMap<String, Long>();
-		tempDsMap.put("UCUM", 32870L);
-		tempDsMap.put("LOINC", 5102L);
-		tempDsMap.put("SNOMED CT", 30L);
-		tempDsMap.put("OMOP-v2", 32868L);
-		tempDsMap.put("RxNorm R", 1552L);
-		tempDsMap.put("ICD-9-CM", 10L);
-		tempDsMap.put("Further", 32769L);
-		tempDsMap.put("OpenMRS-V1_9", 32812L);
-	}
-
 	// =================== IMPL:IdentifierService =================================
 
 	/*
