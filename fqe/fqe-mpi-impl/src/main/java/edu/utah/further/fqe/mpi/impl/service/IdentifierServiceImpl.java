@@ -28,6 +28,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -44,9 +46,11 @@ import edu.utah.further.core.api.data.Dao;
 import edu.utah.further.core.api.data.PersistentEntity;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.data.util.SqlUtil;
+import edu.utah.further.fqe.mpi.api.IdTranslationProvider;
 import edu.utah.further.fqe.mpi.api.Identifier;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
 import edu.utah.further.fqe.mpi.impl.domain.IdentifierEntity;
+import edu.utah.further.dts.api.util.HardcodedNamespace;
 
 /**
  * Identifier service which generates arbitrary new identifiers or uses the passed
@@ -110,6 +114,15 @@ public final class IdentifierServiceImpl implements IdentifierService
 	 */
 	private SimpleJdbcTemplate simpleJdbcTemplate;
 	
+	/**
+	 * Id Translation providers
+	 * 
+	 * Unfortunately this dependency must be a named {@link Resource} for proper
+	 * injection: translationProviders
+	 */
+	@Resource(name = "translationProviders")
+	private Map<String, IdTranslationProvider> translatorProviders;
+
 	private static HashMap<String, Long> tempDsMap;
 	
 	static {
@@ -212,15 +225,25 @@ public final class IdentifierServiceImpl implements IdentifierService
 	public List<Long> translateIds(final List<Long> virtualFederatedIds,
 			final String dataSourceId)
 	{
-		// TODO: Lookup dataSourceId numeric identifier - dataSourceId is currently string
-		// like "UUEDW"
-		final Long dataSourceNumericId = tempDsMap.get(dataSourceId); // TODO convert this from OpenMRS-V1_9, etc
-
+		final Long dataSourceNumericId;
+		
+		try
+		{
+			// TODO: Lookup dataSourceId numeric identifier - dataSourceId is currently string
+			// like "UUEDW"
+			dataSourceNumericId = new Long(HardcodedNamespace.valueOf(dataSourceId).getId());
+		}
+		catch(Exception ex)
+		{
+			throw new ApplicationException(
+					"Unable to convert Datasource Id to numeric value: " + dataSourceId);
+		}
+		
 		final List<Long> args = virtualFederatedIds;
 		
 			final String stmt = "SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
 					+ "src_obj_nmspc_id = ? AND fed_obj_id IS NOT NULL AND "
-				+ SqlUtil.unlimitedInValues(virtualFederatedIds,
+					+ SqlUtil.unlimitedInValues(virtualFederatedIds,
 						"virtual_obj_id");
 		
 		args.add(0, dataSourceNumericId);
@@ -236,7 +259,9 @@ public final class IdentifierServiceImpl implements IdentifierService
 					"Unable to find any common federated ids from virtual federated ids");
 		}
 
-		return translatedVirtualIds;
+		return translatorProviders
+				.get(HardcodedNamespace.valueOf(dataSourceId).getName())
+				.translateToSourceIds(translatedVirtualIds);
 	}
 
 	/*
