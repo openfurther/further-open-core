@@ -19,7 +19,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -122,6 +122,11 @@
 	<!-- =========================================== -->
 	<!-- FURTHeR data layer -->
 	<!-- =========================================== -->
+
+	<util:map id="translationProviders">
+		<entry key="OMOP-v2" value-ref="omopIdTranslator" />
+		<entry key="OpenMRS-V1_9" value-ref="omrslIdTranslator" />
+	</util:map>
 
 	<bean id="identifierDao" class="edu.utah.further.core.data.service.DaoHibernateImpl">
 		<constructor-arg index="0" ref="identifierSessionFactory"/>
