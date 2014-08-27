@@ -246,7 +246,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 		}
 
 		return translatorProviders
-				.get(HardcodedNamespace.valueOf(dataSourceId).getName())
+				.get(HardcodedNamespace.valueOf(dataSourceId.replaceAll("-", "_").toUpperCase()).getName())
 				.translateToSourceIds(translatedVirtualIds);
 	}
 
