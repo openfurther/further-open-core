@@ -216,8 +216,8 @@ public final class IdentifierServiceImpl implements IdentifierService
 		try
 		{
 			// TODO: Lookup dataSourceId numeric identifier - dataSourceId is currently string
-			// like "UUEDW"
-			dataSourceNumericId = new Long(HardcodedNamespace.valueOf(dataSourceId).getId());
+			// like "UUEDW" - convert any - to _, and uppercase to match Enum
+			dataSourceNumericId = new Long(HardcodedNamespace.valueOf(dataSourceId.replaceAll("-", "_").toUpperCase()).getId());
 		}
 		catch(Exception ex)
 		{
