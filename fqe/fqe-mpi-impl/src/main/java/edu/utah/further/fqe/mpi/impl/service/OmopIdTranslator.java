@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.context.Implementation;
 import edu.utah.further.core.data.hibernate.adapter.CriteriaType;
+import edu.utah.further.core.data.hibernate.adapter.GenericCriteria;
 import edu.utah.further.core.data.hibernate.query.QueryBuilderHibernateImpl;
 import edu.utah.further.core.query.domain.SearchCriteria;
 import edu.utah.further.core.query.domain.SearchCriterion;
@@ -86,13 +87,15 @@ public final class OmopIdTranslator implements IdTranslationProvider
 	{
 		final SearchCriterion rootAnd = SearchCriteria.junction(SearchType.CONJUNCTION);
 		rootAnd.addCriterion(SearchCriteria.collection(SearchType.IN, "commonId",
-				federatedIds));
+				federatedIds.toArray()));
 
 		final SearchQuery query = SearchCriteria.query(rootAnd, "LookupEntity");
-		final List<LookupEntity> lookups = QueryBuilderHibernateImpl.convert(
+		GenericCriteria crit = QueryBuilderHibernateImpl.convert(
 				CriteriaType.CRITERIA, "edu.utah.further.fqe.mpi.impl.domain",
-				lookupSessionFactory, query).list();
+				lookupSessionFactory, query);
 
+		final List<LookupEntity> lookups = crit.list();
+		
 		List<Long> sourceIds = new ArrayList<Long>();
 		
 		// Accumulate the source ids

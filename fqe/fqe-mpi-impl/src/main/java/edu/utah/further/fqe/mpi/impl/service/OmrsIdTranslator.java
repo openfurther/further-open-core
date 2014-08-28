@@ -100,7 +100,7 @@ public final class OmrsIdTranslator implements IdTranslationProvider
 	{
 		final SearchCriterion rootAnd = SearchCriteria.junction(SearchType.CONJUNCTION);
 		rootAnd.addCriterion(SearchCriteria.collection(SearchType.IN, "commonId",
-				federatedIds));
+				federatedIds.toArray()));
 
 		final SearchQuery query = SearchCriteria.query(rootAnd, "LookupEntity");
 		final List<LookupEntity> lookups = QueryBuilderHibernateImpl.convert(

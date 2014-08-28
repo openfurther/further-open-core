@@ -82,6 +82,8 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 	{
 		final QueryContext queryContext = qcService.findById(queryContextId);
 		final List<String> queryIds = newList();
+		String associatedDatasourceId = datasourceId;  // ds parm above is for parent, we need to reset
+		
 		if (queryContext.getParent() == null)
 		{
 			// We're a parent (yay)
@@ -90,6 +92,11 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 			for (final QueryContext child : children)
 			{
 				queryIds.add(child.getExecutionId());
+				
+				if(child.getDataSourceId() != null)
+				{
+					associatedDatasourceId = child.getDataSourceId();
+				}
 			}
 			assertTrue(queryIds.size() > 0);
 		}
@@ -100,7 +107,7 @@ public class AssociatedResultServiceImpl implements AssociatedResultService
 		}
 
 		return identifierService.translateIds(
-				identifierService.getVirtualIdentifiers(queryIds), datasourceId);
+				identifierService.getVirtualIdentifiers(queryIds), associatedDatasourceId);
 	}
 
 	/**
