@@ -90,12 +90,10 @@ public final class OmopIdTranslator implements IdTranslationProvider
 				federatedIds.toArray()));
 
 		final SearchQuery query = SearchCriteria.query(rootAnd, "LookupEntity");
-		GenericCriteria crit = QueryBuilderHibernateImpl.convert(
+		final List<LookupEntity> lookups = QueryBuilderHibernateImpl.convert(
 				CriteriaType.CRITERIA, "edu.utah.further.fqe.mpi.impl.domain",
-				lookupSessionFactory, query);
+				lookupSessionFactory, query).list();
 
-		final List<LookupEntity> lookups = crit.list();
-		
 		List<Long> sourceIds = new ArrayList<Long>();
 		
 		// Accumulate the source ids
