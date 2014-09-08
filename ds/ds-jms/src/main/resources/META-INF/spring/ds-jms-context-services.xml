@@ -53,9 +53,9 @@
 	</camelContext>
 
 	<!-- Camel proxy for the associated results service, in this case the JMS 
-		queue which associated result service is listening on: 5 minute request timeout -->
+		queue which associated result service is listening on: 10 minute request timeout -->
 	<camel:proxy id="associatedResultService"
 		serviceInterface="edu.utah.further.fqe.ds.api.service.query.AssociatedResultService"
-		serviceUrl="activemq:queue:associatedResults?requestTimeout=300000" />
+		serviceUrl="activemq:queue:associatedResults?requestTimeout=600000" />
 
 </beans>
