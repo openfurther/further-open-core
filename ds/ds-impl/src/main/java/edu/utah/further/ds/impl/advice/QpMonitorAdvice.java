@@ -194,6 +194,10 @@ public final class QpMonitorAdvice extends AbstractQpMonitorAdvice
 				}
 				queryContext.fail();
 			}
+			
+			// Notify other components of the new status
+			statusReporter.notify(queryContext);
+
 			if (log.isInfoEnabled())
 			{
 				log.info(String.format("Time [%-30s] %.3g sec, %s", StringUtil
@@ -213,8 +217,6 @@ public final class QpMonitorAdvice extends AbstractQpMonitorAdvice
 			logException(request);
 			setCurrentStatus(request, requestProcessor, statusType, durationMillis);
 			logQueryStatus(queryContext, dsMetaData, queryFailed);
-			// Notify other components of the new status
-			statusReporter.notify(queryContext);
 		}
 
 	}
