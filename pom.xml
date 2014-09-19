@@ -1216,9 +1216,9 @@
 	<!-- =========================================== -->
 
 	<scm>
-		<connection>scm:git:https://git.chpc.utah.edu/scm/FUR/further-core.git</connection>
-		<developerConnection>scm:git:https://git.chpc.utah.edu/scm/FUR/further-core.git</developerConnection>
-		<url>https://git.chpc.utah.edu/projects/FUR/repos/further-core/browse</url>
+		<connection>scm:git:https://github.com/openfurther/further-open-core.git</connection>
+		<developerConnection>scm:git:https://github.com/openfurther/further-open-core.git</developerConnection>
+		<url>https://github.com/openfurther/further-open-core</url>
 	</scm>
 
 	<!-- =========================================== -->
