@@ -360,8 +360,6 @@
 
 	<!-- A list of allowed data source ids that allow exporting of results -->
 	<util:list id="exportWhitelist">
-		<value>UUEDW</value>
-		<value>OpenMRS-V1_9</value>
-		<value>OMOP-v2</value>
+@DSCUSTOM-06@
 	</util:list>
 </beans>

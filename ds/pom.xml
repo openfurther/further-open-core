@@ -97,9 +97,7 @@
 		<module>ds-impl</module>
 		<module>ds-jms</module>
 		<module>ds-i2b2</module>
-		<module>ds-omop</module>
 		<module>ds-further</module>
-		<module>ds-openmrs</module>
 	</modules>
 
 </project>

@@ -1056,19 +1056,10 @@
 			</dependency>
 			<dependency>
 				<groupId>edu.utah.further.ds</groupId>
-				<artifactId>ds-omop</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>edu.utah.further.ds</groupId>
 				<artifactId>ds-further</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>edu.utah.further.ds</groupId>
-				<artifactId>ds-openmrs</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+@DSCUSTOM-10@
 		</dependencies>
 	</dependencyManagement>
 
