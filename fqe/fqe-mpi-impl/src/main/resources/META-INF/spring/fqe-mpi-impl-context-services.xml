@@ -37,8 +37,7 @@
 	">
 
 	<util:map id="translationProviders">
-		<entry key="OMOP-v2" value-ref="omopIdTranslator" />
-		<entry key="OpenMRS-V1_9" value-ref="omrsIdTranslator" />
+@DSCUSTOM-07@
 	</util:map>
 
 	<bean id="identityResolutionService"

@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>edu.utah.further</groupId>
 		<artifactId>further</artifactId>
-		<version>1.4.2-SNAPSHOT</version>
+		<version>1.4.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.utah.further.ds</groupId>
@@ -97,9 +97,7 @@
 		<module>ds-impl</module>
 		<module>ds-jms</module>
 		<module>ds-i2b2</module>
-		<module>ds-omop</module>
 		<module>ds-further</module>
-		<module>ds-openmrs</module>
 	</modules>
 
 </project>

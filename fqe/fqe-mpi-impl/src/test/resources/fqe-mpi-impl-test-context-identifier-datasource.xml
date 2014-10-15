@@ -126,8 +126,7 @@
 	<!-- =========================================== -->
 
 	<util:map id="translationProviders">
-		<entry key="OMOP-v2" value-ref="omopIdTranslator" />
-		<entry key="OpenMRS-V1_9" value-ref="omrsIdTranslator" />
+@DSCUSTOM-08@
 	</util:map>
 
 	<bean id="identifierDao" class="edu.utah.further.core.data.service.DaoHibernateImpl">

@@ -9,7 +9,7 @@
 	<parent>
 		<artifactId>ds</artifactId>
 		<groupId>edu.utah.further.ds</groupId>
-		<version>1.4.2-SNAPSHOT</version>
+		<version>1.4.2</version>
 	</parent>
 	<artifactId>ds-fqe-test</artifactId>
 	<packaging>bundle</packaging>
