@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>edu.utah.further.ds</groupId>
 		<artifactId>ds</artifactId>
-		<version>1.4.2-SNAPSHOT</version>
+		<version>1.4.2</version>
 	</parent>
 	<artifactId>ds-further</artifactId>
 	<packaging>bundle</packaging>

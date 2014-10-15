@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>edu.utah.further.fqe</groupId>
 		<artifactId>fqe-ds-model</artifactId>
-		<version>1.4.2-SNAPSHOT</version>
+		<version>1.4.2</version>
 	</parent>
 	<packaging>bundle</packaging>
 	<artifactId>fqe-ds-further-model</artifactId>

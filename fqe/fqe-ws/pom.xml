@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>edu.utah.further.fqe</groupId>
 		<artifactId>fqe</artifactId>
-		<version>1.4.2-SNAPSHOT</version>
+		<version>1.4.2</version>
 	</parent>
 	<artifactId>fqe-ws</artifactId>
 	<packaging>bundle</packaging>
