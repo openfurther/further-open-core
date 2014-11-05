@@ -41,7 +41,7 @@ import edu.utah.further.dts.api.to.DtsNamespaceToImpl;
  * @author Oren E. Livne {@code <oren.livne@utah.edu>}
  * @version Dec 17, 2008
  */
-@Service("dtsTypeFactoryMockImpl")
+@Service("dtsWsTypeFactoryMockImpl")
 @Mock
 public class DtsTypeFactoryMockImpl implements DtsTypeFactory
 {

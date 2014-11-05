@@ -18,14 +18,15 @@
 -->
 	<!-- FQE-processed XML of a data source meta data set -->
 <ns1:data xmlns:ns1="http://further.utah.edu/fqe">
-	<ns2:dsMetaData xmlns:ns2="http://further.utah.edu/fqe">
-		<name>Intermountain</name>
-		<description>Intermountain Healthcare</description>
+@DSCUSTOM-34@
+	<!-- ns2:dsMetaData xmlns:ns2="http://further.utah.edu/fqe">
+		<name></name>
+		<description></description>
 		<state>ACTIVE</state>
 	</ns2:dsMetaData>
 	<ns2:dsMetaData xmlns:ns2="http://further.utah.edu/fqe">
-		<name>UUEDW</name>
-		<description>University of Utah Hospitals</description>
+		<name></name>
+		<description></description>
 		<state>INACTIVE</state>
-	</ns2:dsMetaData>
+	</ns2:dsMetaData -->
 </ns1:data>

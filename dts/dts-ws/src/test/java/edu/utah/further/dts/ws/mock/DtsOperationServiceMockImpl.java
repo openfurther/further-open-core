@@ -93,7 +93,7 @@ public final class DtsOperationServiceMockImpl implements DtsOperationService
 	 * Instantiates DTS data types.
 	 */
 	@Autowired
-	@Qualifier("dtsTypeFactoryMockImpl")
+	@Qualifier("dtsWsTypeFactoryMockImpl")
 	private DtsTypeFactory dtsTypeFactory;
 
 	/**

@@ -61,7 +61,7 @@
 				<updateDate>2010-04-19T16:16:32.578-06:00</updateDate>
 				<downloadDate>2010-04-19T16:16:32.578-06:00</downloadDate>
 				<importDate>2010-04-19T16:16:32.578-06:00</importDate>
-				<sourcesystemCd>UUEDW.FURTHER.Patient.age</sourcesystemCd>
+				<sourcesystemCd>@DSCUSTOM-26@.FURTHER.Patient.age</sourcesystemCd>
 				<uploadId />
 			</ObservationFact>
 			<ObservationFact>
@@ -86,7 +86,7 @@
 				<updateDate>2010-04-19T16:16:32.578-06:00</updateDate>
 				<downloadDate>2010-04-19T16:16:32.578-06:00</downloadDate>
 				<importDate>2010-04-19T16:16:32.578-06:00</importDate>
-				<sourcesystemCd>UUEDW.FURTHER.Patient.genderDwid</sourcesystemCd>
+				<sourcesystemCd>@DSCUSTOM-26@.FURTHER.Patient.genderDwid</sourcesystemCd>
 				<uploadId />
 			</ObservationFact>
 			<ObservationFact>
@@ -111,7 +111,7 @@
 				<updateDate>2010-04-19T16:16:32.578-06:00</updateDate>
 				<downloadDate>2010-04-19T16:16:32.578-06:00</downloadDate>
 				<importDate>2010-04-19T16:16:32.578-06:00</importDate>
-				<sourcesystemCd>UUEDW.FURTHER.Patient.maritalStatusDwid</sourcesystemCd>
+				<sourcesystemCd>@DSCUSTOM-26@.FURTHER.Patient.maritalStatusDwid</sourcesystemCd>
 				<uploadId />
 			</ObservationFact>
 		</ObservationFacts>

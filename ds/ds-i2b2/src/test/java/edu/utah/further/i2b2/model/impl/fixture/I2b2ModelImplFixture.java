@@ -63,7 +63,7 @@ public abstract class I2b2ModelImplFixture
 	/**
 	 * One patient with observation - XML file. Used in marshalling/unmarshalling
 	 */
-	private static final String FILE = "patientdimensions.xml";
+	private static final String FILE = "@DSCUSTOM-25@";
 
 	// ========================= DEPENDENCIES ==============================
 

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>edu.utah.further.fqe</groupId>
 		<artifactId>fqe</artifactId>
-		<version>1.4.2</version>
+		<version>1.4.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>fqe-impl</artifactId>
 	<packaging>bundle</packaging>
@@ -99,9 +99,7 @@
 			edu.utah.further.ds.i2b2.model.api.to,
 			edu.utah.further.ds.i2b2.model.impl.domain,
 			edu.utah.further.ds.i2b2.model.impl.to,
-			edu.utah.further.ds.omop.model.v2.domain,
-			edu.utah.further.ds.omop.model.v4.domain,
-			edu.utah.further.ds.openmrs.model.v1_9.domain,
+@DSCUSTOM-05@
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
 			org.jasypt.spring3.properties,
@@ -219,8 +217,8 @@
 		<!-- Required For Spring - required at runtime when proxying full target 
 			classes via Spring AOP. -->
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
+			<groupId>net.sourceforge.cglib</groupId>
+			<artifactId>com.springsource.net.sf.cglib</artifactId>
 			<version>${cglib.version}</version>
 			<scope>runtime</scope>
 		</dependency>

@@ -97,15 +97,15 @@ public class UTestAssociatedResultService
 		final List<String> queryIds = newList();
 		queryIds.add("1");
 		expect(mockQueryContextService.findChildren(parent)).andReturn(children);
-		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
+		expect(mockIdentifierService.translateIds(isA(List.class), eq("@DSCUSTOM-26@")))
 				.andReturn(CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getSourceIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList()).anyTimes();
 		replay(mockQueryContextService, mockIdentifierService);
-		associatedResultService.getAssociatedResult(new Long(1L), "UUEDW");
-		mockIdentifierService.translateIds(lQueryIds, "UUEDW");
+		associatedResultService.getAssociatedResult(new Long(1L), "@DSCUSTOM-26@");
+		mockIdentifierService.translateIds(lQueryIds, "@DSCUSTOM-26@");
 		mockIdentifierService.getVirtualIdentifiers(queryIds);
 		mockIdentifierService.getSourceIdentifiers(queryIds);
 		verify(mockQueryContextService, mockIdentifierService);
@@ -124,16 +124,16 @@ public class UTestAssociatedResultService
 		final List<String> queryIds = newList();
 		queryIds.add("1");
 		expect(mockQueryContextService.findById(new Long(1L))).andReturn(child).anyTimes();
-		expect(mockIdentifierService.translateIds(isA(List.class), eq("UUEDW")))
+		expect(mockIdentifierService.translateIds(isA(List.class), eq("@DSCUSTOM-26@")))
 				.andReturn(CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getVirtualIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList()).anyTimes();
 		expect(mockIdentifierService.getSourceIdentifiers(isA(List.class))).andReturn(
 				CollectionUtil.<Long> newList()).anyTimes();
 		replay(mockQueryContextService, mockIdentifierService);
-		associatedResultService.getAssociatedResult(new Long(1L), "UUEDW");
+		associatedResultService.getAssociatedResult(new Long(1L), "@DSCUSTOM-26@");
 		mockQueryContextService.findById(new Long(1L));
-		mockIdentifierService.translateIds(lQueryIds, "UUEDW");
+		mockIdentifierService.translateIds(lQueryIds, "@DSCUSTOM-26@");
 		mockIdentifierService.getVirtualIdentifiers(queryIds);
 		mockIdentifierService.getSourceIdentifiers(queryIds);
 		verify(mockQueryContextService, mockIdentifierService);

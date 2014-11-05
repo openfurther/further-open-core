@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.utah.further</groupId>
 	<artifactId>further</artifactId>
-	<version>1.4.2</version>
+	<version>1.4.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>FURTHeR</name>
 	<description>FURTHeR</description>
@@ -144,7 +144,7 @@
 		<jaxb.libs.version>1.0.5</jaxb.libs.version>
 		<jax.qname.version>1.1</jax.qname.version>
 		<cxfbundle.version>2.4.3</cxfbundle.version>
-		<cglib.version>2.1_3</cglib.version>
+		<cglib.version>2.1.3</cglib.version>
 		<staxmate.version>2.0.1</staxmate.version>
 
 		<!-- Maven plugins -->
@@ -904,6 +904,11 @@
 				<artifactId>core-metadata</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+<dependency>
+<groupId>edu.utah.further.core</groupId>
+<artifactId>core-qunit</artifactId>
+<version>${project.version}</version>
+</dependency>
 			<dependency>
 				<groupId>edu.utah.further.osgi</groupId>
 				<artifactId>osgi-features</artifactId>

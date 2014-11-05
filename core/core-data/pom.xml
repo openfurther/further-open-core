@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>edu.utah.further.core</groupId>
 		<artifactId>core</artifactId>
-		<version>1.4.2</version>
+		<version>1.4.3-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>core-data</artifactId>
@@ -136,8 +136,8 @@
 		<!-- ########################## -->
 
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
+			<groupId>net.sourceforge.cglib</groupId>
+			<artifactId>com.springsource.net.sf.cglib</artifactId>
 			<version>${cglib.version}</version>
 			<scope>runtime</scope>
 		</dependency>

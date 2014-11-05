@@ -98,7 +98,7 @@ public class UTestAssociatedResultsAttacher extends DsImplFixture
 	/**
 	 * The target namespace to translate to.
 	 */
-	private final String target = "UUEDW";
+	private final String target = "@DSCUSTOM-26@";
 
 	/**
 	 * Mock results list.

@@ -15,7 +15,7 @@
  */
 package edu.utah.further.dts.ws.domain;
 
-import static edu.utah.further.dts.impl.util.DtsTestingNames.MARRIED_UUEDW_DWID;
+import static edu.utah.further.dts.impl.util.DtsTestingNames.MARRIED_DS1_DWID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -92,7 +92,7 @@ public final class UTestMarshalDtsConceptId extends DtsWsFixture
 				result.getNamespace());
 		assertNull("Property name should have NOT been set for a machine view",
 				result.getPropertyName());
-		assertEquals(MARRIED_UUEDW_DWID, result.getPropertyValue());
+		assertEquals(MARRIED_DS1_DWID, result.getPropertyValue());
 	}
 
 	/**

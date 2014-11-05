@@ -45,7 +45,7 @@ public enum ApelonHardcodedNamespaceForTests
 
 	HL7("HL7"),
 
-	UUEDW("UUEDW"),
+@DSCUSTOM-36@
 
 	NCI("NCI Thesaurus [National Cancer Institute Thesaurus]"),
 

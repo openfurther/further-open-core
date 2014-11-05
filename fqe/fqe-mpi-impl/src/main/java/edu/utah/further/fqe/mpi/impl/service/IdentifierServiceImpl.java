@@ -35,6 +35,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.ParameterizedSingleColumnRowMapper;
@@ -219,7 +220,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 			// like "UUEDW" - convert any - to _, and uppercase to match Enum
 			dataSourceNumericId = new Long(HardcodedNamespace.valueOf(dataSourceId.replaceAll("-", "_").toUpperCase()).getId());
 		}
-		catch(Exception ex)
+		catch(final Exception ex)
 		{
 			throw new ApplicationException(
 					"Unable to convert Datasource Id to numeric value: " + dataSourceId);

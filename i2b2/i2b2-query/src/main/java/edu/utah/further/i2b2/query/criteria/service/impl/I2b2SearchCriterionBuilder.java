@@ -935,7 +935,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 	{
 		final SearchCriterion and = SearchCriteria.junction(SearchType.CONJUNCTION);
 		addSimpleExpression(and, EQ, encounterAlias + DOT + namespaceIdField,
-				getNamespaceId(Namespaces.namespaceFor("UUEDW")));
+				getNamespaceId(Namespaces.namespaceFor("@DSCUSTOM-26@")));
 		and.addCriterion(constructInQuery(domain, encounterAlias + DOT + criterionField));
 		return and;
 	}

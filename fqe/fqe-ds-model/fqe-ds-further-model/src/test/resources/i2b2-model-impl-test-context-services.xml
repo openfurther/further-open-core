@@ -37,14 +37,12 @@
 		<entry key="CPT" value="20" />
 		<entry key="LOINC" value="5102" />
 		<entry key="MULTUMDRUG" value="60" />
-		<entry key="UPDBL" value="32774" />
 		<entry key="SNOMED" value="30" />
 		<entry key="DEM|AGE" value="-1" />
-		<entry key="UPDB" value="32774" />
 		<entry key="LENGTHOFSTAY" value="-1" />
 		<entry key="ICD9" value="10" />
-		<entry key="UUEDW" value="32776" />
 		<entry key="DEM|BYR" value="-1" />
+@DSCUSTOM-33@
 	</util:map>
 
 </beans>

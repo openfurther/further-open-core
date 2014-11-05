@@ -48,17 +48,8 @@ public enum HardcodedNamespace implements Named
 
 	FURTHER("Further", 32769),
 
-	UUEDW("UUEDW", 32776),
-
-	UPDBL("UPDBL", 32774),
-
-	OMOP_V2("OMOP-v2", 32868),
-
-	OPENMRS_V1_9("OpenMRS-V1_9", 32812),
-
-	UUEDW_APO("UUEDW APO", 64901),
-
-	IH_APO("Intermountain APO", 64902),
+	@DSCUSTOM-29@
+	@DSCUSTOM-30@
 
 	MULTUMDRUG("MultumDrug", 60),
 

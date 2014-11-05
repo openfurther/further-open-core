@@ -95,11 +95,11 @@ public abstract class MdrNames
 	 */
 	public static final String PATH_RESOURCE_REDIRECT = "ds/i2b2/data-sources.xml";
 
-	/**
-	 * @Deprecated As of version 1.1, will be removed in 1.2
-	 * The relative path of some SVN-type resource.
-	 */
-	public static final String PATH_SVN_RESOURCE = "ds/uuedw/patient/xq/uuedw-to-i2b2-pts-mapforce-exe.xq";
+//	/**
+//	 * @Deprecated As of version 1.1, will be removed in 1.2
+//	 * The relative path of some SVN-type resource.
+//	 */
+//	public static final String PATH_SVN_RESOURCE = "ds/uuedw/patient/xq/uuedw-to-i2b2-pts-mapforce-exe.xq";
 
 	/**
 	 * @Deprecated As of version 1.1, will be removed in 1.2

@@ -73,7 +73,7 @@ public final class UTestMarshalEntities extends MdrWsFixture
 	private static final String ASSET_XML = "asset.xml";
 
 	private static final Long id = new Long(234);
-	private static final String desc = "UUEDW Person XMI";
+	private static final String desc = "@DSCUSTOM-26@ Person XMI";
 	private static final String url = "http://localhost:7201/mdr/rest/asset/resource/14/storage";
 
 	// ========================= FIELDS ====================================

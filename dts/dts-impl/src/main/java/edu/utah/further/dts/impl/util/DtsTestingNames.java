@@ -53,15 +53,17 @@ public abstract class DtsTestingNames
 	 */
 	public static final String ANALGESIC_PRODUCT = "Analgesic (product)";
 
-	/**
-	 * Sample DWID from the UUEDW namespace.
-	 */
-	public static final String MARRIED_UUEDW_DWID = "300195";
 
 	/**
-	 * Sample DWID from the UUEDW namespace.
+	 * Sample Married DWID from the DataSource1 namespace.
 	 */
-	public static final String LEGALLY_SEP_UUEDW_DWID = "300201";
+	public static final String MARRIED_DS1_DWID = "@DSCUSTOM-31@";
+
+
+	/**
+	 * Sample Legally Sep. DWID from the DataSource1 namespace.
+	 */
+	public static final String LEGALLY_SEP_DS1_DWID = "@DSCUSTOM-32@";
 	
 	/**
 	 * Sample UPDB_ID from the UPDB nsmespace 

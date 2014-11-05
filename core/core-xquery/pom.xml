@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>edu.utah.further.core</groupId>
-		<version>1.4.2</version>
+		<version>1.4.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>core-xquery</artifactId>
 	<packaging>bundle</packaging>
@@ -126,8 +126,8 @@
 		<!-- ########################## -->
 
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
+			<groupId>net.sourceforge.cglib</groupId>
+			<artifactId>com.springsource.net.sf.cglib</artifactId>
 			<version>${cglib.version}</version>
 			<scope>runtime</scope>
 		</dependency>

@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>dts</artifactId>
 		<groupId>edu.utah.further.dts</groupId>
-		<version>1.4.2</version>
+		<version>1.4.3-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dts-impl</artifactId>
@@ -123,8 +123,8 @@
 		<!-- Required For Spring - required at runtime when proxying full target 
 			classes via Spring AOP. -->
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
+			<groupId>net.sourceforge.cglib</groupId>
+			<artifactId>com.springsource.net.sf.cglib</artifactId>
 			<version>${cglib.version}</version>
 			<scope>runtime</scope>
 		</dependency>
