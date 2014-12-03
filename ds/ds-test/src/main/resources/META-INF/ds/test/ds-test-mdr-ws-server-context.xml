@@ -102,17 +102,26 @@
 	<!-- Resources                                   -->
 	<!-- =========================================== -->
 
-	<!-- Name of classpath folders under which MDR resources are located by
-		the mock asset service implementation. Must not end with a slash. -->
-	<bean id="assetService"
-		class="edu.utah.further.mdr.impl.service.asset.AssetServiceClasspathImpl">
-		<!-- A prefix for MDR resource lookup on the Spring classpath. -->
-		<property name="prefixes">
-			<list>
-				<value>classpath:</value>
-			</list>
-		</property>
-	</bean>
+        <!-- =========================================== -->
+        <!-- Services *** From XQUERY test config ***    -->
+        <!-- =========================================== -->
+
+        <!-- for looking up asset associations -->
+        <bean id="assetServiceDb"
+                        class="edu.utah.further.mdr.impl.service.asset.AssetServiceImpl" />
+
+        <!-- A hybrid implementation that utilizes the classpath to fetch resources 
+                             by path but uses another asset service implementation (e.g. a database driven 
+                                             implementation) to fetch asset associations. -->
+        <bean id="assetService"
+             class="edu.utah.further.mdr.impl.service.asset.AssetServiceHybridClasspathImpl">
+             <property name="assetService" ref="assetServiceDb" />
+             <property name="prefixes">
+                  <list>
+                       <value>classpath:</value>
+                  </list>
+             </property>
+        </bean>
 
 	<!-- Place-holder resolution service, for resource filtering -->
 	<bean id="placeHolderResolver" class="edu.utah.further.core.util.text.PlaceHolderResolverImpl">
