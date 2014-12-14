@@ -53,7 +53,7 @@ import edu.utah.further.fqe.ds.api.to.ResultContextToImpl;
  * @author N. Dustin Schultz {@code <dustin.schultz@utah.edu>}
  * @version Apr 13, 2010
  */
-public final class DefaultInitializer implements Initializer
+public class DefaultInitializer implements Initializer
 {
 	// ========================= CONSTANTS =================================
 

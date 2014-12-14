@@ -30,6 +30,7 @@ import javax.xml.bind.JAXBException;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -105,8 +106,7 @@ public class QueryTranslatorXQueryImpl implements QueryTranslator
 	/**
 	 * MDR web service client.
 	 */
-	@Autowired
-	@Qualifier("mdrAssetServiceRestClient")
+	@Resource(name="mdrAssetServiceRestClient")
 	private AssetServiceRest assetServiceRest;
 
 	// ================== IMPL: QueryTranslatorXQueryImpl ===================
