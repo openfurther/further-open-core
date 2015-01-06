@@ -47,7 +47,7 @@ import edu.utah.further.core.api.discrete.HasSettableIdentifier;
 @Embeddable
 public class EncounterId implements Serializable,
 		Comparable<EncounterId>, HasSettableIdentifier<Long>,
-		HasDatasetIdentifier<Long>
+		HasDatasetIdentifier<String>
 {
 	// ========================= CONSTANTS ===================================
 
@@ -59,7 +59,7 @@ public class EncounterId implements Serializable,
 	private Long id;
 
 	@Column(name = "dataset_id", nullable = false)
-	private Long datasetId;
+	private String datasetId;
 
 	// ========================= METHODS ===================================
 
@@ -89,7 +89,7 @@ public class EncounterId implements Serializable,
 	 * @see edu.utah.further.core.api.discrete.HasDatasetIdentifier#getQueryId()
 	 */
 	@Override
-	public Long getDatasetId()
+	public String getDatasetId()
 	{
 		return datasetId;
 	}
@@ -102,7 +102,7 @@ public class EncounterId implements Serializable,
 	 * )
 	 */
 	@Override
-	public void setDatasetId(final Long datasetId)
+	public void setDatasetId(final String datasetId)
 	{
 		this.datasetId = datasetId;
 	}

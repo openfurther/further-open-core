@@ -84,6 +84,8 @@
 			edu.utah.further.ds.data.domain,
 			edu.utah.further.core.data.service,
 			edu.utah.further.mdr.ws.impl.service.rest,
+			edu.utah.further.ds.uuedw.converter,
+			edu.utah.further.ds.uuedw.domain,
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
 			org.jasypt.spring3.properties,

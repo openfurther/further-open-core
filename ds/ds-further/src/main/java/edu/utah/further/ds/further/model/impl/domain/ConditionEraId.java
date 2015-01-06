@@ -47,7 +47,7 @@ import edu.utah.further.core.api.discrete.HasSettableIdentifier;
 @Embeddable
 public class ConditionEraId implements Serializable,
 		Comparable<ConditionEraId>, HasSettableIdentifier<Long>,
-		HasDatasetIdentifier<Long>
+		HasDatasetIdentifier<String>
 {
 
 	// ========================= CONSTANTS ===================================
@@ -60,7 +60,7 @@ public class ConditionEraId implements Serializable,
 	private Long id;
 
 	@Column(name = "dataset_id", nullable = false)
-	private Long datasetId;
+	private String datasetId;
 
 	// ========================= METHODS ===================================
 
@@ -90,7 +90,7 @@ public class ConditionEraId implements Serializable,
 	 * @see edu.utah.further.core.api.discrete.HasDatasetIdentifier#getQueryId()
 	 */
 	@Override
-	public Long getDatasetId()
+	public String getDatasetId()
 	{
 		return datasetId;
 	}
@@ -103,7 +103,7 @@ public class ConditionEraId implements Serializable,
 	 * )
 	 */
 	@Override
-	public void setDatasetId(final Long datasetId)
+	public void setDatasetId(final String datasetId)
 	{
 		this.datasetId = datasetId;
 	}

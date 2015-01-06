@@ -46,7 +46,7 @@ import edu.utah.further.core.api.discrete.HasSettableIdentifier;
 @Implementation
 @Embeddable
 public class OrderId implements Serializable, Comparable<OrderId>,
-		HasSettableIdentifier<Long>, HasDatasetIdentifier<Long>
+		HasSettableIdentifier<Long>, HasDatasetIdentifier<String>
 {
 	// ========================= CONSTANTS ===================================
 
@@ -58,7 +58,7 @@ public class OrderId implements Serializable, Comparable<OrderId>,
 	private Long id;
 
 	@Column(name = "dataset_id", nullable = false)
-	private Long datasetId;
+	private String datasetId;
 
 	// ========================= METHODS ===================================
 
@@ -89,7 +89,7 @@ public class OrderId implements Serializable, Comparable<OrderId>,
 	 * @see edu.utah.further.core.api.discrete.HasDatasetIdentifier#getQueryId()
 	 */
 	@Override
-	public Long getDatasetId()
+	public String getDatasetId()
 	{
 		return datasetId;
 	}
@@ -102,7 +102,7 @@ public class OrderId implements Serializable, Comparable<OrderId>,
 	 * )
 	 */
 	@Override
-	public void setDatasetId(final Long datasetId)
+	public void setDatasetId(final String datasetId)
 	{
 		this.datasetId = datasetId;
 	}

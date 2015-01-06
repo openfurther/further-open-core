@@ -46,7 +46,7 @@ import edu.utah.further.core.api.discrete.HasSettableIdentifier;
 @Implementation
 @Embeddable
 public class LocationId implements Comparable<LocationId>,
-		HasDatasetIdentifier<Long>, HasSettableIdentifier<Long>, Serializable
+		HasDatasetIdentifier<String>, HasSettableIdentifier<Long>, Serializable
 {
 	// ========================= CONSTANTS ===================================
 
@@ -58,7 +58,7 @@ public class LocationId implements Comparable<LocationId>,
 	private Long id;
 
 	@Column(name = "dataset_id", nullable = false)
-	private Long datasetId;
+	private String datasetId;
 
 	// ========================= METHODS ===================================
 
@@ -92,7 +92,7 @@ public class LocationId implements Comparable<LocationId>,
 	 * @see edu.utah.further.core.api.discrete.HasDatasetIdentifier#getDatasetId()
 	 */
 	@Override
-	public Long getDatasetId()
+	public String getDatasetId()
 	{
 		return datasetId;
 	}
@@ -105,7 +105,7 @@ public class LocationId implements Comparable<LocationId>,
 	 * Comparable )
 	 */
 	@Override
-	public void setDatasetId(final Long datasetId)
+	public void setDatasetId(final String datasetId)
 	{
 		this.datasetId = datasetId;
 	}

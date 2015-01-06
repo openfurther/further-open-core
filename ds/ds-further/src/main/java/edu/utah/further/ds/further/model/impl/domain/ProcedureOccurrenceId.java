@@ -47,7 +47,7 @@ import edu.utah.further.core.api.discrete.HasSettableIdentifier;
 @Embeddable
 public class ProcedureOccurrenceId implements Serializable,
 		Comparable<ProcedureOccurrenceId>, HasSettableIdentifier<Long>,
-		HasDatasetIdentifier<Long>
+		HasDatasetIdentifier<String>
 {
 	// ========================= CONSTANTS ===================================
 
@@ -59,7 +59,7 @@ public class ProcedureOccurrenceId implements Serializable,
 	private Long id;
 
 	@Column(name = "dataset_id", nullable = false)
-	private Long datasetId;
+	private String datasetId;
 
 	// ========================= METHODS ===================================
 
@@ -93,7 +93,7 @@ public class ProcedureOccurrenceId implements Serializable,
 	 * @see edu.utah.further.core.api.discrete.HasDatasetIdentifier#getDatasetId()
 	 */
 	@Override
-	public Long getDatasetId()
+	public String getDatasetId()
 	{
 		return datasetId;
 	}
@@ -106,7 +106,7 @@ public class ProcedureOccurrenceId implements Serializable,
 	 * Comparable )
 	 */
 	@Override
-	public void setDatasetId(final Long datasetId)
+	public void setDatasetId(final String datasetId)
 	{
 		this.datasetId = datasetId;
 	}

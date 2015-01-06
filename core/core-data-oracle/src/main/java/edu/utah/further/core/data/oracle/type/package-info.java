@@ -33,6 +33,7 @@
 		@TypeDef(name = "xml-type", typeClass = OracleXmlType.class),
 		@TypeDef(name = "xml-type-as-string", typeClass = OracleXmlTypeAsString.class),
 		@TypeDef(name = "xml-type-length", typeClass = OracleXmlTypeLength.class),
+                @TypeDef(name = "string-field-big-integer-column", typeClass = StringFieldBigIntegerColumn.class)
  })
 package edu.utah.further.core.data.oracle.type;
 

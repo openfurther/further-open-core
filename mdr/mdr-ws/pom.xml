@@ -44,6 +44,7 @@
 			edu.utah.further.core.util.io,
 			edu.utah.further.core.xml.jaxb,
 			edu.utah.further.core.cxf,
+			edu.utah.further.core.metadata.to,
 			*
 		</further.osgi.import.pkg>
 		<further.osgi.require.bundle>

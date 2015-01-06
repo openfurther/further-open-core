@@ -43,6 +43,7 @@
 			org.springframework.stereotype,
 			edu.utah.further.core.api.context,
 			edu.utah.further.core.api.exception,
+			edu.utah.further.core.metadata.to,
 			edu.utah.further.core.util.io,
 			edu.utah.further.core.xml.jaxb,
 			edu.utah.further.core.cxf,
