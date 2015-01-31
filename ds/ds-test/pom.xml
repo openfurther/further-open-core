@@ -63,7 +63,11 @@
 			<artifactId>core-test</artifactId>
 		</dependency>
 
-@DSCUSTOM-23@
+<dependency>
+<groupId>edu.utah.further.core</groupId>
+<artifactId>core-qunit</artifactId>
+<version>LATEST</version>
+</dependency>
 
 		<!-- Override to compile-time -->
 		<dependency>

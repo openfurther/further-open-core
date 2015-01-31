@@ -92,6 +92,9 @@
 		class="edu.utah.further.ds.impl.service.query.processor.StreamFinalizerQp"
 		scope="prototype" />
 
+	<!-- Request processor to join asynchronous futures -->
+	<bean id="joinRp" class="edu.utah.further.ds.impl.service.query.processor.JoinRp" />
+
 	<!-- Result set page finalization Query Processor for Hibernate-based data 
 		sources -->
 	<bean id="pageFinalizerHibernateQp"
@@ -222,5 +225,10 @@
 	<bean id="queryExecutionFactory" class="edu.utah.further.ds.impl.executor.QueryExecutionFactory"
 		p:databaseQueryExecution-ref="databaseQueryExecutionHibernate"
 		p:webserviceQueryExecution-ref="webserviceQueryExecution" />
+
+        <!-- Jdbc Template for easy JDBC access -->
+        <!-- bean id="virtualRepoJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+                <constructor-arg ref="dataSource" />
+        </bean -->
 
 </beans>

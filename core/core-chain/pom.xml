@@ -22,6 +22,10 @@
 
 	<properties>
 		<shortName>chain</shortName>
+                <further.osgi.export.pkg>
+                    ${project.groupId}.${shortName}*
+                </further.osgi.export.pkg>
+
 	</properties>
 
 	<!-- =========================================== -->

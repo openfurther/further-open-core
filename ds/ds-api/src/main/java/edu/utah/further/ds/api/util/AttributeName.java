@@ -193,7 +193,12 @@ public enum AttributeName implements Labeled
 	/**
 	 * Datasource webservice client.
 	 */
-	WS_DS_CLIENT;
+	WS_DS_CLIENT,
+
+        /**
+	 * Attribute for Linker Futures.
+	 */
+        FUTURES_LINK;
 
 	// ========================= CONSTANTS =================================
 

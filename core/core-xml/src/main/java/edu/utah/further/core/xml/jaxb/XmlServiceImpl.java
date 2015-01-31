@@ -230,12 +230,16 @@ public class XmlServiceImpl implements XmlService
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(final Object input, final MarshallerOptions options)
 	{
+		T value = null;
 		try
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("~~~Input is " + input);
+			}
 			buildContextIfNecessary(options);
 			final Object unmarshalled = UnmarshallerInput.unmarshal(
 					options.getUnmarshaller(), input);
-			final T value;
 			if (ReflectionUtil.instanceOf(unmarshalled, JAXBElement.class))
 			{
 				final JAXBElement<T> raw = (JAXBElement<T>) unmarshalled;
@@ -247,13 +251,17 @@ public class XmlServiceImpl implements XmlService
 			}
 			if (log.isDebugEnabled())
 			{
-				log.debug("Unmarshaled input to " + value);
+				log.debug("~~~Unmarshaled input to " + value);
 			}
 			return value;
 		}
 		catch (final Exception e)
 		{
-			log.error("Unmarshalling failed", e);
+			if (log.isDebugEnabled())
+			{
+				log.debug("~~~Unmarshal failed on " + value);
+			}
+			log.error("~~~Unmarshalling failed", e);
 			return null;
 		}
 	}

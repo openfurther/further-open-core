@@ -40,18 +40,18 @@
 	<bean id="lookupDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${datasource.lookup.driver}" />
 		<property name="jdbcUrl" value="${datasource.lookup.url}" />
-		<property name="testConnectionOnCheckin" value="${c3p0.lookup.testConnectionOnCheckin}" />
-		<property name="preferredTestQuery" value="${c3p0.lookup.preferredTestQuery}" />
-		<property name="maxIdleTime" value="${c3p0.lookup.maxIdleTime}" />
-		<property name="idleConnectionTestPeriod" value="${c3p0.lookup.idleConnectionTestPeriod}" />
+		<property name="testConnectionOnCheckin" value="${c3p0.identifier.testConnectionOnCheckin}" />
+		<property name="preferredTestQuery" value="${c3p0.identifier.preferredTestQuery}" />
+		<property name="maxIdleTime" value="${c3p0.identifier.maxIdleTime}" />
+		<property name="idleConnectionTestPeriod" value="${c3p0.identifier.idleConnectionTestPeriod}" />
 		<property name="properties">
 			<props>
-				<prop key="c3p0.lookup.initialPoolSize">${c3p0.lookup.initialPoolSize}</prop>
-				<prop key="c3p0.lookup.minPoolSize">${c3p0.lookup.minPoolSize}</prop>
-				<prop key="c3p0.lookup.maxPoolSize">${c3p0.lookup.maxPoolSize}</prop>
-				<prop key="c3p0.lookup.maxStatements">${c3p0.lookup.maxStatements}</prop>
-				<prop key="c3p0.lookup.acquireRetryAttempts">${c3p0.lookup.acquireRetryAttempts}</prop>
-				<prop key="c3p0.lookup.acquireIncrement">${c3p0.lookup.acquireIncrement}</prop>
+				<prop key="c3p0.identifier.initialPoolSize">${c3p0.identifier.initialPoolSize}</prop>
+				<prop key="c3p0.identifier.minPoolSize">${c3p0.identifier.minPoolSize}</prop>
+				<prop key="c3p0.identifier.maxPoolSize">${c3p0.identifier.maxPoolSize}</prop>
+				<prop key="c3p0.identifier.maxStatements">${c3p0.identifier.maxStatements}</prop>
+				<prop key="c3p0.identifier.acquireRetryAttempts">${c3p0.identifier.acquireRetryAttempts}</prop>
+				<prop key="c3p0.identifier.acquireIncrement">${c3p0.identifier.acquireIncrement}</prop>
 				<prop key="user">${datasource.lookup.user}</prop>
 				<prop key="password">${datasource.lookup.password}</prop>
 			</props>
@@ -67,9 +67,9 @@
 				<!-- ################################## -->
 				<!-- Hibernate configuration -->
 				<!-- ################################## -->
-				<prop key="hibernate.dialect">${hibernate.lookup.dialect}</prop>
-				<prop key="hibernate.show_sql">${hibernate.lookup.show_sql}</prop>
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.lookup.hbm2ddl.auto}</prop>
+				<prop key="hibernate.dialect">${hibernate.identifier.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.identifier.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 
 				<!-- ============================ -->
 				<!-- Hibernate C3P0 configuration -->
@@ -77,12 +77,12 @@
 				<!-- We must declare 6 configuration properties, which are synchronized 
 					with the C3P0 data source configuration values above. Otherwise they are 
 					set to Hibernate defaults, overriding the C3P0 configuration. http://www.mchange.com/projects/c3p0/index.html#hibernate-specific -->
-				<prop key="hibernate.c3p0.acquire_increment">${c3p0.lookup.acquireIncrement}</prop>
-				<prop key="hibernate.c3p0.idle_test_period">${c3p0.lookup.idleConnectionTestPeriod}</prop>
-				<prop key="hibernate.c3p0.timeout">${c3p0.lookup.maxIdleTime}</prop>
-				<prop key="hibernate.c3p0.max_size">${c3p0.lookup.maxPoolSize}</prop>
-				<prop key="hibernate.c3p0.max_statements">${c3p0.lookup.maxStatements}</prop>
-				<prop key="hibernate.c3p0.min_size">${c3p0.lookup.minPoolSize}</prop>
+				<prop key="hibernate.c3p0.acquire_increment">${c3p0.identifier.acquireIncrement}</prop>
+				<prop key="hibernate.c3p0.idle_test_period">${c3p0.identifier.idleConnectionTestPeriod}</prop>
+				<prop key="hibernate.c3p0.timeout">${c3p0.identifier.maxIdleTime}</prop>
+				<prop key="hibernate.c3p0.max_size">${c3p0.identifier.maxPoolSize}</prop>
+				<prop key="hibernate.c3p0.max_statements">${c3p0.identifier.maxStatements}</prop>
+				<prop key="hibernate.c3p0.min_size">${c3p0.identifier.minPoolSize}</prop>
 			</props>
 		</property>
 

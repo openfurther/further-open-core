@@ -111,6 +111,8 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 			return;
 		}
 
+		log.debug("Unresolved identifiers to process:" + identifiers);
+
 		// Maintain a map of sourceId to identifier so we can easily set the federated id
 		final Map<Long, IdentifierEntity> identifiersMap = new HashMap<>();
 		for (final Identifier identifier : identifiers)
@@ -122,6 +124,8 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 		final Long namespaceId = queryContext.getTargetNamespaceId();
 		Validate.notNull(namespaceId, "namespaceId required for identity resolution");
 
+		log.debug("namespaceId:" + namespaceId);
+
 		final SearchCriterion rootAnd = SearchCriteria.junction(SearchType.CONJUNCTION);
 		rootAnd.addCriterion(simpleExpression(Relation.EQ, "namespaceId", namespaceId));
 		rootAnd.addCriterion(SearchCriteria.collection(SearchType.IN, "sourceId",
@@ -132,6 +136,8 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 				CriteriaType.CRITERIA, "edu.utah.further.fqe.mpi.impl.domain",
 				lookupSessionFactory, query).list();
 
+		log.debug("lookups:" + lookups);
+
 		// Set the federated id for the identifier and save
 		for (final LookupEntity lookup : lookups)
 		{
@@ -139,6 +145,8 @@ public class IdentityResolutionLookupTable implements IdentityResolutionStrategy
 					.getSourceId());
 			identifierEntity.setCommonId(lookup.getCommonId());
 		}
+
+		log.debug("identifiersMap:" + identifiersMap);
 
 		identifierService.updateSavedIdentifiers(CollectionUtil.newList(identifiersMap
 				.values()));

@@ -22,6 +22,10 @@
 
 	<properties>
 		<shortName>data.oracle</shortName>
+		<further.osgi.export.pkg>
+			edu.utah.further.core.data.oracle.type,
+			${project.groupId}.${shortName}*
+		</further.osgi.export.pkg>
 		<further.osgi.import.pkg>
 			!oracle.aurora.rdbms,
 			!org.w3c.dom.validation,

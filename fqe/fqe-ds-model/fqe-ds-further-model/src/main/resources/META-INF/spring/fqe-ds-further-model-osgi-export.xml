@@ -25,6 +25,9 @@
 		services should be moved to ds-further's OSGi export file. -->
 
 	<!-- Data Access Object to this analytical model -->
+	<osgi:service ref="linkDao" interface="edu.utah.further.core.api.data.Dao" />
+
+	<!-- Data Access Object to this analytical model -->
 	<osgi:service ref="inMemoryDao" interface="edu.utah.further.core.api.data.Dao" />
 
 	<!-- Transaction Template for this analytical model -->

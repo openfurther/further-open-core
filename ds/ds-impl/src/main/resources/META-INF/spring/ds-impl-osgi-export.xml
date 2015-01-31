@@ -46,6 +46,10 @@
 	<osgi:service ref="answerableServiceAlways"
 		interface="edu.utah.further.ds.api.service.query.AnswerableService" />
 
+	<!-- Export answerable service for use by dses -->
+	<osgi:service ref="metadataAnswerableService"
+		interface="edu.utah.further.ds.api.service.query.AnswerableService" />
+
 	<!-- ################################### -->
 	<!-- Reusable processor advisors -->
 	<!-- ################################### -->
@@ -111,6 +115,10 @@
 	<osgi:service id="streamFinalizerProcessor"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="streamFinalizerQp" />
 
+	<!-- Export the Joiner Processor -->
+	<osgi:service id="joinProcessor"
+			interface="edu.utah.further.core.api.chain.RequestProcessor" ref="joinRp" />
+
 	<!-- Export the Hibernate page finalization Processor -->
 	<osgi:service id="pageFinalizerHibernateProcessor"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="pageFinalizerHibernateQp" />
@@ -129,6 +137,10 @@
 	<osgi:service id="associatedResultProcessor"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="associatedResultQp" />
 
+	<!-- Export the Linker Persistent Query Processor for data sources -->
+	<!-- osgi:service id="linkerPersistentProcessor"
+		interface="edu.utah.further.core.chain.AbstractDelegatingUtilityProcessor" ref="linkerQp" / -->
+
 	<!-- ============================================= -->
 	<!-- Reusable Marshalling/Unmarshalling Processors -->
 	<!-- ============================================= -->
@@ -138,6 +150,15 @@
 
 	<osgi:service id="unmarshallingProcessor"
 		interface="edu.utah.further.core.api.chain.RequestProcessor" ref="unmarshallRequestProcessor" />
+
+        <!-- ===================== -->
+        <!-- Reusable QP delegates -->
+        <!-- ===================== -->
+
+        <!-- Persistent Linker delegate -->
+        <osgi:service id="persistentLinkerService"
+                 interface="edu.utah.further.ds.api.service.query.logic.PersistentLinker"
+                 ref="persistentLinker" />
 
 	<!-- ============================================= -->
 	<!-- Hibernate Processors -->

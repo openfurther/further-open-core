@@ -37,6 +37,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -114,8 +115,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 	/**
 	 * MDR web service client.
 	 */
-	@Autowired
-	@Qualifier("mdrAssetServiceRestClient")
+	@Resource(name="mdrAssetServiceRestClient")
 	private AssetServiceRest assetServiceRest;
 
 	// ========================= IMPL: ResultTranslator ====================
@@ -145,12 +145,14 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 
 		// Build & invoke the chain
 		final RequestHandler requestHandler = buildSubChain(result, subRequest);
+			log.debug("CALLING HANDLE ON: " + subRequest);
 		requestHandler.handle(subRequest);
 
 		attributes.clear();
 		attributes.putAll(subRequest.getAttributes());
 
 		// Return the result of the conversion
+			log.debug("CALLED HANDLE TO GET: " + subRequest.getAttribute(unmarshallRp.getResultAttr()));
 		return subRequest.getAttribute(unmarshallRp.getResultAttr());
 	}
 
@@ -172,6 +174,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 
 		if (instanceOf(result, String.class))
 		{
+			log.debug("Skip marshalling branch ");
 			// Skip marshalling, it's already marshalled
 			request.setAttribute(marshallRp.getResultAttr(), result);
 		}
@@ -180,6 +183,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 			// Marshal the list of entities
 			subChainBuilder.addProcessor(new TransferObjectProcessorImpl(result));
 			subChainBuilder.addProcessor(marshallRp);
+			log.debug("Marshalling branch ");
 		}
 		else
 		{
@@ -189,6 +193,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 		}
 		subChainBuilder.addProcessor(new XQueryExecutionProcessorImpl());
 		subChainBuilder.addProcessor(unmarshallRp);
+			log.debug("Rest of subchain branch ");
 
 		request.setAttribute(unmarshallRp.getMarshalPkgsAttr(),
 				request.getAttribute(AttributeName.RESULT_UNMARSHAL_PKGS));
@@ -251,6 +256,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 		public boolean process(final ChainRequest request)
 		{
 			final List<?> entityList = (List<?>) result;
+log.trace("entityList:: " + entityList.getClass().getName() + ":: " + entityList.size());
 			LoggingUtil.printEntityList(log, entityList);
 
 			// Ensure that all of the entities/dtos are included since we'll be wrapping
@@ -282,8 +288,10 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 		public boolean process(final ChainRequest request)
 		{
 			// TODO: Cache translation artifact!!
+			log.debug("TODO: Cache translation artifact!!");
 			// Get the translation artifact from the request
 			final String mdrPath = request.getAttribute(RESULT_TRANSLATION);
+					log.debug("RESULT_TRANSLATION: " + mdrPath);
 
 			try (// Get the result of marshalling
 			ByteArrayInputStream xmlInputStream = new ByteArrayInputStream(
@@ -295,7 +303,7 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 				if (log.isTraceEnabled() && xmlInputStream.markSupported())
 				{
 					xmlInputStream.mark(0);
-					log.trace("XQuery Translation input: " + NEW_LINE_STRING
+					log.debug("XQuery Translation input: " + NEW_LINE_STRING
 							+ XmlStreamPrinter.printToString(xmlInputStream));
 					xmlInputStream.reset();
 				}
@@ -308,12 +316,13 @@ public final class ResultTranslatorXQueryImpl implements ResultTranslator
 				parameters.put(FqeNames.LOCAL_NAMESPACE_ID, StringUtil
 						.getNullSafeToString(queryContext.getTargetNamespaceId()));
 
+					log.debug("XQuery Translation parameters: " + parameters);
 				// Set the source attribute for the unmarshalling processor
 				final String xqueryResult = xqueryService.executeIntoString(
 						xQueryInputStream, xmlInputStream, parameters);
 				if (log.isTraceEnabled())
 				{
-					log.trace("XQuery Translation output: " + NEW_LINE_STRING
+					log.debug("XQuery Translation output: " + NEW_LINE_STRING
 							+ XmlStreamPrinter.printToString(xqueryResult));
 				}
 				request.setAttribute(unmarshallRp.getSourceAttr(),

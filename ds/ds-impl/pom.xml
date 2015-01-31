@@ -27,6 +27,14 @@
 			'=META-INF.ds.impl'
 		</further.osgi.export.pkg>
 		<further.osgi.import.pkg>
+			!com.ibatis*,
+			!com.ibm.*,
+			!javax.jdo*,
+			!oracle.aurora.rdbms,
+			!oracle.i18n.text,
+			!org.exolab.*,
+			!org.jibx*,
+			!org.w3c.dom.validation,
 			org.hibernate,
 			org.hibernate.annotations,
 			org.hibernate.cfg,
@@ -62,9 +70,13 @@
 			org.apache.xerces.parsers,
 			com.mchange.v2.c3p0,
 			oracle.jdbc,
+			oracle.xdb*,
+			oracle.xml*,
 			edu.utah.further.core.api.xml,
 			edu.utah.further.core.api.context,
+			edu.utah.further.core.api.context*,
 			edu.utah.further.core.api.io,
+			edu.utah.further.core.chain,
 			edu.utah.further.core.util.io,
 			edu.utah.further.core.metadata.to,
 			edu.utah.further.core.xml.jaxb,
@@ -81,11 +93,12 @@
 			edu.utah.further.ds.api.aspect,
 			edu.utah.further.ds.api.advice,
 			edu.utah.further.ds.api.service.query.logic,
+			edu.utah.further.ds.api.service.query.processor,
 			edu.utah.further.ds.data.domain,
 			edu.utah.further.core.data.service,
+			edu.utah.further.core.data.oracle.type,
 			edu.utah.further.mdr.ws.impl.service.rest,
-			edu.utah.further.ds.uuedw.converter,
-			edu.utah.further.ds.uuedw.domain,
+@DSCUSTOM-40@
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
 			org.jasypt.spring3.properties,
@@ -137,6 +150,12 @@
 			<groupId>edu.utah.further.core</groupId>
 			<artifactId>core-data-oracle</artifactId>
 		</dependency>
+
+                <!-- Data layer  -->
+                <dependency>
+                        <groupId>edu.utah.further.core</groupId>
+                        <artifactId>core-data</artifactId>
+                </dependency>
 
 		<!-- MDR web service API, for data source MDR resource retrieval -->
 		<dependency>

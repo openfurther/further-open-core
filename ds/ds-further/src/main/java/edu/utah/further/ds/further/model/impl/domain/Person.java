@@ -196,6 +196,9 @@ public class Person implements PersistentEntity<PersonId>
 	@XmlTransient
 	private Collection<Location> locations;
 
+	@Transient
+	private Collection<edu.utah.further.ds.further.model.impl.domain.Error> errors;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -910,6 +913,27 @@ public class Person implements PersistentEntity<PersonId>
 	public void setLocations(final Collection<Location> locations)
 	{
 		this.locations = locations;
+	}
+
+	/**
+	 * Return the errors property.
+	 * 
+	 * @return the errors
+	 */
+	public Collection<edu.utah.further.ds.further.model.impl.domain.Error> getErrors()
+	{
+		return errors;
+	}
+
+	/**
+	 * Set a new value for the errors property.
+	 * 
+	 * @param errors
+	 *            the errors to set
+	 */
+	public void setErrors(final Collection<edu.utah.further.ds.further.model.impl.domain.Error> errors)
+	{
+		this.errors = errors;
 	}
 
 	// ====================== IMPLEMENTATION: Object =====================

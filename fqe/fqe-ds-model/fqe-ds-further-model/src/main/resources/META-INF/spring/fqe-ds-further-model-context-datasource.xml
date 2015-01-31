@@ -141,6 +141,7 @@
 	</bean>
 
 	<alias name="inMemoryDao" alias="dao" />
+        <alias name="inMemoryDao" alias="linkDao" />
 
 	<!-- I2b2 concept_cd prefix to Dts Namespace mapping -->
 	<!-- Needed for CSV Export support                   -->

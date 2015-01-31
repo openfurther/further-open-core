@@ -20,8 +20,15 @@
 	<!-- Externalized properties                     -->
 	<!-- =========================================== -->
 
-	<properties>
-		<shortName>ws</shortName>
+        <!-- =========================================== -->
+        <!-- Externalized properties -->
+        <!-- =========================================== -->
+
+        <properties>
+                <shortName>ws</shortName>
+                <further.osgi.export.pkg>
+                   edu.utah.further.core.ws
+                </further.osgi.export.pkg>
 	</properties>
 
 	<!-- =========================================== -->

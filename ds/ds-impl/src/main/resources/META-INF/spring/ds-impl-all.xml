@@ -38,6 +38,7 @@
 	<import resource="ds-impl-osgi-import.xml" />
 	<import resource="ds-impl-context-aop.xml" />
 	<import resource="classpath*:META-INF/ds/impl/ds-impl-context-attributes.xml" />
+	<import resource="ds-impl-context-datasource.xml" />
 	<import resource="ds-impl-context-services.xml" />
 	<import resource="ds-impl-context-annotation.xml" />
 	<import resource="ds-impl-osgi-export.xml" />

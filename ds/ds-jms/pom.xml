@@ -44,8 +44,10 @@
 			edu.utah.further.fqe.ds.api.to,
 			edu.utah.further.core.metadata.to,
 			edu.utah.further.core.api.context,
+			edu.utah.further.core.chain,
 			edu.utah.further.ds.api.advice,
-			edu.utah.further.ds.api.service.query.processor
+			edu.utah.further.ds.api.service.query.processor,
+			edu.utah.further.ds.impl.service.query.processor
 		</further.osgi.import.pkg>
 		<further.osgi.failok>true</further.osgi.failok>
 	</properties>
@@ -86,6 +88,11 @@
 		<dependency>
 			<groupId>edu.utah.further.core</groupId>
 			<artifactId>core-query</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.core</groupId>
+			<artifactId>core-chain</artifactId>
 		</dependency>
 
 		<!-- Override earlier spring versions in the above spring WS dependencies -->

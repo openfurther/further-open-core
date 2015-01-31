@@ -36,7 +36,7 @@
 		<context:exclude-filter type="regex"
 			expression=".*\.PersisterCreateImpl" />
 		<context:exclude-filter type="regex"
-			expression=".*\.AnswerableServiceMetadataImpl" />
+			expression=".*\.PersisterUpdateImpl" />
 	</context:component-scan>
 
 	<!-- Core XML -->

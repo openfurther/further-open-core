@@ -82,7 +82,7 @@
 		<prop key="c3p0.minPoolSize">5</prop>
 		<prop key="c3p0.maxPoolSize">15</prop>
 		<prop key="c3p0.maxStatements">50</prop>
-		<prop key="c3p0.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.acquireRetryAttempts">1</prop>
 		<prop key="c3p0.acquireIncrement">5</prop>
 		<prop key="c3p0.testConnectionOnCheckin">true</prop>
 		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
