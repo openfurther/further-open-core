@@ -92,10 +92,10 @@
 		<!-- ============================ -->
 
 		<!-- Turn on for SQL debugging  -->
-		<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+		<prop key="hibernate.show_sql">false</prop>
 
 		<!-- Generate schema? -->
-		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+		<prop key="hibernate.hbm2ddl.auto"></prop>
 
 		<!-- ============================ -->
 		<!--C3P0 connection pool config   -->

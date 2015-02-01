@@ -58,7 +58,7 @@
 		<!-- Hibernate configuration -->
 		<!-- ################################################## -->
 
-		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+		<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
 
 		<!-- ============================ -->
 		<!-- Hibernate options -->
