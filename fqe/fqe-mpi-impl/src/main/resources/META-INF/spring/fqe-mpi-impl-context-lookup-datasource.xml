@@ -69,7 +69,7 @@
 				<!-- ################################## -->
 				<prop key="hibernate.dialect">${hibernate.identifier.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.identifier.show_sql}</prop>
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.identifier.hbm2ddl.auto}</prop>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
 
 				<!-- ============================ -->
 				<!-- Hibernate C3P0 configuration -->
