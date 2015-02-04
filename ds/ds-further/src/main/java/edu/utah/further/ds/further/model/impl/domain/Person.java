@@ -30,6 +30,8 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -65,6 +67,8 @@ public class Person implements PersistentEntity<PersonId>
 
 	@Transient
 	private static final long serialVersionUID = -695456808008390254L;
+
+	public static final String ERRORS_FIELD_NAME = "errors";
 
 	// ========================= FIELDS ===================================
 
@@ -197,6 +201,8 @@ public class Person implements PersistentEntity<PersonId>
 	private Collection<Location> locations;
 
 	@Transient
+	@XmlElementWrapper(name = "Errors")
+	@XmlElement(name = "error")
 	private Collection<edu.utah.further.ds.further.model.impl.domain.Error> errors;
 
 	/*

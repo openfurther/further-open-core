@@ -18,6 +18,8 @@ package edu.utah.further.ds.further.model.impl.domain;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -80,6 +82,14 @@ public class UTestMarshalPersonTo
 	public void marshalPersonTo() throws JAXBException, SAXException, IOException
 	{
 		final Person person = new Person();
+		edu.utah.further.ds.further.model.impl.domain.Error error 
+			= new edu.utah.further.ds.further.model.impl.domain.Error();
+		error.setCode("DTS_RESULT_TRANSLATION_ERROR for [ administrativeGender ]");
+		error.setMessage("DTS Mapping [ UUEDW.genderDwid=2979390 ] May be Missing");
+		List<edu.utah.further.ds.further.model.impl.domain.Error> errors 
+			= new ArrayList<edu.utah.further.ds.further.model.impl.domain.Error>();
+		errors.add(error);
+		person.setErrors(errors);
 		person.setAdministrativeGender("12345");
 		person.setAdministrativeGenderNamespaceId(new Long(30));
 		person.setBirthDay(new Long(1));

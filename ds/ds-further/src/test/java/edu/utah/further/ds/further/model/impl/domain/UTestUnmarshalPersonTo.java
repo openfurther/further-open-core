@@ -76,6 +76,7 @@ public class UTestUnmarshalPersonTo
 			assertThat(person.getId().getDatasetId(), is("abcdefghijklmnopqrstuvwxyz"));
 			assertThat(person.getId().getId(), is(new Long(1)));
 			assertThat(person.getMaritalStatus(), is("12345"));
+			assertThat(person.getErrors(), notNullValue());
 		}
 		finally
 		{

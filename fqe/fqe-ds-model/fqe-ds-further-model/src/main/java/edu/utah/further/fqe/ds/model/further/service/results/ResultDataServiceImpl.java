@@ -26,6 +26,13 @@ import edu.utah.further.core.query.domain.SearchQuery;
 import edu.utah.further.ds.further.model.impl.domain.Person;
 import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 
+import edu.utah.further.ds.further.model.impl.domain.Person;
+import edu.utah.further.ds.further.model.impl.domain.Error;
+
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+
+
 /**
  * Result services which can retrieve or access row level data.
  * <p>
@@ -43,6 +50,12 @@ import edu.utah.further.fqe.ds.api.service.results.ResultDataService;
 @Service("resultDataService")
 public class ResultDataServiceImpl implements ResultDataService
 {
+
+        /**
+ 	 * A logger that helps identify this class' printouts.
+ 	 */
+        private static final Logger log = getLogger(ResultDataServiceImpl.class);
+
 	/**
 	 * Data sessionfactory
 	 */
@@ -80,7 +93,9 @@ public class ResultDataServiceImpl implements ResultDataService
 		{
 			query.setParameter(i, orderedParameterValues.get(i));
 		}
-		return (T) query.list();
+		List results = query.list();
+		logPersonErrors(results);
+		return (T) results;
 	}
 
 	/*
@@ -96,7 +111,9 @@ public class ResultDataServiceImpl implements ResultDataService
 	{
 		final Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameterList(parameterName, queryIds);
-		return (T) query.list();
+		List results = query.list();
+		logPersonErrors(results);
+		return (T) results;
 	}
 
 	/*
@@ -113,4 +130,30 @@ public class ResultDataServiceImpl implements ResultDataService
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * This method logs ERROR messages for XQuery translation failures: we keep processing, 
+	 * setting the untranslated field to null, and flag with the error code/message.
+	 */
+        private void logPersonErrors(final List results)
+        {
+		if(results != null && results.size() > 0)
+		{
+			for(int i = 0; i < results.size(); i++)
+			{
+				if(results.get(i) instanceof Person)
+				{	
+					Person person = (Person)results.get(i);
+					if(person.getErrors() != null && person.getErrors().size() > 0)
+					{
+                            			for(Error error: person.getErrors())
+                            			{
+                                    			log.error("{{{ PERSON TRANSLATION ERROR: " + error.getCode() );
+                                    			log.error("{{{ PERSON TRANSLATION ERROR: " + error.getMessage() );
+                                		}
+                            		}
+                       		}
+                	}
+        	}
+	}
 }

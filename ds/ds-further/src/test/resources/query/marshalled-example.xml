@@ -30,4 +30,10 @@
 	<dateOfDeath>2013-09-05T14:19:26.404-06:00</dateOfDeath>
 	<deathYear>2013</deathYear>
 	<pedigreeQuality>1</pedigreeQuality>
+	<Errors>
+	   <error>
+	       <code>DTS_RESULT_TRANSLATION_ERROR for [ administrativeGender ]</code>
+	       <message>DTS Mapping [ UUEDW.genderDwid=2979390 ] May be Missing</message>
+	   </error>
+	</Errors>
 </ns2:Person>
