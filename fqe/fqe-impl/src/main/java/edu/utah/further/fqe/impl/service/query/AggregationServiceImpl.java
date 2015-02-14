@@ -66,8 +66,6 @@ import edu.utah.further.fqe.ds.api.service.results.ResultType;
 import edu.utah.further.fqe.ds.api.to.ResultContextKeyToImpl;
 import edu.utah.further.fqe.ds.api.util.FqeDsQueryContextUtil;
 import edu.utah.further.fqe.mpi.api.service.IdentifierService;
-import edu.utah.further.ds.further.model.impl.domain.Person;
-import edu.utah.further.ds.further.model.impl.domain.Error;
 
 /**
  * A data source result set aggregation service implementation. Relies on a Hibernate
@@ -338,7 +336,6 @@ public class AggregationServiceImpl implements AggregationService
 
 		// Sanity check
 		Validate.isTrue(PersistentEntity.class.isAssignableFrom(rootResultClass));
-		boolean isPerson = Person.class.isInstance(rootResultClass);
 
 		final List<String> fields = new ArrayList<>();
 		final Set<String> aggregationIncludedFields = categories.keySet();
@@ -350,15 +347,6 @@ public class AggregationServiceImpl implements AggregationService
 			{
 				fields.add(field.getName());
 			}
-			if(isPerson && Person.ERRORS_FIELD_NAME.equalsIgnoreCase(field.getName()))
-			{
-				Collection<edu.utah.further.ds.further.model.impl.domain.Error> errors = field.get(rootResultClass);
-				if (errors.size() > 0)
-				{
-					logPersonErrors(errors);	
-				}
-			}
-
 		}
 
 		final AggregatedResults aggregatedResults = new AggregatedResultsTo();
@@ -458,15 +446,6 @@ public class AggregationServiceImpl implements AggregationService
 			}
 		}
 		return results;
-	}
-
-	private void logPersonErrors(final  errors)
-	{
-		for(Error error: errrors)
-		{
-			log.error("Person translation error: " + error.getCode() );
-			log.error(error.getMessage() );
-		}
 	}
 
 	/**
@@ -685,7 +664,7 @@ public class AggregationServiceImpl implements AggregationService
 			for (final Map<String, Object> result : results)
 			{
 				Object name = result.get("fieldName");
-				if (name == null)
+				if (name == null|| String.valueOf(name).length() == 0 || String.valueOf(name).equals("null"))
 				{
 					name = missingData;
 				}

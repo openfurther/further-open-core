@@ -22,6 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -70,7 +71,8 @@ public class AuditableEventEntity implements AuditableEvent
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FRTHR_FQE.APP_LOG_ID_SEQ")
+	@SequenceGenerator(name="appLogSeq", sequenceName="APP_LOG_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="appLogSeq")
 	@Column(name = "audit_log_id")
 	@Final
 	Long id;

@@ -291,15 +291,24 @@ log.trace("entityList:: " + entityList.getClass().getName() + ":: " + entityList
 			log.debug("TODO: Cache translation artifact!!");
 			// Get the translation artifact from the request
 			final String mdrPath = request.getAttribute(RESULT_TRANSLATION);
-					log.debug("RESULT_TRANSLATION: " + mdrPath);
+			log.debug("RESULT_TRANSLATION: " + mdrPath);
 
-			try (// Get the result of marshalling
-			ByteArrayInputStream xmlInputStream = new ByteArrayInputStream(
-					((String) request.getAttribute(marshallRp.getResultAttr()))
-							.getBytes());
-					InputStream xQueryInputStream = getMdrResourceInputStream(
+			String resultStr = (String) request.getAttribute(marshallRp.getResultAttr());
+			if(resultStr == null)
+			{
+				resultStr = "";
+			}
+
+			resultStr = resultStr.replaceAll("FURTHeRQueryResults", "ResultList");
+			log.debug("ResultStr !!! " + resultStr);
+
+			try ( // Get the result of marshalling
+				ByteArrayInputStream xmlInputStream = new ByteArrayInputStream(resultStr.getBytes());
+
+				InputStream xQueryInputStream = getMdrResourceInputStream(
 							assetServiceRest, mdrPath);)
 			{
+
 				if (log.isTraceEnabled() && xmlInputStream.markSupported())
 				{
 					xmlInputStream.mark(0);
