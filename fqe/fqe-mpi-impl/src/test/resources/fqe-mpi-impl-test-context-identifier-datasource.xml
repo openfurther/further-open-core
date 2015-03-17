@@ -42,24 +42,26 @@
 	<bean id="identifierDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${datasource.driver}" />
 		<property name="jdbcUrl" value="${datasource.url}" />
-		<property name="testConnectionOnCheckin" value="${c3p0.testConnectionOnCheckin}" />
-		<property name="preferredTestQuery" value="${c3p0.preferredTestQuery}" />
-		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
-		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+		<property name="testConnectionOnCheckin" value="${c3p0.identifier.testConnectionOnCheckin}" />
+		<property name="preferredTestQuery" value="${c3p0.identifier.preferredTestQuery}" />
+		<property name="maxIdleTime" value="${c3p0.identifier.maxIdleTime}" />
+		<property name="idleConnectionTestPeriod" value="${c3p0.identifier.idleConnectionTestPeriod}" />
 		<property name="properties">
 			<props>
-				<prop key="c3p0.initialPoolSize">${c3p0.initialPoolSize}</prop>
-				<prop key="c3p0.minPoolSize">${c3p0.minPoolSize}</prop>
-				<prop key="c3p0.maxPoolSize">${c3p0.maxPoolSize}</prop>
-				<prop key="c3p0.maxStatements">${c3p0.maxStatements}</prop>
-				<prop key="c3p0.acquireRetryAttempts">${c3p0.acquireRetryAttempts}</prop>
-				<prop key="c3p0.acquireIncrement">${c3p0.acquireIncrement}</prop>
+				<prop key="c3p0.initialPoolSize">${c3p0.identifier.initialPoolSize}</prop>
+				<prop key="c3p0.minPoolSize">${c3p0.identifier.minPoolSize}</prop>
+				<prop key="c3p0.maxPoolSize">${c3p0.identifier.maxPoolSize}</prop>
+				<prop key="c3p0.maxStatements">${c3p0.identifier.maxStatements}</prop>
+				<prop key="c3p0.acquireRetryAttempts">${c3p0.identifier.acquireRetryAttempts}</prop>
+				<prop key="c3p0.acquireIncrement">${c3p0.identifier.acquireIncrement}</prop>
 				<prop key="user">${datasource.user}</prop>
 				<prop key="password">${datasource.password}</prop>
 			</props>
 		</property>
 	</bean>
 	
+@DSCUSTOM-47@
+
 	<!-- Session factory -->
 	<bean id="identifierSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -79,12 +81,12 @@
 				<!-- We must declare 6 configuration properties, which are synchronized 
 					with the C3P0 data source configuration values above. Otherwise they are 
 					set to Hibernate defaults, overriding the C3P0 configuration. http://www.mchange.com/projects/c3p0/index.html#hibernate-specific -->
-				<prop key="hibernate.c3p0.acquire_increment">${c3p0.acquireIncrement}</prop>
-				<prop key="hibernate.c3p0.idle_test_period">${c3p0.idleConnectionTestPeriod}</prop>
-				<prop key="hibernate.c3p0.timeout">${c3p0.maxIdleTime}</prop>
-				<prop key="hibernate.c3p0.max_size">${c3p0.maxPoolSize}</prop>
-				<prop key="hibernate.c3p0.max_statements">${c3p0.maxStatements}</prop>
-				<prop key="hibernate.c3p0.min_size">${c3p0.minPoolSize}</prop>
+				<prop key="hibernate.c3p0.acquire_increment">${c3p0.identifier.acquireIncrement}</prop>
+				<prop key="hibernate.c3p0.idle_test_period">${c3p0.identifier.idleConnectionTestPeriod}</prop>
+				<prop key="hibernate.c3p0.timeout">${c3p0.identifier.maxIdleTime}</prop>
+				<prop key="hibernate.c3p0.max_size">${c3p0.identifier.maxPoolSize}</prop>
+				<prop key="hibernate.c3p0.max_statements">${c3p0.identifier.maxStatements}</prop>
+				<prop key="hibernate.c3p0.min_size">${c3p0.identifier.minPoolSize}</prop>
 			</props>
 		</property>
 
@@ -107,6 +109,8 @@
 	<bean id="identifierJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="identifierDataSource" />
 	</bean>
+
+@DSCUSTOM-48@
 
 	<!-- =========================================== -->
 	<!-- Transaction management -->

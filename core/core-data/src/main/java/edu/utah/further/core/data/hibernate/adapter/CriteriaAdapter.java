@@ -32,6 +32,11 @@ import org.hibernate.transform.ResultTransformer;
 
 import edu.utah.further.core.api.exception.BusinessRuleException;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
+import org.slf4j.Logger;
+
+
 /**
  * Adapts a {@link Criteria} to the {@link GenericCriteria} common interface.
  * <p>
@@ -48,6 +53,11 @@ import edu.utah.further.core.api.exception.BusinessRuleException;
  */
 final class CriteriaAdapter extends AbstractCriteriaAdapter
 {
+	/**
+  	 * A logger that helps identify this class' printouts.
+ 	 */
+	private static final Logger log = getLogger(CriteriaAdapter.class);
+
 	// ========================= FIELDS ====================================
 
 	/**
@@ -412,7 +422,32 @@ final class CriteriaAdapter extends AbstractCriteriaAdapter
 	@Override
 	public ScrollableResults scroll(final ScrollMode scrollMode)
 	{
-		return delegate.scroll(toHibernateScrollMode(scrollMode));
+		ScrollableResults results = null;
+
+		try
+		{
+			results = delegate.scroll(toHibernateScrollMode(scrollMode));
+		}
+		catch(ClassCastException ex)
+		{
+			log.debug("ClassCastException raised on scroll:: ");
+			List list = delegate.list();
+			if(list == null)
+			{
+				log.debug("list is NULL!!!");
+			}
+			else
+			{
+				for(Object obj: list)
+				{
+					log.debug(obj.toString());
+				}
+			}
+			log.debug("<<<>>>" + delegate.uniqueResult().toString());
+			throw ex;  // rethrow
+		}
+	
+		return results;
 	}
 
 	/*

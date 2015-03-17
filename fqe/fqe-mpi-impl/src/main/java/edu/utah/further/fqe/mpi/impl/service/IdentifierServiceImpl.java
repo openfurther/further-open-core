@@ -74,6 +74,9 @@ public final class IdentifierServiceImpl implements IdentifierService
 {
 	// ========================= CONSTANTS =================================
 
+@DSCUSTOM-51@
+
+
 	/**
 	 * A logger that helps identify this class' printouts.
 	 */
@@ -146,10 +149,16 @@ public final class IdentifierServiceImpl implements IdentifierService
 	@Transactional(value = "identifierTransactionManager")
 	public Long generateId(final Identifier id)
 	{
+		log.debug("Identifier :: " + id);
+
 		final IdentifierEntity idEntity = IdentifierEntity.newCopy(id);
+
+		log.debug("idEntity :: " + idEntity);
 
 		final List<IdentifierEntity> existingId = identifierDao.findByExample(idEntity,
 				false, "createDate", "createdBy");
+
+		log.debug("existingId :: " + existingId);
 
 		// We should only ever return 1 because the criteria for each identifier should be
 		// unique
@@ -181,13 +190,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 			log.trace("Did not find existing identifier based on given id.");
 		}
 
-		if (log.isTraceEnabled())
-		{
-			log.trace("No common federated identifier "
-					+ "exists to use for lookup, creating new virtual id.");
-		}
-
-		final Long virtualId = new Long(sequencer.getAndIncrement());
+@DSCUSTOM-52@
 
 		idEntity.setVirtualId(virtualId);
 
@@ -212,12 +215,16 @@ public final class IdentifierServiceImpl implements IdentifierService
 	public List<Long> translateIds(final List<Long> virtualFederatedIds,
 			final String dataSourceId)
 	{
+		Validate.notNull(virtualFederatedIds, "virtualFederatedIds is required for identity resolution");
+
 		final Long dataSourceNumericId;
 		
+		log.debug("virtualFederatedIds: " + virtualFederatedIds);
+		log.debug("dataSourceId: " + dataSourceId);
+
 		try
 		{
 			// TODO: Lookup dataSourceId numeric identifier - dataSourceId is currently string
-			// like "UUEDW" - convert any - to _, and uppercase to match Enum
 			dataSourceNumericId = new Long(HardcodedNamespace.valueOf(dataSourceId.replaceAll("-", "_").toUpperCase()).getId());
 		}
 		catch(final Exception ex)
@@ -228,7 +235,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 		
 		final List<Long> args = virtualFederatedIds;
 		
-			final String stmt = "SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
+		final String stmt = "SELECT fed_obj_id FROM virtual_obj_id_map WHERE "
 					+ "src_obj_nmspc_id = ? AND fed_obj_id IS NOT NULL AND "
 					+ SqlUtil.unlimitedInValues(virtualFederatedIds,
 						"virtual_obj_id");
@@ -246,9 +253,15 @@ public final class IdentifierServiceImpl implements IdentifierService
 					"Unable to find any common federated ids from virtual federated ids");
 		}
 
-		return translatorProviders
+		log.debug("translatedVirtualIds: " + translatedVirtualIds);
+
+		List<Long> idList = translatorProviders
 				.get(HardcodedNamespace.valueOf(dataSourceId.replaceAll("-", "_").toUpperCase()).getName())
 				.translateToSourceIds(translatedVirtualIds);
+		
+		log.debug("idList: " + idList);
+
+		return idList;
 	}
 
 	/*
@@ -261,10 +274,18 @@ public final class IdentifierServiceImpl implements IdentifierService
 	@Override
 	public List<Long> getVirtualIdentifiers(final List<String> queryIds)
 	{
-		return getSimpleJdbcTemplate()
+		Validate.notEmpty(queryIds, "queryId is required for identity resolution");
+
+		log.debug("queryIds: " + queryIds);
+
+		List<Long> idList = getSimpleJdbcTemplate()
 				.query("SELECT virtual_obj_id FROM virtual_obj_id_map WHERE query_id IN (:queryIds)",
 						(RowMapper<Long>) new ParameterizedSingleColumnRowMapper<Long>(),
 						Collections.singletonMap("queryIds", queryIds));
+		
+		log.debug("idList: " + idList);
+
+		return idList;
 	}
 
 	/*
@@ -277,10 +298,18 @@ public final class IdentifierServiceImpl implements IdentifierService
 	@Override
 	public List<Long> getSourceIdentifiers(final List<String> queryIds)
 	{
-		return getSimpleJdbcTemplate()
+		Validate.notEmpty(queryIds, "queryId is required for identity resolution");
+
+		log.debug("queryIds: " + queryIds);
+
+		List<Long> idList = getSimpleJdbcTemplate()
 				.query("SELECT CAST(TRIM(src_obj_id) AS BIGINT) FROM virtual_obj_id_map WHERE query_id IN (:queryIds) AND LENGTH(TRIM(src_obj_id)) > 0",
 						(RowMapper<Long>) new ParameterizedSingleColumnRowMapper<Long>(),
 						Collections.singletonMap("queryIds", queryIds));
+		
+		log.debug("idList: " + idList);
+
+		return idList;
 	}
 
 	/*
@@ -293,12 +322,16 @@ public final class IdentifierServiceImpl implements IdentifierService
 	@Override
 	public List<Long> getUnresolvedVirtualIdentifiers(final List<String> queryIds)
 	{
+		log.debug("queryIds: " + queryIds);
+
 		final List<Identifier> identifiers = getUnresolvedIdentifiers(queryIds);
 		final List<Long> virtualIdentifiers = new ArrayList<>();
 		for (final Identifier identifier : identifiers)
 		{
 			virtualIdentifiers.add(identifier.getVirtualId());
 		}
+
+		log.debug("virtualIdentifiers: " + virtualIdentifiers);
 
 		return virtualIdentifiers;
 	}
@@ -328,7 +361,9 @@ public final class IdentifierServiceImpl implements IdentifierService
 	@Transactional(value = "identifierTransactionManager")
 	public List<Identifier> getUnresolvedIdentifiers(final List<String> queryIds)
 	{
-		Validate.notNull(queryIds, "queryId is required for identity resolution");
+		Validate.notEmpty(queryIds, "queryId is required for identity resolution");
+
+		log.debug("queryIds: " + queryIds);
 
 		// get all identifiers that have a null federated id so we can fill them in
 		final Query identifierQuery = identifierSessionFactory
@@ -339,7 +374,11 @@ public final class IdentifierServiceImpl implements IdentifierService
 								+ "and identifier.queryId IN (:queryIds)");
 		identifierQuery.setParameterList("queryIds", queryIds);
 
-		return identifierQuery.list();
+		List<Identifier> idList = identifierQuery.list();
+		
+		log.debug("idList: " + idList);
+
+		return idList;
 	}
 
 	/*
@@ -353,6 +392,8 @@ public final class IdentifierServiceImpl implements IdentifierService
 	public void updateSavedIdentifiers(
 			final List<? extends PersistentEntity<?>> identifiers)
 	{
+		log.debug("identifiers: " + identifiers);
+
 		for (final PersistentEntity<?> identifier : identifiers)
 		{
 			identifierDao.update(identifier);
@@ -371,8 +412,11 @@ public final class IdentifierServiceImpl implements IdentifierService
 	public Map<Long, Set<Long>> getCommonIdToVirtualIdMap(final List<String> queryIds,
 			final boolean orderedVirtualIds)
 	{
-		Validate.notNull(queryIds,
+		Validate.notEmpty(queryIds,
 				"queryIds are required for create a common id to virtual id mapping");
+
+		log.debug("queryIds: " + queryIds);
+		log.debug("orderedVirtualIds: " + orderedVirtualIds);
 
 		// get all identifiers that have a null federated id so we can fill them in
 		final Query identifierQuery = identifierSessionFactory
@@ -387,6 +431,9 @@ public final class IdentifierServiceImpl implements IdentifierService
 
 		final List<Map<String, Long>> results = identifierQuery.list();
 		final Map<Long, Set<Long>> commonToVirtualMap = new HashMap<>();
+
+		log.debug("results: " + results);
+
 		for (final Map<String, Long> result : results)
 		{
 			final Long common = result.get("common");
@@ -412,6 +459,8 @@ public final class IdentifierServiceImpl implements IdentifierService
 				commonToVirtualMap.put(common, virtuals);
 			}
 		}
+
+		log.debug("commonToVirtualMap: " + commonToVirtualMap);
 
 		return commonToVirtualMap;
 	}
@@ -483,5 +532,8 @@ public final class IdentifierServiceImpl implements IdentifierService
 	{
 		this.simpleJdbcTemplate = simpleJdbcTemplate;
 	}
+
+
+@DSCUSTOM-53@
 
 }

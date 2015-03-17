@@ -45,6 +45,7 @@
 		<property name="identityResolversMap">
 			<util:map key-type="edu.utah.further.fqe.ds.api.domain.IdentityResolutionType">
 				<entry key="PRE_RESOLVED" value-ref="identityResolutionLookupTable" />
+@DSCUSTOM-44@
 			</util:map>
 		</property>
 	</bean>

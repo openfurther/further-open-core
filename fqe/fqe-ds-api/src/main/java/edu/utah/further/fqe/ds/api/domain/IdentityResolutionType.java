@@ -40,10 +40,6 @@ public enum IdentityResolutionType
 	/**
 	 * Identities have already been resolved (e.g. a lookup table)
 	 */
-	PRE_RESOLVED,
-
-	/**
-	 * Identities will be resolved while the query is running
-	 */
-	ON_THE_FLY;
+	PRE_RESOLVED
+@DSCUSTOM-43@
 }

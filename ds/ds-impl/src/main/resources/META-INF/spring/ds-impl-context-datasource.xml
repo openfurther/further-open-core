@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -14,6 +15,10 @@
 	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 	http://www.springframework.org/schema/jee
 	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/osgi-compendium
+	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+	http://www.springframework.org/schema/osgi
+	http://www.springframework.org/schema/osgi/spring-osgi.xsd
 	">
 
 	<!-- =========================================== -->
@@ -74,6 +79,8 @@
 			<list>
 				<value><![CDATA[edu.utah.further.ds.data.domain]]></value>
 				<value><![CDATA[edu.utah.further.core.data.oracle.type]]></value>
+				<value><![CDATA[edu.utah.further.fqe.mpi.impl.domain]]></value>
+				<value><![CDATA[edu.utah.further.ds.further.model.impl.domain]]></value>
 			</list>
 		</property>
 
@@ -118,6 +125,9 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+        <osgi:reference id="linkDao" bean-name="linkDao"
+                                interface="edu.utah.further.core.api.data.Dao" context-class-loader="service-provider" />
+
 	<!-- =========================================== -->
 	<!-- FURTHeR data layer -->
 	<!-- =========================================== -->
@@ -125,5 +135,5 @@
 	<!-- Component auto-detection configuration in the data layer package. Must 
 		come AFTER sessionFactory is declared for some strange reason when deployed 
 		to the ESB. -->
-	<context:component-scan base-package="edu.utah.further.core.data" />
+	<context:component-scan base-package="edu.utah.further.core.data, edu.utah.further.fqe.mpi.impl" />
 </beans>

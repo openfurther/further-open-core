@@ -16,6 +16,9 @@
 
 	<properties>
 		<shortName>mpi.impl</shortName>
+                <further.osgi.export.pkg>
+                        ${project.groupId}.${shortName}*
+                </further.osgi.export.pkg>
 		<further.osgi.import.pkg>
 			!org.jibx*,
 			!org.exolab.*,
@@ -79,6 +82,7 @@
 			edu.utah.further.core.data.service,
 			edu.utah.further.core.query.schema,
 			edu.utah.further.core.query.domain,
+			edu.utah.further.ds.api.domain,
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
 			org.jasypt.spring3.properties,
@@ -106,6 +110,11 @@
 		<dependency>
 			<groupId>edu.utah.further.core</groupId>
 			<artifactId>core-data</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-api</artifactId>
 		</dependency>
 
 		<dependency>

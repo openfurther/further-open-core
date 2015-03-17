@@ -68,7 +68,7 @@
 		<prop key="c3p0.identifier.minPoolSize">5</prop>
 		<prop key="c3p0.identifier.maxPoolSize">25</prop>
 		<prop key="c3p0.identifier.maxStatements">50</prop>
-		<prop key="c3p0.identifier.acquireRetryAttempts">30</prop>
+		<prop key="c3p0.identifier.acquireRetryAttempts">1</prop>
 		<prop key="c3p0.identifier.acquireIncrement">5</prop>
 		<prop key="c3p0.identifier.idleConnectionTestPeriod">150</prop>
 		<prop key="c3p0.identifier.maxIdleTime">1800</prop>
@@ -87,28 +87,41 @@
 		<prop key="hibernate.lookup.show_sql">false</prop>
 
 		<!-- Generate schema? -->
-		<prop key="hibernate.lookup.hbm2ddl.auto"></prop>
+		<prop key="hibernate.lookup.hbm2ddl.auto">${hibernate.identifier.hbm2ddl.auto}</prop>
 
 		<!-- ============================ -->
 		<!--C3P0 connection pool config -->
 		<!-- ============================ -->
 
+@DSCUSTOM-45@
 		<!-- References for setting parameter values: http://www.hibernate.org/214.html -->
 		<!-- http://forum.java.sun.com/thread.jspa?threadID=691105&tstart=0 -->
 		<!-- Times are in seconds. -->
-		<prop key="c3p0.lookup.initialPoolSize">5</prop>
-		<prop key="c3p0.lookup.minPoolSize">5</prop>
-		<prop key="c3p0.lookup.maxPoolSize">25</prop>
-		<prop key="c3p0.lookup.maxStatements">50</prop>
-		<prop key="c3p0.lookup.acquireRetryAttempts">30</prop>
-		<prop key="c3p0.lookup.acquireIncrement">5</prop>
-		<prop key="c3p0.lookup.idleConnectionTestPeriod">150</prop>
-		<prop key="c3p0.lookup.maxIdleTime">1800</prop>
-		<prop key="c3p0.lookup.testConnectionOnCheckin">true</prop>
-		<prop key="c3p0.lookup.preferredTestQuery"></prop>
+		<prop key="c3p0.uuedw.initialPoolSize">5</prop>
+		<prop key="c3p0.uuedw.minPoolSize">5</prop>
+		<prop key="c3p0.uuedw.maxPoolSize">25</prop>
+		<prop key="c3p0.uuedw.maxStatements">50</prop>
+		<prop key="c3p0.uuedw.acquireRetryAttempts">1</prop>
+		<prop key="c3p0.uuedw.acquireIncrement">5</prop>
+		<prop key="c3p0.uuedw.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.uuedw.maxIdleTime">1800</prop>
+		<prop key="c3p0.uuedw.testConnectionOnCheckin">true</prop>
+		<prop key="c3p0.uuedw.preferredTestQuery"></prop>
 		<!-- Timeout: [1] set it to 100, if that doesn't work, [2] set it to 10. -->
-		<prop key="c3p0.lookup.idleConnectionTestPeriod">150</prop>
+		<prop key="c3p0.uuedw.idleConnectionTestPeriod">150</prop>
 
+		<prop key="datasource.lookup.name"></prop>
+		<prop key="datasource.lookup.driver"></prop>
+		<prop key="datasource.lookup.url"></prop>
+		<prop key="datasource.lookup.user"></prop>
+		<prop key="datasource.lookup.password"></prop>
+
+@DSCUSTOM-46@
+		<prop key="uuedw.datasource.name"></prop>
+		<prop key="uuedw.datasource.driver"></prop>
+		<prop key="uuedw.datasource.url"></prop>
+		<prop key="uuedw.datasource.user"></prop>
+		<prop key="uuedw.datasource.password"></prop>
 	</osgix:cm-properties>
 
 	<osgi:reference id="dataSource" interface="javax.sql.DataSource"

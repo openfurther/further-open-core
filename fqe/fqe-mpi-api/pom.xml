@@ -10,12 +10,11 @@
 	<name>FQE MPI api</name>
 	<description>FQE MPI api</description>
 
-	<!-- =========================================== -->
-	<!-- Externalized properties -->
-	<!-- =========================================== -->
-
 	<properties>
 		<shortName>mpi.api</shortName>
+                <further.osgi.export.pkg>
+                        ${project.groupId}.${shortName}*
+                </further.osgi.export.pkg>
 	</properties>
 
 	<dependencies>

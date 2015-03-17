@@ -31,6 +31,9 @@
 			org.apache.camel.converter.*,
 			org.apache.camel.converter.jaxb,
 			edu.utah.further.core.metadata.*,
+			edu.utah.further.fqe.ds.api.*,
+			edu.utah.further.fqe.ds.api.domain.*,
+			'=META-INF.ds.impl',
 			*
 		</further.osgi.import.pkg>
 	</properties>

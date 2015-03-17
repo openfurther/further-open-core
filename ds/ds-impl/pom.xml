@@ -98,6 +98,9 @@
 			edu.utah.further.core.data.service,
 			edu.utah.further.core.data.oracle.type,
 			edu.utah.further.mdr.ws.impl.service.rest,
+			edu.utah.further.fqe.impl.domain,
+			edu.utah.further.fqe.mpi.api,
+			edu.utah.further.ds.further.model.impl.domain,
 @DSCUSTOM-40@
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",
@@ -124,8 +127,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>edu.utah.further.ds</groupId>
+			<artifactId>ds-further</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>edu.utah.further.core</groupId>
 			<artifactId>core-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-mpi-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.utah.further.fqe</groupId>
+			<artifactId>fqe-impl</artifactId>
 		</dependency>
 
 		<!-- XML utilities, for marshalling & unmarshalling -->

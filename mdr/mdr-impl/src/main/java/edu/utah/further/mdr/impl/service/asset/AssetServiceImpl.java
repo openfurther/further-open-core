@@ -334,6 +334,13 @@ public class AssetServiceImpl extends AbstractAssetService
 			final String sourceAttribute, final String sourceNamespace,
 			final String targetNamespace)
 	{
+		log.debug("in SSS AssetServiceImpl.getAttributeTranslation()::");
+		log.debug("   sourceAttribute == " + sourceAttribute);
+		log.debug("   sourceNamespace == " + sourceNamespace);
+		log.debug("   targetNamespace == " + targetNamespace);
+
+@DSCUSTOM-41@
+
 		final SearchCriterion criterion = junction(SearchType.CONJUNCTION);
 		criterion.addCriterion(simpleExpression(Relation.EQ, "association",
 				"translatesTo"));
@@ -341,24 +348,31 @@ public class AssetServiceImpl extends AbstractAssetService
 				.addCriterion(simpleExpression(Relation.EQ, "leftAsset", sourceAttribute));
 		criterion.addCriterion(simpleExpressionIgnoreCase(Relation.EQ, "leftNamespace",
 				sourceNamespace));
+
+@DSCUSTOM-42@
 		criterion.addCriterion(simpleExpressionIgnoreCase(Relation.EQ, "rightNamespace",
 				targetNamespace));
 
 		final List<AttributeTranslationResultTo> results = CollectionUtil.newList();
+		log.debug("   presearch");
 		final List<AssetAssociation> assetAssociations = se.search(
 				AssetAssociation.class,
 				SearchCriteria.query(criterion, AssetAssociation.class.getSimpleName()));
 
+		log.debug("   assetAssociations == " + assetAssociations);
 		for (final AssetAssociation assetAssociation : assetAssociations)
 		{
 			final Map<String, String> properties = assetAssociation.getPropertiesAsMap();
+			log.debug("   properties == " + properties);
 
 			final AttributeTranslationResultTo result = new AttributeTranslationResultTo();
 			result.setTranslatedAttribute(assetAssociation.getRightAsset());
 			result.setAttributeProperties(properties);
+			log.debug("   result == " + result);
 			results.add(result);
 		}
 
+		log.debug("   results == " + results);
 		return results;
 	}
 
@@ -374,10 +388,18 @@ public class AssetServiceImpl extends AbstractAssetService
 			final String sourceAttribute, final int sourceNamespaceId,
 			final int targetNamespaceId)
 	{
+		log.debug("in Sii AssetServiceImpl.getAttributeTranslation()::");
+		log.debug("   sourceAttribute == " + sourceAttribute);
+		log.debug("   sourceNamespaceId == " + sourceNamespaceId);
+		log.debug("   targetNamespaceId == " + targetNamespaceId);
+
 		final String source = dtsOperationService
 				.findNamespaceNameById(sourceNamespaceId);
 		final String target = dtsOperationService
 				.findNamespaceNameById(targetNamespaceId);
+
+		log.debug("   source == " + source);
+		log.debug("   target == " + target);
 
 		return getAttributeTranslation(sourceAttribute, source, target);
 	}
@@ -394,6 +416,11 @@ public class AssetServiceImpl extends AbstractAssetService
 			final String sourceAttribute, final String sourceNamespace,
 			final String targetNamespace)
 	{
+		log.debug("in SSS AssetServiceImpl.getUniqueAttributeTranslation()::");
+		log.debug("   sourceAttribute == " + sourceAttribute);
+		log.debug("   sourceNamespace == " + sourceNamespace);
+		log.debug("   targetNamespace == " + targetNamespace);
+
 		final List<AttributeTranslationResultTo> results = getAttributeTranslation(
 				sourceAttribute, sourceNamespace, targetNamespace);
 
@@ -423,10 +450,18 @@ public class AssetServiceImpl extends AbstractAssetService
 			final String sourceAttribute, final int sourceNamespaceId,
 			final int targetNamespaceId)
 	{
+		log.debug("in Sii AssetServiceImpl.getUniqueAttributeTranslation()::");
+		log.debug("   sourceAttribute == " + sourceAttribute);
+		log.debug("   sourceNamespaceId == " + sourceNamespaceId);
+		log.debug("   targetNamespaceId == " + targetNamespaceId);
+
 		final String source = dtsOperationService
 				.findNamespaceNameById(sourceNamespaceId);
 		final String target = dtsOperationService
 				.findNamespaceNameById(targetNamespaceId);
+
+		log.debug("   source == " + source);
+		log.debug("   target == " + target);
 
 		return getUniqueAttributeTranslation(sourceAttribute, source, target);
 	}

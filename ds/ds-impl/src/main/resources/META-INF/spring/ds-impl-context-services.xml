@@ -93,7 +93,7 @@
 		scope="prototype" />
 
 	<!-- Request processor to join asynchronous futures -->
-	<bean id="joinRp" class="edu.utah.further.ds.impl.service.query.processor.JoinRp" />
+	<!-- <bean id="joinRp" class="edu.utah.further.ds.impl.service.query.processor.JoinRp" />  -->
 
 	<!-- Result set page finalization Query Processor for Hibernate-based data 
 		sources -->
