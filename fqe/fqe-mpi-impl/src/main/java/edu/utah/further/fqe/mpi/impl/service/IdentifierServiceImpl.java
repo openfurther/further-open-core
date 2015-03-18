@@ -426,7 +426,14 @@ public final class IdentifierServiceImpl implements IdentifierService
 								+ "new map(identifier.commonId as common, identifier.virtualId as virtual) "
 								+ "from IdentifierEntity as identifier "
 								+ "where identifier.commonId is not null "
-								+ "and identifier.queryId IN (:queryIds)");
+                                                                + "and identifier.queryId IN (:queryIds) "
+                                                                + "and identifier.commonId in ( select identifier_sum.commonId "
+                                                                + "from IdentifierEntity as identifier_sum "
+                                                                + "where identifier_sum.commonId is not null "
+                                                                + "and identifier_sum.queryId IN (:queryIds) "
+                                                                + "group by identifier_sum.commonId "
+                                                                + "having count(*) > 1 ) ");
+
 		identifierQuery.setParameterList("queryIds", queryIds);
 
 		final List<Map<String, Long>> results = identifierQuery.list();
