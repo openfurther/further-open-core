@@ -68,6 +68,7 @@ public class IdentifierEntity implements Identifier, PersistentEntity<Long>,
 	/**
 	 * The virtual federated id
 	 */
+	@GeneratedValue
 	@Column(name = "virtual_obj_id")
 	private Long virtualId;
 

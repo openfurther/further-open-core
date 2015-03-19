@@ -370,8 +370,14 @@ public final class IdentifierServiceImpl implements IdentifierService
 				.getCurrentSession()
 				.createQuery(
 						"from IdentifierEntity as identifier where "
-								+ "identifier.commonId is null "
-								+ "and identifier.queryId IN (:queryIds)");
+                                                               + "identifier.queryId IN (:queryIds) "              
+                                                               + "and identifier.commonId IN ( "                   
+                                                               + "select identifier_inner.commonId "               
+                                                               + "from IdentifierEntity as identifier_inner where "
+                                                               + "identifier_inner.commonId is not null "          
+                                                               + "and identifier_inner.queryId IN (:queryIds) "    
+                                                               + "group by identifier_inner.commonId "
+                                                               + "having count(*) = 1)");                          
 		identifierQuery.setParameterList("queryIds", queryIds);
 
 		List<Identifier> idList = identifierQuery.list();
