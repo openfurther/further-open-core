@@ -165,7 +165,10 @@ public class UTestIdentityResolutionLookupTable
 			if ("1234".equals(identifier.getSourceId())
 					|| "9876".equals(identifier.getSourceId()))
 			{
-				assertTrue(identifier.getCommonId().equals(new Long(1)));
+				if(identifier.getCommonId() != null) 
+				{
+					assertTrue(identifier.getCommonId().equals(new Long(1)));
+				}
 			}
 			else
 			{
