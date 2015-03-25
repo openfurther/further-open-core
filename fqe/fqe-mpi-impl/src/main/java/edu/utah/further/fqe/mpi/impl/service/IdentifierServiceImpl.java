@@ -366,25 +366,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 		log.debug("queryIds: " + queryIds);
 
 		// get all identifiers that have a null federated id so we can fill them in
-		final Query identifierQuery = identifierSessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"from IdentifierEntity as identifier where "
-                                                               + "identifier.queryId IN (:queryIds) "              
-                                                               + "and identifier.commonId IN ( "                   
-                                                               + "select identifier_inner.commonId "               
-                                                               + "from IdentifierEntity as identifier_inner where "
-                                                               + "identifier_inner.commonId is not null "          
-                                                               + "and identifier_inner.queryId IN (:queryIds) "    
-                                                               + "group by identifier_inner.commonId "
-                                                               + "having count(*) = 1)");                          
-		identifierQuery.setParameterList("queryIds", queryIds);
-
-		List<Identifier> idList = identifierQuery.list();
-		
-		log.debug("idList: " + idList);
-
-		return idList;
+@DSCUSTOM-54@
 	}
 
 	/*
@@ -425,56 +407,7 @@ public final class IdentifierServiceImpl implements IdentifierService
 		log.debug("orderedVirtualIds: " + orderedVirtualIds);
 
 		// get all identifiers that have a null federated id so we can fill them in
-		final Query identifierQuery = identifierSessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"SELECT DISTINCT "
-								+ "new map(identifier.commonId as common, identifier.virtualId as virtual) "
-								+ "from IdentifierEntity as identifier "
-								+ "where identifier.queryId IN (:queryIds) "
-                                                                + "and identifier.commonId in ( select identifier_sum.commonId "
-                                                                + "from IdentifierEntity as identifier_sum "
-                                                                + "where identifier_sum.commonId is not null "
-                                                                + "and identifier_sum.queryId IN (:queryIds) "
-                                                                + "group by identifier_sum.commonId "
-                                                                + "having count(*) > 1 ) ");
-
-		identifierQuery.setParameterList("queryIds", queryIds);
-
-		final List<Map<String, Long>> results = identifierQuery.list();
-		final Map<Long, Set<Long>> commonToVirtualMap = new HashMap<>();
-
-		log.debug("results: " + results);
-
-		for (final Map<String, Long> result : results)
-		{
-			final Long common = result.get("common");
-			if (commonToVirtualMap.containsKey(common))
-			{
-				commonToVirtualMap.get(common).add(result.get("virtual"));
-			}
-			else
-			{
-				Set<Long> virtuals = null;
-
-				if (orderedVirtualIds)
-				{
-					virtuals = new TreeSet<>();
-				}
-				else
-				{
-					virtuals = new HashSet<>();
-				}
-
-				virtuals.add(result.get("virtual"));
-
-				commonToVirtualMap.put(common, virtuals);
-			}
-		}
-
-		log.debug("commonToVirtualMap: " + commonToVirtualMap);
-
-		return commonToVirtualMap;
+@DSCUSTOM-55@
 	}
 
 	/**
