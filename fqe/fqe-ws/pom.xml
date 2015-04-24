@@ -52,8 +52,7 @@
 			edu.utah.further.ds.i2b2.model.api.to,
 			edu.utah.further.ds.i2b2.model.impl.domain,
 			edu.utah.further.ds.i2b2.model.impl.to,
-                        edu.utah.further.ds.uuedw.converter,
-                        edu.utah.further.ds.uuedw.domain,
+@DSCUSTOM-40@
 			javax.xml.bind,
 			org.jasypt.encryption.pbe;version="${jasypt.version}",
 			org.jasypt.encryption.pbe.config;version="${jasypt.version}",

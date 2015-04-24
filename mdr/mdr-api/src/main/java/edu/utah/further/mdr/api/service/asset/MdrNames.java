@@ -78,11 +78,6 @@ public abstract class MdrNames
 	// These are useful for tests. Pick resources whose paths are not likely to change,
 	// e.g. core libraries.
 
-	// /**
-	// * Points to the UUEDW Physical Object Model.
-	// */
-	// public static final String PATH_UUEDW_PHYSICAL_OBJECT_MODEL = "ds/uuedw";
-
 	/**
 	 * The relative path of the MDR resource that centralizes FQE XQuery program
 	 * constants.
@@ -94,12 +89,6 @@ public abstract class MdrNames
 	 * constants.
 	 */
 	public static final String PATH_RESOURCE_REDIRECT = "ds/i2b2/data-sources.xml";
-
-//	/**
-//	 * @Deprecated As of version 1.1, will be removed in 1.2
-//	 * The relative path of some SVN-type resource.
-//	 */
-//	public static final String PATH_SVN_RESOURCE = "ds/uuedw/patient/xq/uuedw-to-i2b2-pts-mapforce-exe.xq";
 
 	/**
 	 * @Deprecated As of version 1.1, will be removed in 1.2
