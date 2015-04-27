@@ -223,10 +223,12 @@ public class DtsOperationServiceImpl implements DtsOperationService
 	{
 		final Integer key = new Integer(id);
 		final DtsNamespace cached = cacheService.getObject(CACHE_REGION_NAMESPACE, key);
-		if (cached != null)
-		{
-			return cached;
-		}
+//		TODO: Utah DS on Dev CSV Export sometimes breaks, apparently because of cache logic below
+//		      comment out until fix can be found
+//		if (cached != null)
+//		{
+//			return cached;
+//		}
 		final NamespaceQuery nameQuery = dtsObjectFactory.createNamespaceQuery();
 		Namespace ns;
 		try
