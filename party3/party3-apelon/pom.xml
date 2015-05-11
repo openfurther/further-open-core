@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>edu.utah.further.party3</groupId>
 		<artifactId>party3</artifactId>
-		<version>1.4.3-SNAPSHOT</version>
+		<version>1.4.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>party3-apelon</artifactId>
 	<packaging>bundle</packaging>
