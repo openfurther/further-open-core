@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<query xmlns="http://further.utah.edu/core/query" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" rootObject="Person">
+  <rootCriterion>
+      <searchType>CONJUNCTION</searchType>
+      <criteria>
+          <searchType>BETWEEN</searchType>
+          <parameters>
+              <parameter xsi:type="xs:string">age</parameter>
+              <parameter xsi:type="xs:int">50</parameter>
+              <parameter xsi:type="xs:int">54</parameter>
+          </parameters>
+      </criteria>
+      <criteria>
+          <searchType>CONJUNCTION</searchType>
+          <criteria>
+              <searchType>SIMPLE</searchType>
+              <parameters>
+                  <parameter xsi:type="RelationType">EQ</parameter>
+                  <parameter xsi:type="xs:string">administrativeGenderNamespaceId</parameter>
+                  <parameter xsi:type="xs:long">30</parameter>
+              </parameters>
+          </criteria>
+          <criteria>
+              <searchType>SIMPLE</searchType>
+              <parameters>
+                  <parameter xsi:type="RelationType">EQ</parameter>
+                  <parameter xsi:type="xs:string">administrativeGender</parameter>
+                  <parameter xsi:type="xs:string">248153007</parameter>
+              </parameters>
+          </criteria>
+      </criteria>
+      <criteria>
+          <searchType>CONJUNCTION</searchType>
+          <criteria>
+              <searchType>SIMPLE</searchType>
+              <parameters>
+                  <parameter xsi:type="RelationType">EQ</parameter>
+                  <parameter xsi:type="xs:string">Observation0.observationNamespaceId</parameter>
+                  <parameter xsi:type="xs:long">10</parameter>
+              </parameters>
+          </criteria>
+          <criteria>
+              <searchType>SIMPLE</searchType>
+              <parameters>
+                  <parameter xsi:type="RelationType">EQ</parameter>
+                  <parameter xsi:type="xs:string">Observation0.observationType</parameter>
+                  <parameter xsi:type="xs:string">439401001</parameter>
+              </parameters>
+          </criteria>
+          <criteria>
+              <searchType>IN</searchType>
+              <parameters>
+                  <parameter xsi:type="xs:string">Observation0.observation</parameter>
+                  <parameter xsi:type="xs:string">550</parameter>
+                  <parameter xsi:type="xs:string">551</parameter>
+                  <parameter xsi:type="xs:string">552</parameter>
+                  <parameter xsi:type="xs:string">553</parameter>
+                  <parameter xsi:type="xs:string">550.0</parameter>
+                  <parameter xsi:type="xs:string">550.1</parameter>
+                  <parameter xsi:type="xs:string">550.9</parameter>
+                  <parameter xsi:type="xs:string">551.0</parameter>
+                  <parameter xsi:type="xs:string">551.1</parameter>
+                  <parameter xsi:type="xs:string">551.2</parameter>
+                  <parameter xsi:type="xs:string">551.3</parameter>
+                  <parameter xsi:type="xs:string">551.8</parameter>
+                  <parameter xsi:type="xs:string">551.9</parameter>
+                  <parameter xsi:type="xs:string">552.0</parameter>
+                  <parameter xsi:type="xs:string">552.1</parameter>
+                  <parameter xsi:type="xs:string">552.2</parameter>
+                  <parameter xsi:type="xs:string">552.3</parameter>
+                  <parameter xsi:type="xs:string">552.8</parameter>
+                  <parameter xsi:type="xs:string">552.9</parameter>
+                  <parameter xsi:type="xs:string">553.0</parameter>
+                  <parameter xsi:type="xs:string">553.1</parameter>
+                  <parameter xsi:type="xs:string">553.2</parameter>
+                  <parameter xsi:type="xs:string">553.3</parameter>
+                  <parameter xsi:type="xs:string">553.8</parameter>
+                  <parameter xsi:type="xs:string">553.9</parameter>
+                  <parameter xsi:type="xs:string">550.00</parameter>
+                  <parameter xsi:type="xs:string">550.01</parameter>
+                  <parameter xsi:type="xs:string">550.02</parameter>
+                  <parameter xsi:type="xs:string">550.03</parameter>
+                  <parameter xsi:type="xs:string">550.10</parameter>
+                  <parameter xsi:type="xs:string">550.11</parameter>
+                  <parameter xsi:type="xs:string">550.12</parameter>
+                  <parameter xsi:type="xs:string">550.13</parameter>
+                  <parameter xsi:type="xs:string">550.90</parameter>
+                  <parameter xsi:type="xs:string">550.91</parameter>
+                  <parameter xsi:type="xs:string">550.92</parameter>
+                  <parameter xsi:type="xs:string">550.93</parameter>
+                  <parameter xsi:type="xs:string">551.00</parameter>
+                  <parameter xsi:type="xs:string">551.01</parameter>
+                  <parameter xsi:type="xs:string">551.02</parameter>
+                  <parameter xsi:type="xs:string">551.03</parameter>
+                  <parameter xsi:type="xs:string">551.20</parameter>
+                  <parameter xsi:type="xs:string">551.21</parameter>
+                  <parameter xsi:type="xs:string">551.29</parameter>
+                  <parameter xsi:type="xs:string">552.00</parameter>
+                  <parameter xsi:type="xs:string">552.01</parameter>
+                  <parameter xsi:type="xs:string">552.02</parameter>
+                  <parameter xsi:type="xs:string">552.03</parameter>
+                  <parameter xsi:type="xs:string">552.20</parameter>
+                  <parameter xsi:type="xs:string">552.21</parameter>
+                  <parameter xsi:type="xs:string">552.29</parameter>
+                  <parameter xsi:type="xs:string">553.00</parameter>
+                  <parameter xsi:type="xs:string">553.01</parameter>
+                  <parameter xsi:type="xs:string">553.02</parameter>
+                  <parameter xsi:type="xs:string">553.03</parameter>
+                  <parameter xsi:type="xs:string">553.20</parameter>
+                  <parameter xsi:type="xs:string">553.21</parameter>
+                  <parameter xsi:type="xs:string">553.29</parameter>
+              </parameters>
+          </criteria>
+          <criteria>
+              <searchType>BETWEEN</searchType>
+              <parameters>
+                  <parameter xsi:type="xs:string">Observation0.startDateTime</parameter>
+                  <parameter xsi:type="xs:dateTime">2006-01-01T00:00:00-07:00</parameter>
+                  <parameter xsi:type="xs:dateTime">2015-05-06T00:00:00-06:00</parameter>
+              </parameters>
+          </criteria>
+      </criteria>
+  </rootCriterion>
+  <aliases>
+      <alias associationObject="Observation">
+          <key>Observation0</key>
+          <value>observations</value>
+      </alias>
+  </aliases>
+</query>
