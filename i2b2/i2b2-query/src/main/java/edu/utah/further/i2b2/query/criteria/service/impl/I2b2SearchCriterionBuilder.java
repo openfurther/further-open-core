@@ -635,10 +635,18 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 							.toLowerCase();
 
 					// Observation flags are hard coded to SNOMED qualifiers
-					if ("h".equals(constraint))
-					{
-						value = "75540009";
-					}
+                                        if ("hh".equals(constraint))
+                                        {
+                                                value = "371879000";
+                                        }
+                                        else if ("h".equals(constraint))
+                                        {
+                                                value = "75540009";
+                                        }
+                                        else if ("ll".equals(constraint))
+                                        {
+                                                value = "371880002";
+                                        }
 					else if ("l".equals(constraint))
 					{
 						value = "62482003";
@@ -654,7 +662,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 					else
 					{
 						throw new ApplicationException(
-								"Unexpected value constraint. Only H, L, N, A are supported");
+								"Unexpected value constraint. Only HH, H, LL, L, N, A are supported");
 					}
 
 					subCriterion.addCriterion(valueOperator.createExpression(
