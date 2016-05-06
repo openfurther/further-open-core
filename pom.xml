@@ -1064,7 +1064,6 @@
 				<artifactId>ds-further</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-@DSCUSTOM-10@
 		</dependencies>
 	</dependencyManagement>
 
