@@ -28,7 +28,7 @@
 			edu.utah.further.ds.i2b2.model.api.to,
 			edu.utah.further.ds.i2b2.model.impl.domain,
 			edu.utah.further.ds.i2b2.model.impl.to,
-@DSCUSTOM-40@
+@DSCUSTOM-04@
 			'=META-INF.core.util',
 			*
 		</further.osgi.import.pkg>
