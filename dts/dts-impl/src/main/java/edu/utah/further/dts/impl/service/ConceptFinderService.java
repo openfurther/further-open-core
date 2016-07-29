@@ -433,7 +433,7 @@ public class ConceptFinderService
 				// Try to retrieve association to target namespace first
 				OntylogConcept[] matches = findAssociatedConcepts(
 						standardSourceNamespace, searchOptions, sourceConcept,
-						associationType);
+						associationType, options.getAttributeSetLimit());
 				final Integer extensionId = dos.getNamespaceBaseToExtension().get(
 						new Integer(searchOptions.getNamespaceId()));
 
@@ -445,13 +445,15 @@ public class ConceptFinderService
 					 * FUR-1703 - we need to get ALL_ATTRIBUTES in order for filtering to
 					 * be successful.
 					 */
+					log.debug("Begin filtering...");
 					matches = concat(
 							matches,
 							findAssociatedConcepts(
 									standardSourceNamespace,
 									getSearchOptionsProperties(extensionId.intValue(),
 											ALL_ATTRIBUTES), sourceConcept,
-									associationType));
+									associationType, options.getAttributeSetLimit()));
+					log.debug("End filtering...");
 				}
 
 				// FUR-1537

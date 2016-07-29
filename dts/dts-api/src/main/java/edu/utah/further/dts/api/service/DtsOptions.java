@@ -79,6 +79,12 @@ public class DtsOptions implements PubliclyCloneable<DtsOptions>
 	private String targetNamespace = null;
 	private Boolean standardSourceNamespace = null;
 
+	/**
+	 * The number of attributes to retrieve when querying DTS. This value is the same as
+	 * the default value in ConceptAttributeSetDescriptor.
+	 */
+	private int attributeSetLimit = 100;
+
 	// ========================= CONSTRUCTORS ==============================
 
 	/**
@@ -232,6 +238,7 @@ public class DtsOptions implements PubliclyCloneable<DtsOptions>
 		copy.throwExceptionOnFailure = this.throwExceptionOnFailure;
 		copy.targetNamespace = this.targetNamespace;
 		copy.standardSourceNamespace = this.standardSourceNamespace;
+		copy.attributeSetLimit = this.attributeSetLimit;
 
 		// Deep-copy composite fields
 		copy.attributeSet = this.attributeSet.copy();
@@ -281,6 +288,17 @@ public class DtsOptions implements PubliclyCloneable<DtsOptions>
 	public DtsOptions setStandardSourceNamespace(final Boolean standardSourceNamespace)
 	{
 		this.standardSourceNamespace = standardSourceNamespace;
+		return this;
+	}
+
+	public int getAttributeSetLimit()
+	{
+		return attributeSetLimit;
+	}
+
+	public DtsOptions setAttributeSetLimit(final int attributeSetLimit)
+	{
+		this.attributeSetLimit = attributeSetLimit;
 		return this;
 	}
 

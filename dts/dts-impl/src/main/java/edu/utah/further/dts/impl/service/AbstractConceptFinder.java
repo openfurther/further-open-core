@@ -132,7 +132,8 @@ abstract class AbstractConceptFinder implements ConceptFinder
 	 */
 	protected final OntylogConcept[] findAssociatedConcepts(
 			final boolean standardSourceNamespace, final DTSSearchOptions options,
-			final DtsConcept sourceConcept, final AssociationType associationType)
+			final DtsConcept sourceConcept, final AssociationType associationType,
+			final int attributeSetLimit)
 	{
 		// Find the targetConcept associated with concept via associationType.
 		// That means that targetConcept has an inverse association of type
@@ -148,6 +149,8 @@ abstract class AbstractConceptFinder implements ConceptFinder
 			{ associationType });
 			casd.setAllConceptAssociationTypes(false);
 			casd.setAllInverseConceptAssociationTypes(false);
+			log.debug("SETTING Attributes Limit to '" + attributeSetLimit + "'");
+			casd.setAttributesLimit(attributeSetLimit);
 			options.setAttributeSetDescriptor(casd);
 		}
 		catch (CloneNotSupportedException e)
