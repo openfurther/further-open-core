@@ -32,6 +32,7 @@ import com.apelon.dts.client.attribute.PropertiedObject;
 import com.apelon.dts.client.concept.DTSConcept;
 import com.apelon.dts.client.match.MatchItemType;
 
+import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.context.Implementation;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.dts.api.domain.association.DtsAssociation;
@@ -75,7 +76,7 @@ public class RawConceptImpl extends AbstractDtsData implements DtsConcept
 	 * Concept's property map. Keyed and sorted by property name. Copied from
 	 * {@link #concept} and cached.
 	 */
-	private Map<String, ? extends DtsProperty> properties = newMap();
+	private Map<String, List<DtsProperty>> properties = newMap();
 
 	// ========================= CONSTRUCTORS ==============================
 
@@ -367,7 +368,7 @@ public class RawConceptImpl extends AbstractDtsData implements DtsConcept
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getProperties()
 	 */
 	@Override
-	public Map<String, DtsProperty> getProperties()
+	public Map<String, List<DtsProperty>> getProperties()
 	{
 		return newMap(properties);
 	}
@@ -382,7 +383,7 @@ public class RawConceptImpl extends AbstractDtsData implements DtsConcept
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	public DtsProperty getProperty(final String propertyName)
+	public List<DtsProperty> getProperty(final String propertyName)
 	{
 		return properties.get(propertyName);
 	}
@@ -397,11 +398,22 @@ public class RawConceptImpl extends AbstractDtsData implements DtsConcept
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getPropertyValue(java.lang.String)
 	 */
 	@Override
-	public String getPropertyValue(final String propertyName)
+	public List<String> getPropertyValue(final String propertyName)
 	{
-		final DtsProperty property = (propertyName == null) ? null : properties
-				.get(propertyName);
-		return (property == null) ? null : property.getValue();
+		if (propertyName != null)
+		{
+			List<DtsProperty> property = properties.get(propertyName);
+			if (property != null)
+			{
+				List<String> propertyValues = CollectionUtil.newList();
+				for (DtsProperty prop : property)
+				{
+					propertyValues.add(prop.getValue());
+				}
+				return propertyValues;
+			}
+		}
+		return null;
 	}
 
 	/**

@@ -418,14 +418,17 @@ public final class DtsUtil
 	 *            an array of Apelon properties
 	 * @return a map of properties in our API, keyed and sorted by property name
 	 */
-	public static Map<String, DtsProperty> toDtsPropertyMap(
+	public static Map<String, List<DtsProperty>> toDtsPropertyMap(
 			final DTSProperty[] propertyArray)
 	{
-		final Map<String, DtsProperty> propertySet = newMap();
+		final Map<String, List<DtsProperty>> propertySet = newMap();
 		for (final DTSProperty property : propertyArray)
 		{
 			final String propertyName = property.getName();
-			propertySet.put(propertyName,
+			if (propertySet.get(propertyName) == null) {
+				propertySet.put(propertyName, CollectionUtil.<DtsProperty>newList());
+			}
+			propertySet.get(propertyName).add(
 					new DtsPropertyImpl(propertyName, property.getValue()));
 		}
 		return propertySet;

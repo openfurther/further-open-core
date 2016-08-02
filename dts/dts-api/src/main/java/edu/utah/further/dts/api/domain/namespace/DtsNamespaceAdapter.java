@@ -539,7 +539,7 @@ public class DtsNamespaceAdapter implements DtsConcept
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getProperties()
 	 */
 	@Override
-	public Map<String, DtsProperty> getProperties()
+	public Map<String, List<DtsProperty>> getProperties()
 	{
 		return null;
 	}
@@ -550,7 +550,7 @@ public class DtsNamespaceAdapter implements DtsConcept
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getProperty(java.lang.String)
 	 */
 	@Override
-	public DtsProperty getProperty(final String propertyName)
+	public List<DtsProperty> getProperty(final String propertyName)
 	{
 		// Method stub
 		return null;
@@ -562,7 +562,7 @@ public class DtsNamespaceAdapter implements DtsConcept
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getPropertyValue(java.lang.String)
 	 */
 	@Override
-	public String getPropertyValue(final String propertyName)
+	public List<String> getPropertyValue(final String propertyName)
 	{
 		// Method stub
 		return null;

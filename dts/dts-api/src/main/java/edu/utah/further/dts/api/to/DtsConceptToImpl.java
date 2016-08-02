@@ -17,6 +17,7 @@ package edu.utah.further.dts.api.to;
 
 import static edu.utah.further.core.api.collections.CollectionUtil.newList;
 import static edu.utah.further.core.api.collections.CollectionUtil.newMap;
+import static edu.utah.further.core.api.collections.CollectionUtil.newSet;
 import static edu.utah.further.core.api.message.Messages.unsupportedMessage;
 import static edu.utah.further.core.api.message.Messages.unsupportedOperationMessage;
 import static edu.utah.further.core.api.text.ToStringCustomStyles.SHORT_WITH_SPACES_STYLE;
@@ -26,14 +27,16 @@ import static edu.utah.further.dts.api.domain.namespace.DtsDataType.CONCEPT;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -41,10 +44,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import edu.utah.further.core.api.collections.CollectionUtil;
 import edu.utah.further.core.api.context.Implementation;
+import edu.utah.further.core.api.context.Named;
 import edu.utah.further.core.api.exception.ApplicationException;
 import edu.utah.further.core.api.exception.BusinessRuleException;
 import edu.utah.further.core.api.lang.ReflectionUtil;
-import edu.utah.further.core.api.xml.NamedMapAdapter;
 import edu.utah.further.core.api.xml.XmlNamespace;
 import edu.utah.further.dts.api.domain.association.DtsAssociation;
 import edu.utah.further.dts.api.domain.association.DtsSynonym;
@@ -88,7 +91,6 @@ public class DtsConceptToImpl extends AbstractDtsDataTo implements DtsConceptTo
 	/**
 	 * JAXB name of this entity.
 	 */
-	@SuppressWarnings("hiding")
 	static final String ENTITY_NAME = "conceptTo";
 
 	// ========================= FIELDS ====================================
@@ -148,29 +150,64 @@ public class DtsConceptToImpl extends AbstractDtsDataTo implements DtsConceptTo
 	 * Associations to other entities.
 	 */
 
-	/**
-	 * A JAXB adapter of the {@link DtsConceptToImpl#properties} map. Properties are
-	 * sorted by name in the XML view, even though the underlying data structure is a
-	 * plain {@link Map}. This adapter is responsible for sorting the map for the view.
-	 */
-	private static class PropertyMapAdapter extends
-			NamedMapAdapter<DtsPropertyImpl, PropertyMapAdapter.ValueType>
+	@XmlRootElement(name = "properties")
+	private static class PropertyMap implements Named
 	{
-		@XmlAccessorType(XmlAccessType.FIELD)
-		public static class ValueType
+		@XmlTransient
+		private String name;
+
+		private Set<String> propertyNames = newSet();
+
+		@XmlElement(name = "property")
+		private List<DtsPropertyImpl> properties = newList();
+
+		@Override
+		public String getName()
 		{
-			@XmlElement(name = "property")
-			public List<DtsPropertyImpl> list;
+			return name;
 		}
+
+		public List<DtsPropertyImpl> getProperties()
+		{
+			return newList(properties);
+		}
+
+		public void clear()
+		{
+			propertyNames.clear();
+			properties.clear();
+		}
+
+		public void addAll(List<DtsProperty> list)
+		{
+			for (DtsProperty property : list)
+			{
+				propertyNames.add(property.getName());
+				this.properties.add((DtsPropertyImpl) property);
+			}
+		}
+
+		public List<DtsPropertyImpl> get(String propertyName)
+		{
+			List<DtsPropertyImpl> list = newList();
+			if (properties.contains(new DtsPropertyImpl(propertyName, null)))
+			{
+				for (DtsPropertyImpl property : properties)
+				{
+					list.add(property);
+				}
+			}
+			return list;
+		}
+
 	}
 
 	/**
 	 * Concept's property map. Keyed and sorted by property name. Copied from
 	 * {@link #concept} and cached.
 	 */
-	@XmlJavaTypeAdapter(PropertyMapAdapter.class)
 	@XmlElement(name = "properties")
-	private final Map<String, DtsPropertyImpl> properties = newMap();
+	private final PropertyMap properties = new PropertyMap();
 
 	/**
 	 * Concept's associations to other concepts.
@@ -652,9 +689,19 @@ public class DtsConceptToImpl extends AbstractDtsDataTo implements DtsConceptTo
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getProperties()
 	 */
 	@Override
-	public Map<String, DtsProperty> getProperties()
+	public Map<String, List<DtsProperty>> getProperties()
 	{
-		return CollectionUtil.<String, DtsProperty> newMap(properties);
+		Map<String, List<DtsProperty>> propertyMap = newMap();
+		for (DtsProperty property : properties.getProperties())
+		{
+			if (!propertyMap.containsKey(property.getName()))
+			{
+				propertyMap.put(property.getName(),
+						CollectionUtil.<DtsProperty> newList());
+			}
+			propertyMap.get(property.getName()).add(property);
+		}
+		return CollectionUtil.<String, List<DtsProperty>> newMap(propertyMap);
 	}
 
 	/**
@@ -665,12 +712,12 @@ public class DtsConceptToImpl extends AbstractDtsDataTo implements DtsConceptTo
 	 * @param properties
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#setProperties(java.util.Map)
 	 */
-	public void setProperties(final Map<String, DtsProperty> properties)
+	public void setProperties(final Map<String, List<DtsProperty>> properties)
 	{
 		this.properties.clear();
-		for (final Map.Entry<String, DtsProperty> entry : properties.entrySet())
+		for (final Entry<String, List<DtsProperty>> entry : properties.entrySet())
 		{
-			this.properties.put(entry.getKey(), new DtsPropertyImpl(entry.getValue()));
+			this.properties.addAll(entry.getValue());
 		}
 	}
 
@@ -684,9 +731,14 @@ public class DtsConceptToImpl extends AbstractDtsDataTo implements DtsConceptTo
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	public DtsProperty getProperty(final String propertyName)
+	public List<DtsProperty> getProperty(final String propertyName)
 	{
-		return properties.get(propertyName);
+		List<DtsProperty> dtsProperties = newList();
+		for (DtsPropertyImpl dpi : properties.get(propertyName))
+		{
+			dtsProperties.add(dpi);
+		}
+		return dtsProperties;
 	}
 
 	/**
@@ -699,11 +751,21 @@ public class DtsConceptToImpl extends AbstractDtsDataTo implements DtsConceptTo
 	 * @see edu.utah.further.dts.api.domain.namespace.DtsPropertiedObject#getPropertyValue(java.lang.String)
 	 */
 	@Override
-	public String getPropertyValue(final String propertyName)
+	public List<String> getPropertyValue(final String propertyName)
 	{
-		final DtsProperty property = (propertyName == null) ? null : properties
-				.get(propertyName);
-		return (property == null) ? null : property.getValue();
+		List<String> propertyValues = CollectionUtil.newList();
+		if (propertyName != null)
+		{
+			List<DtsPropertyImpl> property = properties.get(propertyName);
+			for (DtsProperty prop : property)
+			{
+				if (prop.getName().equals(propertyName))
+				{
+					propertyValues.add(prop.getValue());
+				}
+			}
+		}
+		return propertyValues;
 	}
 
 	/**

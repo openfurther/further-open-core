@@ -202,15 +202,15 @@ public class TranslateServiceSoapImpl implements TranslateServiceSoap
 						.getNamespaceId());
 				result.setNamespace(targetNamespace.getName());
 			}
-			final String propertyValue = targetConcept
+			final List<String> propertyValue = targetConcept
 					.getPropertyValue(targetPropertyName);
-			if (isBlank(propertyValue))
+			if (propertyValue == null || propertyValue.size() == 0 || isBlank(propertyValue.get(0)))
 			{
 				throw new WsException(PROPERTY_NOT_FOUND,
 						"Did not find target concept property " + targetPropertyName);
 			}
 
-			result.setPropertyValue(propertyValue);
+			result.setPropertyValue(propertyValue.get(0));
 
 			results.add(result);
 		}

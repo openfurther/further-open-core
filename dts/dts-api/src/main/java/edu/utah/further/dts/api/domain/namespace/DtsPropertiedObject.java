@@ -15,6 +15,7 @@
  */
 package edu.utah.further.dts.api.domain.namespace;
 
+import java.util.List;
 import java.util.Map;
 
 import edu.utah.further.core.api.context.Api;
@@ -56,7 +57,7 @@ public interface DtsPropertiedObject extends DtsObject
 	 * @return a map of fetched properties in our API
 	 * @see com.apelon.dts.client.attribute.PropertiedObject#getFetchedProperties()
 	 */
-	Map<String, DtsProperty> getProperties();
+	Map<String, List<DtsProperty>> getProperties();
 
 	/**
 	 * Return a property by name.
@@ -67,7 +68,7 @@ public interface DtsPropertiedObject extends DtsObject
 	 *         <code>null</code>
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
-	DtsProperty getProperty(String propertyName);
+	List<DtsProperty> getProperty(String propertyName);
 
 	/**
 	 * Return a property value by name.
@@ -77,7 +78,7 @@ public interface DtsPropertiedObject extends DtsObject
 	 * @return corresponding property value; if the property not found, returns
 	 *         <code>null</code>
 	 */
-	String getPropertyValue(String propertyName);
+	List<String> getPropertyValue(String propertyName);
 
 	// ========================= METHODS ===================================
 

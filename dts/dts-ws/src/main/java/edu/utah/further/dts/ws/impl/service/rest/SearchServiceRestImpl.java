@@ -197,8 +197,8 @@ public class SearchServiceRestImpl implements SearchServiceRest
 	 *      java.lang.String)
 	 */
 	@Override
-	public DtsConceptList findConceptsByName(final int namespaceId, final String conceptName)
-			throws WsException
+	public DtsConceptList findConceptsByName(final int namespaceId,
+			final String conceptName) throws WsException
 	{
 		return searchServiceSoap.findConceptsByName(namespaceId, conceptName);
 	}
