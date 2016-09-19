@@ -103,6 +103,9 @@ public enum I2b2KeyType
 	 * Represents a query who's key contains Medication Order
 	 */
 	RXNORM("RXNORM", ANY + SEPARATOR + "Medication Order" + SEPARATOR + ANY, false),
+	
+	
+	MULTUMDRUG("MULTUM", "MultumDrug:" + ANY + SEPARATOR + "Medication Order" + SEPARATOR + ANY, false),
 
 	/**
 	 * Utah cancer registry In-Situ codes

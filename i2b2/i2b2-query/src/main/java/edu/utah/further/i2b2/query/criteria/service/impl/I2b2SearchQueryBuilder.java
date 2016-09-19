@@ -176,7 +176,11 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 
 				// (FUR-1772)
 				// Handle Grouped Criteria
-				if (fromPattern(i2b2QueryItem.getItemKey()).isGroupedCriteria())
+				String hackPattern = "";
+				if (i2b2QueryItem.getToolTip().equals("[MultumDrug]")) {
+					hackPattern = "MultumDrug:";
+				}
+				if (fromPattern(hackPattern + i2b2QueryItem.getItemKey()).isGroupedCriteria())
 				{
 					groupedCriteria.addCriteria(i2b2QueryItem);
 				}

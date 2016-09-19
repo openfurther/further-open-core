@@ -268,6 +268,12 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				return createPhrase(Namespaces.RXNORM, orderAlias,
 						"orderItemNamespaceId", "type", "Medication", "orderItem");
 			}
+			case MULTUMDRUG:
+			{
+				Validate.notNull(orderAlias, "Order Alias Required to build RXNORM");
+				return createPhrase(Namespaces.MULTUMDRUG, orderAlias,
+						"orderItemNamespaceId", "type", "Medication", "orderItem");
+			}
 			case ONCOLOGY_INSITU:
 			{
 				Validate.notNull(observationAlias,
@@ -935,7 +941,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 	{
 		final SearchCriterion and = SearchCriteria.junction(SearchType.CONJUNCTION);
 		addSimpleExpression(and, EQ, encounterAlias + DOT + namespaceIdField,
-				getNamespaceId(Namespaces.namespaceFor("@DSCUSTOM-26@")));
+				getNamespaceId(Namespaces.namespaceFor("UUEDW")));
 		and.addCriterion(constructInQuery(domain, encounterAlias + DOT + criterionField));
 		return and;
 	}
