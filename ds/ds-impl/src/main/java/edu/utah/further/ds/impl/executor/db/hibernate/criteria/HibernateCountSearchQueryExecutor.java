@@ -18,6 +18,9 @@ package edu.utah.further.ds.impl.executor.db.hibernate.criteria;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Service;
 import edu.utah.further.core.api.chain.ChainRequest;
 import edu.utah.further.core.api.data.PersistentEntity;
 import edu.utah.further.core.chain.AbstractNonDelegatingUtilityProcessor;
+import edu.utah.further.core.data.annotation.PersonId;
 import edu.utah.further.core.data.hibernate.adapter.GenericCriteria;
 import edu.utah.further.ds.impl.executor.db.hibernate.HibernateExecReq;
 
@@ -47,8 +51,8 @@ import edu.utah.further.ds.impl.executor.db.hibernate.HibernateExecReq;
  * @version Apr 5, 2012
  */
 @Service("hibernateCountQueryExecutor")
-public class HibernateCountSearchQueryExecutor extends
-		AbstractNonDelegatingUtilityProcessor
+public class HibernateCountSearchQueryExecutor
+		extends AbstractNonDelegatingUtilityProcessor
 {
 
 	// ========================= CONSTANTS =================================
@@ -57,10 +61,13 @@ public class HibernateCountSearchQueryExecutor extends
 	 * A logger that helps identify this class' printouts.
 	 */
 	private static final Logger log = getLogger(HibernateCountSearchQueryExecutor.class);
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see edu.utah.further.core.api.chain.RequestProcessor#process(edu.utah.further.core.api.chain.ChainRequest)
+	 * 
+	 * @see
+	 * edu.utah.further.core.api.chain.RequestProcessor#process(edu.utah.further.core.api.
+	 * chain.ChainRequest)
 	 */
 	@SuppressWarnings("boxing")
 	@Override
@@ -77,19 +84,34 @@ public class HibernateCountSearchQueryExecutor extends
 
 		// Get information about the root entity class
 		final ClassMetadata classMetadata = sessionFactory.getClassMetadata(domainClass);
-		final String identifierName = classMetadata.getIdentifierPropertyName();
-		final Type identifierType = classMetadata.getIdentifierType();
-		
-		if (identifierType.isComponentType()) 
+		final Field personIdField = getPersonIdField(domainClass.getName());
+		final String identifierName;
+		final Type identifierType;
+
+		if (personIdField == null)
 		{
-			criteria.setProjection(Projections.countDistinct(identifierName + "." + identifierName));
+			identifierName = classMetadata.getIdentifierPropertyName();
+			identifierType = classMetadata.getIdentifierType();
+			log.debug("Using @Entity @Id: " + identifierType + " " + identifierName);
+		}
+		else
+		{
+			identifierName = personIdField.getName();
+			identifierType = classMetadata.getPropertyType(identifierName);
+			log.debug("Using @PersonId: " + identifierType + " " + identifierName);
+		}
+
+		if (identifierType.isComponentType())
+		{
+			criteria.setProjection(
+					Projections.countDistinct(identifierName + "." + identifierName));
 		}
 		else
 		{
 			criteria.setProjection(Projections.countDistinct(identifierName));
 		}
 		Long result = -1l;
-		try 
+		try
 		{
 			result = criteria.uniqueResult();
 		}
@@ -100,12 +122,42 @@ public class HibernateCountSearchQueryExecutor extends
 				log.debug("Caught Hibernate exception.");
 			}
 		}
-		
+
 		execReq.setResult(result);
 		execReq.setStatus("Returned search query count result");
-		
-		
+
 		return false;
+	}
+
+	private Field getPersonIdField(String name)
+	{
+		Field field = null;
+		Class<?> clazz;
+		try
+		{
+			clazz = Class.forName(name);
+			log.debug("Finding @PersonId in " + clazz.getCanonicalName());
+			for (Field peField : clazz.getDeclaredFields())
+			{
+				for (Annotation annotation : peField.getAnnotations())
+				{
+					if (annotation.annotationType() == PersonId.class)
+					{
+						field = peField;
+						break;
+					}
+				}
+				if (field != null) {
+					break;
+				}
+			}
+		}
+		catch (ClassNotFoundException e)
+		{
+			log.debug("Cannot find class with name : " + name
+					+ "; will use class metadata");
+		}
+		return field;
 	}
 
 }
