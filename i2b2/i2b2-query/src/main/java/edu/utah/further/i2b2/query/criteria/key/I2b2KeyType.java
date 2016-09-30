@@ -22,6 +22,7 @@ import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePatter
 import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.DEMOGRAPHICS;
 import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.DEMOGRAPHICS_HDG;
 import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.DEMOGRAPHICS_STATE;
+import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.DEMOGRAPHICS_ZIPCD;
 import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.ENCOUNTER;
 import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.SEPARATOR;
 import static edu.utah.further.i2b2.query.criteria.key.I2b2KeyType.KeyTypePattern.UCR;
@@ -99,14 +100,14 @@ public enum I2b2KeyType
 			"ICD-10", "CPT", "LOINC", "NEONATAL", "APO ICD9", "APO ICD10", "OBS VAL",
 			"NEO OBS VAL", "COMPLICATING", "BIOSPEC", "ICD-O", "SNOMED_PROC"),
 
+	MULTUMDRUG("MULTUM", "MultumDrug:" + ANY + SEPARATOR + "Medication Order" + SEPARATOR + ANY, false),
+	
 	/**
 	 * Represents a query who's key contains Medication Order
 	 */
 	RXNORM("RXNORM", ANY + SEPARATOR + "Medication Order" + SEPARATOR + ANY, false),
 	
 	
-	MULTUMDRUG("MULTUM", "MultumDrug:" + ANY + SEPARATOR + "Medication Order" + SEPARATOR + ANY, false),
-
 	/**
 	 * Utah cancer registry In-Situ codes
 	 */
@@ -187,6 +188,12 @@ public enum I2b2KeyType
 	 */
 	DEM_LOCATION_HDG("HEALTH DISTRICT GROUP", DEMOGRAPHICS_HDG, true),
 
+	/**
+	 * Represents a query who's key contains demographics and health district group
+	 * location
+	 */
+	DEM_LOCATION_ZIPCD("ZIP CODE", DEMOGRAPHICS_ZIPCD, true),
+	
 	/**
 	 * Represents a query who's key contains demographics and county location
 	 */
@@ -434,6 +441,11 @@ public enum I2b2KeyType
 		 * Alphabetical characters, all cases, at least 1
 		 */
 		public static final String ALPHA_SPACE = "([A-Za-z\\s])+";
+		
+		/**
+		 * Numeric characters
+		 */
+		public static final String NUMERIC_SPACE = "([0-9]{5})";
 
 		/**
 		 * A quoted file separator pattern
@@ -491,5 +503,11 @@ public enum I2b2KeyType
 		public static final String DEMOGRAPHICS_HDG = DEMOGRAPHICS_STATE
 				+ "Health District Group" + SEPARATOR + ALPHA_SPACE + SEPARATOR;
 
+		/**
+		 * Health District Group Pattern
+		 */
+		public static final String DEMOGRAPHICS_ZIPCD = DEMOGRAPHICS_STATE
+				+ "Zip Code" + SEPARATOR + NUMERIC_SPACE + SEPARATOR;
+		
 	}
 }

@@ -64,6 +64,8 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 
 	private static final String RXNORM = "\\\\FURTHER\\FURTHER\\Medication Order\\"
 			+ "alternative medicines  [drug category]\\herbal products  [drug category]\\";
+	
+	private static final String MULTUMDRUG = "MultumDrug:\\\\FURTHER\\FURTHER\\Medication Order\\cardiovascular agents [drug category]\\vasopressin antagonists [drug category]\\conivaptan [generic name]\\Vaprisol\\Vaprisol, 20 mg/100 mL-D5% intravenous solution\\";
 
 	private static final String LOINC = "\\\\FURTHER\\FURTHER\\"
 			+ "Labtests\\Chemistry\\Anemia Related Studies\\LOINC:20567-4\\";
@@ -107,6 +109,7 @@ public final class UTestI2b2KeyType extends I2b2QueryFixture
 		assertThat(fromPattern(SNOMED_PROC), is(I2b2KeyType.SNOMED_PROC));
 		assertThat(fromPattern(LOINC), is(I2b2KeyType.LOINC));
 		assertThat(fromPattern(RXNORM), is(I2b2KeyType.RXNORM));
+		assertThat(fromPattern(MULTUMDRUG), is(I2b2KeyType.MULTUMDRUG));
 		assertThat(fromPattern(AGE), is(I2b2KeyType.DEM_AGE));
 		assertThat(fromPattern(BIRTH_YEAR), is(I2b2KeyType.DEM_BIRTH_YEAR));
 		assertThat(fromPattern(GENDER), is(I2b2KeyType.DEM_GENDER));

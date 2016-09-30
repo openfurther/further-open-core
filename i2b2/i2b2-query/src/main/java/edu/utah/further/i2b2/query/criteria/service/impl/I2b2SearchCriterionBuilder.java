@@ -270,7 +270,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 			}
 			case MULTUMDRUG:
 			{
-				Validate.notNull(orderAlias, "Order Alias Required to build RXNORM");
+				Validate.notNull(orderAlias, "Order Alias Required to build MultumDrug");
 				return createPhrase(Namespaces.MULTUMDRUG, orderAlias,
 						"orderItemNamespaceId", "type", "Medication", "orderItem");
 			}
@@ -304,6 +304,7 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 			case DEM_BIRTHDATE:
 			case DEM_LOCATION_STATE:
 			case DEM_LOCATION_HDG:
+			case DEM_LOCATION_ZIPCD:
 			case DEM_LOCATION_COUNTY:
 			case DEM_ETHNICITY:
 			{
@@ -360,6 +361,11 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				addAlias(ORDERS_ASSOC_OBJ, orderAlias, ORDERS_PATH);
 				break;
 			}
+			case MULTUMDRUG:
+			{
+				addAlias(ORDERS_ASSOC_OBJ, orderAlias, ORDERS_PATH);
+				break;
+			}
 			case ENC_PAT_CLASS:
 			case ENC_ADMIT_SRC:
 			case ENC_ADMIT_TYPE:
@@ -393,6 +399,11 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				break;
 			case DEM_LOCATION_STATE:
 			case DEM_LOCATION_HDG:
+			case DEM_LOCATION_ZIPCD:
+			{
+				addAlias(LOCATIONS_ASSOC_OBJ, locationAlias, LOCATIONS_PATH);
+				break;
+			}
 			case DEM_LOCATION_COUNTY:
 			{
 				addAlias(LOCATIONS_ASSOC_OBJ, locationAlias, LOCATIONS_PATH);
@@ -763,6 +774,10 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 			{
 				return createLocation("Health District Group");
 			}
+			case DEM_LOCATION_ZIPCD:
+			{
+				return createLocation("Zip Code");
+			}
 			case DEM_LOCATION_COUNTY:
 			{
 				return createLocation("County");
@@ -1028,10 +1043,16 @@ final class I2b2SearchCriterionBuilder implements Builder<SearchCriterion>
 				break;
 			case DEM_LOCATION_COUNTY:
 			case DEM_LOCATION_HDG:
+			case DEM_LOCATION_ZIPCD:
+				propertyName = locationAlias + DOT + "zipCode";
+				break;
 			case DEM_LOCATION_STATE:
 				propertyName = locationAlias + DOT + "startDateTime";
 				break;
 			case RXNORM:
+				propertyName = orderAlias + DOT + "dateTime";
+				break;
+			case MULTUMDRUG:
 				propertyName = orderAlias + DOT + "dateTime";
 				break;
 			case ENC_ADMIT_SRC:

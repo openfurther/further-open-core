@@ -148,7 +148,11 @@ public class I2b2QueryServiceImpl implements I2b2QueryService
 		final Set<I2b2KeyType> keys = newSet();
 		for (final I2b2QueryItem i2b2QueryItem : i2b2QueryGroup.getQueryItems())
 		{
-			final I2b2KeyType keyType = fromPattern(i2b2QueryItem.getItemKey());
+			String hackPattern = "";
+			if (i2b2QueryItem.getToolTip().equals("[MultumDrug]")) {
+				hackPattern = "MultumDrug:";
+			}
+			final I2b2KeyType keyType = fromPattern(hackPattern + i2b2QueryItem.getItemKey());
 			// Only concerned with non demographic keys
 			if (!keyType.isDemographic())
 			{

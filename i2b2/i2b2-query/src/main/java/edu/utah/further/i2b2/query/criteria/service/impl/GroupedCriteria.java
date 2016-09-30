@@ -71,7 +71,11 @@ public final class GroupedCriteria
 	 */
 	public void addCriteria(final I2b2QueryItem queryItem)
 	{
-		final I2b2KeyType keyType = fromPattern(queryItem.getItemKey());
+		String hackPattern = "";
+		if (queryItem.getToolTip().equals("[MultumDrug]")) {
+			hackPattern = "MultumDrug:";
+		}
+		final I2b2KeyType keyType = fromPattern(hackPattern + queryItem.getItemKey());
 		final List<String> domain = getI2b2QueryService().findDomain(queryItem);
 
 		final List<String> existingDomain = (groupedCriteria.get(keyType) != null) ? groupedCriteria

@@ -365,7 +365,11 @@ final class I2b2SearchQueryBuilder implements Builder<SearchQuery>
 			final String obsAlias, final String orderAlias, final String locAlias,
 			final String encounterAlias)
 	{
-		return new I2b2SearchCriterionBuilder(fromPattern(i2b2QueryItem.getItemKey()))
+		String hackPattern = "";
+		if (i2b2QueryItem.getToolTip().equals("[MultumDrug]")) {
+			hackPattern = "MultumDrug:";
+		}
+		return new I2b2SearchCriterionBuilder(fromPattern(hackPattern + i2b2QueryItem.getItemKey()))
 				.setDomain(getI2b2QueryService().findDomain(i2b2QueryItem))
 				.setValueConstraint(i2b2QueryItem.getConstrainByValue())
 				.setDateConstraint(i2b2QueryItem.getConstrainByDate())
